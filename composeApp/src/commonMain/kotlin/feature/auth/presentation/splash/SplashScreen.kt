@@ -17,7 +17,7 @@ import feature.auth.presentation.login.LoginScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.ic_icon
+import moviehub.composeapp.generated.resources.ic_logo
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -44,7 +44,7 @@ class SplashScreen : Screen {
             Image(
                 modifier = Modifier
                     .width(screenSize.width * 0.7f),
-                painter = painterResource(Res.drawable.ic_icon),
+                painter = painterResource(Res.drawable.ic_logo),
                 contentDescription = "Splash logo"
             )
         }
