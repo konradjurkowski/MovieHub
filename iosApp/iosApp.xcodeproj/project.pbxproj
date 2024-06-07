@@ -355,7 +355,7 @@
 					"-framework",
 					composeApp,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.konradjurkowski.moviehub;
+				PRODUCT_BUNDLE_IDENTIFIER = org.konradjurkowski.moviehub;
 				PRODUCT_NAME = "${APP_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -386,7 +386,7 @@
 					"-framework",
 					composeApp,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.konradjurkowski.moviehub;
+				PRODUCT_BUNDLE_IDENTIFIER = org.konradjurkowski.moviehub;
 				PRODUCT_NAME = "${APP_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
