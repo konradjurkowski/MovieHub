@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyA_CxDr8VaDWcm_onz-6NULW5bnjPu-udg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>420693748043</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.konradjurkowski.moviehub</string>
+	<key>PROJECT_ID</key>
+	<string>moviehub-a9f52</string>
+	<key>STORAGE_BUCKET</key>
+	<string>moviehub-a9f52.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:420693748043:ios:2f1158700dc53232aaa0ce</string>
+	<key>DATABASE_URL</key>
+	<string>https://moviehub-a9f52-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

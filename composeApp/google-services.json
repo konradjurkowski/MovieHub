@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "420693748043",
+    "firebase_url": "https://moviehub-a9f52-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "moviehub-a9f52",
+    "storage_bucket": "moviehub-a9f52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420693748043:android:aa6e5976169c7646aaa0ce",
+        "android_client_info": {
+          "package_name": "org.konradjurkowski.moviehub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6DbaZq0BxQOPtWqP-36C0sJDyZh9-zd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
