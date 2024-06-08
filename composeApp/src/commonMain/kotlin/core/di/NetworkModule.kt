@@ -15,6 +15,14 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val networkModule = module {
+    single<Json> {
+        Json {
+            prettyPrint = true
+            isLenient = true
+            ignoreUnknownKeys = true
+        }
+    }
+
     single<HttpClient> {
         HttpClient {
             install(Logging) {
@@ -22,11 +30,7 @@ val networkModule = module {
                 level = LogLevel.ALL
             }
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(get())
             }
             install(HttpTimeout) {
                 requestTimeoutMillis = 30_000

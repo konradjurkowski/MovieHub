@@ -8,11 +8,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import co.touchlab.kermit.Logger
 import core.architecture.CollectSideEffects
 import core.utils.getFailureMessage
 import feature.auth.presentation.forgot_password.ForgotPasswordScreen
 import feature.auth.presentation.login.components.LoginContent
+import feature.home.presentation.main.MainScreen
 
 class LoginScreen : Screen {
     @Composable
@@ -26,7 +26,7 @@ class LoginScreen : Screen {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 LoginSideEffect.GoToForgotPassword -> navigator.push(ForgotPasswordScreen())
-                LoginSideEffect.GoToHome -> Logger.i { "TAG: LOGIN TO HOME PAGE" }
+                LoginSideEffect.GoToHome -> navigator.replace(MainScreen())
                 is LoginSideEffect.ShowError -> {
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
