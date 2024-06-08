@@ -18,6 +18,10 @@ object Dimens {
     val mediumCornerRadius = 16.dp
     val largeCornerRadius = 20.dp
 
+    // Icons
+    val defaultIconSize = 24.dp
+    val mediumIconSize = 32.dp
+
     // Button
     val defaultButtonHeight = 52.dp
     val buttonLoadingSize = 30.dp
@@ -34,4 +38,5 @@ object Dimens {
     val horizontalMediaCardImageHeight = 300.dp
     val verticalMediaCardHeight = 150.dp
     val verticalMediaCardWidth = 100.dp
+    val largeUserAvatar = 75.dp
 }
