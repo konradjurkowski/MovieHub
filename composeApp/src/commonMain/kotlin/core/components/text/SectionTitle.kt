@@ -13,20 +13,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.components.other.SmallSpacer
 import core.utils.Dimens
+import core.utils.LocalTouchFeedback
 
 @Composable
 fun SectionTitle(
     modifier: Modifier = Modifier,
     title: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
+    val touchFeedback = LocalTouchFeedback.current
     Row(
         modifier = modifier
             .padding(horizontal = Dimens.regularPadding)
@@ -45,7 +44,7 @@ fun SectionTitle(
             modifier = Modifier
                 .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
             onClick = {
-                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                touchFeedback.performLongPress()
                 onClick()
             },
             contentPadding = PaddingValues(

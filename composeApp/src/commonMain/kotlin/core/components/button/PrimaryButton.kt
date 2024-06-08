@@ -9,13 +9,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import core.components.loading.LoadingIndicator
 import core.utils.Dimens
+import core.utils.LocalTouchFeedback
 
 @Composable
 fun PrimaryButton(
@@ -27,12 +26,12 @@ fun PrimaryButton(
     horizontalPadding: Dp = Dimens.regularPadding,
     onClick: () -> Unit,
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
+    val touchFeedback = LocalTouchFeedback.current
     ElevatedButton(
         modifier = modifier
             .height(Dimens.defaultButtonHeight),
         onClick = {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+            touchFeedback.performLongPress()
             onClick()
         },
         contentPadding = PaddingValues(

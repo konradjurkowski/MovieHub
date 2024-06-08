@@ -1,6 +1,5 @@
 package feature.auth.presentation.forgot_password
 
-import LocalSnackbarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -9,6 +8,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import core.architecture.CollectSideEffects
+import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.auth.presentation.forgot_password.components.ForgotPasswordContent
 import moviehub.composeapp.generated.resources.Res

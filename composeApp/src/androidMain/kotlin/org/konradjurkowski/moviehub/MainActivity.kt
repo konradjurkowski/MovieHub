@@ -5,12 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.platform.LocalHapticFeedback
+import core.utils.AndroidHapticFeedback
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App(isSystemInDarkTheme())
+            App(
+                isDarkTheme = isSystemInDarkTheme(),
+                touchFeedback = AndroidHapticFeedback(LocalHapticFeedback.current),
+            )
         }
     }
 }

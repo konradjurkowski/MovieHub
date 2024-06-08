@@ -1,5 +1,6 @@
 import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
+import core.utils.IOSTouchFeedback
 import platform.UIKit.UIScreen
 import platform.UIKit.UIUserInterfaceStyle
 
@@ -12,5 +13,8 @@ fun MainViewController() = ComposeUIViewController(
         UIScreen.mainScreen.traitCollection.userInterfaceStyle ==
                 UIUserInterfaceStyle.UIUserInterfaceStyleDark
 
-    App(isDarkTheme)
+    App(
+        isDarkTheme = isDarkTheme,
+        touchFeedback = IOSTouchFeedback(),
+    )
 }
