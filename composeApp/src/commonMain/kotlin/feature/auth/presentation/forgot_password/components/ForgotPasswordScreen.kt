@@ -23,14 +23,15 @@ import core.utils.toDisplay
 import feature.auth.presentation.forgot_password.ForgotPasswordIntent
 import feature.auth.presentation.forgot_password.ForgotPasswordState
 import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.forgot_password
-import moviehub.composeapp.generated.resources.reset_password
+import moviehub.composeapp.generated.resources.email_address
+import moviehub.composeapp.generated.resources.forgot_password_screen_reset_password_label
+import moviehub.composeapp.generated.resources.forgot_password_screen_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun ForgotPasswordContent(
+fun ForgotPasswordScreen(
     state: ForgotPasswordState,
     onIntent: (ForgotPasswordIntent) -> Unit,
 ) {
@@ -39,7 +40,7 @@ fun ForgotPasswordContent(
     Scaffold(
         modifier = Modifier.clearFocus(),
         topBar = {
-            MainTopBar(title = stringResource(Res.string.forgot_password))
+            MainTopBar(title = stringResource(Res.string.forgot_password_screen_title))
         }
     ) { contentPadding ->
         Column(
@@ -49,7 +50,7 @@ fun ForgotPasswordContent(
                 .padding(Dimens.regularPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            TextFieldLabel(text = stringResource(Res.string.forgot_password))
+            TextFieldLabel(text = stringResource(Res.string.email_address))
             SmallSpacer()
             InputTextField(
                 value = state.email,
@@ -64,7 +65,7 @@ fun ForgotPasswordContent(
             PrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = stringResource(Res.string.reset_password),
+                text = stringResource(Res.string.forgot_password_screen_reset_password_label),
                 loading = state.resetState.isLoading(),
                 onClick = {
                     focusManager.clearFocus()

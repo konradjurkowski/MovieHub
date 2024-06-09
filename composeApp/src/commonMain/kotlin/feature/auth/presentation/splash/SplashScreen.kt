@@ -13,7 +13,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import core.utils.getScreenSizeInfo
-import feature.auth.presentation.login.LoginScreen
+import feature.auth.presentation.login.LoginScreenRoot
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import moviehub.composeapp.generated.resources.Res
@@ -32,7 +32,7 @@ class SplashScreen : Screen {
         LaunchedEffect(Unit) {
             coroutineScope.launch {
                 delay(1500)
-                navigator.replace(LoginScreen())
+                navigator.replace(LoginScreenRoot())
             }
         }
 

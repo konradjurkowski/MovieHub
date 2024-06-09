@@ -1,4 +1,4 @@
-package feature.auth.presentation.forgot_password
+package feature.auth.presentation.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,35 +10,30 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
-import feature.auth.presentation.forgot_password.components.ForgotPasswordContent
-import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.reset_password_success_message
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
+import feature.auth.presentation.login.components.LoginScreen
+import feature.home.presentation.main.MainScreen
 
-class ForgotPasswordScreen : Screen {
-    @OptIn(ExperimentalResourceApi::class)
+class LoginScreenRoot : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val snackbarState = LocalSnackbarState.current
 
-        val viewModel = getScreenModel<ForgotPasswordViewModel>()
+        val viewModel = getScreenModel<LoginViewModel>()
         val state by viewModel.viewState.collectAsState()
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                ForgotPasswordSideEffect.GoToLogin -> {
-                    snackbarState.showSuccess(Res.string.reset_password_success_message)
-                    navigator.pop()
-                }
-                ForgotPasswordSideEffect.NavigateBack -> navigator.pop()
-                is ForgotPasswordSideEffect.ShowError -> {
+                LoginSideEffect.GoToForgotPassword -> navigator.push(ForgotPasswordScreenRoot())
+                LoginSideEffect.GoToHome -> navigator.replace(MainScreen())
+                is LoginSideEffect.ShowError -> {
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
             }
         }
 
-        ForgotPasswordContent(
+        LoginScreen(
             state = state,
             onIntent = viewModel::sendIntent,
         )

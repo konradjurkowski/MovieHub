@@ -2,6 +2,7 @@ package core.utils
 
 import core.di.appModule
 import core.di.networkModule
+import feature.add.di.addModule
 import feature.auth.di.authModule
 import feature.movies.di.moviesModule
 import feature.series.di.seriesModule
@@ -14,6 +15,7 @@ fun initKoin() {
 fun initializeKoin() {
     startKoin {
         modules(
+            addModule,
             appModule,
             networkModule,
             authModule,

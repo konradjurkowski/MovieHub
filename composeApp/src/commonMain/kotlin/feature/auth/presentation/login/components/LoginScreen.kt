@@ -41,7 +41,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun LoginContent(
+fun LoginScreen(
     state: LoginState,
     onIntent: (LoginIntent) -> Unit,
 ) {

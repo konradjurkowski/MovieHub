@@ -7,15 +7,19 @@
     <string name="login_screen_login_label">Login</string>
 
     <!--Forgot Password Screen-->
-    <string name="forgot_password">Forgot password</string>
-    <string name="reset_password">Reset password</string>
-    <string name="reset_password_success_message">You'll receive an email with instructions on how to reset your password.</string>
+    <string name="forgot_password_screen_title">Forgot password</string>
+    <string name="forgot_password_screen_reset_password_label">Forgot password</string>
+    <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
 
     <!--Validation-->
     <string name="empty_field">Field cannot be empty.</string>
     <string name="invalid_email">Email is invalid.</string>
     <string name="invalid_password">Password is invalid.</string>
     <string name="passwords_do_not_match">Passwords do not match.</string>
+
+    <!--Add Screen-->
+    <string name="add_screen_add_movie_label">Add movie</string>
+    <string name="add_screen_add_series_label">Add series</string>
 
     <!--Other-->
     <string name="email_address">Email address</string>
