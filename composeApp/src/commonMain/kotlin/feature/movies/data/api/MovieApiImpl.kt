@@ -26,4 +26,17 @@ class MovieApiImpl(
             method = HttpMethod.Get
             url { path("/3/genre/movie/list") }
         }
+
+    override suspend fun searchMovies(query: String, page: Int): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url {
+                path("/3/search/movie")
+                parameters.apply {
+                    append("query", query)
+                    append("page", page.toString())
+                    append("include_adult", true.toString())
+                }
+            }
+        }
 }

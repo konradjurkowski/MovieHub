@@ -26,6 +26,9 @@ object Dimens {
     val defaultButtonHeight = 52.dp
     val buttonLoadingSize = 30.dp
 
+    // TextField
+    val defaultTextFieldHeight = 58.dp
+
     // Loading
     val defaultLoadingSize = 80.dp
 
@@ -39,4 +42,5 @@ object Dimens {
     val verticalMediaCardHeight = 150.dp
     val verticalMediaCardWidth = 100.dp
     val largeUserAvatar = 75.dp
+    val ongoingViewHeight = 50.dp
 }

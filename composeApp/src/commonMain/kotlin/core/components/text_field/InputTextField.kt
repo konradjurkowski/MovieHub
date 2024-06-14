@@ -31,7 +31,8 @@ fun InputTextField(
     readOnly: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
-    onAction: () -> Unit = { },
+    onDone: () -> Unit = {},
+    onSearch: () -> Unit = {},
     verticalPadding: Dp = Dimens.smallPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -43,6 +44,8 @@ fun InputTextField(
     val focusManager = LocalFocusManager.current
     OutlinedTextField(
         modifier = modifier
+            // To avoid cursor jump on iOS app
+            .heightIn(Dimens.defaultTextFieldHeight)
             .fillMaxWidth()
             .padding(vertical = verticalPadding),
         value = value,
@@ -55,7 +58,11 @@ fun InputTextField(
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus()
-                onAction()
+                onDone()
+            },
+            onSearch = {
+                focusManager.clearFocus()
+                onSearch()
             }
         ),
         trailingIcon = trailingIcon,

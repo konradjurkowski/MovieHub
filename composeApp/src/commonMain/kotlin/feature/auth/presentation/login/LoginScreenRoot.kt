@@ -19,7 +19,6 @@ class LoginScreenRoot : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val snackbarState = LocalSnackbarState.current
-
         val viewModel = getScreenModel<LoginViewModel>()
         val state by viewModel.viewState.collectAsState()
 

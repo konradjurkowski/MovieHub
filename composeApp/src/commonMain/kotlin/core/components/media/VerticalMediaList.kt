@@ -18,7 +18,7 @@ fun <T> VerticalMediaList(
                 if (item is Movie) {
                     VerticalMediaCard(
                         title = item.title,
-                        imageUrl = item.posterPath,
+                        imageUrl = item.posterPath ?: "",
                         rating = item.voteAverage,
                         genres = localMoviesGenresList.filter { item.genreIds.contains(it.id) }
                     )

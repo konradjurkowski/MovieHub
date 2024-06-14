@@ -10,7 +10,7 @@ data class MoviesResponse(
     @SerialName("total_pages")
     val totalPages: Long,
     @SerialName("total_results")
-    val totalResults: Long
+    val totalResults: Long,
 )
 
 @Serializable
@@ -18,7 +18,7 @@ data class MovieDto(
     val id: Long,
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String? = null,
     @SerialName("genre_ids")
     val genreIds: List<Long>,
     @SerialName("original_language")
@@ -28,7 +28,7 @@ data class MovieDto(
     val overview: String,
     val popularity: Double,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String? = null,
     @SerialName("release_date")
     val releaseDate: String,
     val title: String,

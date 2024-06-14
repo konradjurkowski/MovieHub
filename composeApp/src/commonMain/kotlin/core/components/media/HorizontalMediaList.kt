@@ -26,7 +26,7 @@ fun <T> HorizontalMediaList(
                                 end = Dimens.regularPadding
                             ),
                         title = item.title,
-                        imageUrl = item.posterPath
+                        imageUrl = item.posterPath ?: ""
                     )
                 }
                 if (item is Series) {

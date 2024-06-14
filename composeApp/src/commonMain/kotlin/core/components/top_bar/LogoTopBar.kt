@@ -2,16 +2,10 @@ package core.components.top_bar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import core.utils.getScreenSizeInfo
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_logo
@@ -24,9 +18,7 @@ fun LogoTopBar(
     modifier: Modifier = Modifier,
     isLeadingVisible: Boolean = false,
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     val deviceWidth = getScreenSizeInfo().width
-
     TopAppBar(
         modifier = modifier,
         title = {
@@ -37,14 +29,7 @@ fun LogoTopBar(
             )
         },
         navigationIcon = {
-            if (isLeadingVisible) {
-                IconButton(onClick = { navigator.pop() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                        contentDescription = "Back Arrow",
-                    )
-                }
-            }
-        }
+            if (isLeadingVisible) NavigateBackArrow()
+        },
     )
 }

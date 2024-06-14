@@ -74,6 +74,9 @@ kotlin {
 
             // Image
             implementation(libs.kamel.image)
+
+            // Paging
+            implementation(libs.paging.compose.common)
         }
 
         iosMain.dependencies {

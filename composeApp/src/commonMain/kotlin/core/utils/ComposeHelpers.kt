@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.paging.LoadState
 import dev.gitlive.firebase.FirebaseNetworkException
 import dev.gitlive.firebase.FirebaseTooManyRequestsException
 import dev.gitlive.firebase.auth.FirebaseAuthException
@@ -38,6 +39,9 @@ fun TextUnit.toDp(): Dp {
         this@toDp.toDp()
     }
 }
+
+fun LoadState.isLoading() = this is LoadState.Loading
+fun LoadState.isError() = this is LoadState.Error
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable

@@ -1,25 +1,29 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.konradjurkowski.snackbarkmp.ContentWithSnackBar
-import com.konradjurkowski.snackbarkmp.SnackBarState
 import com.konradjurkowski.snackbarkmp.rememberSnackBarState
 import core.theme.MovieHubTheme
+import core.utils.LocalSnackbarState
+import core.utils.LocalTouchFeedback
+import core.utils.TouchFeedback
 import feature.auth.presentation.splash.SplashScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-val LocalSnackbarState =
-    compositionLocalOf<SnackBarState> { error("No SnackbarHostState provided") }
-
 @Composable
 @Preview
-fun App(isDarkTheme: Boolean) {
+fun App(
+    isDarkTheme: Boolean,
+    touchFeedback: TouchFeedback,
+) {
     MovieHubTheme(isDarkTheme) {
         val snackbarState = rememberSnackBarState()
         ContentWithSnackBar(snackBarState = snackbarState) {
-            CompositionLocalProvider(LocalSnackbarState provides snackbarState) {
+            CompositionLocalProvider(
+                LocalSnackbarState provides snackbarState,
+                LocalTouchFeedback provides touchFeedback,
+            ) {
                 Navigator(SplashScreen()) {
                     SlideTransition(it)
                 }

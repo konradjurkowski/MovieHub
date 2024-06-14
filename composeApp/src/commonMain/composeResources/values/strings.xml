@@ -24,6 +24,13 @@
     <!--Other-->
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
+    <string name="search_label">Search</string>
+    <string name="no_data">No data</string>
+    <string name="error_label">Error</string>
+    <string name="something_went_wrong_try_again">Something went wrong, check your Internet connection and try again</string>
+    <string name="unable_to_load_data">Unable to load data. Click to try again</string>
+    <string name="try_again">Try again</string>
+    <string name="no_results">No results</string>
 
     <!--Tabs-->
     <string name="home_tab_label">Home</string>

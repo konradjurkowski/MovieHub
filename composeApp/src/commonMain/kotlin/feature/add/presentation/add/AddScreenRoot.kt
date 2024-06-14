@@ -7,6 +7,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import core.architecture.CollectSideEffects
 import feature.add.presentation.add.components.AddScreen
+import feature.add.presentation.search_movie.SearchMovieScreenRoot
+import feature.add.presentation.search_series.SearchSeriesScreenRoot
 
 class AddScreenRoot : Screen {
     @Composable
@@ -17,8 +19,8 @@ class AddScreenRoot : Screen {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                AddScreenSideEffect.GoToAddMovie -> {}
-                AddScreenSideEffect.GoToAddSeries -> {}
+                AddScreenSideEffect.GoToAddMovie -> navigator.push(SearchMovieScreenRoot())
+                AddScreenSideEffect.GoToAddSeries -> navigator.push(SearchSeriesScreenRoot())
             }
         }
 

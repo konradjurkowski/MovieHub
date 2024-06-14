@@ -61,11 +61,13 @@ fun VerticalMediaCard(
                     .fillMaxSize(),
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            SmallSpacer()
-            RatingSection(rating = rating)
+            if (rating > 0) {
+                SmallSpacer()
+                RatingSection(rating = rating)
+            }
             SmallSpacer()
             GenresListSection(genres = genres)
         }
