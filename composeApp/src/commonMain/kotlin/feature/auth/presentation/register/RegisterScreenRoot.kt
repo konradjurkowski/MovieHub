@@ -1,4 +1,4 @@
-package feature.auth.presentation.login
+package feature.auth.presentation.register
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,33 +10,30 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
-import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
-import feature.auth.presentation.login.components.LoginScreen
-import feature.auth.presentation.register.RegisterScreenRoot
+import feature.auth.presentation.register.components.RegisterScreen
 import feature.home.presentation.main.MainScreenRoot
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-class LoginScreenRoot : Screen {
+class RegisterScreenRoot : Screen {
     @OptIn(ExperimentalResourceApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val snackbarState = LocalSnackbarState.current
-        val viewModel = getScreenModel<LoginViewModel>()
+        val viewModel = getScreenModel<RegisterViewModel>()
         val state by viewModel.viewState.collectAsState()
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                LoginSideEffect.GoToForgotPassword -> navigator.push(ForgotPasswordScreenRoot())
-                LoginSideEffect.GoToHome -> navigator.replace(MainScreenRoot())
-                is LoginSideEffect.ShowError -> {
+                RegisterSideEffect.GoToHome -> navigator.replaceAll(MainScreenRoot())
+                RegisterSideEffect.NavigateBack -> navigator.pop()
+                is RegisterSideEffect.ShowError -> {
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
-                LoginSideEffect.GoToRegister -> navigator.push(RegisterScreenRoot())
             }
         }
 
-        LoginScreen(
+        RegisterScreen(
             state = state,
             onIntent = viewModel::sendIntent,
         )

@@ -23,10 +23,9 @@ class SplashViewModel(
     private fun checkAuthorization() {
         screenModelScope.launch {
             delay(1500)
-            if (authService.currentUser == null) {
-                sendSideEffect(SplashSideEffect.GoToLogin)
-            } else {
-                sendSideEffect(SplashSideEffect.GoToHome)
+            when (authService.currentUser == null) {
+                true -> sendSideEffect(SplashSideEffect.GoToLogin)
+                false -> sendSideEffect(SplashSideEffect.GoToHome)
             }
         }
     }

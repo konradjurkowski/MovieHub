@@ -4,11 +4,18 @@
     <!--Login Screen -->
     <string name="login_screen_title">Login</string>
     <string name="login_screen_forgot_password_label">Forgot password?</string>
-    <string name="login_screen_login_label">Login</string>
+    <string name="login_screen_login_label">Sign in</string>
+    <string name="login_screen_new_to_app">New to MovieHub?</string>
+    <string name="login_screen_create_account">Create an account</string>
+
+    <!--Register Screen-->
+    <string name="register_screen_title">Register</string>
+    <string name="register_screen_register_label">Sign up</string>
+    <string name="register_screen_password_requirements">Your password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters long.</string>
 
     <!--Forgot Password Screen-->
     <string name="forgot_password_screen_title">Forgot password</string>
-    <string name="forgot_password_screen_reset_password_label">Forgot password</string>
+    <string name="forgot_password_screen_reset_password_label">Reset password</string>
     <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
 
     <!--Validation-->
@@ -21,9 +28,14 @@
     <string name="add_screen_add_movie_label">Add movie</string>
     <string name="add_screen_add_series_label">Add series</string>
 
+    <!--Add Movie Screen-->
+    <string name="add_movie_screen_add_success">Movie has been added.</string>
+
     <!--Other-->
+    <string name="name">Name</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
     <string name="search_label">Search</string>
     <string name="no_data">No data</string>
     <string name="error_label">Error</string>
@@ -31,6 +43,12 @@
     <string name="unable_to_load_data">Unable to load data. Click to try again</string>
     <string name="try_again">Try again</string>
     <string name="no_results">No results</string>
+
+    <!--Error-->
+    <string name="invalid_credentials">Please check your email and password and try again.</string>
+    <string name="something_went_wrong">Something went wrong, check your Internet connection and try again.</string>
+    <string name="email_already_exists">Email already exists, please try another.</string>
+    <string name="too_many_requests">Request failed due to too many attempts. Please try again later.</string>"
 
     <!--Tabs-->
     <string name="home_tab_label">Home</string>

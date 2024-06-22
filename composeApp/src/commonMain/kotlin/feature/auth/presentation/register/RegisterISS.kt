@@ -17,7 +17,12 @@ sealed class RegisterIntent {
     data object TogglePasswordVisibility : RegisterIntent()
     data class RepeatedPasswordChanged(val repeatedPassword: String) : RegisterIntent()
     data object ToggleRepeatedPasswordVisibility : RegisterIntent()
-    data class SignUp(val email: String, val password: String) : RegisterIntent()
+    data class SignUp(
+        val name: String,
+        val email: String,
+        val password: String,
+        val repeatedPassword: String,
+    ) : RegisterIntent()
 }
 
 @MviSideEffect

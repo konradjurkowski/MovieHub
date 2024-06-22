@@ -24,15 +24,16 @@ class RegisterViewModel(
             is RegisterIntent.RepeatedPasswordChanged -> {
                 updateViewState { copy(repeatedPassword = intent.repeatedPassword) }
             }
-
             RegisterIntent.TogglePasswordVisibility -> updateViewState { copy(obscurePassword = !obscurePassword) }
             RegisterIntent.ToggleRepeatedPasswordVisibility -> {
                 updateViewState { copy(obscureRepeatedPassword = !obscureRepeatedPassword) }
             }
-
-            is RegisterIntent.SignUp -> {
-
-            }
+            is RegisterIntent.SignUp -> signUp(
+                name = intent.name,
+                email = intent.email,
+                password = intent.password,
+                repeatedPassword = intent.repeatedPassword,
+            )
         }
     }
 
@@ -64,9 +65,7 @@ class RegisterViewModel(
 
         updateViewState { copy(registerState = Resource.Loading) }
         screenModelScope.launch(Dispatchers.IO) {
-            val result = authService.signUp(email, password)
-
-            // TODO ADD USERS TO FIREBASE DB
+            val result = authService.signUp(name, email, password)
 
             when (result) {
                 is Resource.Success -> sendSideEffect(RegisterSideEffect.GoToHome)

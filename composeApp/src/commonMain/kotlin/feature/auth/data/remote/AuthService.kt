@@ -12,6 +12,6 @@ interface AuthService {
     val currentUser: FirebaseUser?
     val authStateChanged: Flow<FirebaseUser?>
     suspend fun signIn(email: String, password: String): SignInResponse
-    suspend fun signUp(email: String, password: String): SignUpResponse
+    suspend fun signUp(name: String, email: String, password: String): SignUpResponse
     suspend fun resetPassword(email: String): ResetPasswordResponse
 }

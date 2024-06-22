@@ -1,5 +1,6 @@
 package feature.auth.data.remote
 
+import core.utils.FailureResponseException
 import core.utils.Resource
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseUser
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class AuthServiceImpl(
     private val auth: FirebaseAuth,
+    private val userRepository: UserRepository
 ) : AuthService {
     override val currentUser: FirebaseUser? = auth.currentUser
 
@@ -21,10 +23,22 @@ class AuthServiceImpl(
         }
     }
 
-    override suspend fun signUp(email: String, password: String): SignUpResponse {
+    override suspend fun signUp(name: String, email: String, password: String): SignUpResponse {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password)
-            Resource.Success(result.user)
+
+            val firebaseUser = result.user
+
+            if (firebaseUser != null) {
+                userRepository.createUser(
+                    userId = firebaseUser.uid,
+                    name = name,
+                    email = email
+                )
+                Resource.Success(result.user)
+            } else {
+                Resource.Failure(FailureResponseException())
+            }
         } catch (e: Exception) {
             Resource.Failure(e)
         }

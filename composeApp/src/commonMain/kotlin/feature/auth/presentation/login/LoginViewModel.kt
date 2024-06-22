@@ -24,6 +24,7 @@ class LoginViewModel(
             }
             LoginIntent.ForgotPasswordPressed -> sendSideEffect(LoginSideEffect.GoToForgotPassword)
             is LoginIntent.SignIn -> signIn(intent.email, intent.password)
+            LoginIntent.CreateAccountPressed -> sendSideEffect(LoginSideEffect.GoToRegister)
         }
     }
 

@@ -14,6 +14,7 @@ sealed class LoginIntent {
     data class PasswordChanged(val password: String) : LoginIntent()
     data object TogglePasswordVisibility : LoginIntent()
     data object ForgotPasswordPressed : LoginIntent()
+    data object CreateAccountPressed : LoginIntent()
     data class SignIn(val email: String, val password: String) : LoginIntent()
 }
 
@@ -21,6 +22,7 @@ sealed class LoginIntent {
 sealed class LoginSideEffect {
     data object GoToHome : LoginSideEffect()
     data object GoToForgotPassword : LoginSideEffect()
+    data object GoToRegister : LoginSideEffect()
     data class ShowError(val error: Throwable) : LoginSideEffect()
 }
 
