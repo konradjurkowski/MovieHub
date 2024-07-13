@@ -32,7 +32,7 @@ fun SnackBarKMP(
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
             .background(snackBarData.snackBarType.color)
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

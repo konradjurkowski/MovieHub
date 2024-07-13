@@ -10,10 +10,8 @@ import androidx.compose.ui.Modifier
 import core.utils.getScreenSizeInfo
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_logo
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SplashScreen() {
     val screenSize = getScreenSizeInfo()

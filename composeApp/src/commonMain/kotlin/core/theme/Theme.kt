@@ -88,7 +88,7 @@ fun MovieHubTheme(
 ) {
     MaterialTheme(
         colorScheme = if (isDarkTheme) darkScheme else lightScheme,
-        typography = AppTypography,
+        typography = AppTypography(),
         content = content
     )
 }
