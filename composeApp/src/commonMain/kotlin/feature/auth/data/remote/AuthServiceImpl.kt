@@ -35,6 +35,7 @@ class AuthServiceImpl(
                     name = name,
                     email = email
                 )
+                currentUser?.updateProfile(displayName = name)
                 Resource.Success(result.user)
             } else {
                 Resource.Failure(FailureResponseException())
@@ -52,4 +53,7 @@ class AuthServiceImpl(
             Resource.Failure(e)
         }
     }
+
+    override suspend fun getAppUser() =
+        userRepository.getUserById(auth.currentUser?.uid ?: "")
 }

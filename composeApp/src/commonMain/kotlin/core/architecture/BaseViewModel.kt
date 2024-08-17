@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private const val BUFFER_CAPACITY = 64
+const val BUFFER_CAPACITY = 64
 const val SIDE_EFFECTS_KEY = "SIDE_EFFECTS_KEY"
 
 abstract class BaseViewModel<ViewIntent, ViewSideEffect, ViewState> : ScreenModel {
