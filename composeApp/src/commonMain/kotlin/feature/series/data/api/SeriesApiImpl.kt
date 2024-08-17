@@ -9,21 +9,27 @@ import io.ktor.http.path
 class SeriesApiImpl(
     private val httpClient: HttpClient
 ) : SeriesApi {
-    override suspend fun getPopularSeries(): HttpResponse =
+    override suspend fun getSeriesById(seriesId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/tv/popular") }
+            url { path("/3/tv/$seriesId") }
         }
 
-    override suspend fun getTopRatedSeries(): HttpResponse =
+    override suspend fun searchSeries(query: String, page: Int): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/tv/top_rated") }
+            url {
+                path("/3/search/tv")
+                parameters.apply {
+                    append("query", query)
+                    append("page", page.toString())
+                }
+            }
         }
 
-    override suspend fun getGenres(): HttpResponse =
+    override suspend fun getCredits(seriesId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/genre/tv/list") }
+            url { path("/3/tv/$seriesId/credits") }
         }
 }

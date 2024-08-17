@@ -39,11 +39,9 @@ import moviehub.composeapp.generated.resources.register_screen_password_requirem
 import moviehub.composeapp.generated.resources.register_screen_register_label
 import moviehub.composeapp.generated.resources.register_screen_title
 import moviehub.composeapp.generated.resources.repeat_password
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RegisterScreen(
     state: RegisterState,
@@ -60,19 +58,19 @@ fun RegisterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
-                .padding(Dimens.regularPadding)
+                .padding(Dimens.padding16)
                 .verticalScroll(rememberScrollState())
         ) {
             TextFieldLabel(text = stringResource(Res.string.name))
             SmallSpacer()
             InputTextField(
                 value = state.name,
-                onValueChanged = { onIntent(RegisterIntent.NameChanged(it)) },
+                onValueChange = { onIntent(RegisterIntent.NameChanged(it)) },
                 imeAction = ImeAction.Next,
                 isError = state.registerState.isFailure() || !state.nameValidation.successful
             )
             InvalidFieldMessage(
-                message = state.nameValidation.errorMessage?.toDisplay() ?: "",
+                message = state.nameValidation.errorMessage.toDisplay(),
                 isInvalid = !state.nameValidation.successful
             )
             RegularSpacer()
@@ -80,13 +78,13 @@ fun RegisterScreen(
             SmallSpacer()
             InputTextField(
                 value = state.email,
-                onValueChanged = { onIntent(RegisterIntent.EmailChanged(it)) },
+                onValueChange = { onIntent(RegisterIntent.EmailChanged(it)) },
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
                 isError = state.registerState.isFailure() || !state.emailValidation.successful
             )
             InvalidFieldMessage(
-                message = state.emailValidation.errorMessage?.toDisplay() ?: "",
+                message = state.emailValidation.errorMessage.toDisplay(),
                 isInvalid = !state.emailValidation.successful
             )
             RegularSpacer()
@@ -94,7 +92,7 @@ fun RegisterScreen(
             SmallSpacer()
             InputTextField(
                 value = state.password,
-                onValueChanged = { onIntent(RegisterIntent.PasswordChanged(it)) },
+                onValueChange = { onIntent(RegisterIntent.PasswordChanged(it)) },
                 obscure = state.obscurePassword,
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next,
@@ -113,7 +111,7 @@ fun RegisterScreen(
                 }
             )
             InvalidFieldMessage(
-                message = state.passwordValidation.errorMessage?.toDisplay() ?: "",
+                message = state.passwordValidation.errorMessage.toDisplay(),
                 isInvalid = !state.passwordValidation.successful
             )
             RegularSpacer()
@@ -121,7 +119,7 @@ fun RegisterScreen(
             SmallSpacer()
             InputTextField(
                 value = state.repeatedPassword,
-                onValueChanged = { onIntent(RegisterIntent.RepeatedPasswordChanged(it)) },
+                onValueChange = { onIntent(RegisterIntent.RepeatedPasswordChanged(it)) },
                 obscure = state.obscureRepeatedPassword,
                 keyboardType = KeyboardType.Password,
                 isError = state.registerState.isFailure() || !state.repeatedPasswordValidation.successful,
@@ -139,7 +137,7 @@ fun RegisterScreen(
                 }
             )
             InvalidFieldMessage(
-                message = state.repeatedPasswordValidation.errorMessage?.toDisplay() ?: "",
+                message = state.repeatedPasswordValidation.errorMessage.toDisplay(),
                 isInvalid = !state.repeatedPasswordValidation.successful
             )
             SmallSpacer()

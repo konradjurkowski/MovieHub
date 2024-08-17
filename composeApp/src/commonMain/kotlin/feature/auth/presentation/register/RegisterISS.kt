@@ -6,7 +6,6 @@ import core.architecture.MviState
 import core.tools.validator.ValidationResult
 import core.utils.Resource
 import dev.gitlive.firebase.auth.FirebaseUser
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @MviIntent
 sealed class RegisterIntent {
@@ -32,7 +31,6 @@ sealed class RegisterSideEffect {
     data class ShowError(val error: Throwable) : RegisterSideEffect()
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @MviState
 data class RegisterState(
     val name: String = "",

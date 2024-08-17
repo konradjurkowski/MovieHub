@@ -1,16 +1,12 @@
 package core.utils
 
-sealed class Platform(open val languageCode: String, open val countryCode: String) {
-    data class Android(
-        val systemVersion: Int,
-        override val languageCode: String,
-        override val countryCode: String,
-    ) : Platform(languageCode, countryCode)
-    data class IOS(
-        val systemVersion: String,
-        override val languageCode: String,
-        override val countryCode: String,
-    ): Platform(languageCode, countryCode)
-}
-
 expect fun getPlatform(): Platform
+expect val Platform.systemVersion: String
+expect val Platform.languageCode: String
+expect val Platform.countryCode: String
+expect val Platform.isDebug: Boolean
+
+enum class Platform {
+    Android,
+    IOS,
+}

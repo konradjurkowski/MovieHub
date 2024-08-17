@@ -7,12 +7,12 @@ data class Series(
     val id: Long,
     val name: String,
     val overview: String,
-    val posterPath: String,
+    val posterPath: String? = null,
     val backdropPath: String? = null,
     val genreIds: List<Long>,
     val language: String,
     val popularity: Double,
-    val firstAirDate: String,
+    val releaseDate: String,
     val voteAverage: Double,
     val voteCount: Long,
     val adult: Boolean,
@@ -28,9 +28,9 @@ fun SeriesDto.toSeries(): Series {
         genreIds = genreIds,
         language = originalLanguage,
         popularity = popularity,
-        firstAirDate = firstAirDate,
+        releaseDate = firstAirDate,
         voteAverage = voteAverage,
         voteCount = voteCount,
-        adult = adult
+        adult = adult,
     )
 }

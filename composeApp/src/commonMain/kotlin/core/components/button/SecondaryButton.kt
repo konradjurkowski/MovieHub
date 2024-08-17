@@ -18,8 +18,8 @@ import core.utils.LocalTouchFeedback
 fun SecondaryButton(
     modifier: Modifier = Modifier,
     text: String,
-    verticalPadding: Dp = Dimens.smallPadding,
-    horizontalPadding: Dp = Dimens.regularPadding,
+    verticalPadding: Dp = Dimens.padding8,
+    horizontalPadding: Dp = Dimens.padding16,
     onClick: () -> Unit,
 ) {
     val touchFeedback = LocalTouchFeedback.current
@@ -33,7 +33,7 @@ fun SecondaryButton(
             vertical = verticalPadding,
             horizontal = horizontalPadding
         ),
-        shape = RoundedCornerShape(Dimens.regularCornerRadius),
+        shape = RoundedCornerShape(Dimens.radius12),
     ) {
         Text(
             text = text,

@@ -22,8 +22,8 @@ fun PrimaryButton(
     text: String,
     enabled: Boolean = true,
     loading: Boolean = false,
-    verticalPadding: Dp = Dimens.smallPadding,
-    horizontalPadding: Dp = Dimens.regularPadding,
+    verticalPadding: Dp = Dimens.padding8,
+    horizontalPadding: Dp = Dimens.padding16,
     onClick: () -> Unit,
 ) {
     val touchFeedback = LocalTouchFeedback.current
@@ -39,7 +39,7 @@ fun PrimaryButton(
             horizontal = horizontalPadding
         ),
         enabled = enabled,
-        shape = RoundedCornerShape(Dimens.regularCornerRadius),
+        shape = RoundedCornerShape(Dimens.radius12),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,

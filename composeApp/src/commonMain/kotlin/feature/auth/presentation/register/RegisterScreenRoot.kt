@@ -12,10 +12,8 @@ import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.auth.presentation.register.components.RegisterScreen
 import feature.home.presentation.main.MainScreenRoot
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 class RegisterScreenRoot : Screen {
-    @OptIn(ExperimentalResourceApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow

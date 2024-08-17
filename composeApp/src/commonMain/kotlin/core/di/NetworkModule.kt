@@ -1,7 +1,11 @@
 package core.di
 
+import com.plusmobileapps.konnectivity.Konnectivity
 import core.tools.logger.KtorLogger
 import core.utils.Constants
+import core.utils.getPlatform
+import core.utils.isDebug
+import core.utils.languageCode
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -23,11 +27,15 @@ val networkModule = module {
         }
     }
 
+    single { Konnectivity() }
+
     single<HttpClient> {
         HttpClient {
-            install(Logging) {
-                logger = KtorLogger()
-                level = LogLevel.ALL
+            if (getPlatform().isDebug) {
+                install(Logging) {
+                    logger = KtorLogger()
+                    level = LogLevel.ALL
+                }
             }
             install(ContentNegotiation) {
                 json(get())
@@ -39,7 +47,7 @@ val networkModule = module {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = Constants.BASE_URL
-                    parameters.append("language", "en")
+                    parameters.append("language", getPlatform().languageCode)
                 }
                 header("Authorization", "Bearer ${Constants.API_KEY}")
             }

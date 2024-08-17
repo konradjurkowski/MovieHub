@@ -18,6 +18,7 @@
 		C727D5ED2BF3F114005C1C9F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C727D5EC2BF3F114005C1C9F /* FirebaseFirestore */; };
 		C727D5EF2BF3F114005C1C9F /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C727D5EE2BF3F114005C1C9F /* FirebaseFirestoreCombine-Community */; };
 		C727D5F12BF3F114005C1C9F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C727D5F02BF3F114005C1C9F /* FirebaseFirestoreSwift */; };
+		C7AB11A12C5DF902005C2B59 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C7AB11A02C5DF902005C2B59 /* Lottie */; };
 		C7FDA4912C1E040900875DF4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C7FDA4902C1E040900875DF4 /* FirebaseStorage */; };
 		C7FDA4932C1E040900875DF4 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C7FDA4922C1E040900875DF4 /* FirebaseStorageCombine-Community */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 			files = (
 				C727D5EB2BF3F114005C1C9F /* FirebaseCrashlytics in Frameworks */,
 				C727D5ED2BF3F114005C1C9F /* FirebaseFirestore in Frameworks */,
+				C7AB11A12C5DF902005C2B59 /* Lottie in Frameworks */,
 				C7FDA4932C1E040900875DF4 /* FirebaseStorageCombine-Community in Frameworks */,
 				C727D5E72BF3F114005C1C9F /* FirebaseAuth in Frameworks */,
 				C727D5EF2BF3F114005C1C9F /* FirebaseFirestoreCombine-Community in Frameworks */,
@@ -132,6 +134,7 @@
 				C727D5F02BF3F114005C1C9F /* FirebaseFirestoreSwift */,
 				C7FDA4902C1E040900875DF4 /* FirebaseStorage */,
 				C7FDA4922C1E040900875DF4 /* FirebaseStorageCombine-Community */,
+				C7AB11A02C5DF902005C2B59 /* Lottie */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Moviehub.app */;
@@ -163,6 +166,7 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				C727D5E52BF3F114005C1C9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				C7AB119F2C5DF902005C2B59 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -432,6 +436,14 @@
 				minimumVersion = 10.26.0;
 			};
 		};
+		C7AB119F2C5DF902005C2B59 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -464,6 +476,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C727D5E52BF3F114005C1C9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		C7AB11A02C5DF902005C2B59 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7AB119F2C5DF902005C2B59 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 		C7FDA4902C1E040900875DF4 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;

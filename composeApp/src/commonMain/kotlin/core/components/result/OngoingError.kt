@@ -17,10 +17,8 @@ import core.utils.Dimens
 import core.utils.noRippleClickable
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.unable_to_load_data
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OngoingError(
     modifier: Modifier = Modifier,
@@ -28,10 +26,10 @@ fun OngoingError(
 ) {
     Row(
         modifier = modifier
-            .noRippleClickable(onClick)
+            .noRippleClickable(onClick = onClick)
             .height(Dimens.ongoingViewHeight)
             .fillMaxWidth()
-            .padding(horizontal = Dimens.regularPadding),
+            .padding(horizontal = Dimens.padding16),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {

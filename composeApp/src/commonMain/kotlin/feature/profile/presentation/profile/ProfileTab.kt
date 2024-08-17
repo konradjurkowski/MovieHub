@@ -6,10 +6,8 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.profile_tab_label
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 object ProfileTab : Tab {
     override val options: TabOptions
         @Composable
@@ -18,7 +16,7 @@ object ProfileTab : Tab {
 
             return remember {
                 TabOptions(
-                    index = 4u,
+                    index = 3u,
                     title = title,
                 )
             }
