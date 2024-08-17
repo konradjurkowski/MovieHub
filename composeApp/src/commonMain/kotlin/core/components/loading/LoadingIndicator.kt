@@ -8,21 +8,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import core.theme.withA10
 import core.utils.Dimens
 
 @Composable
 fun LoadingIndicator(
     modifier: Modifier = Modifier,
     size: Dp = Dimens.defaultLoadingSize,
-    color: Color = MaterialTheme.colorScheme.primary
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(size),
-            color = color
+            color = color,
+            trackColor = MaterialTheme.colorScheme.onBackground.withA10(),
         )
     }
 }

@@ -1,4 +1,4 @@
-package feature.home.presentation.main
+package feature.home.presentation.main.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.navigator.tab.Tab
 import core.utils.LocalTouchFeedback
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import feature.home.presentation.main.getIcon
+import feature.home.presentation.main.getSelectedIcon
 import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RowScope.NavigationItem(
     modifier: Modifier = Modifier,

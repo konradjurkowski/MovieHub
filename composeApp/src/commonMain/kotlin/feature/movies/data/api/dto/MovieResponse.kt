@@ -1,5 +1,7 @@
 package feature.movies.data.api.dto
 
+import core.utils.Constants
+import feature.movies.domain.model.Movie
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -38,3 +40,21 @@ data class MovieDto(
     @SerialName("vote_count")
     val voteCount: Long,
 )
+
+fun MovieDto.toDomain(): Movie {
+    return Movie(
+        id = id,
+        title = title,
+        language = originalLanguage,
+        adult = adult,
+        overview = overview,
+        posterPath = posterPath?.let { Constants.IMAGE_BASE_URL + it },
+        backdropPath = backdropPath?.let { Constants.IMAGE_BASE_URL + it },
+        genreIds = genreIds,
+        popularity = popularity,
+        releaseDate = releaseDate,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount
+    )
+}

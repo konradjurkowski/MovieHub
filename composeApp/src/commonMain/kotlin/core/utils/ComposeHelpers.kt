@@ -12,14 +12,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.paging.LoadState
 import dev.gitlive.firebase.FirebaseNetworkException
-import dev.gitlive.firebase.FirebaseTooManyRequestsException
-import dev.gitlive.firebase.auth.FirebaseAuthException
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
+import dev.gitlive.firebase.auth.FirebaseAuthUserCollisionException
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.email_already_exists
+import moviehub.composeapp.generated.resources.invalid_credentials
+import moviehub.composeapp.generated.resources.something_went_wrong
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
-    clickable(indication = null,
+fun Modifier.noRippleClickable(
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+): Modifier = composed {
+    clickable(
+        enabled = enabled,
+        indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         onClick()
     }
@@ -43,28 +51,17 @@ fun TextUnit.toDp(): Dp {
 fun LoadState.isLoading() = this is LoadState.Loading
 fun LoadState.isError() = this is LoadState.Error
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
-fun StringResource.toDisplay(): String {
-    return stringResource(this)
+fun StringResource?.toDisplay(): String {
+    return this?.let { stringResource(it) } ?: ""
 }
 
-fun getFailureMessage(error: Throwable): String {
+fun getFailureMessage(error: Throwable): StringResource {
     return when (error) {
-        is FirebaseNetworkException -> {
-            "Something went wrong, check your Internet connection and try again."
-        }
-
-        is FirebaseAuthException -> {
-            "Please check your email and password and try again."
-        }
-
-        is FirebaseTooManyRequestsException -> {
-            "Request failed due to too many attempts. Please try again later."
-        }
-
-        else -> {
-            "Something went wrong, check your Internet connection and try again."
-        }
+        is FirebaseAuthInvalidCredentialsException -> Res.string.invalid_credentials
+        is FirebaseAuthUserCollisionException -> Res.string.email_already_exists
+        is FirebaseNetworkException -> Res.string.something_went_wrong
+        is CustomException -> error.messageRes
+        else -> Res.string.something_went_wrong
     }
 }

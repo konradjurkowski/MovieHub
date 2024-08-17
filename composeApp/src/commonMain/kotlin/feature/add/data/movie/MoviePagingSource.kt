@@ -4,8 +4,8 @@ import androidx.paging.PagingSource
 import app.cash.paging.PagingState
 import feature.movies.data.api.MovieApi
 import feature.movies.data.api.dto.MoviesResponse
+import feature.movies.data.api.dto.toDomain
 import feature.movies.domain.model.Movie
-import feature.movies.domain.model.toMovie
 import io.ktor.client.call.body
 import io.ktor.utils.io.errors.IOException
 
@@ -20,9 +20,9 @@ class MoviePagingSource(
             val response = api.searchMovies(query, currentPage)
             val moviesResponse = response.body<MoviesResponse>()
             LoadResult.Page(
-                data = moviesResponse.results.map { it.toMovie() },
+                data = moviesResponse.results.map { it.toDomain() },
                 prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (moviesResponse.results.isEmpty()) null else moviesResponse.page.toInt() + 1
+                nextKey = if (moviesResponse.results.isEmpty()) null else moviesResponse.page.toInt() + 1,
             )
         } catch (e: IOException) {
             return LoadResult.Error(e)

@@ -38,11 +38,9 @@ import moviehub.composeapp.generated.resources.login_screen_login_label
 import moviehub.composeapp.generated.resources.login_screen_new_to_app
 import moviehub.composeapp.generated.resources.login_screen_title
 import moviehub.composeapp.generated.resources.password
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LoginScreen(
     state: LoginState,
@@ -62,7 +60,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(contentPadding)
-                .padding(Dimens.regularPadding)
+                .padding(Dimens.padding16)
         ) {
             Column(
                 modifier = Modifier
@@ -73,12 +71,12 @@ fun LoginScreen(
                 SmallSpacer()
                 InputTextField(
                     value = state.email,
-                    onValueChanged = { onIntent(LoginIntent.EmailChanged(it)) },
+                    onValueChange = { onIntent(LoginIntent.EmailChanged(it)) },
                     keyboardType = KeyboardType.Email,
                     isError = state.loginState.isFailure() || !state.emailValidation.successful
                 )
                 InvalidFieldMessage(
-                    message = state.emailValidation.errorMessage?.toDisplay() ?: "",
+                    message = state.emailValidation.errorMessage.toDisplay(),
                     isInvalid = !state.emailValidation.successful
                 )
                 RegularSpacer()
@@ -94,7 +92,7 @@ fun LoginScreen(
                 SmallSpacer()
                 InputTextField(
                     value = state.password,
-                    onValueChanged = { onIntent(LoginIntent.PasswordChanged(it)) },
+                    onValueChange = { onIntent(LoginIntent.PasswordChanged(it)) },
                     obscure = state.obscurePassword,
                     keyboardType = KeyboardType.Password,
                     isError = state.loginState.isFailure() || !state.passwordValidation.successful,
@@ -112,7 +110,7 @@ fun LoginScreen(
                     }
                 )
                 InvalidFieldMessage(
-                    message = state.passwordValidation.errorMessage?.toDisplay() ?: "",
+                    message = state.passwordValidation.errorMessage.toDisplay(),
                     isInvalid = !state.passwordValidation.successful
                 )
                 RegularSpacer()

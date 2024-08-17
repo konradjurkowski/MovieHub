@@ -1,64 +1,50 @@
 package feature.movies.presentation.movies
 
-import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import core.utils.FailureResponseException
+import core.architecture.BaseViewModel
+import core.tools.dispatcher.DispatchersProvider
+import core.tools.event_bus.EventBus
+import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
-import feature.movies.data.api.dto.Genre
 import feature.movies.data.repository.MovieRepository
-import feature.movies.domain.model.MoviesOverview
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
 
-typealias MoviesState = Resource<MoviesOverview>
-
 class MoviesViewModel(
-    private val repository: MovieRepository
-) : ScreenModel {
-    private val _state = MutableStateFlow<MoviesState>(Resource.Idle)
-    val state: StateFlow<MoviesState> = _state.asStateFlow()
+    private val repository: MovieRepository,
+    private val dispatchersProvider: DispatchersProvider,
+    private val eventBus: EventBus,
+) : BaseViewModel<MoviesIntent, MoviesSideEffect, MoviesState>() {
 
     init {
-        fetchMovies()
+        initListener()
+        getMovies()
+    }
+    override fun getDefaultState() = Resource.Idle
+
+    override fun processIntent(intent: MoviesIntent) {
+        when (intent) {
+            MoviesIntent.Refresh -> getMovies()
+            is MoviesIntent.MoviePressed -> sendSideEffect(MoviesSideEffect.GoToMovieDetail(intent.movie))
+        }
     }
 
-    fun fetchMovies() {
-        if (_state.value.isLoading()) return
+    private fun getMovies() {
+        updateViewState { Resource.Loading }
+        screenModelScope.launch(dispatchersProvider.io) {
+            val result = repository.getTopRatedFirebaseMovies()
+            updateViewState { result }
+        }
+    }
 
-        _state.value = Resource.Loading
-        screenModelScope.launch(Dispatchers.IO) {
-            val popularFuture = async { repository.getPopularMovies() }
-            val topRatedFuture = async { repository.getTopRatedMovies() }
-            val genresFuture = async {
-                when (localMoviesGenresList.isEmpty()) {
-                    true -> repository.getGenres()
-                    false -> Resource.Success(localMoviesGenresList)
+    private fun initListener() {
+        screenModelScope.launch {
+            eventBus.events
+                .filterIsInstance<RefreshMovieList>()
+                .collectLatest {
+                    getMovies()
                 }
-            }
-
-            val popularResult = popularFuture.await()
-            val topRatedResult = topRatedFuture.await()
-            val genresResult = genresFuture.await()
-
-            if (popularResult.isSuccess() && topRatedResult.isSuccess() && genresResult.isSuccess()) {
-                val popularMovies = popularResult.getSuccess() ?: emptyList()
-                val topRatedMovies = topRatedResult.getSuccess() ?: emptyList()
-                val genresList = genresResult.getSuccess() ?: emptyList()
-                localMoviesGenresList = genresList
-
-                val moviesOverview = MoviesOverview(popularMovies, topRatedMovies)
-                _state.value = Resource.Success(moviesOverview)
-            } else {
-                _state.value = Resource.Failure(FailureResponseException())
-            }
         }
     }
 }
-
-// TODO STORE SOMEWHERE
-var localMoviesGenresList: List<Genre> = emptyList()

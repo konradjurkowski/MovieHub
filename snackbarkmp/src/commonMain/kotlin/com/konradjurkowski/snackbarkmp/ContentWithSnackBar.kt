@@ -4,12 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
@@ -28,23 +23,15 @@ fun ContentWithSnackBar(
     snackBarState: SnackBarState,
     position: SnackBarPosition = SnackBarPosition.TOP,
     snackBar: (@Composable (SnackBarData) -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            content()
-            SnackBarComponent(
-                snackBarState = snackBarState,
-                position = position,
-                snackBar = snackBar
-            )
-        }
+    Box(modifier = Modifier.fillMaxSize()) {
+        content()
+        SnackBarComponent(
+            snackBarState = snackBarState,
+            position = position,
+            snackBar = snackBar
+        )
     }
 }
 
@@ -70,9 +57,7 @@ internal fun SnackBarComponent(
     }
 
     Column(
-        modifier = Modifier
-            .windowInsetsPadding(WindowInsets.safeDrawing)
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = if (position == SnackBarPosition.TOP)
             Arrangement.Top else Arrangement.Bottom
     ) {

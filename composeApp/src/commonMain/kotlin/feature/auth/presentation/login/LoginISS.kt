@@ -6,7 +6,6 @@ import core.architecture.MviState
 import core.tools.validator.ValidationResult
 import core.utils.Resource
 import dev.gitlive.firebase.auth.FirebaseUser
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @MviIntent
 sealed class LoginIntent {
@@ -26,7 +25,6 @@ sealed class LoginSideEffect {
     data class ShowError(val error: Throwable) : LoginSideEffect()
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @MviState
 data class LoginState(
     val email: String = "",

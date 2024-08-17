@@ -14,10 +14,8 @@ import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
 import feature.auth.presentation.login.components.LoginScreen
 import feature.auth.presentation.register.RegisterScreenRoot
 import feature.home.presentation.main.MainScreenRoot
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 class LoginScreenRoot : Screen {
-    @OptIn(ExperimentalResourceApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
