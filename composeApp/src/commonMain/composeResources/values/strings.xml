@@ -29,7 +29,17 @@
     <string name="add_screen_add_series_label">Add series</string>
 
     <!--Add Movie Screen-->
+    <string name="add_movie_screen_add_label">Add movie</string>
     <string name="add_movie_screen_add_success">Movie has been added.</string>
+
+    <!--Add Series Screen-->
+    <string name="add_series_screen_add_label">Add series</string>
+    <string name="add_series_screen_add_success">Series has been added.</string>
+
+    <!--Add Rating Screen-->
+    <string name="add_rating_screen_comment_label">Comment</string>
+    <string name="add_rating_screen_rating_label">Rating</string>
+    <string name="add_rating_screen_rating_added">The rating has been added</string>
 
     <!--Other-->
     <string name="name">Name</string>
@@ -37,12 +47,17 @@
     <string name="password">Password</string>
     <string name="repeat_password">Repeat password</string>
     <string name="search_label">Search</string>
-    <string name="no_data">No data</string>
+    <string name="empty_view_title">No data available</string>
+    <string name="empty_view_message">There are no items to display</string>
     <string name="error_label">Error</string>
     <string name="something_went_wrong_try_again">Something went wrong, check your Internet connection and try again</string>
     <string name="unable_to_load_data">Unable to load data. Click to try again</string>
     <string name="try_again">Try again</string>
-    <string name="no_results">No results</string>
+    <string name="empty_search_title">We are sorry, we can not find the movie :(</string>
+    <string name="empty_search_message">Find your item by type title</string>
+    <string name="save_label">Save</string>
+    <string name="edit_label">Edit</string>
+    <string name="delete_label">Delete</string>
 
     <!--Error-->
     <string name="invalid_credentials">Please check your email and password and try again.</string>
@@ -55,4 +70,9 @@
     <string name="movies_tab_label">Movies</string>
     <string name="series_tab_label">Series</string>
     <string name="profile_tab_label">Profile</string>
+
+    <!--Media Tabs-->
+    <string name="info_tab_label">Information</string>
+    <string name="comments_tab_label">Comments</string>
+    <string name="cast_tab_label">Cast</string>
 </resources>

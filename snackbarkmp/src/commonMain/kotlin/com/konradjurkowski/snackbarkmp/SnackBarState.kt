@@ -4,10 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
 
-@OptIn(ExperimentalResourceApi::class)
 class SnackBarState {
     var data by mutableStateOf<SnackBarData?>(null)
         private set
