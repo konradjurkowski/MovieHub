@@ -1,11 +1,6 @@
-package feature.movies.data.api.dto
+package core.model
 
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class GenresResponse (
-    val genres: List<Genre>
-)
 
 @Serializable
 data class Genre (

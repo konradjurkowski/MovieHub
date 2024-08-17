@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,14 +15,13 @@ import androidx.compose.ui.text.style.TextAlign
 import core.components.button.SecondaryButton
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
+import core.utils.Dimens
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.error_label
 import moviehub.composeapp.generated.resources.something_went_wrong_try_again
 import moviehub.composeapp.generated.resources.try_again
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun FailureWidget(
     modifier: Modifier = Modifier,
@@ -31,7 +31,9 @@ fun FailureWidget(
     onButtonClick: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Dimens.padding16),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -54,7 +56,7 @@ fun FailureWidget(
         SecondaryButton(
             modifier = Modifier.fillMaxWidth(),
             text = buttonText,
-            onClick = onButtonClick
+            onClick = onButtonClick,
         )
     }
 }

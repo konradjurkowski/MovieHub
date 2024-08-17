@@ -47,18 +47,18 @@ fun ForgotPasswordScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
-                .padding(Dimens.regularPadding)
+                .padding(Dimens.padding16)
                 .verticalScroll(rememberScrollState())
         ) {
             TextFieldLabel(text = stringResource(Res.string.email_address))
             SmallSpacer()
             InputTextField(
                 value = state.email,
-                onValueChanged = { onIntent(ForgotPasswordIntent.EmailChanged(it)) },
+                onValueChange = { onIntent(ForgotPasswordIntent.EmailChanged(it)) },
                 isError = state.resetState.isFailure() || !state.emailValidation.successful
             )
             InvalidFieldMessage(
-                message = state.emailValidation.errorMessage?.toDisplay() ?: "",
+                message = state.emailValidation.errorMessage.toDisplay(),
                 isInvalid = !state.emailValidation.successful
             )
             RegularSpacer()
