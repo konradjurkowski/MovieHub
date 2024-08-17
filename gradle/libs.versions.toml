@@ -5,34 +5,33 @@ android-minSdk = "26"
 android-targetSdk = "34"
 # Compose
 androidx-activityCompose = "1.9.0"
-compose = "1.6.7"
 compose-plugin = "1.6.2"
 # Kotlin
 kamelImage = "0.9.4"
 kermit = "2.0.3"
 kotlin = "1.9.23"
 coroutines = "1.8.0"
-stately = "2.0.5"
+kotlinxDatetime = "0.6.0"
+stately = "2.0.6"
 # Ktor
-ktor = "2.3.11"
+ktor = "2.3.12"
 # Navigation
 voyager = "1.0.0"
 # DI
 koin = "3.5.3"
 # Firebase
-firebase-gitlive-sdk = "1.12.0"
+firebase-gitlive-sdk = "1.13.0"
 # Gradle
-gradlePlugins-google-services = "4.4.1"
-gradlePlugins-crashlytics = "3.0.0"
+gradlePlugins-google-services = "4.4.2"
+gradlePlugins-crashlytics = "3.0.2"
 # Paging
 pagingCommonVersion = "3.3.0-alpha02-0.5.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 navigator-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 navigator-tabs = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
@@ -43,6 +42,8 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase-gitlive-sdk" }
 firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }
+firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase-gitlive-sdk" }
+firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebase-gitlive-sdk" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }

@@ -1,6 +1,7 @@
 package core.utils
 
 import io.ktor.client.statement.HttpResponse
+import kotlinx.coroutines.withTimeout
 import kotlin.math.roundToInt
 
 fun Double.round(decimals: Int): Double {
@@ -21,6 +22,17 @@ suspend inline fun <reified T> safeApiCall(
         } else {
             Resource.Failure(FailureResponseException())
         }
+    } catch (e: Exception) {
+        Resource.Failure(e)
+    }
+}
+
+suspend fun <T> runWithTimeout(
+    timeoutMillis: Long = Constants.DEFAULT_TIMEOUT_IN_MS,
+    call: suspend () -> Resource<T>,
+): Resource<T> {
+    return try {
+        withTimeout(timeoutMillis) { call() }
     } catch (e: Exception) {
         Resource.Failure(e)
     }
