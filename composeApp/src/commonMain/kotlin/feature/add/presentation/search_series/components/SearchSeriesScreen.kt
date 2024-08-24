@@ -1,23 +1,24 @@
-package feature.add.presentation.search_movie.components
+package feature.add.presentation.search_series.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import app.cash.paging.compose.LazyPagingItems
 import core.components.media.PagingMediaList
 import core.components.top_bar.SearchTopBar
 import core.utils.clearFocus
-import feature.add.presentation.search_movie.SearchMovieIntent
-import feature.add.presentation.search_movie.SearchMovieState
-import feature.movies.domain.model.Movie
+import feature.add.presentation.search_series.SearchSeriesIntent
+import feature.add.presentation.search_series.SearchSeriesState
+import feature.series.domain.model.Series
 
 @Composable
-fun SearchMovieScreen(
-    pagingMovies: LazyPagingItems<Movie>,
-    state: SearchMovieState,
-    onIntent: (SearchMovieIntent) -> Unit,
+fun SearchSeriesScreen(
+    pagingSeries: LazyPagingItems<Series>,
+    state: SearchSeriesState,
+    onIntent: (SearchSeriesIntent) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.clearFocus(),
@@ -25,8 +26,8 @@ fun SearchMovieScreen(
             SearchTopBar(
                 value = state.query,
                 shouldRequestFocus = !state.isSearchInitiated,
-                onValueChange = { onIntent(SearchMovieIntent.QueryChanged(it)) },
-                onClearPressed = { onIntent(SearchMovieIntent.ClearQueryPressed) },
+                onValueChange = { onIntent(SearchSeriesIntent.QueryChanged(it)) },
+                onClearPressed = { onIntent(SearchSeriesIntent.ClearQueryPressed) },
             )
         },
     ) { contentPadding ->
@@ -35,8 +36,8 @@ fun SearchMovieScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(contentPadding),
-                pagingMedia = pagingMovies,
-                onClick = { onIntent(SearchMovieIntent.MoviePressed(it)) },
+                pagingMedia = pagingSeries,
+                onClick = { onIntent(SearchSeriesIntent.SeriesPressed(it)) },
             )
         }
     }

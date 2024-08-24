@@ -21,17 +21,25 @@ import androidx.compose.ui.unit.dp
 import core.components.image.NetworkImage
 import core.theme.withA70
 import core.utils.Dimens
+import core.utils.LocalTouchFeedback
 
 @Composable
 fun SearchMediaCard(
     modifier: Modifier = Modifier,
     title: String,
     imageUrl: String?,
+    onClick: () -> Unit,
 ) {
+    val touchFeedback = LocalTouchFeedback.current
+
     Card(
         modifier = modifier
             .aspectRatio(3/4f)
             .padding(Dimens.padding8),
+        onClick = {
+            touchFeedback.performLongPress()
+            onClick()
+        },
         elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),
     ) {
         Box(

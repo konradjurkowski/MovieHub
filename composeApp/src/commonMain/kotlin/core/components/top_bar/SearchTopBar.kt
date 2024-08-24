@@ -12,22 +12,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.text.input.ImeAction
 import core.components.text_field.InputTextField
 import core.utils.Dimens
 import core.utils.LocalTouchFeedback
 import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.search_label
+import moviehub.composeapp.generated.resources.clear_label
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SearchTopBar(
     modifier: Modifier = Modifier,
     value: String,
-    isButtonEnabled: Boolean = true,
     shouldRequestFocus: Boolean = true,
     onValueChange: (String) -> Unit,
-    onSearchPressed: (String) -> Unit,
+    onClearPressed: () -> Unit,
 ) {
     val touchFeedback = LocalTouchFeedback.current
     val focusRequester = remember { FocusRequester() }
@@ -47,8 +45,6 @@ fun SearchTopBar(
                 value = value,
                 onValueChange = onValueChange,
                 textStyle = MaterialTheme.typography.bodySmall,
-                imeAction = ImeAction.Search,
-                onSearch = { onSearchPressed(value) },
                 contentPadding = PaddingValues(Dimens.padding16, Dimens.padding8),
             )
         },
@@ -56,11 +52,11 @@ fun SearchTopBar(
             TextButton(
                 onClick = {
                     touchFeedback.performLongPress()
-                    onSearchPressed(value)
+                    onClearPressed()
                 },
-                enabled = isButtonEnabled,
+                enabled = value.isNotEmpty(),
             ) {
-                Text(stringResource(Res.string.search_label))
+                Text(stringResource(Res.string.clear_label))
             }
         },
         navigationIcon = {

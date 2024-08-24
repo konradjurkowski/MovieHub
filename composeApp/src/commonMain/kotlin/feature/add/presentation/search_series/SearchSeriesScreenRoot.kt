@@ -1,4 +1,4 @@
-package feature.add.presentation.search_movie
+package feature.add.presentation.search_series
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,12 +11,12 @@ import core.architecture.CollectSideEffects
 import core.utils.LocalLoaderState
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
-import feature.add.presentation.search_movie.components.SearchMovieScreen
+import feature.add.presentation.search_series.components.SearchSeriesScreen
 import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.search_movie_screen_add_success
+import moviehub.composeapp.generated.resources.search_series_screen_add_success
 import kotlin.random.Random
 
-class SearchMovieScreenRoot : Screen {
+class SearchSeriesScreenRoot : Screen {
 
     // TODO CREATE SCREEN WRAPPER AND OVVERIDE THIS VAUE
     override val key: ScreenKey = super.key + "${Random.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE)}"
@@ -25,26 +25,26 @@ class SearchMovieScreenRoot : Screen {
     override fun Content() {
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
-        val viewModel = getScreenModel<SearchMovieViewModel>()
+        val viewModel = getScreenModel<SearchSeriesViewModel>()
         val state by viewModel.viewState.collectAsState()
-        val pagingMovies = viewModel.pager.collectAsLazyPagingItems()
+        val pagingSeries = viewModel.pager.collectAsLazyPagingItems()
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is SearchMovieSideEffect.HideLoaderWithError -> {
+                is SearchSeriesSideEffect.HideLoaderWithError -> {
                     loaderState.hideLoader()
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
-                SearchMovieSideEffect.HideLoaderWithSuccess -> {
+                SearchSeriesSideEffect.HideLoaderWithSuccess -> {
                     loaderState.hideLoader()
-                    snackbarState.showSuccess(Res.string.search_movie_screen_add_success)
+                    snackbarState.showSuccess(Res.string.search_series_screen_add_success)
                 }
-                SearchMovieSideEffect.ShowLoader -> loaderState.showLoader()
+                SearchSeriesSideEffect.ShowLoader ->  loaderState.showLoader()
             }
         }
 
-        SearchMovieScreen(
-            pagingMovies = pagingMovies,
+        SearchSeriesScreen(
+            pagingSeries = pagingSeries,
             state = state,
             onIntent = viewModel::sendIntent,
         )
