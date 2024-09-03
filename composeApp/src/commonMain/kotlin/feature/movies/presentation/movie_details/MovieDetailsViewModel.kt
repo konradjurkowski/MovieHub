@@ -7,7 +7,7 @@ import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovie
 import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
-import feature.auth.data.remote.UserRepository
+import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
 import feature.movies.domain.model.FirebaseRating
 import kotlinx.coroutines.async
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class MovieDetailsViewModel(
     private val movieId: Long,
     private val movieRepository: MovieRepository,
-    private val userRepository: UserRepository,
+    private val authService: AuthService,
     private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider
 ) : BaseViewModel<MovieDetailsIntent, MovieDetailsSideEffect, MovieDetailsState>() {
@@ -47,7 +47,7 @@ class MovieDetailsViewModel(
             val futureMovie = async { movieRepository.getMovieById(movieId) }
             val futureFirebaseMovie = async { movieRepository.getFirebaseMovieById(movieId) }
             val futureCredits = async { movieRepository.getCredits(movieId) }
-            val futureUsers = async { userRepository.getAllUsers() }
+            val futureUsers = async { authService.getAllAppUsers() }
 
             val movieResult = futureMovie.await()
             val firebaseMovieResult = futureFirebaseMovie.await()

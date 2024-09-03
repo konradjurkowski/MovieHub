@@ -7,7 +7,7 @@ import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshSeries
 import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
-import feature.auth.data.remote.UserRepository
+import feature.auth.data.remote.AuthService
 import feature.movies.domain.model.FirebaseRating
 import feature.series.data.repository.SeriesRepository
 import kotlinx.coroutines.async
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class SeriesDetailsViewModel(
     private val seriesId: Long,
     private val seriesRepository: SeriesRepository,
-    private val userRepository: UserRepository,
+    private val authService: AuthService,
     private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SeriesDetailsIntent, SeriesDetailsSideEffect, SeriesDetailsState>() {
@@ -47,7 +47,7 @@ class SeriesDetailsViewModel(
             val futureSeries = async { seriesRepository.getSeriesById(seriesId) }
             val futureFirebaseSeries = async { seriesRepository.getFirebaseSeriesById(seriesId) }
             val futureCredits = async { seriesRepository.getCredits(seriesId) }
-            val futureUsers = async { userRepository.getAllUsers() }
+            val futureUsers = async { authService.getAllAppUsers() }
 
             val seriesResult = futureSeries.await()
             val firebaseSeriesResult = futureFirebaseSeries.await()

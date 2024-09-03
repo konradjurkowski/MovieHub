@@ -112,7 +112,7 @@ data class EpisodeDto(
     val episodeType: String,
     @SerialName("production_code")
     val productionCode: String,
-    val runtime: Long,
+    val runtime: Long? = null,
     @SerialName("season_number")
     val seasonNumber: Long,
     @SerialName("show_id")

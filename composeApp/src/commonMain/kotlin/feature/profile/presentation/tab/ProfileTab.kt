@@ -1,9 +1,12 @@
-package feature.profile.presentation.profile
+package feature.profile.presentation.tab
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import cafe.adriel.voyager.transitions.SlideTransition
+import feature.profile.presentation.profile.ProfileScreenRoot
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.profile_tab_label
 import org.jetbrains.compose.resources.stringResource
@@ -24,6 +27,8 @@ object ProfileTab : Tab {
 
     @Composable
     override fun Content() {
-        ProfileScreen()
+        Navigator(ProfileScreenRoot()) {
+            SlideTransition(it)
+        }
     }
 }

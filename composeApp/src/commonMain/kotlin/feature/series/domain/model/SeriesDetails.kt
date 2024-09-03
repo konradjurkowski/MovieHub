@@ -41,7 +41,7 @@ data class Episode(
     val name: String,
     val overview: String,
     val stillPath: String? = null,
-    val runtime: Long,
+    val runtime: Long? = null,
     val airDate: Instant? = null,
     val episodeNumber: Long,
     val episodeType: String,

@@ -12,7 +12,7 @@ import feature.add.presentation.add.AddScreenRoot
 import feature.home.presentation.tab.HomeTab
 import feature.home.presentation.main.components.MainScreen
 import feature.movies.presentation.tab.MoviesTab
-import feature.profile.presentation.profile.ProfileTab
+import feature.profile.presentation.tab.ProfileTab
 import feature.series.presentation.tab.SeriesTab
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_home

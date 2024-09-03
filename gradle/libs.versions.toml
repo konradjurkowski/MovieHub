@@ -3,6 +3,8 @@ agp = "8.2.0"
 android-compileSdk = "34"
 android-minSdk = "26"
 android-targetSdk = "34"
+# Build
+buildKonfig = "0.15.1"
 # Compose
 androidx-activityCompose = "1.9.0"
 compose-plugin = "1.6.2"
@@ -55,6 +57,7 @@ paging-compose-common = { module = "app.cash.paging:paging-compose-common", vers
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "gradlePlugins-google-services" }

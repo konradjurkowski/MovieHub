@@ -18,7 +18,6 @@ import core.utils.PagingState
 import core.utils.getPagingState
 import core.utils.isErrorAppend
 import core.utils.isLoadingAppend
-import core.utils.noRippleClickable
 import feature.movies.domain.model.Movie
 import feature.series.domain.model.Series
 import moviehub.composeapp.generated.resources.Res
@@ -59,17 +58,17 @@ fun <T : Any> PagingMediaList(
                         when (item) {
                             is Movie -> {
                                 SearchMediaCard(
-                                    modifier = Modifier.noRippleClickable { onClick(item) },
                                     title = item.title,
                                     imageUrl = item.posterPath,
+                                    onClick = { onClick(item) },
                                 )
                             }
 
                             is Series -> {
                                 SearchMediaCard(
-                                    modifier = Modifier.noRippleClickable { onClick(item) },
                                     title = item.name,
                                     imageUrl = item.posterPath,
+                                    onClick = { onClick(item) },
                                 )
                             }
                         }

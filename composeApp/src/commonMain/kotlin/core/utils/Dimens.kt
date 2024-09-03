@@ -47,9 +47,6 @@ object Dimens {
     val navigationBarHeight = 80.dp
 
     // Other
-    val horizontalMediaCardHeight = 360.dp
-    val horizontalMediaCardWidth = 200.dp
-    val horizontalMediaCardImageHeight = 300.dp
-    val largeUserAvatar = 75.dp
+    val largeUserAvatar = 95.dp
     val ongoingViewHeight = 50.dp
 }
