@@ -1,18 +1,37 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.services)
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.buildKonfig)
+}
+
+val versionPropertiesFile = file("../version.properties")
+val versionProperties = Properties()
+versionProperties.load(FileInputStream(versionPropertiesFile))
+
+buildkonfig {
+    packageName = "com.konradjurkowski.moviehub"
+
+    defaultConfigs {
+        buildConfigField(STRING, "VERSION_NAME", versionProperties["versionName"].toString(), const = true)
+    }
 }
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -28,9 +47,14 @@ kotlin {
     }
     
     sourceSets {
-        
+        all {
+            languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+            languageSettings.optIn("com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi")
+        }
+
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
+            implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
         }
@@ -41,6 +65,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.materialIconsExtended)
 
             // Navigation
             implementation(libs.navigator)
@@ -59,8 +84,10 @@ kotlin {
             // Firebase
             implementation(libs.firebase.crashlytics)
             implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
 
-            // Snackbar
+            // Internal libs
             implementation(project(":snackbarkmp"))
 
             // Logger
@@ -72,11 +99,24 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
 
+            // Datetime
+            implementation(libs.kotlinx.datetime)
+
             // Image
             implementation(libs.kamel.image)
 
             // Paging
             implementation(libs.paging.compose.common)
+
+            // connectivity
+            // TODO CHANGE IT
+            implementation("com.plusmobileapps:konnectivity:0.1-alpha01")
+
+            // Image Picker
+            implementation(libs.peekaboo.image.picker)
+
+            // Permissions
+            implementation(libs.calf.permissions)
         }
 
         iosMain.dependencies {
@@ -97,8 +137,8 @@ android {
         applicationId = "org.konradjurkowski.moviehub"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "0.0.1"
+        versionName = versionProperties["versionName"].toString()
+        versionCode = versionProperties["versionCode"].toString().toInt()
     }
     packaging {
         resources {
@@ -110,12 +150,15 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     dependencies {
-        debugImplementation(libs.compose.ui.tooling)
+        debugImplementation(compose.uiTooling)
     }
 }
 

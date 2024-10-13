@@ -7,6 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Lock
@@ -26,6 +27,7 @@ import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.profile_screen_about_label
 import moviehub.composeapp.generated.resources.profile_screen_account_label
 import moviehub.composeapp.generated.resources.profile_screen_change_password_label
+import moviehub.composeapp.generated.resources.profile_screen_edit_user_data
 import moviehub.composeapp.generated.resources.profile_screen_delete_my_account_label
 import moviehub.composeapp.generated.resources.profile_screen_licenses_label
 import moviehub.composeapp.generated.resources.profile_screen_logout_label
@@ -40,10 +42,10 @@ fun ProfileScreen(
 ) {
     Scaffold(
         topBar = { LogoTopBar() },
-    ) { contentPadding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(contentPadding)
+                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
                 .padding(vertical = Dimens.padding16)
         ) {
@@ -59,6 +61,14 @@ fun ProfileScreen(
                 title = stringResource(Res.string.profile_screen_delete_my_account_label),
                 onClick = {
                     // TODO
+                },
+            )
+            SmallSpacer()
+            SettingsItem(
+                icon = Icons.Default.AccountCircle,
+                title = stringResource(Res.string.profile_screen_edit_user_data),
+                onClick = {
+                    onIntent(ProfileIntent.EditProfilePressed)
                 },
             )
             SmallSpacer()

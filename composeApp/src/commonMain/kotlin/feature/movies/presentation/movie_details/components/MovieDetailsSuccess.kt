@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.components.button.BoxButton
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.components.media.MediaInfo
 import core.components.media.MediaRating
 import core.components.media.cast.CastList
@@ -64,7 +64,6 @@ import moviehub.composeapp.generated.resources.ic_ticket
 import moviehub.composeapp.generated.resources.minutes_label
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MovieDetailsSuccess(
     movie: MovieDetails,
@@ -94,9 +93,9 @@ fun MovieDetailsSuccess(
     ) {
         Box(modifier = Modifier.height(screenSize.height * 0.6f)) {
             Box(modifier = Modifier.fillMaxSize()) {
-                NetworkImage(
+                AnyImage(
                     modifier = Modifier.fillMaxSize(),
-                    imageUrl = movie.backdropPath,
+                    image = movie.backdropPath,
                 )
                 Box(
                     modifier = Modifier
@@ -128,9 +127,9 @@ fun MovieDetailsSuccess(
                         shape = RoundedCornerShape(Dimens.radius12),
                         elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),
                     ) {
-                        NetworkImage(
+                        AnyImage(
                             modifier = Modifier.fillMaxSize(),
-                            imageUrl = movie.posterPath,
+                            image = movie.posterPath,
                         )
                     }
                     RegularSpacer()
