@@ -10,19 +10,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import core.components.other.SmallSpacer
 import core.components.other.TinySpacer
-import core.components.user.UserAvatar
+import core.components.user.EditableUserAvatar
 import feature.auth.domain.AppUser
 
 @Composable
 fun UserDataSection(
     modifier: Modifier = Modifier,
     user: AppUser? = null,
+    onEditPressed: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        UserAvatar(imageUrl = user?.imageUrl)
+        EditableUserAvatar(
+            image = user?.imageUrl,
+            onEditPressed = onEditPressed,
+        )
         SmallSpacer()
         Text(
             text = user?.name ?: "",

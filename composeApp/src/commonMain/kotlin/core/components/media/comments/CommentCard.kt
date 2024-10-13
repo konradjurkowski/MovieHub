@@ -20,7 +20,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.components.media.RatingStars
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
@@ -99,11 +99,11 @@ private fun UserSection(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        NetworkImage(
+        AnyImage(
             modifier = Modifier
                 .size(30.dp)
                 .clip(RoundedCornerShape(Dimens.radius5)),
-            imageUrl = user.imageUrl,
+            image = user.imageUrl,
             placeholderRes = Res.drawable.user_placeholder,
         )
         RegularSpacer()

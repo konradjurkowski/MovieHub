@@ -27,6 +27,7 @@ class ProfileViewModel(
     override fun processIntent(intent: ProfileIntent) {
         when (intent) {
             ProfileIntent.LogoutPressed -> logout()
+            ProfileIntent.EditProfilePressed -> sendSideEffect(ProfileSideEffect.GoToProfileEditScreen)
         }
     }
 

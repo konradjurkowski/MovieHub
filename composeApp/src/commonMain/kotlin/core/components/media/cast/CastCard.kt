@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.components.other.SmallSpacer
 import core.theme.withA10
 import core.theme.withA60
@@ -42,11 +42,11 @@ fun CastCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            NetworkImage(
+            AnyImage(
                 modifier = Modifier
                     .size(85.dp)
                     .clip(RoundedCornerShape(Dimens.radius16)),
-                imageUrl = cast.profilePath,
+                image = cast.profilePath,
                 placeholderRes = Res.drawable.user_placeholder,
             )
             SmallSpacer()

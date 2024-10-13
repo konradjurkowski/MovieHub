@@ -9,6 +9,7 @@ import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.auth.presentation.login.LoginScreenRoot
 import feature.profile.presentation.profile.components.ProfileScreen
+import feature.profile.presentation.profile_edit.ProfileEditScreenRoot
 
 class ProfileScreenRoot : Screen {
     @Composable
@@ -19,6 +20,7 @@ class ProfileScreenRoot : Screen {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 ProfileSideEffect.GoToLoginScreen -> GlobalNavigators.navigator?.replaceAll(LoginScreenRoot())
+                ProfileSideEffect.GoToProfileEditScreen -> GlobalNavigators.navigator?.push(ProfileEditScreenRoot())
             }
         }
 

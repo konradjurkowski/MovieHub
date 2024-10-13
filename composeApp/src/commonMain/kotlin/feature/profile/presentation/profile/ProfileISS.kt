@@ -8,11 +8,13 @@ import feature.auth.domain.AppUser
 @MviIntent
 sealed class ProfileIntent {
     data object LogoutPressed : ProfileIntent()
+    data object EditProfilePressed : ProfileIntent()
 }
 
 @MviSideEffect
 sealed class ProfileSideEffect {
     data object GoToLoginScreen : ProfileSideEffect()
+    data object GoToProfileEditScreen : ProfileSideEffect()
 }
 
 @MviState

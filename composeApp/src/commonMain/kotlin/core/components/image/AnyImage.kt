@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -14,28 +15,41 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun NetworkImage(
+fun AnyImage(
     modifier: Modifier = Modifier,
-    imageUrl: String? = null,
+    image: Any? = null,
     contentScale: ContentScale = ContentScale.Crop,
     placeholderRes: DrawableResource = Res.drawable.placeholder,
 ) {
-    imageUrl?.let {
-        KamelImage(
-            modifier = modifier,
-            resource = asyncPainterResource(data = imageUrl),
-            contentDescription = null,
-            contentScale = contentScale,
-            onLoading = {
-                Surface(modifier, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)) { }
-            },
-            onFailure = { ImageItemPlaceholder(modifier, contentScale, placeholderRes) }
-        )
-    } ?: ImageItemPlaceholder(modifier, contentScale, placeholderRes)
+    when (image) {
+        is String -> {
+            KamelImage(
+                modifier = modifier,
+                resource = asyncPainterResource(data = image),
+                contentDescription = null,
+                contentScale = contentScale,
+                onLoading = {
+                    Surface(modifier, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)) { }
+                },
+                onFailure = { ImagePlaceholder(modifier, contentScale, placeholderRes) }
+            )
+        }
+
+        is ImageBitmap -> {
+            Image(
+                modifier = modifier,
+                bitmap = image,
+                contentScale = contentScale,
+                contentDescription = null,
+            )
+        }
+
+        else -> ImagePlaceholder(modifier, contentScale, placeholderRes)
+    }
 }
 
 @Composable
-private fun ImageItemPlaceholder(
+private fun ImagePlaceholder(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
     placeholderRes: DrawableResource = Res.drawable.placeholder,

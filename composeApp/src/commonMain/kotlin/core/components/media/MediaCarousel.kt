@@ -14,7 +14,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.util.lerp
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.utils.Dimens
 import core.utils.LocalTouchFeedback
 import core.utils.getScreenSizeInfo
@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MediaCarousel(
     modifier: Modifier = Modifier,
@@ -80,9 +79,9 @@ fun MediaCarousel(
                 },
             shape = RoundedCornerShape(Dimens.radius12),
         ) {
-            NetworkImage(
+            AnyImage(
                 modifier = Modifier.fillMaxSize(),
-                imageUrl = item.posterPath
+                image = item.posterPath,
             )
         }
     }

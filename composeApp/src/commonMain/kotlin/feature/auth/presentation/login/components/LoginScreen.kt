@@ -73,17 +73,17 @@ fun LoginScreen(
                     value = state.email,
                     onValueChange = { onIntent(LoginIntent.EmailChanged(it)) },
                     keyboardType = KeyboardType.Email,
-                    isError = state.loginState.isFailure() || !state.emailValidation.successful
+                    isError = state.loginState.isFailure() || !state.emailValidation.successful,
                 )
                 InvalidFieldMessage(
                     message = state.emailValidation.errorMessage.toDisplay(),
-                    isInvalid = !state.emailValidation.successful
+                    isInvalid = !state.emailValidation.successful,
                 )
                 RegularSpacer()
                 Row {
                     TextFieldLabel(
                         modifier = Modifier.weight(1f),
-                        text = stringResource(Res.string.password)
+                        text = stringResource(Res.string.password),
                     )
                     InteractiveText(text = stringResource(Res.string.login_screen_forgot_password_label)) {
                         onIntent(LoginIntent.ForgotPasswordPressed)

@@ -18,35 +18,79 @@
     <string name="forgot_password_screen_reset_password_label">Reset password</string>
     <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
 
-    <!--Validation-->
-    <string name="empty_field">Field cannot be empty.</string>
-    <string name="invalid_email">Email is invalid.</string>
-    <string name="invalid_password">Password is invalid.</string>
-    <string name="passwords_do_not_match">Passwords do not match.</string>
-
     <!--Add Screen-->
     <string name="add_screen_add_movie_label">Add movie</string>
     <string name="add_screen_add_series_label">Add series</string>
 
-    <!--Add Movie Screen-->
-    <string name="add_movie_screen_add_label">Add movie</string>
-    <string name="add_movie_screen_add_success">Movie has been added.</string>
+    <!--Search Movie Screen-->
+    <string name="search_movie_screen_add_success">Movie has been added.</string>
 
-    <!--Add Series Screen-->
-    <string name="add_series_screen_add_label">Add series</string>
-    <string name="add_series_screen_add_success">Series has been added.</string>
+    <!--Search Series Screen-->
+    <string name="search_series_screen_add_success">Series has been added.</string>
 
     <!--Add Rating Screen-->
     <string name="add_rating_screen_comment_label">Comment</string>
     <string name="add_rating_screen_rating_label">Rating</string>
     <string name="add_rating_screen_rating_added">The rating has been added</string>
 
+    <!--Profile Screen-->
+    <string name="profile_screen_account_label">Account</string>
+    <string name="profile_screen_support_label">Support</string>
+    <string name="profile_screen_delete_my_account_label">Delete my account</string>
+    <string name="profile_screen_change_password_label">Change password</string>
+    <string name="profile_screen_about_label">About</string>
+    <string name="profile_screen_report_problem_label">Report problem</string>
+    <string name="profile_screen_licenses_label">Licenses</string>
+    <string name="profile_screen_logout_label">Logout</string>
+    <string name="profile_screen_version_label">Version</string>
+
+    <!--Profile Edit Screen-->
+    <string name="profile_edit_screen_name_label">Name</string>
+    <string name="profile_edit_screen_description_label">Description</string>
+    <string name="profile_edit_screen_email_label">Email</string>
+    <string name="profile_edit_screen_save_button">Save</string>
+    <string name="profile_edit_screen_edit_success">Profile successfully updated.</string>
+
+    <!--Media-->
+    <string name="writer_label">Writer</string>
+    <string name="director_label">Director</string>
+
+    <!--Navigation Tabs-->
+    <string name="home_tab_label">Home</string>
+    <string name="movies_tab_label">Movies</string>
+    <string name="series_tab_label">Series</string>
+    <string name="profile_tab_label">Profile</string>
+
+    <!--Media Tabs-->
+    <string name="info_tab_label">Information</string>
+    <string name="comments_tab_label">Comments</string>
+    <string name="cast_tab_label">Cast</string>
+
+    <!--Validation-->
+    <string name="empty_field">Field cannot be empty.</string>
+    <string name="invalid_email">Email is invalid.</string>
+    <string name="invalid_password">Password is invalid.</string>
+    <string name="passwords_do_not_match">Passwords do not match.</string>
+
+    <!--Error-->
+    <string name="invalid_credentials">Please check your email and password and try again.</string>
+    <string name="something_went_wrong">Something went wrong, check your Internet connection and try again.</string>
+    <string name="email_already_exists">Email already exists, please try another.</string>
+    <string name="too_many_requests">Request failed due to too many attempts. Please try again later.</string>
+
+    <!--Permissions-->
+    <string name="permission_required">Permission required</string>
+    <string name="permission_gallery_permanently_denied">It looks like you have permanently denied access to the gallery. Please go to the app settings to grant permission.</string>
+    <string name="permission_confirm_button">OK</string>
+
     <!--Other-->
+    <string name="minutes_label">minutes</string>
+    <string name="seasons_label">seasons</string>
     <string name="name">Name</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="repeat_password">Repeat password</string>
-    <string name="search_label">Search</string>
+    <string name="clear_label">Clear</string>"
     <string name="empty_view_title">No data available</string>
     <string name="empty_view_message">There are no items to display</string>
     <string name="error_label">Error</string>
@@ -58,21 +102,4 @@
     <string name="save_label">Save</string>
     <string name="edit_label">Edit</string>
     <string name="delete_label">Delete</string>
-
-    <!--Error-->
-    <string name="invalid_credentials">Please check your email and password and try again.</string>
-    <string name="something_went_wrong">Something went wrong, check your Internet connection and try again.</string>
-    <string name="email_already_exists">Email already exists, please try another.</string>
-    <string name="too_many_requests">Request failed due to too many attempts. Please try again later.</string>"
-
-    <!--Tabs-->
-    <string name="home_tab_label">Home</string>
-    <string name="movies_tab_label">Movies</string>
-    <string name="series_tab_label">Series</string>
-    <string name="profile_tab_label">Profile</string>
-
-    <!--Media Tabs-->
-    <string name="info_tab_label">Information</string>
-    <string name="comments_tab_label">Comments</string>
-    <string name="cast_tab_label">Cast</string>
 </resources>

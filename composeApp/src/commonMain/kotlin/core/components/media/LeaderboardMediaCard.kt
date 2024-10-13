@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
 import core.theme.bronzeBorderColor
@@ -80,11 +80,11 @@ fun LeaderboardMediaCard(
                     .padding(horizontal = Dimens.padding10, vertical = Dimens.padding8),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                NetworkImage(
+                AnyImage(
                     modifier = Modifier
                         .size(65.dp)
                         .clip(RoundedCornerShape(Dimens.radius10)),
-                    imageUrl = imageUrl,
+                    image = imageUrl,
                 )
                 RegularSpacer()
                 Column(

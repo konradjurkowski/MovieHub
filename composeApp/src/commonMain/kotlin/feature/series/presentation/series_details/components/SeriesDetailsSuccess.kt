@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.components.button.BoxButton
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.components.media.MediaInfo
 import core.components.media.MediaRating
 import core.components.media.cast.CastList
@@ -94,9 +94,9 @@ fun SeriesDetailsSuccess(
     ) {
         Box(modifier = Modifier.height(screenSize.height * 0.6f)) {
             Box(modifier = Modifier.fillMaxSize()) {
-                NetworkImage(
+                AnyImage(
                     modifier = Modifier.fillMaxSize(),
-                    imageUrl = series.backdropPath,
+                    image = series.backdropPath,
                 )
                 Box(
                     modifier = Modifier
@@ -128,9 +128,9 @@ fun SeriesDetailsSuccess(
                         shape = RoundedCornerShape(Dimens.radius12),
                         elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),
                     ) {
-                        NetworkImage(
+                        AnyImage(
                             modifier = Modifier.fillMaxSize(),
-                            imageUrl = series.posterPath,
+                            image = series.posterPath,
                         )
                     }
                     RegularSpacer()

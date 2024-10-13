@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import core.components.image.NetworkImage
+import core.components.image.AnyImage
 import core.theme.withA70
 import core.utils.Dimens
 import core.utils.LocalTouchFeedback
@@ -46,9 +46,9 @@ fun SearchMediaCard(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            NetworkImage(
+            AnyImage(
                 modifier = Modifier.fillMaxSize(),
-                imageUrl = imageUrl,
+                image = imageUrl,
             )
             Box(
                 modifier = Modifier

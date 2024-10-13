@@ -3,9 +3,7 @@ package core.di
 import com.plusmobileapps.konnectivity.Konnectivity
 import core.tools.logger.KtorLogger
 import core.utils.Constants
-import core.utils.getPlatform
-import core.utils.isDebug
-import core.utils.languageCode
+import core.utils.PlatformInfo
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -31,7 +29,7 @@ val networkModule = module {
 
     single<HttpClient> {
         HttpClient {
-            if (getPlatform().isDebug) {
+            if (PlatformInfo.isDebug) {
                 install(Logging) {
                     logger = KtorLogger()
                     level = LogLevel.ALL
@@ -47,7 +45,7 @@ val networkModule = module {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = Constants.BASE_URL
-                    parameters.append("language", getPlatform().languageCode)
+                    parameters.append("language", PlatformInfo.getLanguageCode())
                 }
                 header("Authorization", "Bearer ${Constants.API_KEY}")
             }

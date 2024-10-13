@@ -7,11 +7,11 @@ android-targetSdk = "34"
 buildKonfig = "0.15.1"
 # Compose
 androidx-activityCompose = "1.9.0"
-compose-plugin = "1.6.2"
+compose-plugin = "1.7.0-alpha02"
 # Kotlin
 kamelImage = "0.9.4"
 kermit = "2.0.3"
-kotlin = "1.9.23"
+kotlin = "2.0.20"
 coroutines = "1.8.0"
 kotlinxDatetime = "0.6.0"
 stately = "2.0.6"
@@ -22,7 +22,7 @@ voyager = "1.0.0"
 # DI
 koin = "3.5.3"
 # Firebase
-firebase-gitlive-sdk = "1.13.0"
+firebase-gitlive-sdk = "2.1.0"
 # Gradle
 gradlePlugins-google-services = "4.4.2"
 gradlePlugins-crashlytics = "3.0.2"
@@ -60,6 +60,7 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "gradlePlugins-google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "gradlePlugins-crashlytics" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
