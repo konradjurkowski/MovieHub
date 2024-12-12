@@ -1,8 +1,7 @@
-package feature.add.data.movie
+package feature.movies.data.api
 
 import androidx.paging.PagingSource
 import app.cash.paging.PagingState
-import feature.movies.data.api.MovieApi
 import feature.movies.data.api.dto.MoviesResponse
 import feature.movies.data.api.dto.toDomain
 import feature.movies.domain.model.Movie

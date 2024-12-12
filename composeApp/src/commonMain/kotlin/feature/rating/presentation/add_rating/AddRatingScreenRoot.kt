@@ -21,11 +21,13 @@ class AddRatingScreenRoot(
     val isMovie: Boolean = true,
     val firebaseRating: FirebaseRating? = null,
 ) : Screen {
+
     @Composable
     override fun Content() {
+        val snackbarState = LocalSnackbarState.current
+
         val viewModel = getScreenModel<AddRatingViewModel> { parametersOf(mediaId) }
         val state by viewModel.viewState.collectAsState()
-        val snackbarState = LocalSnackbarState.current
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {

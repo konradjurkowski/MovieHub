@@ -20,9 +20,8 @@ fun LogoTopBar(
     val deviceWidth = getScreenSizeInfo().width
     TopAppBar(
         modifier = modifier,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-        ),
+        colors = TopAppBarDefaults
+            .topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
         title = {
             Image(
                 modifier = Modifier.width(deviceWidth * 0.4f),

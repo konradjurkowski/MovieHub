@@ -30,6 +30,7 @@ fun SettingsItem(
     onClick: () -> Unit,
 ) {
     val touchFeedback = LocalTouchFeedback.current
+
     Column(
         modifier = modifier.clickable {
             onClick()
@@ -52,7 +53,7 @@ fun SettingsItem(
                 modifier = Modifier.weight(1f),
                 text = title,
                 color = MaterialTheme.colorScheme.onBackground,
-                )
+            )
             RegularSpacer()
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

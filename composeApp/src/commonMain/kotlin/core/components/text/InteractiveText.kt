@@ -22,6 +22,6 @@ fun InteractiveText(
         text = text,
         style = textStyle,
         color = MaterialTheme.colorScheme.primary,
-        textAlign = textAlign
+        textAlign = textAlign,
     )
 }

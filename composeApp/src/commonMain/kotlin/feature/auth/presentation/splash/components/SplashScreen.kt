@@ -25,7 +25,7 @@ fun SplashScreen() {
             modifier = Modifier
                 .width(screenSize.width * 0.7f),
             painter = painterResource(Res.drawable.ic_logo),
-            contentDescription = "Splash logo"
+            contentDescription = "Splash logo",
         )
     }
 }

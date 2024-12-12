@@ -113,7 +113,7 @@ fun ProfileEditScreen(
                             ProfileEditIntent.SavePressed(
                                 state.name,
                                 state.description,
-                                state.image
+                                state.image,
                             )
                         )
                     },

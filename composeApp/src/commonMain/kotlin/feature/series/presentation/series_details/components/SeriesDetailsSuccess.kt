@@ -1,17 +1,14 @@
 package feature.series.presentation.series_details.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
@@ -27,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -38,7 +34,6 @@ import core.components.button.BoxButton
 import core.components.image.AnyImage
 import core.components.media.MediaInfo
 import core.components.media.MediaRating
-import core.components.media.cast.CastList
 import core.components.media.comments.CommentList
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
@@ -56,7 +51,6 @@ import feature.movies.domain.model.FirebaseRating
 import feature.series.domain.model.FirebaseSeries
 import feature.series.domain.model.SeriesDetails
 import feature.series.presentation.info_tab.SeriesInfoTab
-import kotlinx.coroutines.launch
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_calendar
 import moviehub.composeapp.generated.resources.ic_clock
@@ -64,7 +58,6 @@ import moviehub.composeapp.generated.resources.ic_ticket
 import moviehub.composeapp.generated.resources.seasons_label
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SeriesDetailsSuccess(
     series: SeriesDetails,
@@ -81,7 +74,6 @@ fun SeriesDetailsSuccess(
     val screenSize = getScreenSizeInfo()
     val pagerState = rememberPagerState(pageCount = { MediaTab.entries.size })
     val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedTab) {
         pagerState.scrollToPage(selectedTab)
@@ -186,18 +178,16 @@ fun SeriesDetailsSuccess(
                 .fillMaxWidth(),
             selectedTabIndex = selectedTab,
             tabs = MediaTab.entries.map { stringResource(it.stringRes) },
-            onTabPressed = { tab ->
-                scope.launch { scrollState.animateScrollTo(scrollState.maxValue) }
-                onTabPressed(tab)
-            },
+            onTabPressed = {  onTabPressed(it) },
         )
         SmallSpacer()
         HorizontalPager(
             modifier = Modifier
-                .height(screenSize.height * 0.7f)
-                .padding(WindowInsets.navigationBars.asPaddingValues()),
+                .defaultMinSize(minHeight = screenSize.height * 0.8f)
+                .fillMaxWidth(),
             state = pagerState,
             userScrollEnabled = false,
+            verticalAlignment = Alignment.Top,
         ) { index ->
             when (index) {
                 MediaTab.INFO.ordinal -> SeriesInfoTab(series = series, castData = castData)
@@ -209,7 +199,6 @@ fun SeriesDetailsSuccess(
                         onDeletePressed = onDeleteCommentPressed,
                     )
                 }
-                MediaTab.CAST.ordinal -> CastList(casts = castData.cast)
             }
         }
     }

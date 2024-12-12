@@ -1,17 +1,14 @@
 package feature.movies.presentation.movie_details.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
@@ -27,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -38,7 +34,6 @@ import core.components.button.BoxButton
 import core.components.image.AnyImage
 import core.components.media.MediaInfo
 import core.components.media.MediaRating
-import core.components.media.cast.CastList
 import core.components.media.comments.CommentList
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
@@ -56,7 +51,6 @@ import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.MovieDetails
 import feature.movies.presentation.info_tab.MovieInfoTab
-import kotlinx.coroutines.launch
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_calendar
 import moviehub.composeapp.generated.resources.ic_clock
@@ -80,7 +74,6 @@ fun MovieDetailsSuccess(
     val screenSize = getScreenSizeInfo()
     val pagerState = rememberPagerState(pageCount = { MediaTab.entries.size })
     val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedTab) {
         pagerState.scrollToPage(selectedTab)
@@ -104,7 +97,7 @@ fun MovieDetailsSuccess(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
                                     Color.Transparent,
-                                    MaterialTheme.colorScheme.background
+                                    MaterialTheme.colorScheme.background,
                                 ),
                             )
                         )
@@ -136,7 +129,7 @@ fun MovieDetailsSuccess(
                     Text(
                         text = movie.title,
                         style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                     RegularSpacer()
                     Row(
@@ -185,18 +178,16 @@ fun MovieDetailsSuccess(
                 .fillMaxWidth(),
             selectedTabIndex = selectedTab,
             tabs = MediaTab.entries.map { stringResource(it.stringRes) },
-            onTabPressed = {  tab ->
-                scope.launch { scrollState.animateScrollTo(scrollState.maxValue) }
-                onTabPressed(tab)
-            },
+            onTabPressed = {  onTabPressed(it) },
         )
         SmallSpacer()
         HorizontalPager(
             modifier = Modifier
-                .height(screenSize.height * 0.7f)
-                .padding(WindowInsets.navigationBars.asPaddingValues()),
+                .defaultMinSize(minHeight = screenSize.height * 0.8f)
+                .fillMaxWidth(),
             state = pagerState,
             userScrollEnabled = false,
+            verticalAlignment = Alignment.Top,
         ) { index ->
             when (index) {
                 MediaTab.INFO.ordinal -> MovieInfoTab(movie = movie, castData = castData)
@@ -208,7 +199,6 @@ fun MovieDetailsSuccess(
                         onDeletePressed =  onDeleteCommentPressed,
                     )
                 }
-                MediaTab.CAST.ordinal -> CastList(casts = castData.cast)
             }
         }
     }

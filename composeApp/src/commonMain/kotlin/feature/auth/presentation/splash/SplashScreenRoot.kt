@@ -11,6 +11,7 @@ import feature.auth.presentation.splash.components.SplashScreen
 import feature.home.presentation.main.MainScreenRoot
 
 class SplashScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow

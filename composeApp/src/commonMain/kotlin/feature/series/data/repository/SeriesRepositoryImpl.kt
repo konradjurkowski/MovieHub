@@ -50,13 +50,12 @@ class SeriesRepositoryImpl(
                 .collection(FirebaseConstants.SERIES_COLLECTION)
                 .where { FirebaseConstants.SERIES_ID equalTo seriesId }
                 .get()
-            if (querySnapshot.documents.isNotEmpty()) {
-                val series =
-                    querySnapshot.documents.map { it.data(FirebaseSeries.serializer()) }.first()
-                return Resource.Success(series)
-            } else {
-                Resource.Failure(FailureResponseException())
+            if (querySnapshot.documents.isEmpty()) {
+                return Resource.Failure(FailureResponseException())
             }
+
+            val series = querySnapshot.documents.map { it.data(FirebaseSeries.serializer()) }.first()
+            Resource.Success(series)
         } catch (e: Exception) {
             Resource.Failure(e)
         }
@@ -100,17 +99,17 @@ class SeriesRepositoryImpl(
                 .where { FirebaseConstants.SERIES_ID equalTo series.id }
                 .get()
             if (querySnapshot.documents.isEmpty()) {
-                val firebaseSeries = series.toFirebaseSeries(
-                    createdAt = Clock.System.now(),
-                    updatedAt = Clock.System.now(),
-                )
-                val result = firestore
-                    .collection(FirebaseConstants.SERIES_COLLECTION)
-                    .add(firebaseSeries)
-                Resource.Success(result)
-            } else {
-                Resource.Failure(FirebaseSeriesExistException())
+                return@runWithTimeout Resource.Failure(FirebaseSeriesExistException())
             }
+
+            val firebaseSeries = series.toFirebaseSeries(
+                createdAt = Clock.System.now(),
+                updatedAt = Clock.System.now(),
+            )
+            val result = firestore
+                .collection(FirebaseConstants.SERIES_COLLECTION)
+                .add(firebaseSeries)
+            Resource.Success(result)
         }
 
     override suspend fun addFirebaseRating(
@@ -126,46 +125,45 @@ class SeriesRepositoryImpl(
             .collection(FirebaseConstants.SERIES_COLLECTION)
             .where { FirebaseConstants.SERIES_ID equalTo seriesId }
             .get()
-        if (querySnapshot.documents.isNotEmpty()) {
-            val userId = Firebase.auth.currentUser?.uid ?: return@runWithTimeout Resource.Failure(
-                FailureResponseException()
-            )
-            val document = querySnapshot.documents.first()
-            val series = document.data(FirebaseSeries.serializer())
-            val ratingList = series.ratings.toMutableList()
-            val seriesIndex = ratingList.indexOfFirst { it.userId == userId }
-
-            if (seriesIndex == -1) {
-                val firebaseRating = FirebaseRating(
-                    userId = userId,
-                    rating = rating,
-                    comment = comment,
-                    createdAt = Clock.System.now(),
-                )
-                ratingList.add(firebaseRating)
-            } else {
-                val firebaseRating = ratingList[seriesIndex]
-                val updatedFirebaseRating = firebaseRating.copy(
-                    rating = rating,
-                    comment = comment,
-                    createdAt = Clock.System.now(),
-                )
-                ratingList[seriesIndex] = updatedFirebaseRating
-            }
-
-            val updatedSeries = series.copy(
-                ratings = ratingList,
-                averageRating = ratingList.calculateAvgRating(),
-                updatedAt = Clock.System.now(),
-            )
-            firestore
-                .collection(FirebaseConstants.SERIES_COLLECTION)
-                .document(document.id)
-                .update(updatedSeries)
-            Resource.Success(updatedSeries)
-        } else {
-            Resource.Failure(FirebaseSeriesNotExistException())
+        if (querySnapshot.documents.isEmpty()) {
+            return@runWithTimeout Resource.Failure(FirebaseSeriesNotExistException())
         }
+
+        val userId = Firebase.auth.currentUser?.uid
+            ?: return@runWithTimeout Resource.Failure(FailureResponseException())
+        val document = querySnapshot.documents.first()
+        val series = document.data(FirebaseSeries.serializer())
+        val ratingList = series.ratings.toMutableList()
+        val seriesIndex = ratingList.indexOfFirst { it.userId == userId }
+
+        if (seriesIndex == -1) {
+            val firebaseRating = FirebaseRating(
+                userId = userId,
+                rating = rating,
+                comment = comment,
+                createdAt = Clock.System.now(),
+            )
+            ratingList.add(firebaseRating)
+        } else {
+            val firebaseRating = ratingList[seriesIndex]
+            val updatedFirebaseRating = firebaseRating.copy(
+                rating = rating,
+                comment = comment,
+                createdAt = Clock.System.now(),
+            )
+            ratingList[seriesIndex] = updatedFirebaseRating
+        }
+
+        val updatedSeries = series.copy(
+            ratings = ratingList,
+            averageRating = ratingList.calculateAvgRating(),
+            updatedAt = Clock.System.now(),
+        )
+        firestore
+            .collection(FirebaseConstants.SERIES_COLLECTION)
+            .document(document.id)
+            .update(updatedSeries)
+        Resource.Success(updatedSeries)
     }
 
     override suspend fun deleteFirebaseRating(
@@ -180,25 +178,25 @@ class SeriesRepositoryImpl(
             .collection(FirebaseConstants.SERIES_COLLECTION)
             .where { FirebaseConstants.SERIES_ID equalTo seriesId }
             .get()
-        if (querySnapshot.documents.isNotEmpty()) {
-            val document = querySnapshot.documents.first()
-            val series = document.data(FirebaseSeries.serializer())
-            val ratingList = series.ratings.toMutableList()
-            ratingList.removeAll { it.userId == rating.userId }
-
-            val updatedSeries = series.copy(
-                ratings = ratingList,
-                averageRating = ratingList.calculateAvgRating(),
-                updatedAt = Clock.System.now(),
-            )
-
-            firestore
-                .collection(FirebaseConstants.SERIES_COLLECTION)
-                .document(document.id)
-                .update(updatedSeries)
-            Resource.Success(updatedSeries)
-        } else {
-            Resource.Failure(FirebaseSeriesNotExistException())
+        if (querySnapshot.documents.isEmpty()) {
+            return@runWithTimeout Resource.Failure(FirebaseSeriesNotExistException())
         }
+
+        val document = querySnapshot.documents.first()
+        val series = document.data(FirebaseSeries.serializer())
+        val ratingList = series.ratings.toMutableList()
+        ratingList.removeAll { it.userId == rating.userId }
+
+        val updatedSeries = series.copy(
+            ratings = ratingList,
+            averageRating = ratingList.calculateAvgRating(),
+            updatedAt = Clock.System.now(),
+        )
+
+        firestore
+            .collection(FirebaseConstants.SERIES_COLLECTION)
+            .document(document.id)
+            .update(updatedSeries)
+        Resource.Success(updatedSeries)
     }
 }

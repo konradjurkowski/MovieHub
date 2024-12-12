@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class SeriesViewModel(
     private val repository: SeriesRepository,
-    private val dispatchersProvider: DispatchersProvider,
     private val eventBus: EventBus,
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SeriesIntent, SeriesSideEffect, SeriesState>() {
 
     init {

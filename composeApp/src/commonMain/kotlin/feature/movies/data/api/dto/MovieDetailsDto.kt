@@ -71,7 +71,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails {
         homepage = homepage,
         originCountry = originCountry,
         originalTitle = originalTitle,
-        adult = adult
+        adult = adult,
     )
 }
 

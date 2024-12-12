@@ -1,7 +1,6 @@
 package com.konradjurkowski.snackbarkmp
 
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -15,7 +14,6 @@ sealed class SnackBarData(
         override val duration: SnackBarDuration = SnackBarDuration.MEDIUM
     ) : SnackBarData(snackBarType, duration)
 
-    @OptIn(ExperimentalResourceApi::class)
     data class SnackBarResourceData(
         val messageResId: StringResource,
         override val snackBarType: SnackBarType = SnackBarType.SUCCESS,
@@ -23,7 +21,6 @@ sealed class SnackBarData(
     ) : SnackBarData(snackBarType, duration)
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SnackBarData.getMessage(): String {
     return when (this) {

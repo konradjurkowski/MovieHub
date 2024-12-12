@@ -12,6 +12,7 @@ import feature.profile.presentation.profile.components.ProfileScreen
 import feature.profile.presentation.profile_edit.ProfileEditScreenRoot
 
 class ProfileScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<ProfileViewModel>()

@@ -6,10 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.paging.LoadState
 import dev.gitlive.firebase.FirebaseNetworkException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -38,13 +35,6 @@ fun Modifier.clearFocus(): Modifier = composed {
     clickable(indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         focusManager.clearFocus()
-    }
-}
-
-@Composable
-fun TextUnit.toDp(): Dp {
-    return with(LocalDensity.current) {
-        this@toDp.toDp()
     }
 }
 

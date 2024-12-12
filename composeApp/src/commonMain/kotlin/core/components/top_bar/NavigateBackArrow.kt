@@ -15,6 +15,7 @@ fun NavigateBackArrow() {
     val navigator = LocalNavigator.currentOrThrow
     val touchFeedback = LocalTouchFeedback.current
     val focusManager = LocalFocusManager.current
+
     IconButton(
         onClick = {
             touchFeedback.performLongPress()

@@ -11,6 +11,7 @@ import feature.series.presentation.series.components.SeriesScreen
 import feature.series.presentation.series_details.SeriesDetailsScreenRoot
 
 class SeriesScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<SeriesViewModel>()

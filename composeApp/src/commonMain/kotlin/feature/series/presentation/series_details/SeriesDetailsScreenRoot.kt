@@ -14,13 +14,13 @@ import feature.rating.presentation.add_rating.AddRatingScreenRoot
 import feature.series.presentation.series_details.components.SeriesDetailsScreen
 import org.koin.core.parameter.parametersOf
 
-class SeriesDetailsScreenRoot(
-    val seriesId: Long,
-) : Screen {
+class SeriesDetailsScreenRoot(val seriesId: Long) : Screen {
+
     @Composable
     override fun Content() {
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
+
         val viewModel = getScreenModel<SeriesDetailsViewModel> { parametersOf(seriesId) }
         val state by viewModel.viewState.collectAsState()
 

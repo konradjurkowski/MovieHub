@@ -14,10 +14,12 @@ import feature.auth.presentation.register.components.RegisterScreen
 import feature.home.presentation.main.MainScreenRoot
 
 class RegisterScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val snackbarState = LocalSnackbarState.current
+
         val viewModel = getScreenModel<RegisterViewModel>()
         val state by viewModel.viewState.collectAsState()
 

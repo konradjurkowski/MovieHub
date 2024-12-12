@@ -36,9 +36,8 @@ fun SearchTopBar(
 
     TopAppBar(
         modifier = modifier,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-        ),
+        colors = TopAppBarDefaults
+            .topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
         title = {
             InputTextField(
                 modifier = Modifier.focusRequester(focusRequester),

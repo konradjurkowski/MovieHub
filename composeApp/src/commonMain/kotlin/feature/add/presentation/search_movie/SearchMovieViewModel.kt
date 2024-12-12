@@ -10,7 +10,7 @@ import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
-import feature.add.data.movie.MoviePagingSource
+import feature.movies.data.api.MoviePagingSource
 import feature.movies.data.api.MovieApi
 import feature.movies.data.repository.MovieRepository
 import feature.movies.domain.model.Movie

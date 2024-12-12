@@ -1,9 +1,8 @@
 package core.components.media.comments
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,12 +24,12 @@ fun CommentList(
     if (ratings.isEmpty()) return EmptyView()
 
     val user = Firebase.auth.currentUser
-    LazyColumn(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = Dimens.padding16),
     ) {
-        itemsIndexed(ratings) { index, rating ->
+        ratings.forEachIndexed { index, rating ->
             val commentUser = users.firstOrNull { rating.userId == it.userId }
             val isUserComment = commentUser?.userId == user?.uid
             commentUser?.let {
@@ -40,7 +39,7 @@ fun CommentList(
                     rating = rating,
                     user = commentUser,
                     onEditPressed = if (isUserComment) onEditPressed else null,
-                    onDeletePressed = if (isUserComment) onDeletePressed else null
+                    onDeletePressed = if (isUserComment) onDeletePressed else null,
                 )
             }
         }

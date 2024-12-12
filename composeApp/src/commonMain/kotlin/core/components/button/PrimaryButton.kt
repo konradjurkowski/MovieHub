@@ -36,7 +36,7 @@ fun PrimaryButton(
         },
         contentPadding = PaddingValues(
             vertical = verticalPadding,
-            horizontal = horizontalPadding
+            horizontal = horizontalPadding,
         ),
         enabled = enabled,
         shape = RoundedCornerShape(Dimens.radius12),
@@ -48,7 +48,7 @@ fun PrimaryButton(
         if (loading) {
             LoadingIndicator(
                 size = Dimens.buttonLoadingSize,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         } else {
             Text(

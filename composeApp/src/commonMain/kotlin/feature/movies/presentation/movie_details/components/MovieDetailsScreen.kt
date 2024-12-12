@@ -29,9 +29,10 @@ fun MovieDetailsScreen(
                             .fillMaxSize()
                             .padding(horizontal = Dimens.padding16),
                     ) {
-                        BoxButton(modifier = Modifier.safeDrawingPadding()) {
-                            onIntent(MovieDetailsIntent.BackPressed)
-                        }
+                        BoxButton(
+                            modifier = Modifier.safeDrawingPadding(),
+                            onClick = { onIntent(MovieDetailsIntent.BackPressed) },
+                        )
                         LoadingIndicator(modifier = Modifier.fillMaxSize().weight(1f))
                     }
                 }
@@ -56,12 +57,14 @@ fun MovieDetailsScreen(
                             .fillMaxSize()
                             .padding(horizontal = Dimens.padding16),
                     ) {
-                        BoxButton(modifier = Modifier.safeDrawingPadding()) {
-                            onIntent(MovieDetailsIntent.BackPressed)
-                        }
-                        FailureWidget(modifier = Modifier.weight(1f)) {
-                            onIntent(MovieDetailsIntent.Refresh)
-                        }
+                        BoxButton(
+                            modifier = Modifier.safeDrawingPadding(),
+                            onClick = { onIntent(MovieDetailsIntent.BackPressed) },
+                        )
+                        FailureWidget(
+                            modifier = Modifier.weight(1f),
+                            onButtonClick = { onIntent(MovieDetailsIntent.Refresh) },
+                        )
                     }
                 }
             }

@@ -13,10 +13,9 @@ import core.utils.getFailureMessage
 import feature.auth.presentation.forgot_password.components.ForgotPasswordScreen
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.forgot_password_screen_reset_password_success
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 class ForgotPasswordScreenRoot : Screen {
-    @OptIn(ExperimentalResourceApi::class)
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow

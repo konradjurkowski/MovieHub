@@ -2,16 +2,16 @@ package feature.auth.presentation.register
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val formValidator: FormValidator,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<RegisterIntent, RegisterSideEffect, RegisterState>() {
     override fun getDefaultState(): RegisterState = RegisterState()
 
@@ -64,7 +64,7 @@ class RegisterViewModel(
             !passwordValidation.successful || !repeatedPasswordValidation.successful) return
 
         updateViewState { copy(registerState = Resource.Loading) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch(dispatchersProvider.io) {
             val result = authService.signUp(name, email, password)
 
             when (result) {

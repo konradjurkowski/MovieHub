@@ -18,13 +18,13 @@ import kotlin.random.Random
 
 class SearchSeriesScreenRoot : Screen {
 
-    // TODO CREATE SCREEN WRAPPER AND OVVERIDE THIS VAUE
-    override val key: ScreenKey = super.key + "${Random.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE)}"
+    override val key: ScreenKey = super.key + Random.nextDouble()
 
     @Composable
     override fun Content() {
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
+
         val viewModel = getScreenModel<SearchSeriesViewModel>()
         val state by viewModel.viewState.collectAsState()
         val pagingSeries = viewModel.pager.collectAsLazyPagingItems()

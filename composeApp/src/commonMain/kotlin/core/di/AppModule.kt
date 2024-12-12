@@ -10,6 +10,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.crashlytics.crashlytics
 import dev.gitlive.firebase.firestore.firestore
+import dev.gitlive.firebase.storage.storage
 import org.koin.dsl.module
 
 val appModule = module {
@@ -20,6 +21,7 @@ val appModule = module {
     }
     single { Firebase.auth }
     single { Firebase.crashlytics }
+    single { Firebase.storage }
     single { EventBus() }
     single<DispatchersProvider> { CoroutineDispatchersProviderImpl() }
     factory<FormValidator> { FormValidatorImpl() }

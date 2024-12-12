@@ -9,5 +9,5 @@ data class SpokenLanguage (
     val englishName: String,
     @SerialName("iso_639_1")
     val iso639_1: String,
-    val name: String
+    val name: String,
 )

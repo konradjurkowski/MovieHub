@@ -31,7 +31,7 @@ fun SecondaryButton(
         },
         contentPadding = PaddingValues(
             vertical = verticalPadding,
-            horizontal = horizontalPadding
+            horizontal = horizontalPadding,
         ),
         shape = RoundedCornerShape(Dimens.radius12),
     ) {

@@ -41,7 +41,7 @@ fun StarRatingBar(
                         .size(starSize)
                         .selectable(
                             selected = isSelected,
-                            onClick = { onRatingChanged(i.toDouble()) }
+                            onClick = { onRatingChanged(i.toDouble()) },
                         )
                 )
             }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import app.cash.paging.compose.LazyPagingItems
 import core.components.media.PagingMediaList
 import core.components.top_bar.SearchTopBar

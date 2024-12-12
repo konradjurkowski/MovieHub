@@ -25,9 +25,11 @@ import moviehub.composeapp.generated.resources.profile_edit_screen_edit_success
 import org.jetbrains.compose.resources.stringResource
 
 class ProfileEditScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val snackbarState = LocalSnackbarState.current
+
         val viewModel = getScreenModel<ProfileEditViewModel>()
         val state by viewModel.viewState.collectAsState()
 
@@ -73,6 +75,7 @@ class ProfileEditScreenRoot : Screen {
             state = state,
             onIntent = viewModel::sendIntent,
         )
+
         if (state.showPermissionDialog) {
             PermissionDialog(
                 message = stringResource(Res.string.permission_gallery_permanently_denied),

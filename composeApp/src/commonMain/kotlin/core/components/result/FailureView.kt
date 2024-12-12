@@ -41,7 +41,7 @@ fun FailureWidget(
             modifier = Modifier.fillMaxWidth(),
             text = title,
             style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         SmallSpacer()
         Text(
@@ -50,7 +50,7 @@ fun FailureWidget(
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         RegularSpacer()
         SecondaryButton(

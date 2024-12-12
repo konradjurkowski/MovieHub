@@ -47,7 +47,7 @@ fun ProfileScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
-                .padding(vertical = Dimens.padding16)
+                .padding(vertical = Dimens.padding16),
         ) {
             UserDataSection(user = state.appUser)
             RegularSpacer()

@@ -21,7 +21,7 @@ class MovieDetailsViewModel(
     private val movieRepository: MovieRepository,
     private val authService: AuthService,
     private val eventBus: EventBus,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<MovieDetailsIntent, MovieDetailsSideEffect, MovieDetailsState>() {
 
     init {

@@ -9,9 +9,9 @@ import feature.auth.presentation.splash.SplashViewModel
 import org.koin.dsl.module
 
 val authModule = module {
-    single<AuthService> { AuthServiceImpl(get(), get()) }
+    single<AuthService> { AuthServiceImpl(get(), get(), get()) }
     factory<SplashViewModel> { SplashViewModel(get()) }
-    factory<LoginViewModel> { LoginViewModel(get(), get()) }
-    factory<ForgotPasswordViewModel> { ForgotPasswordViewModel(get(), get()) }
-    factory<RegisterViewModel> { RegisterViewModel(get(), get()) }
+    factory<LoginViewModel> { LoginViewModel(get(), get(), get()) }
+    factory<ForgotPasswordViewModel> { ForgotPasswordViewModel(get(), get(), get()) }
+    factory<RegisterViewModel> { RegisterViewModel(get(), get(), get()) }
 }

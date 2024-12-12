@@ -56,7 +56,7 @@ fun SearchMediaCard(
                     .height(48.dp)
                     .align(Alignment.BottomCenter)
                     .background(Color.Black.withA70())
-                    .padding(Dimens.padding8)
+                    .padding(Dimens.padding8),
             ) {
                 Text(
                     text = title,

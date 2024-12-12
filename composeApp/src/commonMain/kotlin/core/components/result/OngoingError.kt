@@ -34,7 +34,7 @@ fun OngoingError(
         horizontalArrangement = Arrangement.Center,
     ) {
         Icon(
-            imageVector =Icons.Default.Warning,
+            imageVector = Icons.Default.Warning,
             contentDescription = "Ongoing Error Icon",
         )
         SmallSpacer()

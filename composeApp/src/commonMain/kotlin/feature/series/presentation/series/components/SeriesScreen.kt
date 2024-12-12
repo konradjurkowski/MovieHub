@@ -26,6 +26,9 @@ fun SeriesScreen(
         topBar = { LogoTopBar() },
     ) { contentPadding ->
         when (state) {
+            Resource.Idle, Resource.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+            is Resource.Failure -> FailureWidget { onIntent(SeriesIntent.Refresh) }
+
             is Resource.Success -> {
                 if (state.data.isEmpty()) return@Scaffold EmptyView()
 
@@ -47,12 +50,6 @@ fun SeriesScreen(
                         )
                     }
                 }
-            }
-
-            Resource.Idle, Resource.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
-
-            is Resource.Failure -> {
-                FailureWidget { onIntent(SeriesIntent.Refresh) }
             }
         }
     }

@@ -33,6 +33,7 @@ class MovieRepositoryImpl(
     private val firestore: FirebaseFirestore,
     private val konnectivity: Konnectivity,
 ) : MovieRepository {
+
     override suspend fun getMovieById(movieId: Long): Resource<MovieDetails> =
         safeApiCall(call = { movieApi.getMovieById(movieId) }) { response ->
             Resource.Success(response.body<MovieDetailsDto>().toDomain())
@@ -51,13 +52,10 @@ class MovieRepositoryImpl(
                     FirebaseConstants.MOVIE_ID equalTo movieId
                 }
                 .get()
-            if (querySnapshot.documents.isNotEmpty()) {
-                val movie =
-                    querySnapshot.documents.map { it.data(FirebaseMovie.serializer()) }.first()
-                Resource.Success(movie)
-            } else {
-                Resource.Failure(FailureResponseException())
-            }
+            if (querySnapshot.documents.isEmpty()) return Resource.Failure(FailureResponseException())
+
+            val movie = querySnapshot.documents.map { it.data(FirebaseMovie.serializer()) }.first()
+            Resource.Success(movie)
         } catch (e: Exception) {
             Resource.Failure(e)
         }
@@ -102,18 +100,18 @@ class MovieRepositoryImpl(
                     FirebaseConstants.MOVIE_ID equalTo movie.id
                 }
                 .get()
-            if (querySnapshot.documents.isEmpty()) {
-                val firebaseMovie = movie.toFirebaseMovie(
-                    createdAt = Clock.System.now(),
-                    updatedAt = Clock.System.now(),
-                )
-                val result = firestore
-                    .collection(FirebaseConstants.MOVIES_COLLECTION)
-                    .add(firebaseMovie)
-                Resource.Success(result)
-            } else {
-                Resource.Failure(FirebaseMovieExistException())
+            if (querySnapshot.documents.isNotEmpty()) {
+                return@runWithTimeout Resource.Failure(FirebaseMovieExistException())
             }
+
+            val firebaseMovie = movie.toFirebaseMovie(
+                createdAt = Clock.System.now(),
+                updatedAt = Clock.System.now(),
+            )
+            val result = firestore
+                .collection(FirebaseConstants.MOVIES_COLLECTION)
+                .add(firebaseMovie)
+            Resource.Success(result)
         }
 
     override suspend fun addFirebaseRating(
@@ -129,46 +127,46 @@ class MovieRepositoryImpl(
             .collection(FirebaseConstants.MOVIES_COLLECTION)
             .where { FirebaseConstants.MOVIE_ID equalTo movieId }
             .get()
-        if (querySnapshot.documents.isNotEmpty()) {
-            val userId = Firebase.auth.currentUser?.uid ?: return@runWithTimeout Resource.Failure(
-                FailureResponseException()
-            )
-            val document = querySnapshot.documents.first()
-            val movie = document.data(FirebaseMovie.serializer())
-            val ratingList = movie.ratings.toMutableList()
-            val movieIndex = ratingList.indexOfFirst { it.userId == userId }
-
-            if (movieIndex == -1) {
-                val firebaseRating = FirebaseRating(
-                    userId = userId,
-                    rating = rating,
-                    comment = comment,
-                    createdAt = Clock.System.now(),
-                )
-                ratingList.add(firebaseRating)
-            } else {
-                val firebaseRating = ratingList[movieIndex]
-                val updatedFirebaseRating = firebaseRating.copy(
-                    rating = rating,
-                    comment = comment,
-                    createdAt = Clock.System.now(),
-                )
-                ratingList[movieIndex] = updatedFirebaseRating
-            }
-
-            val updatedMovie = movie.copy(
-                ratings = ratingList,
-                averageRating = ratingList.calculateAvgRating(),
-                updatedAt = Clock.System.now(),
-            )
-            firestore
-                .collection(FirebaseConstants.MOVIES_COLLECTION)
-                .document(document.id)
-                .update(updatedMovie)
-            Resource.Success(updatedMovie)
-        } else {
-            Resource.Failure(FirebaseMovieNotExistException())
+        if (querySnapshot.documents.isEmpty()) {
+            return@runWithTimeout Resource.Failure(FirebaseMovieNotExistException())
         }
+
+        val userId = Firebase.auth.currentUser?.uid
+            ?: return@runWithTimeout Resource.Failure(FailureResponseException())
+
+        val document = querySnapshot.documents.first()
+        val movie = document.data(FirebaseMovie.serializer())
+        val ratingList = movie.ratings.toMutableList()
+        val movieIndex = ratingList.indexOfFirst { it.userId == userId }
+
+        if (movieIndex == -1) {
+            val firebaseRating = FirebaseRating(
+                userId = userId,
+                rating = rating,
+                comment = comment,
+                createdAt = Clock.System.now(),
+            )
+            ratingList.add(firebaseRating)
+        } else {
+            val firebaseRating = ratingList[movieIndex]
+            val updatedFirebaseRating = firebaseRating.copy(
+                rating = rating,
+                comment = comment,
+                createdAt = Clock.System.now(),
+            )
+            ratingList[movieIndex] = updatedFirebaseRating
+        }
+
+        val updatedMovie = movie.copy(
+            ratings = ratingList,
+            averageRating = ratingList.calculateAvgRating(),
+            updatedAt = Clock.System.now(),
+        )
+        firestore
+            .collection(FirebaseConstants.MOVIES_COLLECTION)
+            .document(document.id)
+            .update(updatedMovie)
+        Resource.Success(updatedMovie)
     }
 
     override suspend fun deleteFirebaseRating(
@@ -183,25 +181,25 @@ class MovieRepositoryImpl(
             .collection(FirebaseConstants.MOVIES_COLLECTION)
             .where { FirebaseConstants.MOVIE_ID equalTo movieId }
             .get()
-        if (querySnapshot.documents.isNotEmpty()) {
-            val document = querySnapshot.documents.first()
-            val movie = document.data(FirebaseMovie.serializer())
-            val ratingList = movie.ratings.toMutableList()
-            ratingList.removeAll { it.userId == rating.userId }
-
-            val updatedMovie = movie.copy(
-                ratings = ratingList,
-                averageRating = ratingList.calculateAvgRating(),
-                updatedAt = Clock.System.now(),
-            )
-
-            firestore
-                .collection(FirebaseConstants.MOVIES_COLLECTION)
-                .document(document.id)
-                .update(updatedMovie)
-            Resource.Success(updatedMovie)
-        } else {
-            Resource.Failure(FirebaseMovieNotExistException())
+        if (querySnapshot.documents.isEmpty()) {
+            return@runWithTimeout Resource.Failure(FirebaseMovieNotExistException())
         }
+
+        val document = querySnapshot.documents.first()
+        val movie = document.data(FirebaseMovie.serializer())
+        val ratingList = movie.ratings.toMutableList()
+        ratingList.removeAll { it.userId == rating.userId }
+
+        val updatedMovie = movie.copy(
+            ratings = ratingList,
+            averageRating = ratingList.calculateAvgRating(),
+            updatedAt = Clock.System.now(),
+        )
+
+        firestore
+            .collection(FirebaseConstants.MOVIES_COLLECTION)
+            .document(document.id)
+            .update(updatedMovie)
+        Resource.Success(updatedMovie)
     }
 }

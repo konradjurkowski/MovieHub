@@ -18,13 +18,13 @@ import kotlin.random.Random
 
 class SearchMovieScreenRoot : Screen {
 
-    // TODO CREATE SCREEN WRAPPER AND OVVERIDE THIS VAUE
-    override val key: ScreenKey = super.key + "${Random.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE)}"
+    override val key: ScreenKey = super.key + Random.nextDouble()
 
     @Composable
     override fun Content() {
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
+
         val viewModel = getScreenModel<SearchMovieViewModel>()
         val state by viewModel.viewState.collectAsState()
         val pagingMovies = viewModel.pager.collectAsLazyPagingItems()

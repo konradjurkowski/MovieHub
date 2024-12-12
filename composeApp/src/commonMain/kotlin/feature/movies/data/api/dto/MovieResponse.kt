@@ -55,6 +55,6 @@ fun MovieDto.toDomain(): Movie {
         releaseDate = releaseDate,
         video = video,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
     )
 }

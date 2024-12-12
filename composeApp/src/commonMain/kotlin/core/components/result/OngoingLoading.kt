@@ -19,6 +19,6 @@ fun OngoingLoading(
             .height(Dimens.ongoingViewHeight)
             .fillMaxWidth()
             .padding(horizontal = Dimens.padding16)
-            .wrapContentWidth(Alignment.CenterHorizontally)
+            .wrapContentWidth(Alignment.CenterHorizontally),
     )
 }

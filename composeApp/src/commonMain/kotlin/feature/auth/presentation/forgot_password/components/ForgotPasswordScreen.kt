@@ -26,10 +26,8 @@ import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.email_address
 import moviehub.composeapp.generated.resources.forgot_password_screen_reset_password_label
 import moviehub.composeapp.generated.resources.forgot_password_screen_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ForgotPasswordScreen(
     state: ForgotPasswordState,
@@ -48,18 +46,18 @@ fun ForgotPasswordScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(Dimens.padding16)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             TextFieldLabel(text = stringResource(Res.string.email_address))
             SmallSpacer()
             InputTextField(
                 value = state.email,
                 onValueChange = { onIntent(ForgotPasswordIntent.EmailChanged(it)) },
-                isError = state.resetState.isFailure() || !state.emailValidation.successful
+                isError = state.resetState.isFailure() || !state.emailValidation.successful,
             )
             InvalidFieldMessage(
                 message = state.emailValidation.errorMessage.toDisplay(),
-                isInvalid = !state.emailValidation.successful
+                isInvalid = !state.emailValidation.successful,
             )
             RegularSpacer()
             PrimaryButton(

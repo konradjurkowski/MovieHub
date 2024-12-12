@@ -1,25 +1,25 @@
 package core.components.media.cast
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.components.image.AnyImage
-import core.components.other.SmallSpacer
-import core.theme.withA10
-import core.theme.withA60
+import core.theme.withA40
 import core.utils.Dimens
 import feature.movies.domain.model.Cast
 import moviehub.composeapp.generated.resources.Res
@@ -30,40 +30,45 @@ fun CastCard(
     modifier: Modifier = Modifier,
     cast: Cast,
 ) {
-    Surface(
+    Card(
         modifier = modifier
-            .aspectRatio(1f)
-            .padding(Dimens.padding8),
-        shape = RoundedCornerShape(Dimens.radius16),
-        color = MaterialTheme.colorScheme.onBackground.withA10(),
+            .height(150.dp)
+            .width(120.dp),
+        shape = RoundedCornerShape(Dimens.radius4),
     ) {
-        Column(
-            modifier = Modifier.padding(Dimens.padding8),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             AnyImage(
-                modifier = Modifier
-                    .size(85.dp)
-                    .clip(RoundedCornerShape(Dimens.radius16)),
+                modifier = Modifier.fillMaxSize(),
                 image = cast.profilePath,
                 placeholderRes = Res.drawable.user_placeholder,
             )
-            SmallSpacer()
-            Text(
-                text = cast.name,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center,
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.withA40()),
             )
-            Text(
-                text = cast.character ?: "",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onBackground.withA60(),
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center,
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = Dimens.padding4),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    text = cast.name,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = cast.character?.uppercase() ?: "",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
     }
 }

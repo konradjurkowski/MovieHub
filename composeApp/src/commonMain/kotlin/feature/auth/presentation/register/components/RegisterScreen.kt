@@ -48,6 +48,7 @@ fun RegisterScreen(
     onIntent: (RegisterIntent) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
+
     Scaffold(
         modifier = Modifier.clearFocus(),
         topBar = {
@@ -71,7 +72,7 @@ fun RegisterScreen(
             )
             InvalidFieldMessage(
                 message = state.nameValidation.errorMessage.toDisplay(),
-                isInvalid = !state.nameValidation.successful
+                isInvalid = !state.nameValidation.successful,
             )
             RegularSpacer()
             TextFieldLabel(text = stringResource(Res.string.email_address))
@@ -85,7 +86,7 @@ fun RegisterScreen(
             )
             InvalidFieldMessage(
                 message = state.emailValidation.errorMessage.toDisplay(),
-                isInvalid = !state.emailValidation.successful
+                isInvalid = !state.emailValidation.successful,
             )
             RegularSpacer()
             TextFieldLabel(text = stringResource(Res.string.password))
@@ -105,14 +106,14 @@ fun RegisterScreen(
                                 false -> painterResource(Res.drawable.ic_visibility_off)
                             },
                             tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
-                            contentDescription = "visibility icon"
+                            contentDescription = "visibility icon",
                         )
                     }
                 }
             )
             InvalidFieldMessage(
                 message = state.passwordValidation.errorMessage.toDisplay(),
-                isInvalid = !state.passwordValidation.successful
+                isInvalid = !state.passwordValidation.successful,
             )
             RegularSpacer()
             TextFieldLabel(text = stringResource(Res.string.repeat_password))
@@ -131,14 +132,14 @@ fun RegisterScreen(
                                 false -> painterResource(Res.drawable.ic_visibility_off)
                             },
                             tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
-                            contentDescription = "visibility icon"
+                            contentDescription = "visibility icon",
                         )
                     }
                 }
             )
             InvalidFieldMessage(
                 message = state.repeatedPasswordValidation.errorMessage.toDisplay(),
-                isInvalid = !state.repeatedPasswordValidation.successful
+                isInvalid = !state.repeatedPasswordValidation.successful,
             )
             SmallSpacer()
             Text(
@@ -155,7 +156,8 @@ fun RegisterScreen(
                 loading = state.registerState.isLoading(),
                 onClick = {
                     focusManager.clearFocus()
-                    onIntent(RegisterIntent.SignUp(state.name, state.email, state.password, state.repeatedPassword))
+                    onIntent(RegisterIntent
+                        .SignUp(state.name, state.email, state.password, state.repeatedPassword))
                 }
             )
         }

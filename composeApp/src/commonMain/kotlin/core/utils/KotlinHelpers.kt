@@ -13,7 +13,7 @@ fun Double.round(decimals: Int): Double {
 
 suspend inline fun <reified T> safeApiCall(
     call: () -> HttpResponse,
-    crossinline handleResult: suspend (HttpResponse) -> Resource<T>
+    crossinline handleResult: suspend (HttpResponse) -> Resource<T>,
 ): Resource<T> {
     return try {
         val response = call()

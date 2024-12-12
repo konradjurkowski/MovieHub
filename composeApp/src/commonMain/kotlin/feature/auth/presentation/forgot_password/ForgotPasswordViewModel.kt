@@ -2,16 +2,16 @@ package feature.auth.presentation.forgot_password
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class ForgotPasswordViewModel(
     private val formValidator: FormValidator,
     private val authService: AuthService,
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<ForgotPasswordIntent, ForgotPasswordSideEffect, ForgotPasswordState>() {
     override fun getDefaultState(): ForgotPasswordState = ForgotPasswordState()
 
@@ -32,7 +32,7 @@ class ForgotPasswordViewModel(
         if (!emailValidation.successful) return
 
         updateViewState { copy(resetState = Resource.Loading) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch(dispatchersProvider.io) {
             val result = authService.resetPassword(email)
 
             when (result) {

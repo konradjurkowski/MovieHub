@@ -45,10 +45,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun AddScreen(
-    onIntent: (AddScreenIntent) -> Unit,
-) {
+fun AddScreen(onIntent: (AddScreenIntent) -> Unit) {
     val screenSize = getScreenSizeInfo()
+
     Scaffold(
         topBar = { LogoTopBar(isLeadingVisible = true) },
     ) { contentPadding ->
@@ -127,7 +126,7 @@ private fun AddBox(
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.ExtraLight,
+                fontWeight = FontWeight.Bold,
             )
         }
     }

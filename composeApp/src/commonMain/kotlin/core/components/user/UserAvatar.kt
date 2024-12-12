@@ -33,7 +33,8 @@ fun UserAvatar(
         modifier = modifier
             .size(size),
         shape = CircleShape,
-        elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),
+        elevation = CardDefaults
+            .cardElevation(defaultElevation = Dimens.defaultElevation),
     ) {
         AnyImage(
             modifier = Modifier.fillMaxSize(),
@@ -54,7 +55,8 @@ fun EditableUserAvatar(
         Card(
             modifier = modifier.size(Dimens.largeUserAvatar),
             shape = CircleShape,
-            elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),
+            elevation = CardDefaults
+                .cardElevation(defaultElevation = Dimens.defaultElevation),
         ) {
             AnyImage(
                 modifier = Modifier.fillMaxSize(),

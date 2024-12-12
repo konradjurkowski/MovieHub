@@ -14,13 +14,13 @@ import feature.rating.presentation.add_rating.AddRatingScreenRoot
 import feature.movies.presentation.movie_details.components.MovieDetailsScreen
 import org.koin.core.parameter.parametersOf
 
-class MovieDetailsScreenRoot(
-    val movieId: Long,
-) : Screen {
+class MovieDetailsScreenRoot(val movieId: Long) : Screen {
+
     @Composable
     override fun Content() {
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
+
         val viewModel = getScreenModel<MovieDetailsViewModel> { parametersOf(movieId) }
         val state by viewModel.viewState.collectAsState()
 

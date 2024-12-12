@@ -11,10 +11,10 @@ import feature.add.presentation.search_movie.SearchMovieScreenRoot
 import feature.add.presentation.search_series.SearchSeriesScreenRoot
 
 class AddScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-
         val viewModel = getScreenModel<AddScreenViewModel>()
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->

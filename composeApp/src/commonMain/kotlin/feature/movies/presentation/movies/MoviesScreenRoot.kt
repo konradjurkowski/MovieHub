@@ -11,6 +11,7 @@ import feature.movies.presentation.movie_details.MovieDetailsScreenRoot
 import feature.movies.presentation.movies.components.MoviesScreen
 
 class MoviesScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<MoviesViewModel>()

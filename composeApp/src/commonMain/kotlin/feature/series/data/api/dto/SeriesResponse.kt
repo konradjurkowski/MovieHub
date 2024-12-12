@@ -10,7 +10,7 @@ data class SeriesResponse (
     @SerialName("total_pages")
     val totalPages: Long,
     @SerialName("total_results")
-    val totalResults: Long
+    val totalResults: Long,
 )
 
 @Serializable
@@ -37,5 +37,5 @@ data class SeriesDto (
     @SerialName("vote_average")
     val voteAverage: Double,
     @SerialName("vote_count")
-    val voteCount: Long
+    val voteCount: Long,
 )

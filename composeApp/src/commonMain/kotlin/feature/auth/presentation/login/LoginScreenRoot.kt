@@ -16,10 +16,12 @@ import feature.auth.presentation.register.RegisterScreenRoot
 import feature.home.presentation.main.MainScreenRoot
 
 class LoginScreenRoot : Screen {
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val snackbarState = LocalSnackbarState.current
+
         val viewModel = getScreenModel<LoginViewModel>()
         val state by viewModel.viewState.collectAsState()
 

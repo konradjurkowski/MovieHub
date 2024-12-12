@@ -12,6 +12,7 @@ import moviehub.composeapp.generated.resources.series_tab_label
 import org.jetbrains.compose.resources.stringResource
 
 object SeriesTab : Tab {
+
     override val options: TabOptions
         @Composable
         get() {

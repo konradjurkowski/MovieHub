@@ -2,16 +2,16 @@ package feature.auth.presentation.login
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val formValidator: FormValidator,
     private val authService: AuthService,
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<LoginIntent, LoginSideEffect, LoginState>() {
     override fun getDefaultState(): LoginState = LoginState()
 
@@ -43,7 +43,7 @@ class LoginViewModel(
         if (!emailValidation.successful || !passwordValidation.successful) return
 
         updateViewState { copy(loginState = Resource.Loading) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch(dispatchersProvider.io) {
             val result = authService.signIn(email, password)
 
             when (result) {

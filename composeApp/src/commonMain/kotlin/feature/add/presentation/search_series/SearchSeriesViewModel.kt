@@ -10,7 +10,7 @@ import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
-import feature.add.data.series.SeriesPagingSource
+import feature.series.data.api.SeriesPagingSource
 import feature.series.data.api.SeriesApi
 import feature.series.data.repository.SeriesRepository
 import feature.series.domain.model.Series

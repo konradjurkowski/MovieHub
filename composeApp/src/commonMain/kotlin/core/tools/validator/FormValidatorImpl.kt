@@ -11,7 +11,7 @@ class FormValidatorImpl : FormValidator {
         if (text.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.empty_field
+                errorMessage = Res.string.empty_field,
             )
         }
         return ValidationResult(successful = true)
@@ -21,13 +21,13 @@ class FormValidatorImpl : FormValidator {
         if (email.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.empty_field
+                errorMessage = Res.string.empty_field,
             )
         }
         if (!email.matches(ValidatorConstants.emailAddressRegex)) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.invalid_email
+                errorMessage = Res.string.invalid_email,
             )
         }
         return ValidationResult(successful = true)
@@ -38,13 +38,13 @@ class FormValidatorImpl : FormValidator {
         if (password.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.empty_field
+                errorMessage = Res.string.empty_field,
             )
         }
         if (!passwordRegex.matches(password)) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.invalid_password
+                errorMessage = Res.string.invalid_password,
             )
         }
         return ValidationResult(successful = true)
@@ -57,13 +57,13 @@ class FormValidatorImpl : FormValidator {
         if (repeatedPassword.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.empty_field
+                errorMessage = Res.string.empty_field,
             )
         }
         if (password != repeatedPassword) {
             return ValidationResult(
                 successful = false,
-                errorMessage = Res.string.passwords_do_not_match
+                errorMessage = Res.string.passwords_do_not_match,
             )
         }
         return ValidationResult(successful = true)

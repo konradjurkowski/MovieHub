@@ -87,8 +87,8 @@ fun MovieHubTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = darkScheme,
+        colorScheme = if (isDarkTheme) darkScheme else lightScheme,
         typography = AppTypography(),
-        content = content
+        content = content,
     )
 }

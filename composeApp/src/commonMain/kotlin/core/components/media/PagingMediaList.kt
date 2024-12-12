@@ -32,17 +32,15 @@ fun <T : Any> PagingMediaList(
     onClick: (T) -> Unit,
 ) {
     when (pagingMedia.getPagingState()) {
+        PagingState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+        PagingState.Error -> FailureWidget { pagingMedia.retry() }
+
         PagingState.Empty -> {
             EmptyView(
                 modifier = modifier,
                 title = stringResource(Res.string.empty_search_title),
                 message = stringResource(Res.string.empty_search_message),
             )
-        }
-
-        PagingState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
-        PagingState.Error -> {
-            FailureWidget { pagingMedia.retry() }
         }
 
         PagingState.Loaded -> {

@@ -17,17 +17,7 @@ class ProfileEditViewModel(
 ) : BaseViewModel<ProfileEditIntent, ProfileEditSideEffect, ProfileEditState>() {
 
     init {
-        screenModelScope.launch {
-            authService.appUser.collectLatest { appUser ->
-                updateViewState {
-                    copy(
-                        appUser = appUser,
-                        name = appUser?.name ?: "",
-                        description = appUser?.description ?: "",
-                    )
-                }
-            }
-        }
+        initializeListeners()
     }
 
     override fun getDefaultState() = ProfileEditState()
@@ -117,6 +107,20 @@ class ProfileEditViewModel(
                 }
             }
             updateViewState { copy(editState = result) }
+        }
+    }
+
+    private fun initializeListeners() {
+        screenModelScope.launch {
+            authService.appUser.collectLatest { appUser ->
+                updateViewState {
+                    copy(
+                        appUser = appUser,
+                        name = appUser?.name ?: "",
+                        description = appUser?.description ?: "",
+                    )
+                }
+            }
         }
     }
 }

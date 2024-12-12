@@ -12,7 +12,7 @@ data class ProductionCompanyDto (
     val logoPath: String? = null,
     val name: String,
     @SerialName("origin_country")
-    val originCountry: String
+    val originCountry: String,
 )
 
 fun ProductionCompanyDto.toDomain(): ProductionCompany {
@@ -20,6 +20,6 @@ fun ProductionCompanyDto.toDomain(): ProductionCompany {
         id = id,
         logoPath = logoPath?.let { Constants.IMAGE_BASE_URL + it },
         name = name,
-        originCountry = originCountry
+        originCountry = originCountry,
     )
 }

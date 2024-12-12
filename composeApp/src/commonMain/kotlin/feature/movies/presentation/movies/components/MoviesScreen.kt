@@ -1,5 +1,6 @@
 package feature.movies.presentation.movies.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,34 +26,36 @@ fun MoviesScreen(
     Scaffold(
         topBar = { LogoTopBar() },
     ) { contentPadding ->
-        when (state) {
-            is Resource.Success -> {
-                if (state.data.isEmpty()) return@Scaffold EmptyView()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+        ) {
+            when (state) {
+                Resource.Idle, Resource.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+                is Resource.Failure -> FailureWidget { onIntent(MoviesIntent.Refresh) }
 
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(contentPadding)
-                        .padding(top = Dimens.padding8)
-                        .padding(horizontal = Dimens.padding16),
-                ) {
-                    itemsIndexed(state.data) { index, movie ->
-                        LeaderboardMediaCard(
-                            modifier = Modifier.padding(bottom = Dimens.padding16),
-                            title = movie.title,
-                            imageUrl = movie.posterPath,
-                            position = index + 1,
-                            rating = movie.averageRating,
-                            onClick = { onIntent(MoviesIntent.MoviePressed(movie)) },
-                        )
+                is Resource.Success -> {
+                    if (state.data.isEmpty()) return@Scaffold EmptyView()
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = Dimens.padding8)
+                            .padding(horizontal = Dimens.padding16),
+                    ) {
+                        itemsIndexed(state.data) { index, movie ->
+                            LeaderboardMediaCard(
+                                modifier = Modifier.padding(bottom = Dimens.padding16),
+                                title = movie.title,
+                                imageUrl = movie.posterPath,
+                                position = index + 1,
+                                rating = movie.averageRating,
+                                onClick = { onIntent(MoviesIntent.MoviePressed(movie)) },
+                            )
+                        }
                     }
                 }
-            }
-
-            Resource.Idle, Resource.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
-
-            is Resource.Failure -> {
-                FailureWidget { onIntent(MoviesIntent.Refresh) }
             }
         }
     }

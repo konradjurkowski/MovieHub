@@ -27,7 +27,7 @@ fun InvalidFieldMessage(
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Start,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

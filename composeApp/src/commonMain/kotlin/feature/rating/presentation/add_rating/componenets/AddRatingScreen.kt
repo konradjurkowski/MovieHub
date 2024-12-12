@@ -16,10 +16,12 @@ import core.components.button.PrimaryButton
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
 import core.components.text_field.InputTextField
+import core.components.text_field.InvalidFieldMessage
 import core.components.text_field.TextFieldLabel
 import core.components.top_bar.LogoTopBar
 import core.utils.Dimens
 import core.utils.clearFocus
+import core.utils.toDisplay
 import feature.rating.presentation.add_rating.AddRatingIntent
 import feature.rating.presentation.add_rating.AddRatingState
 import moviehub.composeapp.generated.resources.Res
@@ -64,13 +66,18 @@ fun AddRatingScreen(
                 onValueChange = { onIntent(AddRatingIntent.CommentUpdated(it)) },
                 textStyle = MaterialTheme.typography.bodySmall,
                 singleLine = false,
+                isError = state.ratingState.isFailure() || !state.commentValidation.successful,
+            )
+            InvalidFieldMessage(
+                message = state.commentValidation.errorMessage.toDisplay(),
+                isInvalid = !state.commentValidation.successful,
             )
             RegularSpacer()
             PrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth(),
                 text = stringResource(Res.string.save_label),
-                loading = state.isLoading,
+                loading = state.ratingState.isLoading(),
             ) {
                 focusManager.clearFocus()
                 onIntent(AddRatingIntent.Submit(isMovie, state.rating, state.comment))

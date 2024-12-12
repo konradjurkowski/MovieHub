@@ -8,6 +8,7 @@ import core.tools.event_bus.RefreshMovie
 import core.tools.event_bus.RefreshMovieList
 import core.tools.event_bus.RefreshSeries
 import core.tools.event_bus.RefreshSeriesList
+import core.tools.validator.FormValidator
 import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
@@ -17,6 +18,7 @@ class AddRatingViewModel(
     private val mediaId: Long,
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
+    private val formValidator: FormValidator,
     private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<AddRatingIntent, AddRatingSideEffect, AddRatingState>() {
@@ -53,18 +55,23 @@ class AddRatingViewModel(
     }
 
     private fun addMovieRating(rating: Double, comment: String) {
+        if (viewState.value.ratingState.isLoading()) return
+
+        val commentValidation = formValidator.basicValidation(comment)
+        updateViewState { copy(commentValidation = commentValidation) }
+        if (!commentValidation.successful) return
+
         screenModelScope.launch(dispatchersProvider.io) {
-            updateViewState { copy(isLoading = true) }
-            when (val result = movieRepository.addFirebaseRating(mediaId, rating, comment)) {
+            updateViewState { copy(ratingState = Resource.Loading) }
+            val result = movieRepository.addFirebaseRating(mediaId, rating, comment)
+            when (result) {
                 is Resource.Success -> {
-                    updateViewState { copy(isLoading = false) }
                     eventBus.invokeEvent(RefreshMovie(mediaId))
                     eventBus.invokeEvent(RefreshMovieList)
                     sendSideEffect(AddRatingSideEffect.Success)
                 }
 
                 is Resource.Failure -> {
-                    updateViewState { copy(isLoading = false) }
                     sendSideEffect(AddRatingSideEffect.ShowError(result.error))
                 }
 
@@ -72,22 +79,28 @@ class AddRatingViewModel(
                     // NO - OP
                 }
             }
+            updateViewState { copy(ratingState = result) }
         }
     }
 
     private fun addSeriesRating(rating: Double, comment: String) {
+        if (viewState.value.ratingState.isLoading()) return
+
+        val commentValidation = formValidator.basicValidation(comment)
+        updateViewState { copy(commentValidation = commentValidation) }
+        if (!commentValidation.successful) return
+
         screenModelScope.launch(dispatchersProvider.io) {
-            updateViewState { copy(isLoading = true) }
-            when (val result = seriesRepository.addFirebaseRating(mediaId, rating, comment)) {
+            updateViewState { copy(ratingState = Resource.Loading) }
+            val result = seriesRepository.addFirebaseRating(mediaId, rating, comment)
+            when (result) {
                 is Resource.Success -> {
-                    updateViewState { copy(isLoading = false) }
                     eventBus.invokeEvent(RefreshSeries(mediaId))
                     eventBus.invokeEvent(RefreshSeriesList)
                     sendSideEffect(AddRatingSideEffect.Success)
                 }
 
                 is Resource.Failure -> {
-                    updateViewState { copy(isLoading = false) }
                     sendSideEffect(AddRatingSideEffect.ShowError(result.error))
                 }
 
@@ -95,6 +108,7 @@ class AddRatingViewModel(
                     // NO - OP
                 }
             }
+            updateViewState { copy(ratingState = result) }
         }
     }
 }

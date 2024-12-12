@@ -29,9 +29,10 @@ fun SeriesDetailsScreen(
                             .fillMaxSize()
                             .padding(horizontal = Dimens.padding16),
                     ) {
-                        BoxButton(modifier = Modifier.safeDrawingPadding()) {
-                            onIntent(SeriesDetailsIntent.BackPressed)
-                        }
+                        BoxButton(
+                            modifier = Modifier.safeDrawingPadding(),
+                            onClick = { onIntent(SeriesDetailsIntent.BackPressed) },
+                        )
                         LoadingIndicator(modifier = Modifier.fillMaxSize().weight(1f))
                     }
                 }
@@ -56,16 +57,17 @@ fun SeriesDetailsScreen(
                             .fillMaxSize()
                             .padding(horizontal = Dimens.padding16),
                     ) {
-                        BoxButton(modifier = Modifier.safeDrawingPadding()) {
-                            onIntent(SeriesDetailsIntent.BackPressed)
-                        }
-                        FailureWidget(modifier = Modifier.weight(1f)) {
-                            onIntent(SeriesDetailsIntent.Refresh)
-                        }
+                        BoxButton(
+                            modifier = Modifier.safeDrawingPadding(),
+                            onClick = { onIntent(SeriesDetailsIntent.BackPressed) },
+                        )
+                        FailureWidget(
+                            modifier = Modifier.weight(1f),
+                            onButtonClick = { onIntent(SeriesDetailsIntent.Refresh) },
+                        )
                     }
                 }
             }
         }
     }
-
 }

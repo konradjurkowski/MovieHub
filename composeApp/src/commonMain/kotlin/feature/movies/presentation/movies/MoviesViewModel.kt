@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel(
     private val repository: MovieRepository,
-    private val dispatchersProvider: DispatchersProvider,
     private val eventBus: EventBus,
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<MoviesIntent, MoviesSideEffect, MoviesState>() {
 
     init {

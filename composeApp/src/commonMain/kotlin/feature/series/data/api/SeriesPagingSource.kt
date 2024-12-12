@@ -1,8 +1,7 @@
-package feature.add.data.series
+package feature.series.data.api
 
 import androidx.paging.PagingState
 import app.cash.paging.PagingSource
-import feature.series.data.api.SeriesApi
 import feature.series.data.api.dto.SeriesResponse
 import feature.series.domain.model.Series
 import feature.series.domain.model.toSeries

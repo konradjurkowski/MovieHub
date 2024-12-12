@@ -5,7 +5,6 @@ import core.architecture.MviSideEffect
 import core.architecture.MviState
 import core.tools.validator.ValidationResult
 import core.utils.Resource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @MviIntent
 sealed class ForgotPasswordIntent {
@@ -21,7 +20,6 @@ sealed class ForgotPasswordSideEffect {
     data object GoToLogin : ForgotPasswordSideEffect()
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @MviState
 data class ForgotPasswordState(
     val email: String = "",

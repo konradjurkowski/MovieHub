@@ -1,6 +1,5 @@
 package core.components.media
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -28,13 +27,11 @@ fun MediaCarousel(
     modifier: Modifier = Modifier,
     items: List<FirebaseMovie>,
 ) {
-    if (items.isEmpty()) {
-        return
-    }
+    if (items.isEmpty()) return
 
     val pagerState = rememberPagerState(
         initialPage = items.size / 2,
-        pageCount = { items.size }
+        pageCount = { items.size },
     )
 
     val touchFeedback = LocalTouchFeedback.current

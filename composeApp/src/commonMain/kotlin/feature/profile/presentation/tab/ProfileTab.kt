@@ -12,6 +12,7 @@ import moviehub.composeapp.generated.resources.profile_tab_label
 import org.jetbrains.compose.resources.stringResource
 
 object ProfileTab : Tab {
+
     override val options: TabOptions
         @Composable
         get() {

@@ -47,6 +47,7 @@ fun LoginScreen(
     onIntent: (LoginIntent) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
+
     Scaffold(
         modifier = Modifier.clearFocus(),
         topBar = {
@@ -104,14 +105,14 @@ fun LoginScreen(
                                     false -> painterResource(Res.drawable.ic_visibility_off)
                                 },
                                 tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
-                                contentDescription = "visibility icon"
+                                contentDescription = "visibility icon",
                             )
                         }
                     }
                 )
                 InvalidFieldMessage(
                     message = state.passwordValidation.errorMessage.toDisplay(),
-                    isInvalid = !state.passwordValidation.successful
+                    isInvalid = !state.passwordValidation.successful,
                 )
                 RegularSpacer()
                 PrimaryButton(

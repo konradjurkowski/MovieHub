@@ -4,7 +4,8 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import feature.auth.data.remote.AuthService
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
@@ -13,13 +14,8 @@ class ProfileViewModel(
 ) : BaseViewModel<ProfileIntent, ProfileSideEffect, ProfileState>() {
 
     init {
-        screenModelScope.launch(dispatchersProvider.io) {
-            authService.getAppUser()
-
-            authService.appUser.collectLatest {
-                updateViewState { copy(appUser = it) }
-            }
-        }
+        initializeListeners()
+        loadInitialData()
     }
 
     override fun getDefaultState() = ProfileState()
@@ -36,5 +32,17 @@ class ProfileViewModel(
             authService.logout()
             sendSideEffect(ProfileSideEffect.GoToLoginScreen)
         }
+    }
+
+    private fun loadInitialData() {
+        screenModelScope.launch(dispatchersProvider.io) {
+            authService.getAppUser()
+        }
+    }
+
+    private fun initializeListeners() {
+        authService.appUser.onEach {
+            updateViewState { copy(appUser = it) }
+        }.launchIn(screenModelScope)
     }
 }

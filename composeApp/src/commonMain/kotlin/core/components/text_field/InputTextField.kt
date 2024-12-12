@@ -95,7 +95,7 @@ fun InputTextField(
                         unfocusedBorderColor = Color.Transparent,
                     ),
                 )
-            }
+            },
         )
     }
 }

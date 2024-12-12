@@ -18,7 +18,7 @@ fun AppFontFamily() = FontFamily(
     Font(Res.font.montserrat_regular, weight = FontWeight.Normal),
     Font(Res.font.montserrat_medium, weight = FontWeight.Medium),
     Font(Res.font.montserrat_semi_bold, weight = FontWeight.SemiBold),
-    Font(Res.font.montserrat_bold, weight = FontWeight.Bold)
+    Font(Res.font.montserrat_bold, weight = FontWeight.Bold),
 )
 
 @Composable
@@ -39,6 +39,6 @@ fun AppTypography() = Typography().run {
         bodySmall = bodySmall.copy(fontFamily = fontFamily),
         labelLarge = labelLarge.copy(fontFamily = fontFamily),
         labelMedium = labelMedium.copy(fontFamily = fontFamily),
-        labelSmall = labelSmall.copy(fontFamily = fontFamily)
+        labelSmall = labelSmall.copy(fontFamily = fontFamily),
     )
 }
