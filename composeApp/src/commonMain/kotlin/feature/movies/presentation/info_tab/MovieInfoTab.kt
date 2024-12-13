@@ -25,6 +25,7 @@ import feature.movies.domain.model.getDirector
 import feature.movies.domain.model.getWriter
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.director_label
+import moviehub.composeapp.generated.resources.movies_screen_details_movie_info
 import moviehub.composeapp.generated.resources.writer_label
 import org.jetbrains.compose.resources.stringResource
 
@@ -42,7 +43,7 @@ fun MovieInfoTab(
     ) {
         SectionTitle(
             modifier = Modifier.padding(horizontal = Dimens.padding16),
-            title = "Informacje o filmie",
+            title = stringResource(Res.string.movies_screen_details_movie_info),
         )
         Text(
             modifier = Modifier

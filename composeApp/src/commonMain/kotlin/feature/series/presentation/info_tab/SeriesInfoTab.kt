@@ -26,6 +26,7 @@ import feature.series.domain.model.SeriesDetails
 import feature.series.presentation.info_tab.components.SeasonsHorizontalList
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.director_label
+import moviehub.composeapp.generated.resources.series_screen_details_series_info
 import moviehub.composeapp.generated.resources.writer_label
 import org.jetbrains.compose.resources.stringResource
 
@@ -43,7 +44,7 @@ fun SeriesInfoTab(
     ) {
         SectionTitle(
             modifier = Modifier.padding(horizontal = Dimens.padding16),
-            title = "Informacje o serialu",
+            title = stringResource(Res.string.series_screen_details_series_info),
         )
         Text(
             modifier = Modifier

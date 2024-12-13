@@ -33,6 +33,13 @@
     <string name="add_rating_screen_rating_label">Rating</string>
     <string name="add_rating_screen_rating_added">The rating has been added</string>
 
+    <!--Movies Screen Details-->
+    <string name="movies_screen_details_movie_info">Movie information</string>
+
+    <!--Series Screen Details-->
+    <string name="series_screen_details_series_info">Series information</string>
+    <string name="series_screen_details_seasons">Seasons</string>
+
     <!--Profile Screen-->
     <string name="profile_screen_account_label">Account</string>
     <string name="profile_screen_support_label">Support</string>
@@ -56,6 +63,7 @@
     <string name="writer_label">Writer</string>
     <string name="director_label">Director</string>
     <string name="production_companies">Production companies</string>
+    <string name="cast_label">Cast</string>
 
     <!--Navigation Tabs-->
     <string name="home_tab_label">Home</string>
@@ -66,7 +74,6 @@
     <!--Media Tabs-->
     <string name="info_tab_label">Information</string>
     <string name="comments_tab_label">Comments</string>
-    <string name="cast_tab_label">Cast</string>
 
     <!--Validation-->
     <string name="empty_field">Field cannot be empty.</string>
