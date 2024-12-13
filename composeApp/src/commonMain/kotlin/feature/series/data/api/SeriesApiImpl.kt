@@ -30,6 +30,6 @@ class SeriesApiImpl(
     override suspend fun getCredits(seriesId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/tv/$seriesId/credits") }
+            url { path("/3/tv/$seriesId/aggregate_credits") }
         }
 }

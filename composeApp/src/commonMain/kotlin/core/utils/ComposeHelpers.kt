@@ -2,11 +2,14 @@ package core.utils
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import dev.gitlive.firebase.FirebaseNetworkException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -36,6 +39,18 @@ fun Modifier.clearFocus(): Modifier = composed {
         interactionSource = remember { MutableInteractionSource() }) {
         focusManager.clearFocus()
     }
+}
+
+fun Modifier.paddingForIndex(
+    index: Int,
+    size: Int,
+    padding: Dp = Dimens.padding16,
+    spacer: Dp = Dimens.padding4
+): Modifier {
+    return this.padding(
+        start = if (index == 0) padding else spacer,
+        end = if (index == size - 1) padding else 0.dp,
+    )
 }
 
 fun LoadState.isLoading() = this is LoadState.Loading

@@ -15,15 +15,16 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MediaCompanyList(
+    modifier: Modifier = Modifier,
     companyList: List<ProductionCompany>,
 ) {
     if (companyList.isEmpty()) return
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth()) {
         HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.padding16))
         SectionTitle(
             modifier = Modifier.padding(horizontal = Dimens.padding16),
-            title = stringResource(Res.string.production_companies)
+            title = stringResource(Res.string.production_companies),
         )
         CompanyHorizontalList(
             modifier = Modifier.padding(top = Dimens.padding8),

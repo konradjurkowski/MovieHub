@@ -23,6 +23,7 @@ import feature.movies.domain.model.CastData
 import feature.movies.domain.model.getDirector
 import feature.movies.domain.model.getWriter
 import feature.series.domain.model.SeriesDetails
+import feature.series.presentation.info_tab.components.SeasonsHorizontalList
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.director_label
 import moviehub.composeapp.generated.resources.writer_label
@@ -74,6 +75,7 @@ fun SeriesInfoTab(
             }
         }
         MediaCastList(castList = castData.cast)
+        SeasonsHorizontalList(seasonList = series.seasons)
         MediaCompanyList(companyList = series.productionCompanies)
         RegularSpacer()
     }

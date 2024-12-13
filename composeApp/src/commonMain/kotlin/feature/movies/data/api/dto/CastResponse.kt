@@ -31,7 +31,7 @@ data class CastDto (
     @SerialName("cast_id")
     val castId: Long? = null,
     @SerialName("credit_id")
-    val creditId: String,
+    val creditId: String? = null,
     val order: Long? = null,
     val department: String? = null,
 )

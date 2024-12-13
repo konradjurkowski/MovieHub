@@ -27,10 +27,9 @@ fun MainScreen(
         GlobalNavigators.tabNavigator = it
         Scaffold(
             content = { _ ->
-                Box(
-                    modifier = Modifier
-                        .padding(bottom = Dimens.navigationBarHeight)
-                        .fillMaxSize(),
+                Box(modifier = Modifier
+                    .padding(bottom = Dimens.navigationBarHeight)
+                    .fillMaxSize(),
                 ) {
                     CurrentTab()
                 }
@@ -45,7 +44,7 @@ fun MainScreen(
                             NavigationItem(
                                 tab = tab,
                                 selected = it.current == tab,
-                                onClick = { onIntent(MainScreenIntent.TabPressed(tab)) }
+                                onClick = { onIntent(MainScreenIntent.TabPressed(tab)) },
                             )
                         }
 
@@ -60,7 +59,7 @@ fun MainScreen(
                             NavigationItem(
                                 tab = tab,
                                 selected = it.current == tab,
-                                onClick = { onIntent(MainScreenIntent.TabPressed(tab)) }
+                                onClick = { onIntent(MainScreenIntent.TabPressed(tab)) },
                             )
                         }
                     }

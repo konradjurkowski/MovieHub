@@ -26,6 +26,7 @@ import moviehub.composeapp.generated.resources.ic_series_selected
 import org.jetbrains.compose.resources.DrawableResource
 
 class MainScreenRoot : Screen {
+
     private val tabList = listOf(
         HomeTab,
         MoviesTab,

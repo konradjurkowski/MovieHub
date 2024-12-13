@@ -98,7 +98,7 @@ class SeriesRepositoryImpl(
                 .collection(FirebaseConstants.SERIES_COLLECTION)
                 .where { FirebaseConstants.SERIES_ID equalTo series.id }
                 .get()
-            if (querySnapshot.documents.isEmpty()) {
+            if (querySnapshot.documents.isNotEmpty()) {
                 return@runWithTimeout Resource.Failure(FirebaseSeriesExistException())
             }
 

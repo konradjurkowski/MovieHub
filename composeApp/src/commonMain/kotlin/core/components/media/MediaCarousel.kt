@@ -26,6 +26,7 @@ import kotlin.math.absoluteValue
 fun MediaCarousel(
     modifier: Modifier = Modifier,
     items: List<FirebaseMovie>,
+    onItemClick: (FirebaseMovie) -> Unit = {},
 ) {
     if (items.isEmpty()) return
 
@@ -75,6 +76,10 @@ fun MediaCarousel(
                     )
                 },
             shape = RoundedCornerShape(Dimens.radius12),
+            onClick = {
+                touchFeedback.performLongPress()
+                onItemClick(item)
+            },
         ) {
             AnyImage(
                 modifier = Modifier.fillMaxSize(),

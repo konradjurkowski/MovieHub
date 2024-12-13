@@ -85,7 +85,7 @@ fun SeriesDetailsDto.toDomain(): SeriesDetails {
         popularity = popularity,
         productionCompanies = productionCompanies.map { it.toDomain() },
         productionCountries = productionCountries,
-        seasons = seasons.map { it.toDomain() },
+        seasons = seasons.filter { it.airDate != null }.map { it.toDomain() },
         spokenLanguages = spokenLanguages,
         status = status,
         tagline = tagline,
