@@ -33,12 +33,22 @@
     <string name="add_rating_screen_rating_label">Rating</string>
     <string name="add_rating_screen_rating_added">The rating has been added</string>
 
-    <!--Movies Screen Details-->
-    <string name="movies_screen_details_movie_info">Movie information</string>
+    <!--Movie Screen Details-->
+    <string name="movie_screen_details_movie_info">Movie information</string>
 
     <!--Series Screen Details-->
     <string name="series_screen_details_series_info">Series information</string>
     <string name="series_screen_details_seasons">Seasons</string>
+
+    <!--Movie Screen Preview-->
+    <string name="movie_screen_preview_add_movie">Add movie</string>
+    <string name="movie_screen_preview_movie_added">Movie is added</string>
+    <string name="movie_screen_preview_add_success">Movie has been added.</string>
+
+    <!--Series Screen Preview-->
+    <string name="series_screen_preview_add_series">Add series</string>
+    <string name="series_screen_preview_series_added">Series is added</string>
+    <string name="series_screen_preview_add_success">Series has been added.</string>
 
     <!--Profile Screen-->
     <string name="profile_screen_account_label">Account</string>

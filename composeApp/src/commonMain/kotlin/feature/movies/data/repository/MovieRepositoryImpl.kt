@@ -18,6 +18,7 @@ import feature.movies.data.api.MovieApi
 import feature.movies.data.api.dto.CastResponse
 import feature.movies.data.api.dto.MovieDetailsDto
 import feature.movies.data.api.dto.toDomain
+import feature.movies.data.storage.MovieRegistry
 import feature.movies.domain.model.CastData
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
@@ -31,6 +32,7 @@ import kotlinx.datetime.Clock
 class MovieRepositoryImpl(
     private val movieApi: MovieApi,
     private val firestore: FirebaseFirestore,
+    private val movieRegistry: MovieRegistry,
     private val konnectivity: Konnectivity,
 ) : MovieRepository {
 
@@ -68,6 +70,7 @@ class MovieRepositoryImpl(
                 .orderBy(FirebaseConstants.AVERAGE_RATING, Direction.DESCENDING)
                 .get()
             val movies = querySnapshot.documents.map { it.data(FirebaseMovie.serializer()) }
+            movieRegistry.updateMovies(movies)
             Resource.Success(movies)
         } catch (e: Exception) {
             Resource.Failure(e)

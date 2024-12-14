@@ -34,6 +34,7 @@ data class SeriesDetails(
     val type: String,
     val voteAverage: Double,
     val voteCount: Long,
+    val adult: Boolean,
 )
 
 data class Episode(
@@ -61,4 +62,19 @@ data class Season(
     val airDate: Instant? = null,
     val seasonNumber: Long,
     val voteAverage: Double,
+)
+
+fun SeriesDetails.toSeries() = Series(
+    id = id,
+    name = name,
+    overview = overview,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    genreIds = genres.map { it.id },
+    language = originalLanguage,
+    popularity = popularity,
+    releaseDate = firstAirDate,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    adult = adult,
 )

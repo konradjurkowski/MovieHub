@@ -22,6 +22,7 @@ import feature.movies.domain.model.calculateAvgRating
 import feature.series.data.api.SeriesApi
 import feature.series.data.api.dto.SeriesDetailsDto
 import feature.series.data.api.dto.toDomain
+import feature.series.data.storage.SeriesRegistry
 import feature.series.domain.model.FirebaseSeries
 import feature.series.domain.model.Series
 import feature.series.domain.model.SeriesDetails
@@ -32,6 +33,7 @@ import kotlinx.datetime.Clock
 class SeriesRepositoryImpl(
     private val seriesApi: SeriesApi,
     private val firestore: FirebaseFirestore,
+    private val seriesRegistry: SeriesRegistry,
     private val konnectivity: Konnectivity,
 ) : SeriesRepository {
     override suspend fun getSeriesById(seriesId: Long): Resource<SeriesDetails> =
@@ -68,6 +70,7 @@ class SeriesRepositoryImpl(
                 .orderBy(FirebaseConstants.AVERAGE_RATING, Direction.DESCENDING)
                 .get()
             val series = querySnapshot.documents.map { it.data(FirebaseSeries.serializer()) }
+            seriesRegistry.updateSeries(series)
             Resource.Success(series)
         } catch (e: Exception) {
             Resource.Failure(e)

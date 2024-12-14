@@ -1,5 +1,8 @@
 package feature.series.data.api.dto
 
+import core.utils.Constants
+import core.utils.toInstant
+import feature.series.domain.model.Series
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -39,3 +42,20 @@ data class SeriesDto (
     @SerialName("vote_count")
     val voteCount: Long,
 )
+
+fun SeriesDto.toSeries(): Series {
+    return Series(
+        id = id,
+        name = name,
+        overview = overview,
+        posterPath = Constants.IMAGE_BASE_URL + posterPath,
+        backdropPath = Constants.IMAGE_BASE_URL + backdropPath,
+        genreIds = genreIds,
+        language = originalLanguage,
+        popularity = popularity,
+        releaseDate = firstAirDate.toInstant(),
+        voteAverage = voteAverage,
+        voteCount = voteCount,
+        adult = adult,
+    )
+}

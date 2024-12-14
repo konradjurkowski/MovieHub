@@ -8,7 +8,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.series.presentation.series.components.SeriesScreen
-import feature.series.presentation.series_details.SeriesDetailsScreenRoot
+import feature.series.presentation.details.SeriesDetailsScreenRoot
 
 class SeriesScreenRoot : Screen {
 

@@ -29,7 +29,9 @@ import org.jetbrains.compose.resources.stringResource
 fun <T : Any> PagingMediaList(
     modifier: Modifier = Modifier,
     pagingMedia: LazyPagingItems<T>,
-    onClick: (T) -> Unit,
+    isMediaAdded: (T) -> Boolean,
+    onAddClick: (T) -> Unit,
+    onCardClick: (T) -> Unit,
 ) {
     when (pagingMedia.getPagingState()) {
         PagingState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
@@ -58,7 +60,9 @@ fun <T : Any> PagingMediaList(
                                 SearchMediaCard(
                                     title = item.title,
                                     imageUrl = item.posterPath,
-                                    onClick = { onClick(item) },
+                                    isMediaAdded = isMediaAdded(item),
+                                    onAddClick = { onAddClick(item) },
+                                    onCardClick = { onCardClick(item) },
                                 )
                             }
 
@@ -66,7 +70,9 @@ fun <T : Any> PagingMediaList(
                                 SearchMediaCard(
                                     title = item.name,
                                     imageUrl = item.posterPath,
-                                    onClick = { onClick(item) },
+                                    isMediaAdded = isMediaAdded(item),
+                                    onAddClick = { onAddClick(item) },
+                                    onCardClick = { onCardClick(item) },
                                 )
                             }
                         }

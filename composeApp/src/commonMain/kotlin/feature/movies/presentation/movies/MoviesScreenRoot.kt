@@ -7,7 +7,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
-import feature.movies.presentation.movie_details.MovieDetailsScreenRoot
+import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.movies.presentation.movies.components.MoviesScreen
 
 class MoviesScreenRoot : Screen {

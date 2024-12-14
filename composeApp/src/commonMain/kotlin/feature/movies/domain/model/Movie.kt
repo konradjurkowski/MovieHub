@@ -1,5 +1,7 @@
 package feature.movies.domain.model
 
+import kotlinx.datetime.Instant
+
 data class Movie(
     val id: Long,
     val title: String,
@@ -10,7 +12,7 @@ data class Movie(
     val backdropPath: String? = null,
     val genreIds: List<Long>,
     val popularity: Double,
-    val releaseDate: String,
+    val releaseDate: Instant? = null,
     val video: Boolean,
     val voteAverage: Double,
     val voteCount: Long,

@@ -92,6 +92,7 @@ fun SeriesDetailsDto.toDomain(): SeriesDetails {
         type = type,
         voteAverage = voteAverage,
         voteCount = voteCount,
+        adult = adult,
     )
 }
 

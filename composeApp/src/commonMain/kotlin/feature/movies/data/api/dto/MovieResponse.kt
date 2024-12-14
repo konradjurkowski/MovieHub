@@ -1,6 +1,7 @@
 package feature.movies.data.api.dto
 
 import core.utils.Constants
+import core.utils.toInstant
 import feature.movies.domain.model.Movie
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -52,7 +53,7 @@ fun MovieDto.toDomain(): Movie {
         backdropPath = backdropPath?.let { Constants.IMAGE_BASE_URL + it },
         genreIds = genreIds,
         popularity = popularity,
-        releaseDate = releaseDate,
+        releaseDate = releaseDate.toInstant(),
         video = video,
         voteAverage = voteAverage,
         voteCount = voteCount,

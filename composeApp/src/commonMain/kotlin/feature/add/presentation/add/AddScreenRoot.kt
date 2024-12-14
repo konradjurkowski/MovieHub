@@ -7,8 +7,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import core.architecture.CollectSideEffects
 import feature.add.presentation.add.components.AddScreen
-import feature.add.presentation.search_movie.SearchMovieScreenRoot
-import feature.add.presentation.search_series.SearchSeriesScreenRoot
+import feature.movies.presentation.search.SearchMovieScreenRoot
+import feature.series.presentation.search.SearchSeriesScreenRoot
 
 class AddScreenRoot : Screen {
 

@@ -38,7 +38,7 @@ data class MovieDetailsDto (
     val revenue: Long,
     val runtime: Long,
     @SerialName("imdb_id")
-    val imdbId: String,
+    val imdbId: String? = null,
     @SerialName("production_companies")
     val productionCompanies: List<ProductionCompanyDto>,
     @SerialName("production_countries")
@@ -56,6 +56,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails {
     return MovieDetails(
         id = id,
         title = title,
+        language = originalLanguage,
         overview = overview,
         posterPath = posterPath?.let { Constants.IMAGE_BASE_URL + it },
         backdropPath = backdropPath?.let { Constants.IMAGE_BASE_URL + it },
@@ -72,6 +73,9 @@ fun MovieDetailsDto.toDomain(): MovieDetails {
         originCountry = originCountry,
         originalTitle = originalTitle,
         adult = adult,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount,
     )
 }
 

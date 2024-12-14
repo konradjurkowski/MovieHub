@@ -3,8 +3,8 @@ package feature.series.data.api
 import androidx.paging.PagingState
 import app.cash.paging.PagingSource
 import feature.series.data.api.dto.SeriesResponse
+import feature.series.data.api.dto.toSeries
 import feature.series.domain.model.Series
-import feature.series.domain.model.toSeries
 import io.ktor.client.call.body
 import io.ktor.utils.io.errors.IOException
 
