@@ -8,13 +8,11 @@ import core.architecture.MviState
 @MviIntent
 sealed class MainScreenIntent {
     data class TabPressed(val tab: Tab) : MainScreenIntent()
-    data object AddPressed : MainScreenIntent()
 }
 
 @MviSideEffect
 sealed class MainScreenSideEffect {
     data class SetTab(val tab: Tab) : MainScreenSideEffect()
-    data object GoToAdd : MainScreenSideEffect()
 }
 
 @MviState

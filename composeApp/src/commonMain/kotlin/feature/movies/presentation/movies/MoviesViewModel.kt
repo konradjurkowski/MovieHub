@@ -27,6 +27,7 @@ class MoviesViewModel(
         when (intent) {
             MoviesIntent.Refresh -> getMovies()
             is MoviesIntent.MoviePressed -> sendSideEffect(MoviesSideEffect.GoToMovieDetail(intent.movie))
+            is MoviesIntent.AddMoviePressed -> sendSideEffect(MoviesSideEffect.GoToAddMovie)
         }
     }
 

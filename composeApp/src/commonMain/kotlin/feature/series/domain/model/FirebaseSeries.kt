@@ -14,7 +14,7 @@ data class FirebaseSeries(
     val posterPath: String? = null,
     val backdropPath: String? = null,
     val genreIds: List<Long>,
-    val releaseDate: String,
+    val releaseDate: Instant?,
     val averageRating: Double = 0.0,
     val ratings: List<FirebaseRating> = emptyList(),
     val createdAt: Instant? = null,

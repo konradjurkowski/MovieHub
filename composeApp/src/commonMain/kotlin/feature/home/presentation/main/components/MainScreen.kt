@@ -9,12 +9,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import core.navigation.GlobalNavigators
 import core.theme.withA10
+import core.theme.withA20
 import core.utils.Dimens
 import feature.home.presentation.main.MainScreenIntent
 
@@ -35,33 +38,28 @@ fun MainScreen(
                 }
             },
             bottomBar = {
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    NavigationBar(
-                        containerColor = MaterialTheme.colorScheme.onBackground.withA10(),
-                        tonalElevation = 0.dp,
-                    ) {
-                        tabList.subList(0, 2).forEach { tab ->
-                            NavigationItem(
-                                tab = tab,
-                                selected = it.current == tab,
-                                onClick = { onIntent(MainScreenIntent.TabPressed(tab)) },
+                val borderColor = MaterialTheme.colorScheme.onBackground.withA20()
+                NavigationBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .drawBehind {
+                            val strokeWidth = 2.dp.toPx()
+                            drawLine(
+                                color = borderColor,
+                                start = Offset(0f, 0f),
+                                end = Offset(size.width, 0f),
+                                strokeWidth = strokeWidth,
                             )
-                        }
-
-                        AddButton(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(bottom = Dimens.padding16),
-                            onClick = { onIntent(MainScreenIntent.AddPressed) },
+                        },
+                    containerColor = MaterialTheme.colorScheme.onBackground.withA10(),
+                    tonalElevation = 0.dp,
+                ) {
+                    tabList.forEach { tab ->
+                        NavigationItem(
+                            tab = tab,
+                            selected = it.current == tab,
+                            onClick = { onIntent(MainScreenIntent.TabPressed(tab)) },
                         )
-
-                        tabList.subList(2, tabList.size).forEach { tab ->
-                            NavigationItem(
-                                tab = tab,
-                                selected = it.current == tab,
-                                onClick = { onIntent(MainScreenIntent.TabPressed(tab)) },
-                            )
-                        }
                     }
                 }
             }

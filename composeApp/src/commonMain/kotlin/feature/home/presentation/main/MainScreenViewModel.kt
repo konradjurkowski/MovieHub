@@ -25,7 +25,6 @@ class MainScreenViewModel(
 
     override fun processIntent(intent: MainScreenIntent) {
         when (intent) {
-            MainScreenIntent.AddPressed -> sendSideEffect(MainScreenSideEffect.GoToAdd)
             is MainScreenIntent.TabPressed -> sendSideEffect(MainScreenSideEffect.SetTab(intent.tab))
         }
     }

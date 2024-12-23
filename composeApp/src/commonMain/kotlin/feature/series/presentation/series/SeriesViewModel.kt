@@ -28,6 +28,7 @@ class SeriesViewModel(
         when (intent) {
             SeriesIntent.Refresh -> getSeries()
             is SeriesIntent.SeriesPressed -> sendSideEffect(SeriesSideEffect.GoToSeriesDetail(intent.series))
+            is SeriesIntent.AddSeriesPressed -> sendSideEffect(SeriesSideEffect.GoToAddSeries)
         }
     }
 

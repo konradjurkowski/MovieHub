@@ -3,12 +3,9 @@ package feature.home.presentation.main
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
-import feature.add.presentation.add.AddScreenRoot
 import feature.home.presentation.tab.HomeTab
 import feature.home.presentation.main.components.MainScreen
 import feature.movies.presentation.tab.MoviesTab
@@ -36,12 +33,10 @@ class MainScreenRoot : Screen {
 
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val viewModel = getScreenModel<MainScreenViewModel>()
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                MainScreenSideEffect.GoToAdd -> navigator.push(AddScreenRoot())
                 is MainScreenSideEffect.SetTab -> {
                     GlobalNavigators.tabNavigator?.current = effect.tab
                 }

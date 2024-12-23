@@ -1,5 +1,6 @@
 package core.components.top_bar
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -11,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 fun MainTopBar(
     title: String = "",
     isLeadingVisible: Boolean = true,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -25,6 +27,7 @@ fun MainTopBar(
         },
         navigationIcon = {
             if (isLeadingVisible) NavigateBackArrow()
-        }
+        },
+        actions = actions,
     )
 }

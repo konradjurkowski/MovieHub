@@ -9,6 +9,7 @@ import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.series.presentation.series.components.SeriesScreen
 import feature.series.presentation.details.SeriesDetailsScreenRoot
+import feature.series.presentation.search.SearchSeriesScreenRoot
 
 class SeriesScreenRoot : Screen {
 
@@ -21,6 +22,10 @@ class SeriesScreenRoot : Screen {
             when (effect) {
                 is SeriesSideEffect.GoToSeriesDetail -> {
                     GlobalNavigators.navigator?.push(SeriesDetailsScreenRoot(effect.series.seriesId))
+                }
+
+                is SeriesSideEffect.GoToAddSeries -> {
+                    GlobalNavigators.navigator?.push(SearchSeriesScreenRoot())
                 }
             }
         }

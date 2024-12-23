@@ -19,7 +19,7 @@ import core.components.button.SecondaryButton
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
 import core.components.text.SectionTitle
-import core.components.top_bar.LogoTopBar
+import core.components.top_bar.MainTopBar
 import core.utils.Dimens
 import feature.profile.presentation.profile.ProfileIntent
 import feature.profile.presentation.profile.ProfileState
@@ -33,6 +33,7 @@ import moviehub.composeapp.generated.resources.profile_screen_licenses_label
 import moviehub.composeapp.generated.resources.profile_screen_logout_label
 import moviehub.composeapp.generated.resources.profile_screen_report_problem_label
 import moviehub.composeapp.generated.resources.profile_screen_support_label
+import moviehub.composeapp.generated.resources.profile_tab_label
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -41,7 +42,12 @@ fun ProfileScreen(
     onIntent: (ProfileIntent) -> Unit,
 ) {
     Scaffold(
-        topBar = { LogoTopBar() },
+        topBar = {
+            MainTopBar(
+                title = stringResource(Res.string.profile_tab_label),
+                isLeadingVisible = false,
+            )
+        },
     ) { innerPadding ->
         Column(
             modifier = Modifier

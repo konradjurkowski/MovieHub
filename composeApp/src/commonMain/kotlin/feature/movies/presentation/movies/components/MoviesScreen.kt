@@ -8,15 +8,19 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import core.components.button.AddButton
 import core.components.loading.LoadingIndicator
 import core.components.media.LeaderboardMediaCard
 import core.components.result.EmptyView
 import core.components.result.FailureWidget
-import core.components.top_bar.LogoTopBar
+import core.components.top_bar.MainTopBar
 import core.utils.Dimens
 import core.utils.Resource
 import feature.movies.presentation.movies.MoviesIntent
 import feature.movies.presentation.movies.MoviesState
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.movies_tab_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MoviesScreen(
@@ -24,7 +28,18 @@ fun MoviesScreen(
     onIntent: (MoviesIntent) -> Unit,
 ) {
     Scaffold(
-        topBar = { LogoTopBar() },
+        topBar = {
+            MainTopBar(
+                title = stringResource(Res.string.movies_tab_label),
+                isLeadingVisible = false,
+                actions = {
+                    AddButton(
+                        modifier = Modifier.padding(horizontal = Dimens.padding16),
+                        onClick = { onIntent(MoviesIntent.AddMoviePressed) },
+                    )
+                },
+            )
+        },
     ) { contentPadding ->
         Box(
             modifier = Modifier

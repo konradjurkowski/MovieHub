@@ -26,7 +26,7 @@ fun MediaInfo(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            modifier = Modifier.size(Dimens.icon24),
+            modifier = Modifier.size(Dimens.icon16),
             painter = painterResource(iconRes),
             contentDescription = "MovieInfo icon",
             tint = MaterialTheme.colorScheme.onBackground.withA70(),
@@ -34,7 +34,7 @@ fun MediaInfo(
         TinySpacer()
         Text(
             text = text,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onBackground.withA70(),
         )

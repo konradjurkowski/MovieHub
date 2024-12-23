@@ -3,7 +3,6 @@ package org.konradjurkowski.moviehub
 import android.app.Application
 import core.di.appModule
 import core.di.networkModule
-import feature.add.di.addModule
 import feature.auth.di.authModule
 import feature.home.di.homeModule
 import feature.movies.di.moviesModule
@@ -22,7 +21,6 @@ class MovieHubApp : Application() {
 fun initializeKoin() {
     startKoin {
         modules(
-            addModule,
             appModule,
             networkModule,
             authModule,

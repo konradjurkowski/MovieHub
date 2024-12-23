@@ -9,6 +9,7 @@ import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.movies.presentation.movies.components.MoviesScreen
+import feature.movies.presentation.search.SearchMovieScreenRoot
 
 class MoviesScreenRoot : Screen {
 
@@ -21,6 +22,10 @@ class MoviesScreenRoot : Screen {
             when (effect) {
                 is MoviesSideEffect.GoToMovieDetail -> {
                     GlobalNavigators.navigator?.push(MovieDetailsScreenRoot(effect.movie.movieId))
+                }
+
+                is MoviesSideEffect.GoToAddMovie -> {
+                    GlobalNavigators.navigator?.push(SearchMovieScreenRoot())
                 }
             }
         }
