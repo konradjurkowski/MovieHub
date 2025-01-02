@@ -5,7 +5,6 @@ import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovie
-import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
@@ -81,7 +80,6 @@ class MovieDetailsViewModel(
             when (result) {
                 is Resource.Success -> {
                     sendSideEffect(MovieDetailsSideEffect.HideLoaderWithSuccess)
-                    eventBus.invokeEvent(RefreshMovieList)
                     getMovieDetails()
                 }
                 is Resource.Failure -> {

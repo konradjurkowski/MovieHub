@@ -3,8 +3,6 @@ package feature.movies.presentation.preview
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
-import core.tools.event_bus.EventBus
-import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.movies.data.storage.MovieRegistry
@@ -19,7 +17,6 @@ class MoviePreviewViewModel(
     private val movieId: Long,
     private val movieRepository: MovieRepository,
     private val movieRegistry: MovieRegistry,
-    private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<MoviePreviewIntent, MoviePreviewSideEffect, MoviePreviewState>() {
 
@@ -72,7 +69,6 @@ class MoviePreviewViewModel(
                     movieRegistry.addMovie(movieId)
                     updateViewState { copy(isMovieAdded = true) }
                     sendSideEffect(MoviePreviewSideEffect.HideLoaderWithSuccess)
-                    eventBus.invokeEvent(RefreshMovieList)
                 }
                 is Resource.Failure -> {
                     sendSideEffect(MoviePreviewSideEffect.HideLoaderWithError(result.error))

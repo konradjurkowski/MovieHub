@@ -17,8 +17,8 @@ val moviesModule = module {
     single<MovieRepository> { MovieRepositoryImpl(get(), get(), get(), get()) }
     single<MovieRegistry> { MovieRegistryImpl() }
 
-    factory<MoviesViewModel> { MoviesViewModel(get(), get(), get()) }
+    factory<MoviesViewModel> { MoviesViewModel(get(), get()) }
     factory<MovieDetailsViewModel> { (movieId: Long) -> MovieDetailsViewModel(movieId, get(), get(), get(), get()) }
-    factory<MoviePreviewViewModel> { (movieId: Long) -> MoviePreviewViewModel(movieId, get(), get(), get(), get()) }
+    factory<MoviePreviewViewModel> { (movieId: Long) -> MoviePreviewViewModel(movieId, get(), get(), get()) }
     factory<SearchMovieViewModel> { SearchMovieViewModel(get(), get(), get(), get(), get()) }
 }

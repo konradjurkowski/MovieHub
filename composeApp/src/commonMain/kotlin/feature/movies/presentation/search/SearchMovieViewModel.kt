@@ -8,7 +8,6 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
-import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
 import feature.movies.data.paging.MoviePagingSource
 import feature.movies.data.api.MovieApi
@@ -78,7 +77,6 @@ class SearchMovieViewModel(
                 is Resource.Success -> {
                     movieRegistry.addMovie(movie.id)
                     sendSideEffect(SearchMovieSideEffect.HideLoaderWithSuccess)
-                    eventBus.invokeEvent(RefreshMovieList)
                 }
                 is Resource.Failure -> {
                     sendSideEffect(SearchMovieSideEffect.HideLoaderWithError(result.error))
