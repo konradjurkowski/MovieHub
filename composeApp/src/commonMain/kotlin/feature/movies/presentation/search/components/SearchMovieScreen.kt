@@ -24,22 +24,19 @@ fun SearchMovieScreen(
         topBar = {
             SearchTopBar(
                 value = state.query,
-                shouldRequestFocus = !state.isSearchInitiated,
                 onValueChange = { onIntent(SearchMovieIntent.QueryChanged(it)) },
                 onClearPressed = { onIntent(SearchMovieIntent.ClearQueryPressed) },
             )
         },
     ) { contentPadding ->
-        if (state.isSearchInitiated) {
-            PagingMediaList(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
-                pagingMedia = pagingMovies,
-                isMediaAdded = { movie -> state.addedMovieIds.contains(movie.id) },
-                onAddClick = { onIntent(SearchMovieIntent.MovieAddPressed(it)) },
-                onCardClick = { onIntent(SearchMovieIntent.MovieCardPressed(it)) },
-            )
-        }
+        PagingMediaList(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+            pagingMedia = pagingMovies,
+            isMediaAdded = { movie -> state.addedMovieIds.contains(movie.id) },
+            onAddClick = { onIntent(SearchMovieIntent.MovieAddPressed(it)) },
+            onCardClick = { onIntent(SearchMovieIntent.MovieCardPressed(it)) },
+        )
     }
 }

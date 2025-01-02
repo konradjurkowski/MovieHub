@@ -24,6 +24,5 @@ sealed class SearchMovieSideEffect {
 @MviState
 data class SearchMovieState(
     val query: String = "",
-    val isSearchInitiated: Boolean = false,
     val addedMovieIds: List<Long> = emptyList(),
 )

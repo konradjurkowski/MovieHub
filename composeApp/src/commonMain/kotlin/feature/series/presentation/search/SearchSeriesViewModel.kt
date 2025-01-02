@@ -10,8 +10,9 @@ import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
-import feature.series.data.api.SeriesPagingSource
+import feature.series.data.paging.SeriesPagingSource
 import feature.series.data.api.SeriesApi
+import feature.series.data.paging.PopularSeriesPagingSource
 import feature.series.data.repository.SeriesRepository
 import feature.series.data.storage.SeriesRegistry
 import feature.series.domain.model.Series
@@ -19,9 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -38,24 +37,22 @@ class SearchSeriesViewModel(
     private val _searchQuery = MutableStateFlow<String?>(null)
 
     val pager: Flow<PagingData<Series>> = _searchQuery
-        .filterNotNull()
-        .debounce(1000)
+        .debounce(500)
         .flatMapLatest { query ->
-            if (query.isEmpty()) {
-                updateViewState { copy(isSearchInitiated = false) }
-                flowOf(PagingData.empty())
-            } else {
-                updateViewState { copy(isSearchInitiated = true) }
-                Pager(
-                    config = PagingConfig(pageSize = 20),
-                    pagingSourceFactory = { SeriesPagingSource(seriesApi, query) }
-                ).flow.cachedIn(screenModelScope)
+            val pagingSource = when {
+                query?.isNotEmpty() == true -> SeriesPagingSource(api = seriesApi, query = query)
+                else -> PopularSeriesPagingSource(api = seriesApi)
             }
+            Pager(
+                config = PagingConfig(pageSize = 20),
+                pagingSourceFactory = { pagingSource }
+            ).flow.cachedIn(screenModelScope)
         }
         .stateIn(screenModelScope, SharingStarted.Lazily, PagingData.empty())
 
     init {
         initializeListeners()
+        _searchQuery.value = ""
     }
 
     override fun getDefaultState() = SearchSeriesState()

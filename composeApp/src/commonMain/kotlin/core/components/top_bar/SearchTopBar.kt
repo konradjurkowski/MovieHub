@@ -23,7 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 fun SearchTopBar(
     modifier: Modifier = Modifier,
     value: String,
-    shouldRequestFocus: Boolean = true,
+    shouldRequestFocus: Boolean = false,
     onValueChange: (String) -> Unit,
     onClearPressed: () -> Unit,
 ) {

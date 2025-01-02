@@ -9,6 +9,7 @@ import io.ktor.http.path
 class SeriesApiImpl(
     private val httpClient: HttpClient
 ) : SeriesApi {
+
     override suspend fun getSeriesById(seriesId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
@@ -31,5 +32,16 @@ class SeriesApiImpl(
         httpClient.request {
             method = HttpMethod.Get
             url { path("/3/tv/$seriesId/aggregate_credits") }
+        }
+
+    override suspend fun getPopularSeries(page: Int): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url {
+                path("/3/tv/popular")
+                parameters.apply {
+                    append("page", page.toString())
+                }
+            }
         }
 }

@@ -1,22 +1,22 @@
-package feature.series.data.api
+package feature.series.data.paging
 
 import androidx.paging.PagingState
 import app.cash.paging.PagingSource
+import feature.series.data.api.SeriesApi
 import feature.series.data.api.dto.SeriesResponse
 import feature.series.data.api.dto.toSeries
 import feature.series.domain.model.Series
 import io.ktor.client.call.body
 import io.ktor.utils.io.errors.IOException
 
-class SeriesPagingSource(
+class PopularSeriesPagingSource(
     private val api: SeriesApi,
-    private val query: String,
 ) : PagingSource<Int, Series>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Series> {
         return try {
             val currentPage = params.key ?: 1
-            val response = api.searchSeries(query, currentPage)
+            val response = api.getPopularSeries(page = currentPage)
             val seriesResponse = response.body<SeriesResponse>()
             LoadResult.Page(
                 data = seriesResponse.results.map { it.toSeries() },

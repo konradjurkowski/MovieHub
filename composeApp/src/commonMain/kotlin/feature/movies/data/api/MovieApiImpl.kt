@@ -9,6 +9,7 @@ import io.ktor.http.path
 class MovieApiImpl(
     private val httpClient: HttpClient
 ) : MovieApi {
+
     override suspend fun getMovieById(movieId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
@@ -31,5 +32,16 @@ class MovieApiImpl(
         httpClient.request {
             method = HttpMethod.Get
             url { path("/3/movie/$movieId/credits") }
+        }
+
+    override suspend fun getPopularMovies(page: Int): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url {
+                path("/3/movie/popular")
+                parameters.apply {
+                    append("page", page.toString())
+                }
+            }
         }
 }

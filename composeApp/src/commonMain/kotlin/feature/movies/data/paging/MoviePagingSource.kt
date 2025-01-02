@@ -1,7 +1,8 @@
-package feature.movies.data.api
+package feature.movies.data.paging
 
 import androidx.paging.PagingSource
 import app.cash.paging.PagingState
+import feature.movies.data.api.MovieApi
 import feature.movies.data.api.dto.MoviesResponse
 import feature.movies.data.api.dto.toDomain
 import feature.movies.domain.model.Movie
@@ -16,7 +17,7 @@ class MoviePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val currentPage = params.key ?: 1
-            val response = api.searchMovies(query, currentPage)
+            val response = api.searchMovies(query = query, page = currentPage)
             val moviesResponse = response.body<MoviesResponse>()
             LoadResult.Page(
                 data = moviesResponse.results.map { it.toDomain() },

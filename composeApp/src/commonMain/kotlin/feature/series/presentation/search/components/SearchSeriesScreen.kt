@@ -24,22 +24,19 @@ fun SearchSeriesScreen(
         topBar = {
             SearchTopBar(
                 value = state.query,
-                shouldRequestFocus = !state.isSearchInitiated,
                 onValueChange = { onIntent(SearchSeriesIntent.QueryChanged(it)) },
                 onClearPressed = { onIntent(SearchSeriesIntent.ClearQueryPressed) },
             )
         },
     ) { contentPadding ->
-        if (state.isSearchInitiated) {
-            PagingMediaList(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
-                pagingMedia = pagingSeries,
-                isMediaAdded = { series -> state.addedSeriesIds.contains(series.id) },
-                onAddClick = { onIntent(SearchSeriesIntent.SeriesAddPressed(it)) },
-                onCardClick = { onIntent(SearchSeriesIntent.SeriesCardPressed(it)) },
-            )
-        }
+        PagingMediaList(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+            pagingMedia = pagingSeries,
+            isMediaAdded = { series -> state.addedSeriesIds.contains(series.id) },
+            onAddClick = { onIntent(SearchSeriesIntent.SeriesAddPressed(it)) },
+            onCardClick = { onIntent(SearchSeriesIntent.SeriesCardPressed(it)) },
+        )
     }
 }

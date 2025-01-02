@@ -10,8 +10,9 @@ import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovieList
 import core.utils.Resource
-import feature.movies.data.api.MoviePagingSource
+import feature.movies.data.paging.MoviePagingSource
 import feature.movies.data.api.MovieApi
+import feature.movies.data.paging.PopularMoviePagingSource
 import feature.movies.data.repository.MovieRepository
 import feature.movies.data.storage.MovieRegistry
 import feature.movies.domain.model.Movie
@@ -19,9 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -38,24 +37,22 @@ class SearchMovieViewModel(
     private val _searchQuery = MutableStateFlow<String?>(null)
 
     val pager: Flow<PagingData<Movie>> = _searchQuery
-        .filterNotNull()
         .debounce(500)
         .flatMapLatest { query ->
-            if (query.isEmpty()) {
-                updateViewState { copy(isSearchInitiated = false) }
-                flowOf(PagingData.empty())
-            } else {
-                updateViewState { copy(isSearchInitiated = true) }
-                Pager(
-                    config = PagingConfig(pageSize = 20),
-                    pagingSourceFactory = { MoviePagingSource(movieApi, query) }
-                ).flow.cachedIn(screenModelScope)
+            val pagingSource = when {
+                query?.isNotEmpty() == true -> MoviePagingSource(api = movieApi, query = query)
+                else -> PopularMoviePagingSource(api = movieApi)
             }
+            Pager(
+                config = PagingConfig(pageSize = 20),
+                pagingSourceFactory = { pagingSource }
+            ).flow.cachedIn(screenModelScope)
         }
         .stateIn(screenModelScope, SharingStarted.Lazily, PagingData.empty())
 
     init {
         initializeListeners()
+        _searchQuery.value = ""
     }
 
     override fun getDefaultState() = SearchMovieState()

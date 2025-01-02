@@ -24,6 +24,5 @@ sealed class SearchSeriesSideEffect {
 @MviState
 data class SearchSeriesState(
     val query: String = "",
-    val isSearchInitiated: Boolean = false,
     val addedSeriesIds: List<Long> = emptyList(),
 )
