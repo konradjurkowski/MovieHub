@@ -42,14 +42,8 @@ class ProfileEditViewModel(
         if (viewState.value.editState.isLoading()) return
 
         val nameValidation = formValidator.basicValidation(name)
-        val descriptionValidation = formValidator.basicValidation(description)
-        updateViewState {
-            copy(
-                nameError = nameValidation.errorMessage,
-                descriptionError = descriptionValidation.errorMessage,
-            )
-        }
-        if (!nameValidation.successful || !descriptionValidation.successful) return
+        updateViewState { copy(nameError = nameValidation.errorMessage) }
+        if (!nameValidation.successful) return
 
         updateViewState { copy(editState = Resource.Loading) }
         if (image != null) {

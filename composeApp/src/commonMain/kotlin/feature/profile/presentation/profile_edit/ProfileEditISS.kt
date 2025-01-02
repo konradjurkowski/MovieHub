@@ -32,7 +32,6 @@ data class ProfileEditState(
     val name: String = "",
     val nameError: StringResource? = null,
     val description: String = "",
-    val descriptionError: StringResource? = null,
     val showPermissionDialog: Boolean = false,
     val editState: Resource<Any> = Resource.Idle,
 )

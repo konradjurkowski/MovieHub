@@ -84,12 +84,8 @@ fun ProfileEditScreen(
                 SmallSpacer()
                 InputTextField(
                     value = state.description,
-                    isError = state.editState.isFailure() || state.descriptionError != null,
+                    isError = state.editState.isFailure(),
                     onValueChange = { onIntent(ProfileEditIntent.DescriptionChanged(it)) },
-                )
-                InvalidFieldMessage(
-                    message = state.descriptionError.toDisplay(),
-                    isInvalid = state.descriptionError != null,
                 )
                 RegularSpacer()
                 TextFieldLabel(text = stringResource(Res.string.profile_edit_screen_email_label))
