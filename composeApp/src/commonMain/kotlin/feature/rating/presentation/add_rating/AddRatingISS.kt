@@ -28,7 +28,6 @@ sealed class AddRatingSideEffect {
 @MviState
 data class AddRatingState(
     val comment: String = "",
-    val commentValidation: ValidationResult = ValidationResult(successful = true),
     val rating: Double = 0.0,
     val ratingState: Resource<Any> = Resource.Idle,
 )

@@ -8,7 +8,6 @@ import core.tools.event_bus.RefreshMovie
 import core.tools.event_bus.RefreshMovieList
 import core.tools.event_bus.RefreshSeries
 import core.tools.event_bus.RefreshSeriesList
-import core.tools.validator.FormValidator
 import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
@@ -18,7 +17,6 @@ class AddRatingViewModel(
     private val mediaId: Long,
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
-    private val formValidator: FormValidator,
     private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<AddRatingIntent, AddRatingSideEffect, AddRatingState>() {
@@ -57,10 +55,6 @@ class AddRatingViewModel(
     private fun addMovieRating(rating: Double, comment: String) {
         if (viewState.value.ratingState.isLoading()) return
 
-        val commentValidation = formValidator.basicValidation(comment)
-        updateViewState { copy(commentValidation = commentValidation) }
-        if (!commentValidation.successful) return
-
         screenModelScope.launch(dispatchersProvider.io) {
             updateViewState { copy(ratingState = Resource.Loading) }
             val result = movieRepository.addFirebaseRating(mediaId, rating, comment)
@@ -85,10 +79,6 @@ class AddRatingViewModel(
 
     private fun addSeriesRating(rating: Double, comment: String) {
         if (viewState.value.ratingState.isLoading()) return
-
-        val commentValidation = formValidator.basicValidation(comment)
-        updateViewState { copy(commentValidation = commentValidation) }
-        if (!commentValidation.successful) return
 
         screenModelScope.launch(dispatchersProvider.io) {
             updateViewState { copy(ratingState = Resource.Loading) }
