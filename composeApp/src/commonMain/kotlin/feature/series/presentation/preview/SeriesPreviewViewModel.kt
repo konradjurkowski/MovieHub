@@ -3,8 +3,6 @@ package feature.series.presentation.preview
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
-import core.tools.event_bus.EventBus
-import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
 import feature.series.data.repository.SeriesRepository
 import feature.series.data.storage.SeriesRegistry
@@ -19,7 +17,6 @@ class SeriesPreviewViewModel(
     private val seriesId: Long,
     private val seriesRepository: SeriesRepository,
     private val seriesRegistry: SeriesRegistry,
-    private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SeriesPreviewIntent, SeriesPreviewSideEffect, SeriesPreviewState>() {
 
@@ -73,7 +70,6 @@ class SeriesPreviewViewModel(
                     seriesRegistry.addSeries(seriesId)
                     updateViewState { copy(isSeriesAdded = true) }
                     sendSideEffect(SeriesPreviewSideEffect.HideLoaderWithSuccess)
-                    eventBus.invokeEvent(RefreshSeriesList)
                 }
                 is Resource.Failure -> {
                     sendSideEffect(SeriesPreviewSideEffect.HideLoaderWithError(result.error))

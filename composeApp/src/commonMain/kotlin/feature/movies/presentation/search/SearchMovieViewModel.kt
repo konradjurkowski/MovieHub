@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
-import core.tools.event_bus.EventBus
 import core.utils.Resource
 import feature.movies.data.paging.MoviePagingSource
 import feature.movies.data.api.MovieApi
@@ -29,7 +28,6 @@ class SearchMovieViewModel(
     private val movieApi: MovieApi,
     private val movieRepository: MovieRepository,
     private val movieRegistry: MovieRegistry,
-    private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SearchMovieIntent, SearchMovieSideEffect, SearchMovieState>() {
 

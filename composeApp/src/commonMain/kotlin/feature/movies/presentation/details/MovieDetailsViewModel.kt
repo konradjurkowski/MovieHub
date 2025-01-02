@@ -76,8 +76,7 @@ class MovieDetailsViewModel(
         sendSideEffect(MovieDetailsSideEffect.ShowLoader)
 
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = movieRepository.deleteFirebaseRating(movieId, rating)
-            when (result) {
+            when (val result = movieRepository.deleteFirebaseRating(movieId, rating)) {
                 is Resource.Success -> {
                     sendSideEffect(MovieDetailsSideEffect.HideLoaderWithSuccess)
                     getMovieDetails()

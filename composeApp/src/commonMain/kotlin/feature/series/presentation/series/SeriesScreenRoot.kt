@@ -1,6 +1,7 @@
 package feature.series.presentation.series
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
@@ -17,6 +18,10 @@ class SeriesScreenRoot : Screen {
     override fun Content() {
         val viewModel = getScreenModel<SeriesViewModel>()
         val state by viewModel.viewState.collectAsState()
+
+        LaunchedEffect(Unit) {
+            viewModel.getSeries()
+        }
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {

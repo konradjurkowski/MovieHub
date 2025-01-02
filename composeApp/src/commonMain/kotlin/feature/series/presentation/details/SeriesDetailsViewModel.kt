@@ -5,7 +5,6 @@ import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshSeries
-import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import feature.movies.domain.model.FirebaseRating
@@ -77,11 +76,9 @@ class SeriesDetailsViewModel(
         sendSideEffect(SeriesDetailsSideEffect.ShowLoader)
 
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = seriesRepository.deleteFirebaseRating(seriesId, rating)
-            when (result) {
+            when (val result = seriesRepository.deleteFirebaseRating(seriesId, rating)) {
                 is Resource.Success -> {
                     sendSideEffect(SeriesDetailsSideEffect.HideLoaderWithSuccess)
-                    eventBus.invokeEvent(RefreshSeriesList)
                     getSeriesDetails()
                 }
                 is Resource.Failure -> {

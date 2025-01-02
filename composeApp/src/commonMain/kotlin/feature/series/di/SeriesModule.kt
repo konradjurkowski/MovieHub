@@ -17,8 +17,8 @@ val seriesModule = module {
     single<SeriesRepository> { SeriesRepositoryImpl(get(), get(), get(), get()) }
     single<SeriesRegistry> { SeriesRegistryImpl() }
 
-    factory<SeriesViewModel> { SeriesViewModel(get(), get(), get()) }
+    factory<SeriesViewModel> { SeriesViewModel(get(), get()) }
     factory<SeriesDetailsViewModel> { (seriesId: Long) -> SeriesDetailsViewModel(seriesId, get(), get(), get(), get()) }
-    factory<SeriesPreviewViewModel> { (seriesId: Long) -> SeriesPreviewViewModel(seriesId, get(), get(), get(), get()) }
-    factory<SearchSeriesViewModel> { SearchSeriesViewModel(get(), get(), get(), get(), get()) }
+    factory<SeriesPreviewViewModel> { (seriesId: Long) -> SeriesPreviewViewModel(seriesId, get(), get(), get()) }
+    factory<SearchSeriesViewModel> { SearchSeriesViewModel(get(), get(), get(), get()) }
 }

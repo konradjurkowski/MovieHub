@@ -3,24 +3,14 @@ package feature.series.presentation.series
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
-import core.tools.event_bus.EventBus
-import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
 import feature.series.data.repository.SeriesRepository
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
 
 class SeriesViewModel(
     private val repository: SeriesRepository,
-    private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SeriesIntent, SeriesSideEffect, SeriesState>() {
-
-    init {
-        initListener()
-        getSeries()
-    }
 
     override fun getDefaultState() = Resource.Idle
 
@@ -32,21 +22,11 @@ class SeriesViewModel(
         }
     }
 
-    private fun getSeries() {
-        updateViewState { Resource.Loading }
+    fun getSeries() {
+        if (viewState.value == Resource.Idle) updateViewState { Resource.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val result = repository.getTopRatedFirebaseSeries()
             updateViewState { result }
-        }
-    }
-
-    private fun initListener() {
-        screenModelScope.launch {
-            eventBus.events
-                .filterIsInstance<RefreshSeriesList>()
-                .collectLatest {
-                    getSeries()
-                }
         }
     }
 }

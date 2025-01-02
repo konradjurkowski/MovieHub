@@ -13,7 +13,5 @@ class EventBus {
 
 abstract class AppEvent
 data class SetNavigationTab(val tab: Tab) : AppEvent()
-data object RefreshMovieList : AppEvent()
 data class RefreshMovie(val movieId: Long) : AppEvent()
-data object RefreshSeriesList : AppEvent()
 data class RefreshSeries(val seriesId: Long) : AppEvent()

@@ -20,5 +20,5 @@ val moviesModule = module {
     factory<MoviesViewModel> { MoviesViewModel(get(), get()) }
     factory<MovieDetailsViewModel> { (movieId: Long) -> MovieDetailsViewModel(movieId, get(), get(), get(), get()) }
     factory<MoviePreviewViewModel> { (movieId: Long) -> MoviePreviewViewModel(movieId, get(), get(), get()) }
-    factory<SearchMovieViewModel> { SearchMovieViewModel(get(), get(), get(), get(), get()) }
+    factory<SearchMovieViewModel> { SearchMovieViewModel(get(), get(), get(), get()) }
 }

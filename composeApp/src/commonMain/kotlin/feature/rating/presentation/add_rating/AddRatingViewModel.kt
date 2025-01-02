@@ -5,9 +5,7 @@ import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovie
-import core.tools.event_bus.RefreshMovieList
 import core.tools.event_bus.RefreshSeries
-import core.tools.event_bus.RefreshSeriesList
 import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
@@ -61,7 +59,6 @@ class AddRatingViewModel(
             when (result) {
                 is Resource.Success -> {
                     eventBus.invokeEvent(RefreshMovie(mediaId))
-                    eventBus.invokeEvent(RefreshMovieList)
                     sendSideEffect(AddRatingSideEffect.Success)
                 }
 
@@ -86,7 +83,6 @@ class AddRatingViewModel(
             when (result) {
                 is Resource.Success -> {
                     eventBus.invokeEvent(RefreshSeries(mediaId))
-                    eventBus.invokeEvent(RefreshSeriesList)
                     sendSideEffect(AddRatingSideEffect.Success)
                 }
 
