@@ -31,6 +31,7 @@ class AuthServiceImpl(
     override suspend fun signIn(email: String, password: String): Resource<FirebaseUser?> {
         return try {
             val result = auth.signInWithEmailAndPassword(email, password)
+            getAppUser(refresh = true)
             Resource.Success(result.user)
         } catch (e: Exception) {
             Resource.Failure(e)
