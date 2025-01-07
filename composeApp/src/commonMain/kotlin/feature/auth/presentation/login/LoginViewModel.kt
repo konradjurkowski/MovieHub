@@ -4,8 +4,22 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
+import core.utils.Constants
+import core.utils.Platform
+import core.utils.PlatformInfo
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
+import feature.auth.presentation.login.LoginIntent.EmailChanged
+import feature.auth.presentation.login.LoginIntent.PasswordChanged
+import feature.auth.presentation.login.LoginIntent.TogglePasswordVisibility
+import feature.auth.presentation.login.LoginIntent.ForgotPasswordPressed
+import feature.auth.presentation.login.LoginIntent.SignIn
+import feature.auth.presentation.login.LoginIntent.CreateAccountPressed
+import feature.auth.presentation.login.LoginSideEffect.GoToForgotPassword
+import feature.auth.presentation.login.LoginSideEffect.GoToHome
+import feature.auth.presentation.login.LoginSideEffect.GoToNotificationPermission
+import feature.auth.presentation.login.LoginSideEffect.GoToRegister
+import feature.auth.presentation.login.LoginSideEffect.ShowError
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -17,14 +31,12 @@ class LoginViewModel(
 
     override fun processIntent(intent: LoginIntent) {
         when (intent) {
-            is LoginIntent.EmailChanged -> updateViewState { copy(email = intent.email) }
-            is LoginIntent.PasswordChanged -> updateViewState { copy(password = intent.password) }
-            LoginIntent.TogglePasswordVisibility -> {
-                updateViewState { copy(obscurePassword = !obscurePassword) }
-            }
-            LoginIntent.ForgotPasswordPressed -> sendSideEffect(LoginSideEffect.GoToForgotPassword)
-            is LoginIntent.SignIn -> signIn(intent.email, intent.password)
-            LoginIntent.CreateAccountPressed -> sendSideEffect(LoginSideEffect.GoToRegister)
+            is EmailChanged -> updateViewState { copy(email = intent.email) }
+            is PasswordChanged -> updateViewState { copy(password = intent.password) }
+            TogglePasswordVisibility -> updateViewState { copy(obscurePassword = !obscurePassword) }
+            ForgotPasswordPressed -> sendSideEffect(GoToForgotPassword)
+            is SignIn -> signIn(intent.email, intent.password)
+            CreateAccountPressed -> sendSideEffect(GoToRegister)
         }
     }
 
@@ -47,8 +59,8 @@ class LoginViewModel(
             val result = authService.signIn(email, password)
 
             when (result) {
-                is Resource.Success -> sendSideEffect(LoginSideEffect.GoToHome)
-                is Resource.Failure -> sendSideEffect(LoginSideEffect.ShowError(result.error))
+                is Resource.Success -> checkIfPermissionGranted()
+                is Resource.Failure -> sendSideEffect(ShowError(result.error))
                 else -> {
                     // NO - OP
                 }
@@ -56,5 +68,16 @@ class LoginViewModel(
 
             updateViewState { copy(loginState = result) }
         }
+    }
+
+    private fun checkIfPermissionGranted() {
+        val platform = PlatformInfo.platform
+        val sdkInt = PlatformInfo.sdkInt
+        if (platform == Platform.Android && sdkInt >= Constants.ANDROID_13_VERSION_CODE) {
+            sendSideEffect(GoToNotificationPermission)
+            return
+        }
+
+        sendSideEffect(GoToHome)
     }
 }

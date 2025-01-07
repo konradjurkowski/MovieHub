@@ -10,8 +10,13 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
+import feature.auth.presentation.register.RegisterSideEffect.GoToHome
+import feature.auth.presentation.register.RegisterSideEffect.GoToNotificationPermission
+import feature.auth.presentation.register.RegisterSideEffect.NavigateBack
+import feature.auth.presentation.register.RegisterSideEffect.ShowError
 import feature.auth.presentation.register.components.RegisterScreen
 import feature.home.presentation.main.MainScreenRoot
+import feature.permissions.presentation.notification.NotificationPermissionScreenRoot
 
 class RegisterScreenRoot : Screen {
 
@@ -25,11 +30,10 @@ class RegisterScreenRoot : Screen {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                RegisterSideEffect.GoToHome -> navigator.replaceAll(MainScreenRoot())
-                RegisterSideEffect.NavigateBack -> navigator.pop()
-                is RegisterSideEffect.ShowError -> {
-                    snackbarState.showError(getFailureMessage(effect.error))
-                }
+                GoToHome -> navigator.replaceAll(MainScreenRoot())
+                GoToNotificationPermission -> navigator.replaceAll(NotificationPermissionScreenRoot())
+                NavigateBack -> navigator.pop()
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
             }
         }
 

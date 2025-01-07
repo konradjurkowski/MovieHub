@@ -28,6 +28,7 @@ sealed class RegisterIntent {
 sealed class RegisterSideEffect {
     data object NavigateBack : RegisterSideEffect()
     data object GoToHome : RegisterSideEffect()
+    data object GoToNotificationPermission : RegisterSideEffect()
     data class ShowError(val error: Throwable) : RegisterSideEffect()
 }
 

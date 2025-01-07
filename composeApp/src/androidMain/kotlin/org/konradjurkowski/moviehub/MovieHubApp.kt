@@ -6,6 +6,7 @@ import core.di.networkModule
 import feature.auth.di.authModule
 import feature.home.di.homeModule
 import feature.movies.di.moviesModule
+import feature.permissions.di.permissionsModule
 import feature.profile.di.profileModule
 import feature.rating.di.ratingModule
 import feature.series.di.seriesModule
@@ -29,6 +30,7 @@ fun initializeKoin() {
             profileModule,
             ratingModule,
             seriesModule,
+            permissionsModule,
         )
     }
 }

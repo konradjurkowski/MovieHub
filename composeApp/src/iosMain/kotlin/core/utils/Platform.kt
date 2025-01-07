@@ -18,6 +18,7 @@ import kotlin.native.Platform as NativePlatform
 actual object PlatformInfo {
     actual val platform: Platform = Platform.IOS
     actual val systemVersion: String = UIDevice.currentDevice.systemVersion
+    actual val sdkInt: Int = 0
     actual fun getLanguageCode(): String = NSLocale.currentLocale.languageCode
     actual fun getCountryCode(): String = NSLocale.currentLocale.countryCode ?: ""
     @OptIn(ExperimentalNativeApi::class)

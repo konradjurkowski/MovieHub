@@ -4,8 +4,23 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
+import core.utils.Constants
+import core.utils.Platform
+import core.utils.PlatformInfo
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
+import feature.auth.presentation.register.RegisterIntent.BackPressed
+import feature.auth.presentation.register.RegisterIntent.NameChanged
+import feature.auth.presentation.register.RegisterIntent.EmailChanged
+import feature.auth.presentation.register.RegisterIntent.PasswordChanged
+import feature.auth.presentation.register.RegisterIntent.RepeatedPasswordChanged
+import feature.auth.presentation.register.RegisterIntent.TogglePasswordVisibility
+import feature.auth.presentation.register.RegisterIntent.ToggleRepeatedPasswordVisibility
+import feature.auth.presentation.register.RegisterIntent.SignUp
+import feature.auth.presentation.register.RegisterSideEffect.GoToHome
+import feature.auth.presentation.register.RegisterSideEffect.GoToNotificationPermission
+import feature.auth.presentation.register.RegisterSideEffect.NavigateBack
+import feature.auth.presentation.register.RegisterSideEffect.ShowError
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
@@ -17,18 +32,18 @@ class RegisterViewModel(
 
     override fun processIntent(intent: RegisterIntent) {
         when (intent) {
-            RegisterIntent.BackPressed -> sendSideEffect(RegisterSideEffect.NavigateBack)
-            is RegisterIntent.NameChanged -> updateViewState { copy(name = intent.name) }
-            is RegisterIntent.EmailChanged -> updateViewState { copy(email = intent.email) }
-            is RegisterIntent.PasswordChanged -> updateViewState { copy(password = intent.password) }
-            is RegisterIntent.RepeatedPasswordChanged -> {
+            BackPressed -> sendSideEffect(NavigateBack)
+            is NameChanged -> updateViewState { copy(name = intent.name) }
+            is EmailChanged -> updateViewState { copy(email = intent.email) }
+            is PasswordChanged -> updateViewState { copy(password = intent.password) }
+            is RepeatedPasswordChanged -> {
                 updateViewState { copy(repeatedPassword = intent.repeatedPassword) }
             }
-            RegisterIntent.TogglePasswordVisibility -> updateViewState { copy(obscurePassword = !obscurePassword) }
-            RegisterIntent.ToggleRepeatedPasswordVisibility -> {
+            TogglePasswordVisibility -> updateViewState { copy(obscurePassword = !obscurePassword) }
+            ToggleRepeatedPasswordVisibility -> {
                 updateViewState { copy(obscureRepeatedPassword = !obscureRepeatedPassword) }
             }
-            is RegisterIntent.SignUp -> signUp(
+            is SignUp -> signUp(
                 name = intent.name,
                 email = intent.email,
                 password = intent.password,
@@ -68,8 +83,8 @@ class RegisterViewModel(
             val result = authService.signUp(name, email, password)
 
             when (result) {
-                is Resource.Success -> sendSideEffect(RegisterSideEffect.GoToHome)
-                is Resource.Failure -> sendSideEffect(RegisterSideEffect.ShowError(result.error))
+                is Resource.Success -> checkIfPermissionGranted()
+                is Resource.Failure -> sendSideEffect(ShowError(result.error))
                 else -> {
                     // NO - OP
                 }
@@ -77,5 +92,16 @@ class RegisterViewModel(
 
             updateViewState { copy(registerState = result) }
         }
+    }
+
+    private fun checkIfPermissionGranted() {
+        val platform = PlatformInfo.platform
+        val sdkInt = PlatformInfo.sdkInt
+        if (platform == Platform.Android && sdkInt >= Constants.ANDROID_13_VERSION_CODE) {
+            sendSideEffect(GoToNotificationPermission)
+            return
+        }
+
+        sendSideEffect(GoToHome)
     }
 }
