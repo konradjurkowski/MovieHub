@@ -28,13 +28,20 @@ fun UserAvatar(
     modifier: Modifier = Modifier,
     size: Dp = Dimens.largeUserAvatar,
     imageUrl: String? = null,
+    onClick: () -> Unit = {},
 ) {
+    val touchFeedback = LocalTouchFeedback.current
+
     Card(
         modifier = modifier
             .size(size),
         shape = CircleShape,
         elevation = CardDefaults
             .cardElevation(defaultElevation = Dimens.defaultElevation),
+        onClick = {
+            touchFeedback.performLongPress()
+            onClick()
+        },
     ) {
         AnyImage(
             modifier = Modifier.fillMaxSize(),

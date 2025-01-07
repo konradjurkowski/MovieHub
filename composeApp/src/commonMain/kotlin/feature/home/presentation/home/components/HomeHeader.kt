@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,36 +15,40 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import core.components.other.SmallSpacer
 import core.components.other.TinySpacer
 import core.components.user.UserAvatar
 import core.utils.Dimens
 import feature.auth.domain.AppUser
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.home_screen_check_for_latest_addition
+import moviehub.composeapp.generated.resources.home_screen_hello_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HomeHeader(
-    user: AppUser
+    modifier: Modifier = Modifier,
+    appUser: AppUser?,
+    onUserClick: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .safeDrawingPadding()
+            .systemBarsPadding()
             .padding(top = Dimens.padding16)
             .padding(horizontal = Dimens.padding16),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
-            modifier = Modifier
-                .weight(1f),
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center,
         ) {
             val textStyle = MaterialTheme.typography.titleLarge
             Text(
                 text = buildAnnotatedString {
                     withStyle(textStyle.copy(fontWeight = FontWeight.ExtraBold).toSpanStyle()) {
-                        append("Hello, ")
+                        append("${stringResource(Res.string.home_screen_hello_label)}, ")
                     }
-                    append("${user.name}!")
+                    append("${appUser?.name ?: ""}!")
                 },
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -52,17 +56,18 @@ fun HomeHeader(
             )
             TinySpacer()
             Text(
-                text = "Check for latest addition.",
+                text = stringResource(Res.string.home_screen_check_for_latest_addition),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
             )
         }
-        SmallSpacer()
         UserAvatar(
+            modifier = Modifier.padding(top = Dimens.padding8),
             size = Dimens.icon48,
-            imageUrl = user.imageUrl,
+            imageUrl = appUser?.imageUrl,
+            onClick = onUserClick,
         )
     }
 }

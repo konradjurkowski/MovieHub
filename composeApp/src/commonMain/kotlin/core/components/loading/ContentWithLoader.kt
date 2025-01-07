@@ -1,5 +1,6 @@
 package core.components.loading
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -35,8 +36,11 @@ fun ContentWithLoader(
 @Composable
 fun LoaderComponent(loaderState: Boolean) {
     if (loaderState) {
+        // TODO CHECK IT
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable {  },
             contentAlignment = Alignment.Center,
         ) {
             Surface(

@@ -6,6 +6,8 @@ import core.tools.dispatcher.DispatchersProvider
 import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -16,31 +18,35 @@ class HomeViewModel(
 
     init {
         loadInitialData()
+        initializeListeners()
     }
 
     override fun getDefaultState() = HomeState()
 
     override fun processIntent(intent: HomeIntent) {
-
+        when (intent) {
+            is HomeIntent.MoviePressed -> sendSideEffect(HomeSideEffect.GoToMovieDetail(intent.movie))
+            HomeIntent.OnUserPressed -> sendSideEffect(HomeSideEffect.GoToProfileTab)
+        }
     }
 
     private fun loadInitialData() {
         updateViewState { copy(isLoading = true) }
 
         screenModelScope.launch(dispatchersProvider.io) {
-            val futureMovies = async { movieRepository.getLastUpdatedFirebaseMovies() }
             val futureUser = async { authService.getAppUser() }
+            async { movieRepository.getTopRatedFirebaseMovies() }
+            val futureLastUpdatedMovies = async { movieRepository.getLastUpdatedFirebaseMovies() }
 
-            val moviesResult = futureMovies.await()
-            val userResult = futureUser.await()
+            futureUser.await()
+            val moviesResult = futureLastUpdatedMovies.await()
 
             when {
-                moviesResult.isSuccess() && userResult.isSuccess() -> {
+                moviesResult.isSuccess() -> {
                     updateViewState {
                         copy(
                             isLoading = false,
-                            lastUpdatedMovies = moviesResult.getSuccess() ?: emptyList(),
-                            user = userResult.getSuccess()
+                            lastUpdatedMovies = moviesResult.getSuccess(),
                         )
                     }
                 }
@@ -49,5 +55,11 @@ class HomeViewModel(
                 }
             }
         }
+    }
+
+    private fun initializeListeners() {
+        authService.appUser.onEach {
+            updateViewState { copy(appUser = it) }
+        }.launchIn(screenModelScope)
     }
 }

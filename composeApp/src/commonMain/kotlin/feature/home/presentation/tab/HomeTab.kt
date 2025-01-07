@@ -12,6 +12,7 @@ import moviehub.composeapp.generated.resources.home_tab_label
 import org.jetbrains.compose.resources.stringResource
 
 object HomeTab : Tab {
+
     override val options: TabOptions
         @Composable
         get() {
