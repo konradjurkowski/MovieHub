@@ -1,8 +1,10 @@
 package feature.home.presentation.home
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.mmk.kmpnotifier.notification.NotifierManager
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
+import core.utils.Constants
 import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
 import kotlinx.coroutines.async
@@ -19,6 +21,7 @@ class HomeViewModel(
     init {
         loadInitialData()
         initializeListeners()
+        subscribeToTopic()
     }
 
     override fun getDefaultState() = HomeState()
@@ -61,5 +64,11 @@ class HomeViewModel(
         authService.appUser.onEach {
             updateViewState { copy(appUser = it) }
         }.launchIn(screenModelScope)
+    }
+
+    private fun subscribeToTopic() {
+        screenModelScope.launch(dispatchersProvider.io) {
+            NotifierManager.getPushNotifier().subscribeToTopic(Constants.PUSH_NEWS_TOPIC)
+        }
     }
 }

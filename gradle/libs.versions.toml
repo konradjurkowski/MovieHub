@@ -1,6 +1,6 @@
 [versions]
 agp = "8.2.0"
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "26"
 android-targetSdk = "34"
 # Build
@@ -30,12 +30,15 @@ gradlePlugins-google-services = "4.4.2"
 gradlePlugins-crashlytics = "3.0.2"
 # Paging
 pagingCommonVersion = "3.3.0-alpha02-0.5.1"
+# Notification
+kmpnotifier = "1.3.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 calf-permissions = { module = "com.mohamedrejeb.calf:calf-permissions", version.ref = "calfPermissions" }
 kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpnotifier" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 navigator-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }

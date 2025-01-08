@@ -1,5 +1,7 @@
 package feature.auth.data.remote
 
+import com.mmk.kmpnotifier.notification.NotifierManager
+import core.utils.Constants
 import core.utils.FailureResponseException
 import core.utils.FirebaseConstants
 import core.utils.Resource
@@ -61,6 +63,10 @@ class AuthServiceImpl(
     override suspend fun logout() {
         try {
             auth.signOut()
+            NotifierManager.getPushNotifier().apply {
+                deleteMyToken()
+                unSubscribeFromTopic(Constants.PUSH_NEWS_TOPIC)
+            }
             _appUser.value = null
         } catch (e: Exception) {
             // NO - OP

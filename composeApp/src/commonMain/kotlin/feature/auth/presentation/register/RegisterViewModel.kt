@@ -98,7 +98,7 @@ class RegisterViewModel(
         val platform = PlatformInfo.platform
         val sdkInt = PlatformInfo.sdkInt
         val requiresPermissionCheck = platform == Platform.IOS ||
-                (platform == Platform.IOS && sdkInt >= Constants.ANDROID_13_VERSION_CODE)
+                (platform == Platform.Android && sdkInt >= Constants.ANDROID_13_VERSION_CODE)
 
         if (requiresPermissionCheck) {
             sendSideEffect(GoToNotificationPermission)

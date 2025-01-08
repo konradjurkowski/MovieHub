@@ -34,7 +34,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -43,9 +43,10 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(libs.kmpnotifier)
         }
     }
-    
+
     sourceSets {
         all {
             languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
@@ -117,6 +118,9 @@ kotlin {
 
             // Permissions
             implementation(libs.calf.permissions)
+
+            // Notifications
+            api(libs.kmpnotifier)
         }
 
         iosMain.dependencies {
