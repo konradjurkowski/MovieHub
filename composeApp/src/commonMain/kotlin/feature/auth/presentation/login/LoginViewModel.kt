@@ -73,7 +73,10 @@ class LoginViewModel(
     private fun checkIfPermissionGranted() {
         val platform = PlatformInfo.platform
         val sdkInt = PlatformInfo.sdkInt
-        if (platform == Platform.Android && sdkInt >= Constants.ANDROID_13_VERSION_CODE) {
+        val requiresPermissionCheck = platform == Platform.IOS ||
+                (platform == Platform.IOS && sdkInt >= Constants.ANDROID_13_VERSION_CODE)
+
+        if (requiresPermissionCheck) {
             sendSideEffect(GoToNotificationPermission)
             return
         }

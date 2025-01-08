@@ -18,6 +18,12 @@
     <string name="forgot_password_screen_reset_password_label">Reset password</string>
     <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
 
+    <!--Notification Permission Screen-->
+    <string name="notification_permission_screen_enable_notifications_title">Enable notifications</string>
+    <string name="notification_permission_screen_enable_notifications_message">Get notified about new comments, added movies or series, so you never miss a thing!</string>
+    <string name="notification_permission_screen_enable_label">Enable</string>
+    <string name="notification_permission_screen_not_now_label">Not now</string>
+
     <!--Home Screen-->
     <string name="home_screen_hello_label">Hello, </string>
     <string name="home_screen_check_for_latest_addition">Check for latest addition.</string>
