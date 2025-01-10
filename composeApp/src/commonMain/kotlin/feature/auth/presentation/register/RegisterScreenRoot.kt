@@ -3,10 +3,10 @@ package feature.auth.presentation.register
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
@@ -18,7 +18,7 @@ import feature.auth.presentation.register.components.RegisterScreen
 import feature.home.presentation.main.MainScreenRoot
 import feature.permissions.presentation.notification.NotificationPermissionScreenRoot
 
-class RegisterScreenRoot : Screen {
+class RegisterScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {

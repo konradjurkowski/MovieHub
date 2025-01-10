@@ -3,13 +3,13 @@ package feature.auth.presentation.login
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mohamedrejeb.calf.permissions.Permission
 import com.mohamedrejeb.calf.permissions.isGranted
 import com.mohamedrejeb.calf.permissions.rememberPermissionState
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
@@ -24,7 +24,7 @@ import feature.auth.presentation.register.RegisterScreenRoot
 import feature.home.presentation.main.MainScreenRoot
 import feature.permissions.presentation.notification.NotificationPermissionScreenRoot
 
-class LoginScreenRoot : Screen {
+class LoginScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
