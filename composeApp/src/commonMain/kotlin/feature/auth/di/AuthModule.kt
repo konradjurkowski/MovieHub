@@ -6,12 +6,16 @@ import feature.auth.presentation.forgot_password.ForgotPasswordViewModel
 import feature.auth.presentation.login.LoginViewModel
 import feature.auth.presentation.register.RegisterViewModel
 import feature.auth.presentation.splash.SplashViewModel
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val authModule = module {
-    single<AuthService> { AuthServiceImpl(get(), get(), get()) }
-    factory<SplashViewModel> { SplashViewModel(get()) }
-    factory<LoginViewModel> { LoginViewModel(get(), get(), get()) }
-    factory<ForgotPasswordViewModel> { ForgotPasswordViewModel(get(), get(), get()) }
-    factory<RegisterViewModel> { RegisterViewModel(get(), get(), get()) }
+    singleOf(::AuthServiceImpl) bind AuthService::class
+
+    factoryOf(::SplashViewModel)
+    factoryOf(::LoginViewModel)
+    factoryOf(::ForgotPasswordViewModel)
+    factoryOf(::RegisterViewModel)
 }
