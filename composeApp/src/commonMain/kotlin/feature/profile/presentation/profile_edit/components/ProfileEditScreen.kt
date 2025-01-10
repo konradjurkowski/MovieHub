@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -42,7 +43,9 @@ fun ProfileEditScreen(
     val focusManager = LocalFocusManager.current
 
     Scaffold(
-        modifier = Modifier.clearFocus(),
+        modifier = Modifier
+            .imePadding()
+            .clearFocus(),
         topBar = {
             LogoTopBar(isLeadingVisible = true)
         },
@@ -50,8 +53,8 @@ fun ProfileEditScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
+                .padding(innerPadding)
                 .padding(vertical = Dimens.padding16),
         ) {
             Column(modifier = Modifier.padding(horizontal = Dimens.padding16)) {
