@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import core.utils.LocalSnackbarState
@@ -20,7 +20,7 @@ class AddRatingScreenRoot(
     val mediaId: Long,
     val isMovie: Boolean = true,
     val firebaseRating: FirebaseRating? = null,
-) : Screen {
+) : BaseScreen() {
 
     @Composable
     override fun Content() {
