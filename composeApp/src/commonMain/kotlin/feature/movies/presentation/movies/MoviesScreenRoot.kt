@@ -4,15 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.movies.presentation.movies.components.MoviesScreen
 import feature.movies.presentation.search.SearchMovieScreenRoot
 
-class MoviesScreenRoot : Screen {
+class MoviesScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
