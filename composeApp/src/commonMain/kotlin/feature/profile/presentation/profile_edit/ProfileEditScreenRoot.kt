@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.mohamedrejeb.calf.permissions.Permission
 import com.mohamedrejeb.calf.permissions.isGranted
@@ -12,6 +11,7 @@ import com.mohamedrejeb.calf.permissions.rememberPermissionState
 import com.mohamedrejeb.calf.permissions.shouldShowRationale
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.components.dialog.PermissionDialog
 import core.navigation.GlobalNavigators
@@ -24,7 +24,7 @@ import moviehub.composeapp.generated.resources.permission_gallery_permanently_de
 import moviehub.composeapp.generated.resources.profile_edit_screen_edit_success
 import org.jetbrains.compose.resources.stringResource
 
-class ProfileEditScreenRoot : Screen {
+class ProfileEditScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
