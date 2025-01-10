@@ -5,9 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalFocusManager
 import app.cash.paging.compose.collectAsLazyPagingItems
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import core.utils.LocalLoaderState
@@ -17,11 +16,8 @@ import feature.series.presentation.preview.SeriesPreviewScreenRoot
 import feature.series.presentation.search.components.SearchSeriesScreen
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.search_series_screen_add_success
-import kotlin.random.Random
 
-class SearchSeriesScreenRoot : Screen {
-
-    override val key: ScreenKey = super.key + Random.nextDouble()
+class SearchSeriesScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {

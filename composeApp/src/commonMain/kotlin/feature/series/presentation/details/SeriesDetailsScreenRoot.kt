@@ -3,8 +3,8 @@ package feature.series.presentation.details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import core.utils.LocalLoaderState
@@ -14,7 +14,7 @@ import feature.rating.presentation.add_rating.AddRatingScreenRoot
 import feature.series.presentation.details.components.SeriesDetailsScreen
 import org.koin.core.parameter.parametersOf
 
-class SeriesDetailsScreenRoot(val seriesId: Long) : Screen {
+class SeriesDetailsScreenRoot(val seriesId: Long) : BaseScreen() {
 
     @Composable
     override fun Content() {

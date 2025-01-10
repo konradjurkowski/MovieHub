@@ -4,15 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.series.presentation.series.components.SeriesScreen
 import feature.series.presentation.details.SeriesDetailsScreenRoot
 import feature.series.presentation.search.SearchSeriesScreenRoot
 
-class SeriesScreenRoot : Screen {
+class SeriesScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
