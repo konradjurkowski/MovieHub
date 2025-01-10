@@ -1,9 +1,9 @@
 package feature.home.presentation.main
 
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.home.presentation.tab.HomeTab
@@ -22,7 +22,7 @@ import moviehub.composeapp.generated.resources.ic_series
 import moviehub.composeapp.generated.resources.ic_series_selected
 import org.jetbrains.compose.resources.DrawableResource
 
-class MainScreenRoot : Screen {
+class MainScreenRoot : BaseScreen() {
 
     private val tabList = listOf(
         HomeTab,

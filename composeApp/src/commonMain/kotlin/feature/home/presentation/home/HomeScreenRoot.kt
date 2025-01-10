@@ -3,15 +3,15 @@ package feature.home.presentation.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.home.presentation.home.components.HomeScreen
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.profile.presentation.tab.ProfileTab
 
-class HomeScreenRoot : Screen {
+class HomeScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
