@@ -3,6 +3,7 @@ package feature.auth.presentation.register.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -50,7 +51,9 @@ fun RegisterScreen(
     val focusManager = LocalFocusManager.current
 
     Scaffold(
-        modifier = Modifier.clearFocus(),
+        modifier = Modifier
+            .imePadding()
+            .clearFocus(),
         topBar = {
             MainTopBar(title = stringResource(Res.string.register_screen_title))
         }
@@ -58,9 +61,9 @@ fun RegisterScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(contentPadding)
-                .padding(Dimens.padding16)
                 .verticalScroll(rememberScrollState())
+                .padding(contentPadding)
+                .padding(Dimens.padding16),
         ) {
             TextFieldLabel(text = stringResource(Res.string.name))
             SmallSpacer()

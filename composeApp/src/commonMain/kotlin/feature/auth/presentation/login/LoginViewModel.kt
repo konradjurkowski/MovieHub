@@ -4,7 +4,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
-import core.utils.Constants
+import core.utils.constants.Constants
 import core.utils.Platform
 import core.utils.PlatformInfo
 import core.utils.Resource

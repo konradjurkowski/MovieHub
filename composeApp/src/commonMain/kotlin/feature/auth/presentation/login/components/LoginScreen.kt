@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import core.components.button.PrimaryButton
 import core.components.other.RegularSpacer
@@ -55,25 +56,22 @@ fun LoginScreen(
                 title = stringResource(Res.string.login_screen_title),
                 isLeadingVisible = false,
             )
-        }
+        },
     ) { contentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(contentPadding)
-                .padding(Dimens.padding16)
+                .padding(Dimens.padding16),
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState())
-            ) {
+            Column(modifier = Modifier.weight(1f)) {
                 TextFieldLabel(text = stringResource(Res.string.email_address))
                 SmallSpacer()
                 InputTextField(
                     value = state.email,
                     onValueChange = { onIntent(LoginIntent.EmailChanged(it)) },
                     keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
                     isError = state.loginState.isFailure() || !state.emailValidation.successful,
                 )
                 InvalidFieldMessage(
