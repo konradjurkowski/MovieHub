@@ -34,14 +34,13 @@ class FormValidatorImpl : FormValidator {
     }
 
     override fun validatePassword(password: String): ValidationResult {
-        val passwordRegex = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{8,}$")
         if (password.isBlank()) {
             return ValidationResult(
                 successful = false,
                 errorMessage = Res.string.empty_field,
             )
         }
-        if (!passwordRegex.matches(password)) {
+        if (!password.matches(ValidatorConstants.passwordRegex)) {
             return ValidationResult(
                 successful = false,
                 errorMessage = Res.string.invalid_password,

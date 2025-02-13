@@ -10,4 +10,6 @@ object ValidatorConstants {
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                 ")+"
     )
+
+    val passwordRegex = Regex("^(?=.*[@#$%^&+=.])(?=\\S+$).{8,}$")
 }

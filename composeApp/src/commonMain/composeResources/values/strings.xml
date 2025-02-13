@@ -11,7 +11,7 @@
     <!--Register Screen-->
     <string name="register_screen_title">Register</string>
     <string name="register_screen_register_label">Sign up</string>
-    <string name="register_screen_password_requirements">Your password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters long.</string>
+    <string name="register_screen_password_requirements">Your password must be at least 8 characters long and contain at least one special character.</string>
 
     <!--Forgot Password Screen-->
     <string name="forgot_password_screen_title">Forgot password</string>
