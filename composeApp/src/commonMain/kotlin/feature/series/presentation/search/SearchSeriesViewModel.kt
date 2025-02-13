@@ -61,7 +61,8 @@ class SearchSeriesViewModel(
             is SearchSeriesIntent.SeriesCardPressed -> sendSideEffect(
                 SearchSeriesSideEffect.GoToSeriesPreview(intent.series))
             is SearchSeriesIntent.ClearQueryPressed -> {
-                updateViewState { SearchSeriesState() }
+                val addedSeriesIds = viewState.value.addedSeriesIds
+                updateViewState { SearchSeriesState(addedSeriesIds = addedSeriesIds) }
                 _searchQuery.value = ""
             }
         }

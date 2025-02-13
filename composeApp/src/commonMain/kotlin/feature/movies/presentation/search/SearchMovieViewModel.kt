@@ -62,7 +62,8 @@ class SearchMovieViewModel(
                 SearchMovieSideEffect.GoToMoviePreview(intent.movie)
             )
             SearchMovieIntent.ClearQueryPressed -> {
-                updateViewState { SearchMovieState() }
+                val addedMovieIds = viewState.value.addedMovieIds
+                updateViewState { SearchMovieState(addedMovieIds = addedMovieIds) }
                 _searchQuery.value = ""
             }
         }
