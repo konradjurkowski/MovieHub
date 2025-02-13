@@ -1,6 +1,6 @@
 package feature.series.data.api.dto
 
-import core.utils.Constants
+import core.utils.constants.MovieApiConstants
 import core.utils.toInstant
 import feature.series.domain.model.Series
 import kotlinx.serialization.SerialName
@@ -48,8 +48,8 @@ fun SeriesDto.toSeries(): Series {
         id = id,
         name = name,
         overview = overview,
-        posterPath = Constants.IMAGE_BASE_URL + posterPath,
-        backdropPath = Constants.IMAGE_BASE_URL + backdropPath,
+        posterPath = posterPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
+        backdropPath = backdropPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
         genreIds = genreIds,
         language = originalLanguage,
         popularity = popularity,

@@ -2,9 +2,10 @@ package feature.home.di
 
 import feature.home.presentation.home.HomeViewModel
 import feature.home.presentation.main.MainScreenViewModel
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val homeModule = module {
-    factory<MainScreenViewModel> { MainScreenViewModel(get()) }
-    factory<HomeViewModel> { HomeViewModel(get(), get(), get()) }
+    factoryOf(::MainScreenViewModel)
+    factoryOf(::HomeViewModel)
 }

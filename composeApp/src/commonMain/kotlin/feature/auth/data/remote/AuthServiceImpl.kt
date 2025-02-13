@@ -1,7 +1,7 @@
 package feature.auth.data.remote
 
 import com.mmk.kmpnotifier.notification.NotifierManager
-import core.utils.Constants
+import core.utils.constants.Constants
 import core.utils.FailureResponseException
 import core.utils.FirebaseConstants
 import core.utils.Resource
@@ -83,7 +83,7 @@ class AuthServiceImpl(
     }
 
     override suspend fun getAppUser(refresh: Boolean): Resource<AppUser> {
-        if (_appUser.value != null && !refresh) Resource.Success(_appUser.value)
+        if (_appUser.value != null && !refresh) return Resource.Success(_appUser.value!!)
 
         val result = getUserById(currentUser?.uid ?: "")
         if (result.isSuccess()) _appUser.value = result.getSuccess()

@@ -87,6 +87,7 @@ kotlin {
             implementation(libs.firebase.auth)
             implementation(libs.firebase.firestore)
             implementation(libs.firebase.storage)
+            implementation(libs.firebase.remote.config)
 
             // Internal libs
             implementation(project(":snackbarkmp"))
@@ -160,9 +161,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+        coreLibraryDesugaring(libs.desugar.jdk.libs)
     }
 }
 

@@ -5,7 +5,7 @@ import core.model.ProductionCountry
 import core.model.SpokenLanguage
 import core.model.dto.ProductionCompanyDto
 import core.model.dto.toDomain
-import core.utils.Constants
+import core.utils.constants.MovieApiConstants
 import core.utils.toInstant
 import feature.movies.domain.model.MovieDetails
 import kotlinx.serialization.SerialName
@@ -58,8 +58,8 @@ fun MovieDetailsDto.toDomain(): MovieDetails {
         title = title,
         language = originalLanguage,
         overview = overview,
-        posterPath = posterPath?.let { Constants.IMAGE_BASE_URL + it },
-        backdropPath = backdropPath?.let { Constants.IMAGE_BASE_URL + it },
+        posterPath = posterPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
+        backdropPath = backdropPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
         budget = budget,
         genres = genres,
         tagline = tagline,

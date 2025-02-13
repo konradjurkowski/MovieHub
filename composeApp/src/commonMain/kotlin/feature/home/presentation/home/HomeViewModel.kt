@@ -4,7 +4,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.mmk.kmpnotifier.notification.NotifierManager
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
-import core.utils.Constants
+import core.utils.constants.Constants
 import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
 import kotlinx.coroutines.async
@@ -37,7 +37,7 @@ class HomeViewModel(
         updateViewState { copy(isLoading = true) }
 
         screenModelScope.launch(dispatchersProvider.io) {
-            val futureUser = async { authService.getAppUser() }
+            val futureUser = async { authService.getAppUser(true) }
             async { movieRepository.getTopRatedFirebaseMovies() }
             val futureLastUpdatedMovies = async { movieRepository.getLastUpdatedFirebaseMovies() }
 

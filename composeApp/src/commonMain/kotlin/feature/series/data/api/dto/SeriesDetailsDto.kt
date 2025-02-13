@@ -5,7 +5,7 @@ import core.model.ProductionCountry
 import core.model.SpokenLanguage
 import core.model.dto.ProductionCompanyDto
 import core.model.dto.toDomain
-import core.utils.Constants
+import core.utils.constants.MovieApiConstants
 import core.utils.toInstant
 import feature.series.domain.model.Episode
 import feature.series.domain.model.Season
@@ -68,8 +68,8 @@ fun SeriesDetailsDto.toDomain(): SeriesDetails {
         id = id,
         name = name,
         overview = overview,
-        posterPath = posterPath?.let { Constants.IMAGE_BASE_URL + it },
-        backdropPath = backdropPath?.let { Constants.IMAGE_BASE_URL + it },
+        posterPath = posterPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
+        backdropPath = backdropPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
         firstAirDate = firstAirDate?.toInstant(),
         lastAirDate = lastAirDate?.toInstant(),
         genres = genres,
@@ -127,7 +127,7 @@ fun EpisodeDto.toDomain(): Episode {
         id = id,
         name = name,
         overview = overview,
-        stillPath = stillPath?.let { Constants.IMAGE_BASE_URL + it },
+        stillPath = stillPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
         runtime = runtime,
         airDate = airDate?.toInstant(),
         episodeNumber = episodeNumber,
@@ -163,7 +163,7 @@ fun SeasonDto.toDomain(): Season {
         name = name,
         overview = overview,
         episodeCount = episodeCount,
-        posterPath = posterPath?.let { Constants.IMAGE_BASE_URL + it },
+        posterPath = posterPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
         airDate = airDate?.toInstant(),
         seasonNumber = seasonNumber,
         voteAverage = voteAverage,

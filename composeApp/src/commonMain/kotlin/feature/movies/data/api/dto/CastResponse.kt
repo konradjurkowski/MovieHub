@@ -1,6 +1,6 @@
 package feature.movies.data.api.dto
 
-import core.utils.Constants
+import core.utils.constants.MovieApiConstants
 import feature.movies.domain.model.Cast
 import feature.movies.domain.model.CastData
 import kotlinx.serialization.SerialName
@@ -50,6 +50,6 @@ fun CastDto.toDomain(): Cast {
         name = name,
         character = character,
         job = job,
-        profilePath = profilePath?.let { Constants.IMAGE_BASE_URL + it },
+        profilePath = profilePath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
     )
 }

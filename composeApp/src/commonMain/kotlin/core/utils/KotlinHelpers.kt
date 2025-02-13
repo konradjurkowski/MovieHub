@@ -1,5 +1,6 @@
 package core.utils
 
+import core.utils.constants.Constants
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.withTimeout
 import kotlin.math.roundToInt

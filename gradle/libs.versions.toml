@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.0"
+agp = "8.8.0"
 android-compileSdk = "35"
 android-minSdk = "26"
 android-targetSdk = "34"
@@ -10,6 +10,7 @@ androidx-activityCompose = "1.9.0"
 calfPermissions = "0.5.5"
 compose-plugin = "1.7.0-alpha02"
 # Kotlin
+desugar_jdk_libs = "2.1.4"
 kamelImage = "0.9.4"
 kermit = "2.0.3"
 kotlin = "2.0.20"
@@ -20,7 +21,7 @@ stately = "2.0.6"
 # Ktor
 ktor = "2.3.12"
 # Navigation
-voyager = "1.0.0"
+voyager = "1.0.1"
 # DI
 koin = "3.5.3"
 # Firebase
@@ -36,6 +37,7 @@ kmpnotifier = "1.3.0"
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 calf-permissions = { module = "com.mohamedrejeb.calf:calf-permissions", version.ref = "calfPermissions" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpnotifier" }
@@ -53,6 +55,7 @@ firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase-
 firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase-gitlive-sdk" }
 firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebase-gitlive-sdk" }
+firebase-remote-config = { module = "dev.gitlive:firebase-config", version.ref = "firebase-gitlive-sdk" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
