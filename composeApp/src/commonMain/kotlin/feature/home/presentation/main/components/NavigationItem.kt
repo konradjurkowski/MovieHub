@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.navigator.tab.Tab
 import core.utils.LocalTouchFeedback
 import feature.home.presentation.main.getIcon
-import feature.home.presentation.main.getSelectedIcon
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -40,10 +39,7 @@ fun RowScope.NavigationItem(
         },
         icon = {
             Icon(
-                painter = when (selected) {
-                    true -> painterResource(tab.getSelectedIcon())
-                    false -> painterResource(tab.getIcon())
-                },
+                painter = painterResource(tab.getIcon(selected)),
                 contentDescription = tab.options.title,
             )
         }

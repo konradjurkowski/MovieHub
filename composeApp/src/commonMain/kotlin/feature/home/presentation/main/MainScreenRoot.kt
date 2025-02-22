@@ -50,20 +50,11 @@ class MainScreenRoot : BaseScreen() {
     }
 }
 
-fun Tab.getIcon(): DrawableResource {
+fun Tab.getIcon(selected: Boolean = false): DrawableResource {
     return when (this) {
-        is HomeTab -> Res.drawable.ic_home
-        is MoviesTab -> Res.drawable.ic_movies
-        is SeriesTab -> Res.drawable.ic_series
-        else -> Res.drawable.ic_profile
-    }
-}
-
-fun Tab.getSelectedIcon(): DrawableResource {
-    return when (this) {
-        is HomeTab -> Res.drawable.ic_home_selected
-        is MoviesTab -> Res.drawable.ic_movies_selected
-        is SeriesTab -> Res.drawable.ic_series_selected
-        else -> Res.drawable.ic_profile_selected
+        is HomeTab -> if (selected) Res.drawable.ic_home_selected else Res.drawable.ic_home
+        is MoviesTab -> if (selected) Res.drawable.ic_movies_selected else Res.drawable.ic_movies
+        is SeriesTab -> if (selected) Res.drawable.ic_series_selected else Res.drawable.ic_series
+        else -> if (selected) Res.drawable.ic_profile_selected else Res.drawable.ic_profile
     }
 }
