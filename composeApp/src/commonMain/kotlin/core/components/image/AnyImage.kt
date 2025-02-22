@@ -2,13 +2,13 @@ package core.components.image
 
 import androidx.compose.foundation.Image
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.AsyncImage
+import core.theme.withA40
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.placeholder
 import org.jetbrains.compose.resources.DrawableResource
@@ -21,17 +21,15 @@ fun AnyImage(
     contentScale: ContentScale = ContentScale.Crop,
     placeholderRes: DrawableResource = Res.drawable.placeholder,
 ) {
-    when (image) {
+    when  (image) {
         is String -> {
-            KamelImage(
+            AsyncImage(
                 modifier = modifier,
-                resource = asyncPainterResource(data = image),
+                model = image,
                 contentDescription = null,
                 contentScale = contentScale,
-                onLoading = {
-                    Surface(modifier, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)) { }
-                },
-                onFailure = { ImagePlaceholder(modifier, contentScale, placeholderRes) }
+                placeholder = ColorPainter(MaterialTheme.colorScheme.onBackground.withA40()),
+                error = painterResource(placeholderRes),
             )
         }
 

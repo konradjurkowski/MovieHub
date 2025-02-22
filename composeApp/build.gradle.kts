@@ -69,6 +69,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(compose.materialIconsExtended)
 
+            // Internal libs
+            implementation(project(":snackbarkmp"))
+
             // Navigation
             implementation(libs.navigator)
             implementation(libs.navigator.screen.model)
@@ -90,13 +93,10 @@ kotlin {
             implementation(libs.firebase.storage)
             implementation(libs.firebase.remote.config)
 
-            // Internal libs
-            implementation(project(":snackbarkmp"))
-
             // Logger
             implementation(libs.kermit)
 
-            // Ktor
+            // Network
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
@@ -106,7 +106,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             // Image
-            implementation(libs.kamel.image)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
 
             // Paging
             implementation(libs.paging.compose.common)
