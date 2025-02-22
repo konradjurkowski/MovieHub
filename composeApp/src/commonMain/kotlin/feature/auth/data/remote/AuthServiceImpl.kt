@@ -3,7 +3,7 @@ package feature.auth.data.remote
 import com.mmk.kmpnotifier.notification.NotifierManager
 import core.utils.constants.Constants
 import core.utils.FailureResponseException
-import core.utils.FirebaseConstants
+import core.utils.constants.FirebaseConstants
 import core.utils.Resource
 import core.utils.UserExistException
 import core.utils.getFirebaseData

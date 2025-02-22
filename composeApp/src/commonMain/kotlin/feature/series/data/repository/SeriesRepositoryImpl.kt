@@ -2,7 +2,7 @@ package feature.series.data.repository
 
 import com.plusmobileapps.konnectivity.Konnectivity
 import core.utils.FailureResponseException
-import core.utils.FirebaseConstants
+import core.utils.constants.FirebaseConstants
 import core.utils.FirebaseSeriesExistException
 import core.utils.FirebaseSeriesNotExistException
 import core.utils.NoInternetConnectionException

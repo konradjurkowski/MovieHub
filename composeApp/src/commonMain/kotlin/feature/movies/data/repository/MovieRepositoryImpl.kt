@@ -2,7 +2,7 @@ package feature.movies.data.repository
 
 import com.plusmobileapps.konnectivity.Konnectivity
 import core.utils.FailureResponseException
-import core.utils.FirebaseConstants
+import core.utils.constants.FirebaseConstants
 import core.utils.FirebaseMovieExistException
 import core.utils.FirebaseMovieNotExistException
 import core.utils.NoInternetConnectionException
