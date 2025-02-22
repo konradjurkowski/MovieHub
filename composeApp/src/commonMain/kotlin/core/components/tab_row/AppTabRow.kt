@@ -31,7 +31,7 @@ fun AppTabRow(
             Tab(
                 selected = selectedTabIndex == index,
                 onClick = {
-                    touchFeedback.performLongPress()
+                    touchFeedback.performMediumImpact()
                     onTabPressed(index)
                 },
                 selectedContentColor = MaterialTheme.colorScheme.onBackground,

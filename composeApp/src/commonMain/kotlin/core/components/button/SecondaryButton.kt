@@ -26,7 +26,7 @@ fun SecondaryButton(
     OutlinedButton(
         modifier = modifier.heightIn(Dimens.defaultButtonHeight),
         onClick = {
-            touchFeedback.performLongPress()
+            touchFeedback.performMediumImpact()
             onClick()
         },
         contentPadding = PaddingValues(

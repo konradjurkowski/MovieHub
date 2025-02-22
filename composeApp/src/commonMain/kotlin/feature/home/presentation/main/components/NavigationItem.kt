@@ -27,7 +27,7 @@ fun RowScope.NavigationItem(
         modifier = modifier,
         selected = selected,
         onClick = {
-            touchFeedback.performLongPress()
+            touchFeedback.performMediumImpact()
             onClick()
         },
         colors = NavigationBarItemDefaults.colors(

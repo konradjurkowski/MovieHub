@@ -18,7 +18,7 @@ fun NavigateBackArrow() {
 
     IconButton(
         onClick = {
-            touchFeedback.performLongPress()
+            touchFeedback.performMediumImpact()
             focusManager.clearFocus()
             navigator.pop()
         },

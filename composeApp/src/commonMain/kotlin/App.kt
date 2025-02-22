@@ -17,15 +17,10 @@ import core.tools.datetime_formatter.DateTimeFormatterImpl
 import core.utils.LocalDateTimeFormatter
 import core.utils.LocalLoaderState
 import core.utils.LocalSnackbarState
-import core.utils.LocalTouchFeedback
-import core.utils.TouchFeedback
 import feature.auth.presentation.splash.SplashScreenRoot
 
 @Composable
-fun App(
-    isDarkTheme: Boolean,
-    touchFeedback: TouchFeedback,
-) {
+fun App(isDarkTheme: Boolean) {
     MovieHubTheme(isDarkTheme) {
         val snackbarState = rememberSnackBarState()
         val loaderState = rememberLoaderState()
@@ -34,7 +29,6 @@ fun App(
                 CompositionLocalProvider(
                     LocalSnackbarState provides snackbarState,
                     LocalLoaderState provides loaderState,
-                    LocalTouchFeedback provides touchFeedback,
                     LocalDateTimeFormatter provides DateTimeFormatterImpl(),
                 ) {
                     Surface(

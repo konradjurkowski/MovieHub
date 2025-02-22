@@ -38,7 +38,7 @@ fun SearchMediaCard(
             .aspectRatio(3/4f)
             .padding(Dimens.padding8),
         onClick = {
-            touchFeedback.performLongPress()
+            touchFeedback.performMediumImpact()
             onCardClick()
         },
         elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),

@@ -42,7 +42,7 @@ fun AddMediaButton(
         Row(
             modifier = modifier
                 .clickable(enabled = !isAdded) {
-                    touchFeedback.performLongPress()
+                    touchFeedback.performMediumImpact()
                     onClick()
                 }
                 .fillMaxWidth()

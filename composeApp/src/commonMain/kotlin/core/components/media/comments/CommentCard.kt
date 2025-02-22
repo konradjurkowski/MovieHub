@@ -150,7 +150,7 @@ private fun EditSection(
                 withStyle(style = editTextStyle) { append(stringResource(Res.string.edit_label)) }
             },
             onClick = {
-                touchFeedback.performLongPress()
+                touchFeedback.performMediumImpact()
                 onEditPressed()
             },
         )
@@ -160,7 +160,7 @@ private fun EditSection(
                 withStyle(style = deleteTextStyle) { append(stringResource(Res.string.delete_label)) }
             },
             onClick = {
-                touchFeedback.performLongPress()
+                touchFeedback.performMediumImpact()
                 onDeletePressed()
             }
         )

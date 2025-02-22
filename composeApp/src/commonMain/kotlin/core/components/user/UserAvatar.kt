@@ -39,7 +39,7 @@ fun UserAvatar(
         elevation = CardDefaults
             .cardElevation(defaultElevation = Dimens.defaultElevation),
         onClick = {
-            touchFeedback.performLongPress()
+            touchFeedback.performMediumImpact()
             onClick()
         },
     ) {
@@ -83,7 +83,7 @@ fun EditableUserAvatar(
                 IconButton(
                     modifier = Modifier.align(Alignment.Center),
                     onClick = {
-                        touchFeedback.performShortPress()
+                        touchFeedback.performLightImpact()
                         onEditPressed.invoke()
                     },
                 ) {

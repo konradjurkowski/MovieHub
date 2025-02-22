@@ -41,7 +41,7 @@ fun MediaCarousel(
             .drop(1)
             .distinctUntilChanged()
             .collect {
-                touchFeedback.performLongPress()
+                touchFeedback.performMediumImpact()
             }
     }
 
@@ -77,7 +77,7 @@ fun MediaCarousel(
                 },
             shape = RoundedCornerShape(Dimens.radius12),
             onClick = {
-                touchFeedback.performLongPress()
+                touchFeedback.performMediumImpact()
                 onItemClick(item)
             },
         ) {

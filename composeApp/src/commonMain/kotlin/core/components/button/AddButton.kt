@@ -37,7 +37,7 @@ fun AddButton(
             shape = RoundedCornerShape(Dimens.padding4),
             enabled = isVisible,
             onClick = {
-                touchFeedback.performLongPress()
+                touchFeedback.performMediumImpact()
                 onClick()
             },
             border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),

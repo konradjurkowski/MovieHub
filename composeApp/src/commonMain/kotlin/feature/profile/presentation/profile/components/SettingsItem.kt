@@ -34,7 +34,7 @@ fun SettingsItem(
     Column(
         modifier = modifier.clickable {
             onClick()
-            touchFeedback.performLongPress()
+            touchFeedback.performMediumImpact()
         },
     ) {
         Row(

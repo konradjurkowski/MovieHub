@@ -34,7 +34,7 @@ fun BoxButton(
             .size(Dimens.icon48)
             .clip(RoundedCornerShape(Dimens.radius16))
             .clickable {
-                touchFeedback.performLongPress()
+                touchFeedback.performMediumImpact()
                 onClick()
             },
         color = MaterialTheme.colorScheme.background.withA50(),

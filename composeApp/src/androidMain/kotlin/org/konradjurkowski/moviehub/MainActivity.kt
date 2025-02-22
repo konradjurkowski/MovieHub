@@ -6,10 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
-import core.utils.AndroidHapticFeedback
+import core.tools.haptic.AndroidHapticFeedback
+import core.utils.LocalTouchFeedback
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +22,11 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            App(
-                isDarkTheme = isSystemInDarkTheme(),
-                touchFeedback = AndroidHapticFeedback(LocalHapticFeedback.current),
-            )
+            CompositionLocalProvider(
+                LocalTouchFeedback provides AndroidHapticFeedback(LocalHapticFeedback.current),
+            ) {
+                App(isDarkTheme = isSystemInDarkTheme())
+            }
         }
     }
 }

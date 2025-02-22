@@ -50,7 +50,7 @@ fun SearchTopBar(
         actions = {
             TextButton(
                 onClick = {
-                    touchFeedback.performLongPress()
+                    touchFeedback.performMediumImpact()
                     onClearPressed()
                 },
                 enabled = value.isNotEmpty(),
