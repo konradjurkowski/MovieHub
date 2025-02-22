@@ -25,6 +25,7 @@ import core.components.text_field.InputTextField
 import core.components.text_field.InvalidFieldMessage
 import core.components.text_field.TextFieldLabel
 import core.components.top_bar.MainTopBar
+import core.theme.withA40
 import core.utils.Dimens
 import core.utils.clearFocus
 import core.utils.toDisplay
@@ -108,7 +109,7 @@ fun RegisterScreen(
                                 true -> painterResource(Res.drawable.ic_visibility)
                                 false -> painterResource(Res.drawable.ic_visibility_off)
                             },
-                            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                            tint = MaterialTheme.colorScheme.onBackground.withA40(),
                             contentDescription = "visibility icon",
                         )
                     }
@@ -134,7 +135,7 @@ fun RegisterScreen(
                                 true -> painterResource(Res.drawable.ic_visibility)
                                 false -> painterResource(Res.drawable.ic_visibility_off)
                             },
-                            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                            tint = MaterialTheme.colorScheme.onBackground.withA40(),
                             contentDescription = "visibility icon",
                         )
                     }
@@ -149,7 +150,7 @@ fun RegisterScreen(
                 text = stringResource(Res.string.register_screen_password_requirements),
                 style = MaterialTheme.typography.bodySmall,
                 fontStyle = FontStyle.Italic,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                color = MaterialTheme.colorScheme.onBackground.withA40(),
             )
             RegularSpacer()
             PrimaryButton(

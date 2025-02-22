@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import core.components.other.TinySpacer
 import core.components.user.UserAvatar
+import core.theme.withA60
 import core.utils.Dimens
 import feature.auth.domain.AppUser
 import moviehub.composeapp.generated.resources.Res
@@ -60,7 +61,7 @@ fun HomeHeader(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                color = MaterialTheme.colorScheme.onBackground.withA60(),
             )
         }
         UserAvatar(

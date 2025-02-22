@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +22,7 @@ import core.components.text_field.InputTextField
 import core.components.text_field.InvalidFieldMessage
 import core.components.text_field.TextFieldLabel
 import core.components.top_bar.MainTopBar
+import core.theme.withA40
 import core.utils.Dimens
 import core.utils.clearFocus
 import core.utils.toDisplay
@@ -102,7 +101,7 @@ fun LoginScreen(
                                     true -> painterResource(Res.drawable.ic_visibility)
                                     false -> painterResource(Res.drawable.ic_visibility_off)
                                 },
-                                tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                                tint = MaterialTheme.colorScheme.onBackground.withA40(),
                                 contentDescription = "visibility icon",
                             )
                         }

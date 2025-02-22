@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import core.components.button.SecondaryButton
 import core.components.other.RegularSpacer
 import core.components.other.SmallSpacer
+import core.theme.withA40
 import core.utils.Dimens
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.error_label
@@ -49,7 +50,7 @@ fun FailureWidget(
             text = message,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+            color = MaterialTheme.colorScheme.onBackground.withA40(),
             textAlign = TextAlign.Center,
         )
         RegularSpacer()
