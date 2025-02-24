@@ -1,4 +1,4 @@
-package feature.home.presentation.home
+package feature.home.presentation.draw
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -7,37 +7,37 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
-import feature.home.presentation.home.components.HomeScreen
+import feature.home.presentation.draw.components.DrawMediaScreen
 import feature.movies.presentation.details.MovieDetailsScreenRoot
-import feature.profile.presentation.tab.ProfileTab
 import feature.series.presentation.details.SeriesDetailsScreenRoot
+import org.koin.core.parameter.parametersOf
 
-class HomeScreenRoot : BaseScreen() {
+enum class DrawType { MOVIE, SERIES }
+
+class DrawMediaScreenRoot(private val drawType: DrawType) : BaseScreen() {
 
     @Composable
     override fun Content() {
-        val viewModel = getScreenModel<HomeViewModel>()
+        val viewModel = getScreenModel<DrawMediaViewModel> { parametersOf(drawType) }
         val state by viewModel.viewState.collectAsState()
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is HomeSideEffect.GoToMovieDetails -> {
+                is DrawMediaSideEffect.GoToMovieDetails -> {
+                    GlobalNavigators.navigator?.pop()
                     GlobalNavigators.navigator?.push(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
-                is HomeSideEffect.GoToSeriesDetails -> {
+                is DrawMediaSideEffect.GoToSeriesDetails -> {
+                    GlobalNavigators.navigator?.pop()
                     GlobalNavigators.navigator?.push(SeriesDetailsScreenRoot(effect.series.seriesId))
-                }
-
-                HomeSideEffect.GoToProfileTab -> {
-                    GlobalNavigators.tabNavigator?.current = ProfileTab
                 }
             }
         }
 
-        HomeScreen(
+        DrawMediaScreen(
             state = state,
-            onIntent = viewModel::sendIntent
+            onIntent = viewModel::sendIntent,
         )
     }
 }

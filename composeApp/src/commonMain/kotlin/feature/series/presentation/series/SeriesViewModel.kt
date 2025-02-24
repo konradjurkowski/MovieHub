@@ -25,7 +25,7 @@ class SeriesViewModel(
     fun getSeries() {
         if (viewState.value == Resource.Idle) updateViewState { Resource.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = repository.getTopRatedFirebaseSeries()
+            val result = repository.getFirebaseSeries()
             updateViewState { result }
         }
     }

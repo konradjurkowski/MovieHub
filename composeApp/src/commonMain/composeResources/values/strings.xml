@@ -28,6 +28,14 @@
     <string name="home_screen_hello_label">Hello, </string>
     <string name="home_screen_check_for_latest_addition">Check for latest addition.</string>
 
+    <!--DRAW MEDIA SCREEN-->
+    <string name="draw_media_screen_shake_label">Shake</string>
+    <string name="draw_media_screen_shake_the_phone_label">Shake the phone</string>
+    <string name="draw_media_screen_almost_there_label">We're almost there...</string>
+    <string name="draw_media_screen_well_done_label">Well done! You made it.</string>
+    <string name="draw_media_screen_got_label">You got:</string>
+    <string name="draw_media_screen_ok_label">OK</string>
+
     <!--Search Movie Screen-->
     <string name="search_movie_screen_add_success">Movie has been added.</string>
 

@@ -124,6 +124,9 @@ kotlin {
 
             // Notifications
             api(libs.kmpnotifier)
+
+            // Lottie
+            implementation(libs.compottie)
         }
 
         iosMain.dependencies {

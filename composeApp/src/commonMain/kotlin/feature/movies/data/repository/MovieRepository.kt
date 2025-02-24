@@ -12,7 +12,7 @@ interface MovieRepository {
     suspend fun getMovieById(movieId: Long): Resource<MovieDetails>
     suspend fun getCredits(movieId: Long): Resource<CastData>
     suspend fun getFirebaseMovieById(movieId: Long): Resource<FirebaseMovie>
-    suspend fun getTopRatedFirebaseMovies(): Resource<List<FirebaseMovie>>
+    suspend fun getFirebaseMovies(): Resource<List<FirebaseMovie>>
     suspend fun getLastUpdatedFirebaseMovies(): Resource<List<FirebaseMovie>>
     suspend fun addFirebaseMovie(movie: Movie): Resource<DocumentReference>
     suspend fun addFirebaseRating(movieId: Long, rating: Double, comment: String): Resource<FirebaseMovie>

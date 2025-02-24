@@ -12,7 +12,7 @@ interface SeriesRepository {
     suspend fun getSeriesById(seriesId: Long): Resource<SeriesDetails>
     suspend fun getCredits(seriesId: Long): Resource<CastData>
     suspend fun getFirebaseSeriesById(seriesId: Long): Resource<FirebaseSeries>
-    suspend fun getTopRatedFirebaseSeries(): Resource<List<FirebaseSeries>>
+    suspend fun getFirebaseSeries(): Resource<List<FirebaseSeries>>
     suspend fun getLastUpdatedFirebaseSeries(): Resource<List<FirebaseSeries>>
     suspend fun addFirebaseSeries(series: Series): Resource<DocumentReference>
     suspend fun addFirebaseRating(seriesId: Long, rating: Double, comment: String): Resource<FirebaseSeries>

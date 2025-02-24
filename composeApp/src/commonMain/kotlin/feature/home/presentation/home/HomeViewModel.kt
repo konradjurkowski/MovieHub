@@ -7,6 +7,7 @@ import core.tools.dispatcher.DispatchersProvider
 import core.utils.constants.Constants
 import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
+import feature.series.data.repository.SeriesRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val authService: AuthService,
     private val movieRepository: MovieRepository,
+    private val seriesRepository: SeriesRepository,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<HomeIntent, HomeSideEffect, HomeState>() {
 
@@ -28,7 +30,8 @@ class HomeViewModel(
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.MoviePressed -> sendSideEffect(HomeSideEffect.GoToMovieDetail(intent.movie))
+            is HomeIntent.MoviePressed -> sendSideEffect(HomeSideEffect.GoToMovieDetails(intent.movie))
+            is HomeIntent.SeriesPressed -> sendSideEffect(HomeSideEffect.GoToSeriesDetails(intent.series))
             HomeIntent.OnUserPressed -> sendSideEffect(HomeSideEffect.GoToProfileTab)
         }
     }
@@ -38,18 +41,27 @@ class HomeViewModel(
 
         screenModelScope.launch(dispatchersProvider.io) {
             val futureUser = async { authService.getAppUser(true) }
-            async { movieRepository.getTopRatedFirebaseMovies() }
+
+            val futureFirebaseMovies = async { movieRepository.getFirebaseMovies() }
             val futureLastUpdatedMovies = async { movieRepository.getLastUpdatedFirebaseMovies() }
 
+            val futureFirebaseSeries = async { seriesRepository.getFirebaseSeries() }
+            val futureLastUpdatedSeries = async { seriesRepository.getLastUpdatedFirebaseSeries() }
+
             futureUser.await()
-            val moviesResult = futureLastUpdatedMovies.await()
+            futureFirebaseMovies.await()
+            val lastUpdatedMoviesResult = futureLastUpdatedMovies.await()
+            futureFirebaseSeries.await()
+            val lastUpdatedSeriesResult = futureLastUpdatedSeries.await()
 
             when {
-                moviesResult.isSuccess() -> {
+                lastUpdatedMoviesResult.isSuccess() && lastUpdatedSeriesResult.isSuccess() -> {
                     updateViewState {
                         copy(
                             isLoading = false,
-                            lastUpdatedMovies = moviesResult.getSuccess(),
+                            lastUpdatedMovies = lastUpdatedMoviesResult.getSuccess(),
+
+                            lastUpdatedSeries = lastUpdatedSeriesResult.getSuccess(),
                         )
                     }
                 }

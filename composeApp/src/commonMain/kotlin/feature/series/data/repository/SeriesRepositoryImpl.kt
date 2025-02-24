@@ -63,7 +63,7 @@ class SeriesRepositoryImpl(
         }
     }
 
-    override suspend fun getTopRatedFirebaseSeries(): Resource<List<FirebaseSeries>> {
+    override suspend fun getFirebaseSeries(): Resource<List<FirebaseSeries>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.SERIES_COLLECTION)

@@ -10,6 +10,7 @@ object Dimens {
     val padding16 = 16.dp
     val padding18 = 18.dp
     val padding24 = 24.dp
+    val padding32 = 32.dp
 
     // Corner radius
     val radius4 = 4.dp

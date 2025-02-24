@@ -63,7 +63,7 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun getTopRatedFirebaseMovies(): Resource<List<FirebaseMovie>> {
+    override suspend fun getFirebaseMovies(): Resource<List<FirebaseMovie>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.MOVIES_COLLECTION)

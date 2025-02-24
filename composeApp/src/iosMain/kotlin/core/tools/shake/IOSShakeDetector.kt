@@ -39,7 +39,7 @@ class IOSShakeDetector : ShakeDetector {
                 val currentTime = Clock.System.now().toEpochMilliseconds()
                 if (totalAcceleration > SHAKE_THRESHOLD && (currentTime - lastShakeTime > DELAY_INTERVAL)) {
                     lastShakeTime = currentTime
-                    vibrate()
+                    manualShake()
                     onShake()
                 }
             }
@@ -50,7 +50,7 @@ class IOSShakeDetector : ShakeDetector {
         motionManager.stopAccelerometerUpdates()
     }
 
-    private fun vibrate() {
+    override fun manualShake() {
         scope.launch {
             touchFeedback.performHeavyImpact()
             delay(VIBRATE_DELAY)

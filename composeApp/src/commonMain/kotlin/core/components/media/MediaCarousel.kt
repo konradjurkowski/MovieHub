@@ -18,15 +18,16 @@ import core.utils.Dimens
 import core.utils.LocalTouchFeedback
 import core.utils.getScreenSizeInfo
 import feature.movies.domain.model.FirebaseMovie
+import feature.series.domain.model.FirebaseSeries
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlin.math.absoluteValue
 
 @Composable
-fun MediaCarousel(
+fun <T> MediaCarousel(
     modifier: Modifier = Modifier,
-    items: List<FirebaseMovie>,
-    onItemClick: (FirebaseMovie) -> Unit = {},
+    items: List<T>,
+    onItemClick: (T) -> Unit = {},
 ) {
     if (items.isEmpty()) return
 
@@ -48,12 +49,17 @@ fun MediaCarousel(
     val screeSize = getScreenSizeInfo()
 
     HorizontalPager(
-        modifier = modifier
-            .height(screeSize.height * 0.35f),
+        modifier = modifier.height(screeSize.height * 0.35f),
         state = pagerState,
         contentPadding = PaddingValues(horizontal = screeSize.width * 0.25f)
     ) { index ->
         val item = items[index]
+
+        val imageUrl = when (item) {
+            is FirebaseMovie -> item.posterPath
+            is FirebaseSeries -> item.posterPath
+            else -> null
+        }
 
         Card(
             modifier = Modifier
@@ -83,7 +89,7 @@ fun MediaCarousel(
         ) {
             AnyImage(
                 modifier = Modifier.fillMaxSize(),
-                image = item.posterPath,
+                image = imageUrl,
             )
         }
     }

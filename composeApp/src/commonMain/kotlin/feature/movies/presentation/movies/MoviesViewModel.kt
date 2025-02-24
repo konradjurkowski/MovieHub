@@ -25,7 +25,7 @@ class MoviesViewModel(
     fun getMovies() {
         if (viewState.value == Resource.Idle) updateViewState { Resource.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = repository.getTopRatedFirebaseMovies()
+            val result = repository.getFirebaseMovies()
             updateViewState { result }
         }
     }

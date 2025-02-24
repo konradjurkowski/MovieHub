@@ -25,3 +25,8 @@ fun RegularSpacer() {
 fun MediumSpacer() {
     Spacer(modifier = Modifier.size(Dimens.padding24))
 }
+
+@Composable
+fun LargeSpacer() {
+    Spacer(modifier = Modifier.size(Dimens.padding32))
+}
