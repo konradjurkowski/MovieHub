@@ -27,6 +27,10 @@
     <!--Home Screen-->
     <string name="home_screen_hello_label">Hello, </string>
     <string name="home_screen_check_for_latest_addition">Check for latest addition.</string>
+    <string name="home_screen_draw_movie">Draw a Movie</string>
+    <string name="home_screen_draw_series">Draw a Series</string>
+    <string name="home_screen_recently_updated_movies">Recently updated movies</string>
+    <string name="home_screen_recently_updated_series">Recently updated series</string>
 
     <!--DRAW MEDIA SCREEN-->
     <string name="draw_media_screen_shake_label">Shake</string>

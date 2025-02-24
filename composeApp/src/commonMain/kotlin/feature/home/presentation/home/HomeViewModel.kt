@@ -6,6 +6,7 @@ import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.utils.constants.Constants
 import feature.auth.data.remote.AuthService
+import feature.home.presentation.draw.DrawType
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
 import kotlinx.coroutines.async
@@ -32,6 +33,8 @@ class HomeViewModel(
         when (intent) {
             is HomeIntent.MoviePressed -> sendSideEffect(HomeSideEffect.GoToMovieDetails(intent.movie))
             is HomeIntent.SeriesPressed -> sendSideEffect(HomeSideEffect.GoToSeriesDetails(intent.series))
+            HomeIntent.OnDrawMoviePressed -> sendSideEffect(HomeSideEffect.GoToDrawMedia(DrawType.MOVIE))
+            HomeIntent.OnDrawSeriesPressed -> sendSideEffect(HomeSideEffect.GoToDrawMedia(DrawType.SERIES))
             HomeIntent.OnUserPressed -> sendSideEffect(HomeSideEffect.GoToProfileTab)
         }
     }
@@ -49,9 +52,9 @@ class HomeViewModel(
             val futureLastUpdatedSeries = async { seriesRepository.getLastUpdatedFirebaseSeries() }
 
             futureUser.await()
-            futureFirebaseMovies.await()
+            val moviesResult = futureFirebaseMovies.await()
             val lastUpdatedMoviesResult = futureLastUpdatedMovies.await()
-            futureFirebaseSeries.await()
+            val seriesResult = futureFirebaseSeries.await()
             val lastUpdatedSeriesResult = futureLastUpdatedSeries.await()
 
             when {
@@ -59,8 +62,9 @@ class HomeViewModel(
                     updateViewState {
                         copy(
                             isLoading = false,
+                            firebaseMovies = moviesResult.getSuccess() ?: emptyList(),
                             lastUpdatedMovies = lastUpdatedMoviesResult.getSuccess(),
-
+                            firebaseSeries = seriesResult.getSuccess() ?: emptyList(),
                             lastUpdatedSeries = lastUpdatedSeriesResult.getSuccess(),
                         )
                     }

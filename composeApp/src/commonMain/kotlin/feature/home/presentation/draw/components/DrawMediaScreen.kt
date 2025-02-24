@@ -35,7 +35,6 @@ import core.components.button.PrimaryButton
 import core.components.image.AnyImage
 import core.components.loading.LoadingIndicator
 import core.components.other.LargeSpacer
-import core.components.other.MediumSpacer
 import core.components.other.RegularSpacer
 import core.components.result.FailureWidget
 import core.components.top_bar.MainTopBar
