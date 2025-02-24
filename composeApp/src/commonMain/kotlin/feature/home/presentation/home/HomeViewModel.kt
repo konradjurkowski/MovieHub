@@ -33,6 +33,7 @@ class HomeViewModel(
         when (intent) {
             is HomeIntent.MoviePressed -> sendSideEffect(HomeSideEffect.GoToMovieDetails(intent.movie))
             is HomeIntent.SeriesPressed -> sendSideEffect(HomeSideEffect.GoToSeriesDetails(intent.series))
+            HomeIntent.TryAgainPressed -> loadInitialData()
             HomeIntent.OnDrawMoviePressed -> sendSideEffect(HomeSideEffect.GoToDrawMedia(DrawType.MOVIE))
             HomeIntent.OnDrawSeriesPressed -> sendSideEffect(HomeSideEffect.GoToDrawMedia(DrawType.SERIES))
             HomeIntent.OnUserPressed -> sendSideEffect(HomeSideEffect.GoToProfileTab)

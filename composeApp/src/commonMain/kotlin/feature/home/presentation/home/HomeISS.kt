@@ -12,6 +12,7 @@ import feature.series.domain.model.FirebaseSeries
 sealed class HomeIntent {
     data class MoviePressed(val movie: FirebaseMovie) : HomeIntent()
     data class SeriesPressed(val series: FirebaseSeries) : HomeIntent()
+    data object TryAgainPressed : HomeIntent()
     data object OnDrawMoviePressed : HomeIntent()
     data object OnDrawSeriesPressed : HomeIntent()
     data object OnUserPressed : HomeIntent()

@@ -65,6 +65,6 @@ fun HomeScreen(
             }
         }
 
-        else -> FailureWidget {  }
+        else -> FailureWidget { onIntent(HomeIntent.TryAgainPressed) }
     }
 }
