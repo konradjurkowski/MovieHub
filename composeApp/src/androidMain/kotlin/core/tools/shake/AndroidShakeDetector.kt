@@ -40,7 +40,7 @@ class AndroidShakeDetector(context: Context) : ShakeDetector {
                 val currentTime = Clock.System.now().toEpochMilliseconds()
                 if (acceleration > SHAKE_THRESHOLD && (currentTime - lastShakeTime > DELAY_INTERVAL)) {
                     lastShakeTime = currentTime
-                    vibrate()
+                    manualShake()
                     onShake()
                 }
             }
@@ -56,7 +56,7 @@ class AndroidShakeDetector(context: Context) : ShakeDetector {
         sensorManager.unregisterListener(sensorEventListener)
     }
 
-    private fun vibrate() {
+    override fun manualShake() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             vibrator.vibrate(VIBRATE_DURATION)
             return
