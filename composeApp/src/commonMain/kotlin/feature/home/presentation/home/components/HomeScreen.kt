@@ -34,7 +34,7 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(innerPadding)
+                        .padding(bottom = innerPadding.calculateBottomPadding())
                         .verticalScroll(rememberScrollState())
                 ) {
                     HomeHeader(
