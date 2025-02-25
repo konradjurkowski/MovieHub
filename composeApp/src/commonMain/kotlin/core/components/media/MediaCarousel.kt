@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.util.lerp
 import core.components.image.AnyImage
+import core.components.result.EmptyView
 import core.utils.Dimens
 import core.utils.LocalTouchFeedback
 import core.utils.getScreenSizeInfo
@@ -29,7 +30,12 @@ fun <T> MediaCarousel(
     items: List<T>,
     onItemClick: (T) -> Unit = {},
 ) {
-    if (items.isEmpty()) return
+    val screeSize = getScreenSizeInfo()
+
+    if (items.isEmpty()) {
+        EmptyView(modifier = modifier.height(screeSize.height * 0.35f))
+        return
+    }
 
     val pagerState = rememberPagerState(
         initialPage = items.size / 2,
@@ -46,7 +52,6 @@ fun <T> MediaCarousel(
             }
     }
 
-    val screeSize = getScreenSizeInfo()
 
     HorizontalPager(
         modifier = modifier.height(screeSize.height * 0.35f),
