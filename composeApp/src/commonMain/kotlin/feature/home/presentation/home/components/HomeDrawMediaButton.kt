@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import core.theme.movieGradientColors
+import core.theme.seriesGradientColors
 import core.utils.Dimens
 import core.utils.LocalTouchFeedback
 import core.utils.getScreenSizeInfo
@@ -33,8 +35,8 @@ fun HomeDrawMediaButton(
     val touchFeedback = LocalTouchFeedback.current
 
     val gradientColors = when (drawType) {
-        DrawType.MOVIE -> listOf(Color(0xFFFF5733), Color(0xFFC70039))
-        DrawType.SERIES -> listOf(Color(0xFF1E88E5), Color(0xFF1565C0))
+        DrawType.MOVIE -> movieGradientColors
+        DrawType.SERIES -> seriesGradientColors
     }
 
     Card(

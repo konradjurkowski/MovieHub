@@ -32,10 +32,7 @@ fun <T> MediaCarousel(
 ) {
     val screeSize = getScreenSizeInfo()
 
-    if (items.isEmpty()) {
-        EmptyView(modifier = modifier.height(screeSize.height * 0.35f))
-        return
-    }
+    if (items.isEmpty()) return EmptyView(modifier.height(screeSize.height * 0.35f))
 
     val pagerState = rememberPagerState(
         initialPage = items.size / 2,

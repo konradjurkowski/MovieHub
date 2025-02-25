@@ -13,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import core.components.image.AnyImage
 import core.model.ProductionCompany
+import core.model.getImageUrl
 import core.utils.Dimens
 
 @Composable
@@ -31,7 +32,7 @@ fun CompanyCard(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(Dimens.padding8),
-            image = company.logoPath,
+            image = company.getImageUrl(),
             contentScale = ContentScale.Fit,
         )
     }

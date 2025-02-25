@@ -36,7 +36,6 @@ fun ContentWithLoader(
 @Composable
 fun LoaderComponent(loaderState: Boolean) {
     if (loaderState) {
-        // TODO CHECK IT
         Box(
             modifier = Modifier
                 .fillMaxSize()

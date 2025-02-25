@@ -1,10 +1,9 @@
 package feature.movies.data.api.dto
 
 import core.model.Genre
+import core.model.ProductionCompany
 import core.model.ProductionCountry
 import core.model.SpokenLanguage
-import core.model.dto.ProductionCompanyDto
-import core.model.dto.toDomain
 import core.utils.constants.MovieApiConstants
 import core.utils.toInstant
 import feature.movies.domain.model.MovieDetails
@@ -40,7 +39,7 @@ data class MovieDetailsDto (
     @SerialName("imdb_id")
     val imdbId: String? = null,
     @SerialName("production_companies")
-    val productionCompanies: List<ProductionCompanyDto>,
+    val productionCompanies: List<ProductionCompany>,
     @SerialName("production_countries")
     val productionCountries: List<ProductionCountry>,
     @SerialName("spoken_languages")
@@ -68,7 +67,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails {
         releaseDate = releaseDate.toInstant(),
         revenue = revenue,
         runtime = runtime,
-        productionCompanies = productionCompanies.map { it.toDomain() },
+        productionCompanies = productionCompanies,
         homepage = homepage,
         originCountry = originCountry,
         originalTitle = originalTitle,

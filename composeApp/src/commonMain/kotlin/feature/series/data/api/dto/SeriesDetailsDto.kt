@@ -1,10 +1,9 @@
 package feature.series.data.api.dto
 
 import core.model.Genre
+import core.model.ProductionCompany
 import core.model.ProductionCountry
 import core.model.SpokenLanguage
-import core.model.dto.ProductionCompanyDto
-import core.model.dto.toDomain
 import core.utils.constants.MovieApiConstants
 import core.utils.toInstant
 import feature.series.domain.model.Episode
@@ -48,7 +47,7 @@ data class SeriesDetailsDto(
     @SerialName("poster_path")
     val posterPath: String? = null,
     @SerialName("production_companies")
-    val productionCompanies: List<ProductionCompanyDto>,
+    val productionCompanies: List<ProductionCompany>,
     @SerialName("production_countries")
     val productionCountries: List<ProductionCountry>,
     val seasons: List<SeasonDto>,
@@ -83,7 +82,7 @@ fun SeriesDetailsDto.toDomain(): SeriesDetails {
         originalLanguage = originalLanguage,
         originalName = originalName,
         popularity = popularity,
-        productionCompanies = productionCompanies.map { it.toDomain() },
+        productionCompanies = productionCompanies,
         productionCountries = productionCountries,
         seasons = seasons.filter { it.airDate != null }.map { it.toDomain() },
         spokenLanguages = spokenLanguages,

@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,7 +30,6 @@ import core.theme.goldBorderColor
 import core.theme.silverBorderColor
 import core.theme.withA10
 import core.theme.withA40
-import core.theme.withA80
 import core.utils.Dimens
 import core.utils.LocalTouchFeedback
 
@@ -47,10 +45,10 @@ fun LeaderboardMediaCard(
     val touchFeedback = LocalTouchFeedback.current
 
     val borderColor = when (position) {
-        1 -> goldBorderColor.withA40()
-        2 -> silverBorderColor.withA40()
-        3 -> bronzeBorderColor.withA40()
-        else -> Color.Transparent
+        1 -> goldBorderColor
+        2 -> silverBorderColor
+        3 -> bronzeBorderColor
+        else -> MaterialTheme.colorScheme.onBackground.withA40()
     }
 
     val textColor = when (position) {
@@ -112,13 +110,14 @@ fun LeaderboardMediaCard(
                 .align(Alignment.CenterStart)
                 .size(36.dp)
                 .clip(shape)
-                .background(color = Color(0xFF39383D).withA80())
-                .border(width = Dimens.border1, color = borderColor, shape = shape),
+                .background(color = MaterialTheme.colorScheme.surface)
+                .border(width = Dimens.border2, color = borderColor, shape = shape),
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = position.toString(),
                 style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
                 color = textColor,
             )
         }
