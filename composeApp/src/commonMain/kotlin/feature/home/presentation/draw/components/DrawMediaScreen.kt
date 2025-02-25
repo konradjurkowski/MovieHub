@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import core.components.button.PrimaryButton
+import core.components.button.SecondaryButton
 import core.components.image.AnyImage
 import core.components.loading.LoadingIndicator
 import core.components.other.LargeSpacer
@@ -230,7 +230,7 @@ private fun ShakeResultContent(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
-        RegularSpacer()
+        LargeSpacer()
         Card(
             modifier = Modifier
                 .height(screenSizeInfo.height * 0.4f)
@@ -240,8 +240,8 @@ private fun ShakeResultContent(
             AnyImage(modifier = Modifier.fillMaxSize(), image = imageUrl)
         }
         RegularSpacer()
-        PrimaryButton(
-            modifier = Modifier.fillMaxWidth(),
+        SecondaryButton(
+            modifier = Modifier.width(screenSizeInfo.height * 0.3f),
             text = stringResource(Res.string.draw_media_screen_ok_label),
             onClick = onItemPressed,
         )
