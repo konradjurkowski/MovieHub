@@ -20,8 +20,8 @@ import core.utils.LocalSnackbarState
 import feature.auth.presentation.splash.SplashScreenRoot
 
 @Composable
-fun App(isDarkTheme: Boolean) {
-    MovieHubTheme(isDarkTheme) {
+fun App() {
+    MovieHubTheme {
         val snackbarState = rememberSnackBarState()
         val loaderState = rememberLoaderState()
         ContentWithSnackBar(snackBarState = snackbarState) {

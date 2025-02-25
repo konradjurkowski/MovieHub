@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.mmk.kmpnotifier.notification.NotifierManager
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(
                 LocalTouchFeedback provides AndroidHapticFeedback(LocalHapticFeedback.current),
             ) {
-                App(isDarkTheme = isSystemInDarkTheme())
+                App()
             }
         }
     }
