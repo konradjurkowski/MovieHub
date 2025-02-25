@@ -3,7 +3,6 @@ package feature.rating.presentation.add_rating
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
-import core.tools.validator.ValidationResult
 import core.utils.Resource
 import feature.movies.domain.model.FirebaseRating
 

@@ -1,6 +1,5 @@
 package core.tools.event_bus
 
-import cafe.adriel.voyager.navigator.tab.Tab
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
@@ -12,6 +11,5 @@ class EventBus {
 }
 
 abstract class AppEvent
-data class SetNavigationTab(val tab: Tab) : AppEvent()
 data class RefreshMovie(val movieId: Long) : AppEvent()
 data class RefreshSeries(val seriesId: Long) : AppEvent()

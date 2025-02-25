@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import core.components.image.AnyImage
 import core.theme.withA40
 import core.utils.Dimens
-import feature.movies.domain.model.Cast
+import core.model.Cast
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.user_placeholder
 

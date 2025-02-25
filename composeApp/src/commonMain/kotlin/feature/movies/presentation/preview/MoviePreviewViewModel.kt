@@ -70,9 +70,11 @@ class MoviePreviewViewModel(
                     updateViewState { copy(isMovieAdded = true) }
                     sendSideEffect(MoviePreviewSideEffect.HideLoaderWithSuccess)
                 }
+
                 is Resource.Failure -> {
                     sendSideEffect(MoviePreviewSideEffect.HideLoaderWithError(result.error))
                 }
+
                 else -> {
                     // NO - OP
                 }

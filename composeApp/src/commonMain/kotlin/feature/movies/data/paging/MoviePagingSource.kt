@@ -7,7 +7,7 @@ import feature.movies.data.api.dto.MoviesResponse
 import feature.movies.data.api.dto.toDomain
 import feature.movies.domain.model.Movie
 import io.ktor.client.call.body
-import io.ktor.utils.io.errors.IOException
+import kotlinx.io.IOException
 
 class MoviePagingSource(
     private val api: MovieApi,

@@ -15,11 +15,12 @@ import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.DocumentReference
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import feature.movies.data.api.MovieApi
-import feature.movies.data.api.dto.CastResponse
+import core.model.dto.CastResponse
 import feature.movies.data.api.dto.MovieDetailsDto
+import core.model.dto.toDomain
 import feature.movies.data.api.dto.toDomain
 import feature.movies.data.storage.MovieRegistry
-import feature.movies.domain.model.CastData
+import core.model.CastData
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.Movie

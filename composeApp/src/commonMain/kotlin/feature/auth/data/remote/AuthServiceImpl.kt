@@ -1,7 +1,5 @@
 package feature.auth.data.remote
 
-import com.mmk.kmpnotifier.notification.NotifierManager
-import core.utils.constants.Constants
 import core.utils.FailureResponseException
 import core.utils.constants.FirebaseConstants
 import core.utils.Resource
@@ -23,7 +21,6 @@ class AuthServiceImpl(
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
 ) : AuthService {
-    // TODO REPLACE ALL INVOKED FirebaseAuth.currentUser in APP
     override val currentUser: FirebaseUser? get() = auth.currentUser
     override val authStateChanged: Flow<FirebaseUser?> = auth.authStateChanged
 
@@ -63,10 +60,6 @@ class AuthServiceImpl(
     override suspend fun logout() {
         try {
             auth.signOut()
-            NotifierManager.getPushNotifier().apply {
-                deleteMyToken()
-                unSubscribeFromTopic(Constants.PUSH_NEWS_TOPIC)
-            }
             _appUser.value = null
         } catch (e: Exception) {
             // NO - OP

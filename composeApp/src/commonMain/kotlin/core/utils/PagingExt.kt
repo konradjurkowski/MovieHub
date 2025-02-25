@@ -22,4 +22,3 @@ fun <T : Any> LazyPagingItems<T>.getPagingState(): PagingState {
         else -> PagingState.Loaded
     }
 }
-

@@ -7,7 +7,7 @@ import feature.series.data.api.dto.SeriesResponse
 import feature.series.data.api.dto.toSeries
 import feature.series.domain.model.Series
 import io.ktor.client.call.body
-import io.ktor.utils.io.errors.IOException
+import kotlinx.io.IOException
 
 class SeriesPagingSource(
     private val api: SeriesApi,

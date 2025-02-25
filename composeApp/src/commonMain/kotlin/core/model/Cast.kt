@@ -1,4 +1,4 @@
-package feature.movies.domain.model
+package core.model
 
 data class Cast(
     val id: Long,

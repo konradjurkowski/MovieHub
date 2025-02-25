@@ -13,7 +13,7 @@ import core.components.media.details.MediaDetailsInfo
 import core.components.other.RegularSpacer
 import core.utils.LocalDateTimeFormatter
 import core.utils.getScreenSizeInfo
-import feature.movies.domain.model.CastData
+import core.model.CastData
 import feature.movies.domain.model.MovieDetails
 import feature.movies.presentation.info_tab.MovieInfoTab
 import moviehub.composeapp.generated.resources.Res

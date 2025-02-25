@@ -9,5 +9,4 @@ object Constants {
     const val REQUEST_TIMEOUT_IN_MS = 30000L
 
     const val ANDROID_13_VERSION_CODE = 33
-    const val PUSH_NEWS_TOPIC = "news"
 }
