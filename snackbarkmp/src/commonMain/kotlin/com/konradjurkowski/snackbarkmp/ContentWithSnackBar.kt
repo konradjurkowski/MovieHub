@@ -21,7 +21,7 @@ fun rememberSnackBarState(): SnackBarState {
 @Composable
 fun ContentWithSnackBar(
     snackBarState: SnackBarState,
-    position: SnackBarPosition = SnackBarPosition.TOP,
+    position: SnackBarPosition = SnackBarPosition.BOTTOM,
     snackBar: (@Composable (SnackBarData) -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
