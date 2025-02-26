@@ -70,6 +70,7 @@ internal fun SnackBarComponent(
                 } else {
                     SnackBarKMP(
                         snackBarData = data,
+                        position = position,
                         onCloseClick = {
                             showMessageBar = false
                             timerManager.cancelTimer()

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
@@ -26,13 +27,17 @@ import androidx.compose.ui.unit.dp
 fun SnackBarKMP(
     modifier: Modifier = Modifier,
     snackBarData: SnackBarData,
+    position: SnackBarPosition,
     onCloseClick: () -> Unit = {},
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(snackBarData.snackBarType.color)
-            .padding(top = getStatusBarHeight())
+            .padding(
+                top = if (position == SnackBarPosition.TOP) getStatusBarHeight() else 0.dp,
+                bottom = if (position == SnackBarPosition.BOTTOM) getNavigationBarHeight() else 0.dp,
+            )
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -53,6 +58,13 @@ fun SnackBarKMP(
             )
         }
     }
+}
+
+@Composable
+private fun getNavigationBarHeight(): Dp {
+    val insets = WindowInsets.navigationBars
+    val density = LocalDensity.current
+    return with(density) { insets.getBottom(density).toDp() }
 }
 
 @Composable

@@ -1,10 +1,31 @@
 package com.konradjurkowski.snackbarkmp
 
-@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-expect class TimerManager() {
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class TimerManager {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    private var job: Job? = null
+
     fun scheduleTimer(
         visibilityDuration: Long,
         onTimerTriggered: () -> Unit
-    )
-    fun cancelTimer()
+    ) {
+        cancelTimer()
+
+        job = scope.launch {
+            delay(visibilityDuration)
+            onTimerTriggered()
+        }
+    }
+
+    fun cancelTimer() {
+        job?.cancel()
+        job = null
+    }
 }
