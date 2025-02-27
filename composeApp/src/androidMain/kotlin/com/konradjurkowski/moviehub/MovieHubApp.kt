@@ -1,4 +1,4 @@
-package org.konradjurkowski.moviehub
+package com.konradjurkowski.moviehub
 
 import android.app.Application
 import core.di.androidModule

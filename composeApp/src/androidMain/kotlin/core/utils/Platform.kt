@@ -1,8 +1,8 @@
 package core.utils
 
 import android.os.Build
+import com.konradjurkowski.moviehub.BuildConfig
 import dev.gitlive.firebase.storage.Data
-import org.konradjurkowski.moviehub.BuildConfig
 import java.util.Locale
 
 actual object PlatformInfo {
