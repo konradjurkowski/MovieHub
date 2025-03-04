@@ -66,7 +66,7 @@ class AuthServiceImpl(
         }
     }
 
-    override suspend fun resetPassword(email: String): Resource<Unit> {
+    override suspend fun sendPasswordResetEmail(email: String): Resource<Unit> {
         return try {
             val result = auth.sendPasswordResetEmail(email)
             Resource.Success(result)

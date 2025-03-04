@@ -39,7 +39,7 @@ class ForgotPasswordViewModel(
 
         updateViewState { copy(resetState = Resource.Loading) }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = authService.resetPassword(email)
+            val result = authService.sendPasswordResetEmail(email)
 
             when (result) {
                 is Resource.Success -> sendSideEffect(GoToLogin)

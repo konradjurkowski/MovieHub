@@ -11,7 +11,7 @@ interface AuthService {
     suspend fun signIn(email: String, password: String): Resource<FirebaseUser?>
     suspend fun signUp(name: String, email: String, password: String): Resource<FirebaseUser?>
     suspend fun logout()
-    suspend fun resetPassword(email: String): Resource<Unit>
+    suspend fun sendPasswordResetEmail(email: String): Resource<Unit>
     suspend fun getAppUser(refresh: Boolean = false): Resource<AppUser>
     suspend fun getAllAppUsers(): Resource<List<AppUser>>
     suspend fun updateAppUser(appUser: AppUser): Resource<Boolean>
