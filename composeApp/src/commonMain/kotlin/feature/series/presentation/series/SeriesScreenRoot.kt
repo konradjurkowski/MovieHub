@@ -8,6 +8,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
+import core.utils.safePush
 import feature.series.presentation.series.components.SeriesScreen
 import feature.series.presentation.details.SeriesDetailsScreenRoot
 import feature.series.presentation.search.SearchSeriesScreenRoot
@@ -26,11 +27,11 @@ class SeriesScreenRoot : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 is SeriesSideEffect.GoToSeriesDetail -> {
-                    GlobalNavigators.navigator?.push(SeriesDetailsScreenRoot(effect.series.seriesId))
+                    GlobalNavigators.navigator?.safePush(SeriesDetailsScreenRoot(effect.series.seriesId))
                 }
 
                 is SeriesSideEffect.GoToAddSeries -> {
-                    GlobalNavigators.navigator?.push(SearchSeriesScreenRoot())
+                    GlobalNavigators.navigator?.safePush(SearchSeriesScreenRoot())
                 }
             }
         }

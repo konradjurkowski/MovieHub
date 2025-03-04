@@ -7,6 +7,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
+import core.utils.safePush
 import feature.home.presentation.draw.DrawMediaScreenRoot
 import feature.home.presentation.home.components.HomeScreen
 import feature.movies.presentation.details.MovieDetailsScreenRoot
@@ -23,15 +24,15 @@ class HomeScreenRoot : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 is HomeSideEffect.GoToMovieDetails -> {
-                    GlobalNavigators.navigator?.push(MovieDetailsScreenRoot(effect.movie.movieId))
+                    GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
                 is HomeSideEffect.GoToSeriesDetails -> {
-                    GlobalNavigators.navigator?.push(SeriesDetailsScreenRoot(effect.series.seriesId))
+                    GlobalNavigators.navigator?.safePush(SeriesDetailsScreenRoot(effect.series.seriesId))
                 }
 
                 is HomeSideEffect.GoToDrawMedia -> {
-                    GlobalNavigators.navigator?.push(DrawMediaScreenRoot(effect.drawType))
+                    GlobalNavigators.navigator?.safePush(DrawMediaScreenRoot(effect.drawType))
                 }
 
                 HomeSideEffect.GoToProfileTab -> {

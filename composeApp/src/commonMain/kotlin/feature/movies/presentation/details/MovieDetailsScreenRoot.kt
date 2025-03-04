@@ -10,6 +10,7 @@ import core.navigation.GlobalNavigators
 import core.utils.LocalLoaderState
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
+import core.utils.safePush
 import feature.rating.presentation.add_rating.AddRatingScreenRoot
 import feature.movies.presentation.details.components.MovieDetailsScreen
 import org.koin.core.parameter.parametersOf
@@ -27,7 +28,7 @@ class MovieDetailsScreenRoot(val movieId: Long) : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 is MovieDetailsSideEffect.GoToAddComment -> {
-                    GlobalNavigators.navigator?.push(
+                    GlobalNavigators.navigator?.safePush(
                         AddRatingScreenRoot(
                             mediaId = movieId,
                             firebaseRating = effect.firebaseRating,

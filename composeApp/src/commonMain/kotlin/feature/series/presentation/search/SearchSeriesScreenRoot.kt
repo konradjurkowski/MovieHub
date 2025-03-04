@@ -12,6 +12,7 @@ import core.navigation.GlobalNavigators
 import core.utils.LocalLoaderState
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
+import core.utils.safePush
 import feature.series.presentation.preview.SeriesPreviewScreenRoot
 import feature.series.presentation.search.components.SearchSeriesScreen
 import moviehub.composeapp.generated.resources.Res
@@ -38,7 +39,7 @@ class SearchSeriesScreenRoot : BaseScreen() {
 
                 is SearchSeriesSideEffect.GoToSeriesPreview -> {
                     focusManager.clearFocus()
-                    GlobalNavigators.navigator?.push(SeriesPreviewScreenRoot(effect.series.id))
+                    GlobalNavigators.navigator?.safePush(SeriesPreviewScreenRoot(effect.series.id))
                 }
 
                 SearchSeriesSideEffect.HideLoaderWithSuccess -> {

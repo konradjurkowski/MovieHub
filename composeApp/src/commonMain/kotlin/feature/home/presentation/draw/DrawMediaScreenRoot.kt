@@ -7,6 +7,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
+import core.utils.safePush
 import feature.home.presentation.draw.components.DrawMediaScreen
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.series.presentation.details.SeriesDetailsScreenRoot
@@ -25,12 +26,12 @@ class DrawMediaScreenRoot(private val drawType: DrawType) : BaseScreen() {
             when (effect) {
                 is DrawMediaSideEffect.GoToMovieDetails -> {
                     GlobalNavigators.navigator?.pop()
-                    GlobalNavigators.navigator?.push(MovieDetailsScreenRoot(effect.movie.movieId))
+                    GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
                 is DrawMediaSideEffect.GoToSeriesDetails -> {
                     GlobalNavigators.navigator?.pop()
-                    GlobalNavigators.navigator?.push(SeriesDetailsScreenRoot(effect.series.seriesId))
+                    GlobalNavigators.navigator?.safePush(SeriesDetailsScreenRoot(effect.series.seriesId))
                 }
             }
         }

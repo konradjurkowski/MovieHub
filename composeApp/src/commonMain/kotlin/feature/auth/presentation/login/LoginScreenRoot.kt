@@ -14,6 +14,7 @@ import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import core.utils.isNotificationPermissionRequired
+import core.utils.safePush
 import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
 import feature.auth.presentation.login.LoginSideEffect.GoToForgotPassword
 import feature.auth.presentation.login.LoginSideEffect.GoToRegister
@@ -38,8 +39,8 @@ class LoginScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                GoToForgotPassword -> navigator.push(ForgotPasswordScreenRoot())
-                GoToRegister -> navigator.push(RegisterScreenRoot())
+                GoToForgotPassword -> navigator.safePush(ForgotPasswordScreenRoot())
+                GoToRegister -> navigator.safePush(RegisterScreenRoot())
                 is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
 
                 NavigateForward -> {

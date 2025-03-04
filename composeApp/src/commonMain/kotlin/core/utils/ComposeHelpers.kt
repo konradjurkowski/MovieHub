@@ -11,6 +11,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.Navigator
 import dev.gitlive.firebase.FirebaseNetworkException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthUserCollisionException
@@ -59,6 +61,10 @@ fun LoadState.isError() = this is LoadState.Error
 @Composable
 fun StringResource?.toDisplay(): String {
     return this?.let { stringResource(it) } ?: ""
+}
+
+fun Navigator.safePush(screen: Screen) {
+    if (lastItem::class != screen::class) push(screen)
 }
 
 fun getFailureMessage(error: Throwable): StringResource {

@@ -7,6 +7,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
+import core.utils.safePush
 import feature.auth.presentation.login.LoginScreenRoot
 import feature.profile.presentation.profile.components.ProfileScreen
 import feature.profile.presentation.profile_edit.ProfileEditScreenRoot
@@ -21,7 +22,7 @@ class ProfileScreenRoot : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 ProfileSideEffect.GoToLoginScreen -> GlobalNavigators.navigator?.replaceAll(LoginScreenRoot())
-                ProfileSideEffect.GoToProfileEditScreen -> GlobalNavigators.navigator?.push(ProfileEditScreenRoot())
+                ProfileSideEffect.GoToProfileEditScreen -> GlobalNavigators.navigator?.safePush(ProfileEditScreenRoot())
             }
         }
 

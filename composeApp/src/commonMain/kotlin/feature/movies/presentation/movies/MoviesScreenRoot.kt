@@ -8,6 +8,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
+import core.utils.safePush
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.movies.presentation.movies.components.MoviesScreen
 import feature.movies.presentation.search.SearchMovieScreenRoot
@@ -26,11 +27,11 @@ class MoviesScreenRoot : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 is MoviesSideEffect.GoToMovieDetail -> {
-                    GlobalNavigators.navigator?.push(MovieDetailsScreenRoot(effect.movie.movieId))
+                    GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
                 is MoviesSideEffect.GoToAddMovie -> {
-                    GlobalNavigators.navigator?.push(SearchMovieScreenRoot())
+                    GlobalNavigators.navigator?.safePush(SearchMovieScreenRoot())
                 }
             }
         }
