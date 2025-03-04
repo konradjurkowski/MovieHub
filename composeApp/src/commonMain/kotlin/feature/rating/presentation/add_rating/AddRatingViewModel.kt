@@ -9,6 +9,12 @@ import core.tools.event_bus.RefreshSeries
 import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
+import feature.rating.presentation.add_rating.AddRatingIntent.CommentUpdated
+import feature.rating.presentation.add_rating.AddRatingIntent.RatingUpdated
+import feature.rating.presentation.add_rating.AddRatingIntent.Submit
+import feature.rating.presentation.add_rating.AddRatingIntent.LoadInitialData
+import feature.rating.presentation.add_rating.AddRatingSideEffect.ShowError
+import feature.rating.presentation.add_rating.AddRatingSideEffect.ShowSuccessAndNavigateBack
 import kotlinx.coroutines.launch
 
 class AddRatingViewModel(
@@ -23,11 +29,13 @@ class AddRatingViewModel(
 
     override fun processIntent(intent: AddRatingIntent) {
         when (intent) {
-            is AddRatingIntent.CommentUpdated -> updateViewState { copy(comment = intent.comment) }
-            is AddRatingIntent.RatingUpdated -> updateViewState { copy(rating = intent.rating) }
-            is AddRatingIntent.Submit -> addRating(intent.isMovie, intent.rating, intent.comment)
-            is AddRatingIntent.LoadInitialData -> {
+            is CommentUpdated -> updateViewState { copy(comment = intent.comment) }
+            is RatingUpdated -> updateViewState { copy(rating = intent.rating) }
+            is Submit -> addRating(intent.isMovie, intent.rating, intent.comment)
+
+            is LoadInitialData -> {
                 if (intent.firebaseRating == null) return
+
                 updateViewState {
                     copy(
                         rating = intent.firebaseRating.rating,
@@ -45,9 +53,10 @@ class AddRatingViewModel(
     ) {
         if (isMovie) {
             addMovieRating(rating, comment)
-        } else {
-            addSeriesRating(rating, comment)
+            return
         }
+
+        addSeriesRating(rating, comment)
     }
 
     private fun addMovieRating(rating: Double, comment: String) {
@@ -59,11 +68,11 @@ class AddRatingViewModel(
             when (result) {
                 is Resource.Success -> {
                     eventBus.invokeEvent(RefreshMovie(mediaId))
-                    sendSideEffect(AddRatingSideEffect.Success)
+                    sendSideEffect(ShowSuccessAndNavigateBack)
                 }
 
                 is Resource.Failure -> {
-                    sendSideEffect(AddRatingSideEffect.ShowError(result.error))
+                    sendSideEffect(ShowError(result.error))
                 }
 
                 else -> {
@@ -83,11 +92,11 @@ class AddRatingViewModel(
             when (result) {
                 is Resource.Success -> {
                     eventBus.invokeEvent(RefreshSeries(mediaId))
-                    sendSideEffect(AddRatingSideEffect.Success)
+                    sendSideEffect(ShowSuccessAndNavigateBack)
                 }
 
                 is Resource.Failure -> {
-                    sendSideEffect(AddRatingSideEffect.ShowError(result.error))
+                    sendSideEffect(ShowError(result.error))
                 }
 
                 else -> {

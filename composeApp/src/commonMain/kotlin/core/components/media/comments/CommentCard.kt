@@ -109,7 +109,7 @@ private fun UserSection(
         RegularSpacer()
         Column {
             Text(
-                text = user.name,
+                text = user.name ?: "",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Medium,

@@ -11,7 +11,7 @@ import dev.gitlive.firebase.firestore.DocumentReference
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.storage.FirebaseStorage
 import feature.auth.domain.AppUser
-import kotlinx.coroutines.flow.Flow
+import feature.auth.domain.toAppUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.datetime.Clock
@@ -21,11 +21,11 @@ class AuthServiceImpl(
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
 ) : AuthService {
-    override val currentUser: FirebaseUser? get() = auth.currentUser
-    override val authStateChanged: Flow<FirebaseUser?> = auth.authStateChanged
 
-    private val _appUser = MutableStateFlow<AppUser?>(null)
+    private val _appUser = MutableStateFlow(auth.currentUser?.toAppUser())
     override val appUser: StateFlow<AppUser?> = _appUser
+
+    override val currentUser: AppUser? get() = _appUser.value ?: auth.currentUser?.toAppUser()
 
     override suspend fun signIn(email: String, password: String): Resource<FirebaseUser?> {
         return try {
@@ -78,7 +78,7 @@ class AuthServiceImpl(
     override suspend fun getAppUser(refresh: Boolean): Resource<AppUser> {
         if (_appUser.value != null && !refresh) return Resource.Success(_appUser.value!!)
 
-        val result = getUserById(currentUser?.uid ?: "")
+        val result = getUserById(currentUser?.userId ?: "")
         if (result.isSuccess()) _appUser.value = result.getSuccess()
         return result
     }
@@ -89,7 +89,7 @@ class AuthServiceImpl(
                 .collection(FirebaseConstants.USERS_COLLECTION)
                 .get()
             val users = querySnapshot.documents.map { it.data(AppUser.serializer()) }
-            val appUser = users.firstOrNull { it.userId == currentUser?.uid }
+            val appUser = users.firstOrNull { it.userId == currentUser?.userId }
             if (appUser != null) _appUser.value = appUser
             Resource.Success(users)
         } catch (e: Exception) {

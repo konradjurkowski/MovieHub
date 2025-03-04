@@ -34,7 +34,8 @@ class AddRatingScreenRoot(
                 is AddRatingSideEffect.ShowError -> {
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
-                AddRatingSideEffect.Success -> {
+
+                AddRatingSideEffect.ShowSuccessAndNavigateBack -> {
                     GlobalNavigators.navigator?.pop()
                     snackbarState.showSuccess(Res.string.add_rating_screen_rating_added)
                 }

@@ -89,6 +89,7 @@ fun EditableUserAvatar(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Edit,
+                        tint = MaterialTheme.colorScheme.background,
                         contentDescription = null,
                     )
                 }

@@ -9,6 +9,7 @@ import com.mohamedrejeb.calf.permissions.rememberPermissionState
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import feature.home.presentation.main.MainScreenRoot
+import feature.permissions.presentation.notification.NotificationPermissionSideEffect.CheckNotificationPermission
 import feature.permissions.presentation.notification.NotificationPermissionSideEffect.GoToHomeScreen
 import feature.permissions.presentation.notification.components.NotificationPermissionScreen
 
@@ -27,7 +28,7 @@ class NotificationPermissionScreenRoot : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 GoToHomeScreen -> navigator.replace(MainScreenRoot())
-                NotificationPermissionSideEffect.CheckNotificationPermission -> notificationPermissionState.launchPermissionRequest()
+                CheckNotificationPermission -> notificationPermissionState.launchPermissionRequest()
             }
         }
 

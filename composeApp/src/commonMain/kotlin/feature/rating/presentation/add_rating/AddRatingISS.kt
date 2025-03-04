@@ -21,7 +21,7 @@ sealed class AddRatingIntent {
 @MviSideEffect
 sealed class AddRatingSideEffect {
     data class ShowError(val error: Throwable) : AddRatingSideEffect()
-    data object Success : AddRatingSideEffect()
+    data object ShowSuccessAndNavigateBack : AddRatingSideEffect()
 }
 
 @MviState
