@@ -6,13 +6,16 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.mohamedrejeb.calf.permissions.Permission
+import com.mohamedrejeb.calf.permissions.isGranted
+import com.mohamedrejeb.calf.permissions.rememberPermissionState
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
-import feature.auth.presentation.register.RegisterSideEffect.GoToHome
-import feature.auth.presentation.register.RegisterSideEffect.GoToNotificationPermission
+import core.utils.isNotificationPermissionRequired
 import feature.auth.presentation.register.RegisterSideEffect.NavigateBack
+import feature.auth.presentation.register.RegisterSideEffect.NavigateForward
 import feature.auth.presentation.register.RegisterSideEffect.ShowError
 import feature.auth.presentation.register.components.RegisterScreen
 import feature.home.presentation.main.MainScreenRoot
@@ -28,12 +31,21 @@ class RegisterScreenRoot : BaseScreen() {
         val viewModel = getScreenModel<RegisterViewModel>()
         val state by viewModel.viewState.collectAsState()
 
+        val notificationPermissionState = rememberPermissionState(Permission.Notification)
+
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                GoToHome -> navigator.replaceAll(MainScreenRoot())
-                GoToNotificationPermission -> navigator.replaceAll(NotificationPermissionScreenRoot())
                 NavigateBack -> navigator.pop()
                 is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
+
+                NavigateForward -> {
+                    if (!isNotificationPermissionRequired() || notificationPermissionState.status.isGranted) {
+                        navigator.replaceAll(MainScreenRoot())
+                        return@CollectSideEffects
+                    }
+
+                    navigator.replaceAll(NotificationPermissionScreenRoot())
+                }
             }
         }
 

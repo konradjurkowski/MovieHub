@@ -5,6 +5,8 @@ import core.architecture.BaseViewModel
 import feature.auth.data.remote.AuthService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import feature.auth.presentation.splash.SplashSideEffect.GoToHome
+import feature.auth.presentation.splash.SplashSideEffect.GoToLogin
 
 class SplashViewModel(
     private val authService: AuthService
@@ -24,8 +26,8 @@ class SplashViewModel(
         screenModelScope.launch {
             delay(1500)
             when (authService.currentUser == null) {
-                true -> sendSideEffect(SplashSideEffect.GoToLogin)
-                false -> sendSideEffect(SplashSideEffect.GoToHome)
+                true -> sendSideEffect(GoToLogin)
+                false -> sendSideEffect(GoToHome)
             }
         }
     }

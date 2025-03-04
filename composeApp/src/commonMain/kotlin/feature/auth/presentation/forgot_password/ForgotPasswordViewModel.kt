@@ -7,6 +7,12 @@ import core.tools.validator.FormValidator
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import kotlinx.coroutines.launch
+import feature.auth.presentation.forgot_password.ForgotPasswordIntent.BackPressed
+import feature.auth.presentation.forgot_password.ForgotPasswordIntent.EmailChanged
+import feature.auth.presentation.forgot_password.ForgotPasswordIntent.ResetPassword
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.GoToLogin
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.NavigateBack
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.ShowError
 
 class ForgotPasswordViewModel(
     private val formValidator: FormValidator,
@@ -17,9 +23,9 @@ class ForgotPasswordViewModel(
 
     override fun processIntent(intent: ForgotPasswordIntent) {
         when (intent) {
-            ForgotPasswordIntent.BackPressed -> sendSideEffect(ForgotPasswordSideEffect.NavigateBack)
-            is ForgotPasswordIntent.EmailChanged -> updateViewState { copy(email = intent.email) }
-            is ForgotPasswordIntent.ResetPassword -> resetPassword(intent.email)
+            BackPressed -> sendSideEffect(NavigateBack)
+            is EmailChanged -> updateViewState { copy(email = intent.email) }
+            is ResetPassword -> resetPassword(intent.email)
         }
     }
 
@@ -36,8 +42,8 @@ class ForgotPasswordViewModel(
             val result = authService.resetPassword(email)
 
             when (result) {
-                is Resource.Success -> sendSideEffect(ForgotPasswordSideEffect.GoToLogin)
-                is Resource.Failure -> sendSideEffect(ForgotPasswordSideEffect.ShowError(result.error))
+                is Resource.Success -> sendSideEffect(GoToLogin)
+                is Resource.Failure -> sendSideEffect(ShowError(result.error))
                 else -> {
                     // NO - OP
                 }

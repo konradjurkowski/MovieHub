@@ -4,9 +4,6 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
-import core.utils.constants.Constants
-import core.utils.Platform
-import core.utils.PlatformInfo
 import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import feature.auth.presentation.register.RegisterIntent.BackPressed
@@ -17,9 +14,8 @@ import feature.auth.presentation.register.RegisterIntent.RepeatedPasswordChanged
 import feature.auth.presentation.register.RegisterIntent.TogglePasswordVisibility
 import feature.auth.presentation.register.RegisterIntent.ToggleRepeatedPasswordVisibility
 import feature.auth.presentation.register.RegisterIntent.SignUp
-import feature.auth.presentation.register.RegisterSideEffect.GoToHome
-import feature.auth.presentation.register.RegisterSideEffect.GoToNotificationPermission
 import feature.auth.presentation.register.RegisterSideEffect.NavigateBack
+import feature.auth.presentation.register.RegisterSideEffect.NavigateForward
 import feature.auth.presentation.register.RegisterSideEffect.ShowError
 import kotlinx.coroutines.launch
 
@@ -83,7 +79,7 @@ class RegisterViewModel(
             val result = authService.signUp(name, email, password)
 
             when (result) {
-                is Resource.Success -> checkIfPermissionGranted()
+                is Resource.Success -> sendSideEffect(NavigateForward)
                 is Resource.Failure -> sendSideEffect(ShowError(result.error))
                 else -> {
                     // NO - OP
@@ -92,19 +88,5 @@ class RegisterViewModel(
 
             updateViewState { copy(registerState = result) }
         }
-    }
-
-    private fun checkIfPermissionGranted() {
-        val platform = PlatformInfo.platform
-        val sdkInt = PlatformInfo.sdkInt
-        val requiresPermissionCheck = platform == Platform.IOS ||
-                (platform == Platform.Android && sdkInt >= Constants.ANDROID_13_VERSION_CODE)
-
-        if (requiresPermissionCheck) {
-            sendSideEffect(GoToNotificationPermission)
-            return
-        }
-
-        sendSideEffect(GoToHome)
     }
 }

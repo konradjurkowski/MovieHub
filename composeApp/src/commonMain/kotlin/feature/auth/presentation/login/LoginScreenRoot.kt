@@ -13,11 +13,11 @@ import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
+import core.utils.isNotificationPermissionRequired
 import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
 import feature.auth.presentation.login.LoginSideEffect.GoToForgotPassword
-import feature.auth.presentation.login.LoginSideEffect.GoToHome
-import feature.auth.presentation.login.LoginSideEffect.GoToNotificationPermission
 import feature.auth.presentation.login.LoginSideEffect.GoToRegister
+import feature.auth.presentation.login.LoginSideEffect.NavigateForward
 import feature.auth.presentation.login.LoginSideEffect.ShowError
 import feature.auth.presentation.login.components.LoginScreen
 import feature.auth.presentation.register.RegisterScreenRoot
@@ -39,20 +39,16 @@ class LoginScreenRoot : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 GoToForgotPassword -> navigator.push(ForgotPasswordScreenRoot())
-                GoToHome -> navigator.replace(MainScreenRoot())
                 GoToRegister -> navigator.push(RegisterScreenRoot())
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
 
-                GoToNotificationPermission -> {
-                    if (notificationPermissionState.status.isGranted) {
+                NavigateForward -> {
+                    if (!isNotificationPermissionRequired() || notificationPermissionState.status.isGranted) {
                         navigator.replace(MainScreenRoot())
                         return@CollectSideEffects
                     }
 
                     navigator.replace(NotificationPermissionScreenRoot())
-                }
-
-                is ShowError -> {
-                    snackbarState.showError(getFailureMessage(effect.error))
                 }
             }
         }

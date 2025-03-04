@@ -11,6 +11,9 @@ import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.auth.presentation.forgot_password.components.ForgotPasswordScreen
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.GoToLogin
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.NavigateBack
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.ShowError
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.forgot_password_screen_reset_password_success
 
@@ -26,14 +29,13 @@ class ForgotPasswordScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                ForgotPasswordSideEffect.GoToLogin -> {
+                GoToLogin -> {
                     snackbarState.showSuccess(Res.string.forgot_password_screen_reset_password_success)
                     navigator.pop()
                 }
-                ForgotPasswordSideEffect.NavigateBack -> navigator.pop()
-                is ForgotPasswordSideEffect.ShowError -> {
-                    snackbarState.showError(getFailureMessage(effect.error))
-                }
+
+                NavigateBack -> navigator.pop()
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
             }
         }
 

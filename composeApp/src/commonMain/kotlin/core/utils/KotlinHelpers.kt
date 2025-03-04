@@ -38,3 +38,8 @@ suspend fun <T> runWithTimeout(
         Resource.Failure(e)
     }
 }
+
+fun isNotificationPermissionRequired(): Boolean {
+    val platform = PlatformInfo.platform
+    return platform == Platform.IOS || (platform == Platform.Android && PlatformInfo.sdkInt >= Constants.ANDROID_13_VERSION_CODE)
+}

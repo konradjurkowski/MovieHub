@@ -59,7 +59,7 @@ fun NotificationPermissionScreen(
                         .height(deviceHeight * 0.3f)
                         .aspectRatio(1f),
                     painter = painterResource(Res.drawable.ic_notification_permission),
-                    contentDescription = "Notification permission image",
+                    contentDescription = null,
                 )
                 MediumSpacer()
                 Text(
