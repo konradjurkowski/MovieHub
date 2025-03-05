@@ -2,7 +2,7 @@ package feature.series.data.repository
 
 import core.utils.Resource
 import dev.gitlive.firebase.firestore.DocumentReference
-import core.model.CastData
+import core.model.media.CastData
 import feature.movies.domain.model.FirebaseRating
 import feature.series.domain.model.FirebaseSeries
 import feature.series.domain.model.Series

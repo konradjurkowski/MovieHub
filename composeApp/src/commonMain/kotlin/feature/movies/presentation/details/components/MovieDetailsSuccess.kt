@@ -20,14 +20,14 @@ import core.components.media.details.MediaDetailsBackground
 import core.components.media.details.MediaDetailsInfo
 import core.components.other.SmallSpacer
 import core.components.tab_row.AppTabRow
-import core.model.MediaTab
+import core.model.media.MediaTab
 import core.utils.Dimens
 import core.utils.LocalDateTimeFormatter
 import core.utils.getScreenSizeInfo
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import feature.auth.domain.AppUser
-import core.model.CastData
+import core.model.media.CastData
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.MovieDetails

@@ -1,4 +1,4 @@
-package core.model
+package core.model.media
 
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.comments_tab_label

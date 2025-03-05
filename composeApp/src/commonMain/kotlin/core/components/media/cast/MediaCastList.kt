@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import core.components.text.SectionTitle
 import core.utils.Dimens
-import core.model.Cast
+import core.model.media.Cast
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.cast_label
 import org.jetbrains.compose.resources.stringResource

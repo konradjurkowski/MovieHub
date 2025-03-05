@@ -1,7 +1,7 @@
 package feature.movies.domain.model
 
-import core.model.Genre
-import core.model.ProductionCompany
+import core.model.media.Genre
+import core.model.media.ProductionCompany
 import kotlinx.datetime.Instant
 
 data class MovieDetails(

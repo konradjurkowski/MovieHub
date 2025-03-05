@@ -1,4 +1,4 @@
-package core.model
+package core.model.media
 
 data class Cast(
     val id: Long,

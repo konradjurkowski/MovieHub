@@ -1,8 +1,8 @@
-package core.model.dto
+package core.model.media.dto
 
 import core.utils.constants.MovieApiConstants
-import core.model.Cast
-import core.model.CastData
+import core.model.media.Cast
+import core.model.media.CastData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

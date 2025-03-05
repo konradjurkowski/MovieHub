@@ -1,4 +1,4 @@
-package core.model
+package core.model.media
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

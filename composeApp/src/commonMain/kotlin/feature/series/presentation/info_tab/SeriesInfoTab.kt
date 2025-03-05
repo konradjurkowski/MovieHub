@@ -19,9 +19,9 @@ import core.components.other.RegularSpacer
 import core.components.text.SectionTitle
 import core.theme.withA80
 import core.utils.Dimens
-import core.model.CastData
-import core.model.getDirector
-import core.model.getWriter
+import core.model.media.CastData
+import core.model.media.getDirector
+import core.model.media.getWriter
 import feature.series.domain.model.SeriesDetails
 import feature.series.presentation.info_tab.components.SeasonsHorizontalList
 import moviehub.composeapp.generated.resources.Res

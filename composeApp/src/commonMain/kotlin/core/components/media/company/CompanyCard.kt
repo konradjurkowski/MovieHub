@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import core.components.image.AnyImage
-import core.model.ProductionCompany
-import core.model.getImageUrl
+import core.model.media.ProductionCompany
+import core.model.media.getImageUrl
 import core.utils.Dimens
 
 @Composable

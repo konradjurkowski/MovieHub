@@ -14,9 +14,9 @@ import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.DocumentReference
 import dev.gitlive.firebase.firestore.FirebaseFirestore
-import core.model.dto.CastResponse
-import core.model.dto.toDomain
-import core.model.CastData
+import core.model.media.dto.CastResponse
+import core.model.media.dto.toDomain
+import core.model.media.CastData
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.calculateAvgRating
 import feature.series.data.api.SeriesApi

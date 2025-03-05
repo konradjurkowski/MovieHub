@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import core.model.ProductionCompany
+import core.model.media.ProductionCompany
 import core.utils.paddingForIndex
 
 @Composable

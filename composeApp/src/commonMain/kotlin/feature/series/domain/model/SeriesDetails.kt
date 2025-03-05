@@ -1,9 +1,9 @@
 package feature.series.domain.model
 
-import core.model.Genre
-import core.model.ProductionCompany
-import core.model.ProductionCountry
-import core.model.SpokenLanguage
+import core.model.media.Genre
+import core.model.media.ProductionCompany
+import core.model.media.ProductionCountry
+import core.model.media.SpokenLanguage
 import kotlinx.datetime.Instant
 
 data class SeriesDetails(

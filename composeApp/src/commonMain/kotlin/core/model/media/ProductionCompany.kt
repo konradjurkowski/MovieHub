@@ -1,4 +1,4 @@
-package core.model
+package core.model.media
 
 import core.utils.constants.MovieApiConstants
 import kotlinx.serialization.SerialName

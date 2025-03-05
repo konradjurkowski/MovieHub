@@ -1,9 +1,9 @@
 package feature.movies.data.api.dto
 
-import core.model.Genre
-import core.model.ProductionCompany
-import core.model.ProductionCountry
-import core.model.SpokenLanguage
+import core.model.media.Genre
+import core.model.media.ProductionCompany
+import core.model.media.ProductionCountry
+import core.model.media.SpokenLanguage
 import core.utils.constants.MovieApiConstants
 import core.utils.toInstant
 import feature.movies.domain.model.MovieDetails

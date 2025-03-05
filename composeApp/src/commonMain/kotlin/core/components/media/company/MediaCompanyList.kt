@@ -7,7 +7,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import core.components.text.SectionTitle
-import core.model.ProductionCompany
+import core.model.media.ProductionCompany
 import core.utils.Dimens
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.production_companies

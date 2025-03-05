@@ -3,7 +3,7 @@ package feature.series.presentation.preview
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
-import core.model.CastData
+import core.model.media.CastData
 import feature.series.domain.model.SeriesDetails
 
 @MviIntent
