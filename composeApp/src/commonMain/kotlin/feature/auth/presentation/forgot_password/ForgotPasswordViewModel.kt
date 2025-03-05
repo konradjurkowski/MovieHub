@@ -2,9 +2,10 @@ package feature.auth.presentation.forgot_password
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.ActionState
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
-import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import kotlinx.coroutines.launch
 import feature.auth.presentation.forgot_password.ForgotPasswordIntent.BackPressed
@@ -37,19 +38,19 @@ class ForgotPasswordViewModel(
 
         if (!emailValidation.successful) return
 
-        updateViewState { copy(resetState = Resource.Loading) }
+        updateViewState { copy(resetState = ActionState.Loading) }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = authService.sendPasswordResetEmail(email)
+            when (val result = authService.sendPasswordResetEmail(email)) {
+                is Response.Success -> {
+                    updateViewState { copy(resetState = ActionState.Success) }
+                    sendSideEffect(GoToLogin)
+                }
 
-            when (result) {
-                is Resource.Success -> sendSideEffect(GoToLogin)
-                is Resource.Failure -> sendSideEffect(ShowError(result.error))
-                else -> {
-                    // NO - OP
+                is Response.Failure -> {
+                    updateViewState { copy(resetState = ActionState.Failure(result.error)) }
+                    sendSideEffect(ShowError(result.error))
                 }
             }
-
-            updateViewState { copy(resetState = result) }
         }
     }
 }

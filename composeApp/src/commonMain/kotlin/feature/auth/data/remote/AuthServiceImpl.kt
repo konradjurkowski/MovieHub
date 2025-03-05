@@ -1,5 +1,6 @@
 package feature.auth.data.remote
 
+import core.model.Response
 import core.utils.FailureResponseException
 import core.utils.constants.FirebaseConstants
 import core.utils.Resource
@@ -27,13 +28,13 @@ class AuthServiceImpl(
 
     override val currentUser: AppUser? get() = _appUser.value ?: auth.currentUser?.toAppUser()
 
-    override suspend fun signIn(email: String, password: String): Resource<FirebaseUser?> {
+    override suspend fun signIn(email: String, password: String): Response<FirebaseUser?> {
         return try {
             val result = auth.signInWithEmailAndPassword(email, password)
             getAppUser(refresh = true)
-            Resource.Success(result.user)
+            Response.Success(result.user)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
@@ -41,19 +42,19 @@ class AuthServiceImpl(
         name: String,
         email: String,
         password: String
-    ): Resource<FirebaseUser?> {
+    ): Response<FirebaseUser?> {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password)
             val firebaseUser = result.user
 
             if (firebaseUser != null) {
                 createUser(userId = firebaseUser.uid, name = name, email = email)
-                Resource.Success(result.user)
+                Response.Success(result.user)
             } else {
-                Resource.Failure(FailureResponseException())
+                Response.Failure(FailureResponseException())
             }
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
@@ -66,12 +67,12 @@ class AuthServiceImpl(
         }
     }
 
-    override suspend fun sendPasswordResetEmail(email: String): Resource<Unit> {
+    override suspend fun sendPasswordResetEmail(email: String): Response<Unit> {
         return try {
             val result = auth.sendPasswordResetEmail(email)
-            Resource.Success(result)
+            Response.Success(result)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 

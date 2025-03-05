@@ -2,9 +2,10 @@ package feature.auth.presentation.register
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.ActionState
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
-import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import feature.auth.presentation.register.RegisterIntent.BackPressed
 import feature.auth.presentation.register.RegisterIntent.NameChanged
@@ -74,19 +75,19 @@ class RegisterViewModel(
         if (!emailValidation.successful || !passwordValidation.successful ||
             !passwordValidation.successful || !repeatedPasswordValidation.successful) return
 
-        updateViewState { copy(registerState = Resource.Loading) }
+        updateViewState { copy(registerState = ActionState.Loading) }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = authService.signUp(name, email, password)
+            when (val result = authService.signUp(name, email, password)) {
+                is Response.Success -> {
+                    updateViewState { copy(registerState = ActionState.Success) }
+                    sendSideEffect(NavigateForward)
+                }
 
-            when (result) {
-                is Resource.Success -> sendSideEffect(NavigateForward)
-                is Resource.Failure -> sendSideEffect(ShowError(result.error))
-                else -> {
-                    // NO - OP
+                is Response.Failure -> {
+                    updateViewState { copy(registerState = ActionState.Failure(result.error)) }
+                    sendSideEffect(ShowError(result.error))
                 }
             }
-
-            updateViewState { copy(registerState = result) }
         }
     }
 }

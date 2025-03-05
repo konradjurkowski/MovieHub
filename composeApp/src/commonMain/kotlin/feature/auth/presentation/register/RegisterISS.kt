@@ -3,9 +3,8 @@ package feature.auth.presentation.register
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
+import core.model.ActionState
 import core.tools.validator.ValidationResult
-import core.utils.Resource
-import dev.gitlive.firebase.auth.FirebaseUser
 
 @MviIntent
 sealed class RegisterIntent {
@@ -43,5 +42,5 @@ data class RegisterState(
     val repeatedPassword: String = "",
     val obscureRepeatedPassword: Boolean = true,
     val repeatedPasswordValidation: ValidationResult = ValidationResult(successful = true),
-    val registerState: Resource<FirebaseUser?> = Resource.Idle,
+    val registerState: ActionState = ActionState.Idle,
 )

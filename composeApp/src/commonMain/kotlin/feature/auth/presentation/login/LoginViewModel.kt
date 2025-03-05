@@ -2,9 +2,10 @@ package feature.auth.presentation.login
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.ActionState
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
-import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import feature.auth.presentation.login.LoginIntent.EmailChanged
 import feature.auth.presentation.login.LoginIntent.PasswordChanged
@@ -42,27 +43,24 @@ class LoginViewModel(
         val emailValidation = formValidator.validateEmail(email)
         val passwordValidation = formValidator.basicValidation(password)
         updateViewState {
-            copy(
-                emailValidation = emailValidation,
-                passwordValidation = passwordValidation,
-            )
+            copy(emailValidation = emailValidation, passwordValidation = passwordValidation)
         }
 
         if (!emailValidation.successful || !passwordValidation.successful) return
 
-        updateViewState { copy(loginState = Resource.Loading) }
+        updateViewState { copy(loginState = ActionState.Loading) }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = authService.signIn(email, password)
+            when (val result = authService.signIn(email, password)) {
+                is Response.Success -> {
+                    updateViewState { copy(loginState = ActionState.Success) }
+                    sendSideEffect(NavigateForward)
+                }
 
-            when (result) {
-                is Resource.Success -> sendSideEffect(NavigateForward)
-                is Resource.Failure -> sendSideEffect(ShowError(result.error))
-                else -> {
-                    // NO - OP
+                is Response.Failure -> {
+                    updateViewState { copy(loginState = ActionState.Failure(result.error)) }
+                    sendSideEffect(ShowError(result.error))
                 }
             }
-
-            updateViewState { copy(loginState = result) }
         }
     }
 }
