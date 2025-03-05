@@ -28,11 +28,15 @@ sealed class MovieDetailsSideEffect {
 }
 
 @MviState
-data class MovieDetailsState(
-    val movie: MovieDetails? = null,
-    val firebaseMovie: FirebaseMovie? = null,
-    val castData: CastData? = null,
-    val users: List<AppUser> = emptyList(),
-    val selectedTab: Int = 0,
-    val isLoading: Boolean = false,
-)
+sealed class MovieDetailsState {
+    data object Idle : MovieDetailsState()
+    data object Loading : MovieDetailsState()
+    data class Error(val error: Throwable? = null) : MovieDetailsState()
+    data class Success(
+        val movie: MovieDetails,
+        val firebaseMovie: FirebaseMovie,
+        val castData: CastData,
+        val users: List<AppUser> = emptyList(),
+        val selectedTab: Int = 0,
+    ) : MovieDetailsState()
+}

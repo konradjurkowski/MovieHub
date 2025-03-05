@@ -12,6 +12,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 
 class HomeViewModel(
     private val authService: AuthService,
@@ -20,9 +21,10 @@ class HomeViewModel(
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<HomeIntent, HomeSideEffect, HomeState>() {
 
+    private var listenUserJob: Job? = null
+
     init {
         loadInitialData()
-        initializeListeners()
     }
 
     override fun getDefaultState() = HomeState.Idle
@@ -66,6 +68,7 @@ class HomeViewModel(
                         appUser = userResult.getSuccess(),
                     )
                     updateViewState { data }
+                    initializeListeners()
                 }
 
                 else -> updateViewState { HomeState.Error() }
@@ -74,7 +77,9 @@ class HomeViewModel(
     }
 
     private fun initializeListeners() {
-        authService.appUser.onEach {
+        if (listenUserJob?.isActive == true) return
+
+        listenUserJob = authService.appUser.onEach {
             _viewState.transformIf<HomeState.Success> {
                 copy(appUser = it)
             }

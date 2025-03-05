@@ -2,7 +2,7 @@ package feature.movies.presentation.movies
 
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
-import core.utils.Resource
+import core.architecture.MviState
 import feature.movies.domain.model.FirebaseMovie
 
 @MviIntent
@@ -18,4 +18,10 @@ sealed class MoviesSideEffect {
     data object GoToAddMovie : MoviesSideEffect()
 }
 
-typealias MoviesState = Resource<List<FirebaseMovie>>
+@MviState
+sealed class MoviesState {
+    data object Idle : MoviesState()
+    data object Loading : MoviesState()
+    data class Error(val error: Throwable? = null) : MoviesState()
+    data class Success(val movies: List<FirebaseMovie>) : MoviesState()
+}

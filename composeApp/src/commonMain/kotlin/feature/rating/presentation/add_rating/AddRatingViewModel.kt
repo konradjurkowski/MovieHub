@@ -2,11 +2,12 @@ package feature.rating.presentation.add_rating
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.ActionState
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovie
 import core.tools.event_bus.RefreshSeries
-import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
 import feature.rating.presentation.add_rating.AddRatingIntent.CommentUpdated
@@ -63,23 +64,19 @@ class AddRatingViewModel(
         if (viewState.value.ratingState.isLoading()) return
 
         screenModelScope.launch(dispatchersProvider.io) {
-            updateViewState { copy(ratingState = Resource.Loading) }
-            val result = movieRepository.addFirebaseRating(mediaId, rating, comment)
-            when (result) {
-                is Resource.Success -> {
+            updateViewState { copy(ratingState = ActionState.Loading) }
+            when (val result = movieRepository.addFirebaseRating(mediaId, rating, comment)) {
+                is Response.Success -> {
+                    updateViewState { copy(ratingState = ActionState.Success) }
                     eventBus.invokeEvent(RefreshMovie(mediaId))
                     sendSideEffect(ShowSuccessAndNavigateBack)
                 }
 
-                is Resource.Failure -> {
+                is Response.Failure -> {
+                    updateViewState { copy(ratingState = ActionState.Failure(result.error)) }
                     sendSideEffect(ShowError(result.error))
                 }
-
-                else -> {
-                    // NO - OP
-                }
             }
-            updateViewState { copy(ratingState = result) }
         }
     }
 
@@ -87,23 +84,19 @@ class AddRatingViewModel(
         if (viewState.value.ratingState.isLoading()) return
 
         screenModelScope.launch(dispatchersProvider.io) {
-            updateViewState { copy(ratingState = Resource.Loading) }
-            val result = seriesRepository.addFirebaseRating(mediaId, rating, comment)
-            when (result) {
-                is Resource.Success -> {
+            updateViewState { copy(ratingState = ActionState.Loading) }
+            when (val result = seriesRepository.addFirebaseRating(mediaId, rating, comment)) {
+                is Response.Success -> {
+                    updateViewState { copy(ratingState = ActionState.Success) }
                     eventBus.invokeEvent(RefreshSeries(mediaId))
                     sendSideEffect(ShowSuccessAndNavigateBack)
                 }
 
-                is Resource.Failure -> {
+                is Response.Failure -> {
+                    updateViewState { copy(ratingState = ActionState.Failure(result.error)) }
                     sendSideEffect(ShowError(result.error))
                 }
-
-                else -> {
-                    // NO - OP
-                }
             }
-            updateViewState { copy(ratingState = result) }
         }
     }
 }

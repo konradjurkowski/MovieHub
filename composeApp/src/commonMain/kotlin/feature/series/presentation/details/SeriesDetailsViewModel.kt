@@ -2,10 +2,11 @@ package feature.series.presentation.details
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.architecture.transformIf
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshSeries
-import core.utils.Resource
 import feature.auth.data.remote.AuthService
 import feature.movies.domain.model.FirebaseRating
 import feature.series.data.repository.SeriesRepository
@@ -28,20 +29,20 @@ class SeriesDetailsViewModel(
         getSeriesDetails()
     }
 
-    override fun getDefaultState() = SeriesDetailsState()
+    override fun getDefaultState() = SeriesDetailsState.Idle
 
     override fun processIntent(intent: SeriesDetailsIntent) {
         when (intent) {
             SeriesDetailsIntent.BackPressed -> sendSideEffect(SeriesDetailsSideEffect.NavigateBack)
             SeriesDetailsIntent.Refresh -> getSeriesDetails()
-            is SeriesDetailsIntent.SetTab -> updateViewState { copy(selectedTab = intent.tab) }
+            is SeriesDetailsIntent.SetTab -> _viewState.transformIf<SeriesDetailsState.Success> { copy(selectedTab = intent.tab) }
             is SeriesDetailsIntent.AddCommentPressed -> sendSideEffect(SeriesDetailsSideEffect.GoToAddComment(intent.firebaseRating))
             is SeriesDetailsIntent.DeleteCommentPressed -> deleteComment(intent.firebaseRating)
         }
     }
 
     private fun getSeriesDetails() {
-        if (!isDataLoaded()) updateViewState { copy(isLoading = true) }
+        if (_viewState.value == SeriesDetailsState.Idle) updateViewState { SeriesDetailsState.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val futureSeries = async { seriesRepository.getSeriesById(seriesId) }
             val futureFirebaseSeries = async { seriesRepository.getFirebaseSeriesById(seriesId) }
@@ -56,19 +57,17 @@ class SeriesDetailsViewModel(
             val resultList = listOf(seriesResult, firebaseSeriesResult, creditsResult, usersResult)
 
             if (resultList.all { it.isSuccess() }) {
-                updateViewState {
-                    copy(
-                        series = seriesResult.getSuccess()!!,
-                        firebaseSeries = firebaseSeriesResult.getSuccess()!!,
-                        castData = creditsResult.getSuccess()!!,
-                        users = usersResult.getSuccess()!!,
-                        isLoading = false,
-                    )
-                }
+                val data = SeriesDetailsState.Success(
+                    series = seriesResult.getSuccess()!!,
+                    firebaseSeries = firebaseSeriesResult.getSuccess()!!,
+                    castData = creditsResult.getSuccess()!!,
+                    users = usersResult.getSuccess()!!,
+                )
+                updateViewState { data }
                 return@launch
             }
 
-            updateViewState { copy(isLoading = false) }
+            updateViewState { SeriesDetailsState.Error() }
         }
     }
 
@@ -77,15 +76,12 @@ class SeriesDetailsViewModel(
 
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = seriesRepository.deleteFirebaseRating(seriesId, rating)) {
-                is Resource.Success -> {
+                is Response.Success -> {
                     sendSideEffect(SeriesDetailsSideEffect.HideLoaderWithSuccess)
                     getSeriesDetails()
                 }
-                is Resource.Failure -> {
+                is Response.Failure -> {
                     sendSideEffect(SeriesDetailsSideEffect.HideLoaderWithError(result.error))
-                }
-                else -> {
-                    // NO - OP
                 }
             }
         }
@@ -100,14 +96,5 @@ class SeriesDetailsViewModel(
                     getSeriesDetails()
                 }
         }
-    }
-
-
-    private fun isDataLoaded(): Boolean {
-        val state = viewState.value
-        return state.series != null &&
-                state.firebaseSeries != null &&
-                state.castData != null &&
-                state.users.isNotEmpty()
     }
 }

@@ -6,8 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
-import core.utils.Resource
 import feature.movies.data.paging.MoviePagingSource
 import feature.movies.data.api.MovieApi
 import feature.movies.data.paging.PopularMoviePagingSource
@@ -73,15 +73,12 @@ class SearchMovieViewModel(
         sendSideEffect(SearchMovieSideEffect.ShowLoader)
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = movieRepository.addFirebaseMovie(movie)) {
-                is Resource.Success -> {
+                is Response.Success -> {
                     movieRegistry.addMovie(movie.id)
                     sendSideEffect(SearchMovieSideEffect.HideLoaderWithSuccess)
                 }
-                is Resource.Failure -> {
+                is Response.Failure -> {
                     sendSideEffect(SearchMovieSideEffect.HideLoaderWithError(result.error))
-                }
-                else -> {
-                    // NO - OP
                 }
             }
         }

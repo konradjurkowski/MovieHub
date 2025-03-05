@@ -3,7 +3,7 @@ package feature.rating.presentation.add_rating
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
-import core.utils.Resource
+import core.model.ActionState
 import feature.movies.domain.model.FirebaseRating
 
 @MviIntent
@@ -28,5 +28,5 @@ sealed class AddRatingSideEffect {
 data class AddRatingState(
     val comment: String = "",
     val rating: Double = 0.0,
-    val ratingState: Resource<Any> = Resource.Idle,
+    val ratingState: ActionState = ActionState.Idle,
 )

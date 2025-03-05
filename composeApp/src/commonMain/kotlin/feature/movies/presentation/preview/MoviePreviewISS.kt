@@ -22,13 +22,17 @@ sealed class MoviePreviewSideEffect {
 }
 
 @MviState
-data class MoviePreviewState(
-    val movie: MovieDetails? = null,
-    val castData: CastData? = null,
-    val isLoading: Boolean = false,
-    val isMovieAdded: Boolean = false,
-)
+sealed class MoviePreviewState {
+    data object Idle : MoviePreviewState()
+    data object Loading : MoviePreviewState()
+    data class Error(val error: Throwable? = null) : MoviePreviewState()
+    data class Success(
+        val movie: MovieDetails,
+        val castData: CastData,
+        val isMovieAdded: Boolean = false,
+    ) : MoviePreviewState()
 
-fun MoviePreviewState.isSuccess(): Boolean {
-    return !isLoading && movie != null && castData != null
+    fun isSuccess() = this is Success
+    fun isMediaAdded(): Boolean = getSuccess()?.isMovieAdded ?: false
+    fun getSuccess(): Success? = this as? Success
 }

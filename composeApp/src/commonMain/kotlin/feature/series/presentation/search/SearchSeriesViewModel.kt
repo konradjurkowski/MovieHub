@@ -6,8 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
-import core.utils.Resource
 import feature.series.data.paging.SeriesPagingSource
 import feature.series.data.api.SeriesApi
 import feature.series.data.paging.PopularSeriesPagingSource
@@ -72,15 +72,12 @@ class SearchSeriesViewModel(
         sendSideEffect(SearchSeriesSideEffect.ShowLoader)
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = seriesRepository.addFirebaseSeries(series)) {
-                is Resource.Success -> {
+                is Response.Success -> {
                     seriesRegistry.addSeries(series.id)
                     sendSideEffect(SearchSeriesSideEffect.HideLoaderWithSuccess)
                 }
-                is Resource.Failure -> {
+                is Response.Failure -> {
                     sendSideEffect(SearchSeriesSideEffect.HideLoaderWithError(result.error))
-                }
-                else -> {
-                    // NO - OP
                 }
             }
         }

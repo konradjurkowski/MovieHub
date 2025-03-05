@@ -2,8 +2,8 @@ package feature.movies.presentation.movies
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
-import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 
@@ -12,7 +12,7 @@ class MoviesViewModel(
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<MoviesIntent, MoviesSideEffect, MoviesState>() {
 
-    override fun getDefaultState() = Resource.Idle
+    override fun getDefaultState() = MoviesState.Idle
 
     override fun processIntent(intent: MoviesIntent) {
         when (intent) {
@@ -23,10 +23,12 @@ class MoviesViewModel(
     }
 
     fun getMovies() {
-        if (viewState.value == Resource.Idle) updateViewState { Resource.Loading }
+        if (viewState.value == MoviesState.Idle) updateViewState { MoviesState.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = repository.getFirebaseMovies()
-            updateViewState { result }
+            when (val result = repository.getFirebaseMovies()) {
+                is Response.Success -> updateViewState { MoviesState.Success(result.data) }
+                is Response.Failure -> updateViewState { MoviesState.Error(result.error) }
+            }
         }
     }
 }

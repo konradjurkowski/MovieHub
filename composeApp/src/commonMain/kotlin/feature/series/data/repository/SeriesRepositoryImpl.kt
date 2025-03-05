@@ -1,12 +1,12 @@
 package feature.series.data.repository
 
 import com.plusmobileapps.konnectivity.Konnectivity
+import core.model.Response
 import core.utils.FailureResponseException
 import core.utils.constants.FirebaseConstants
 import core.utils.FirebaseSeriesExistException
 import core.utils.FirebaseSeriesNotExistException
 import core.utils.NoInternetConnectionException
-import core.utils.Resource
 import core.utils.runWithTimeout
 import core.utils.safeApiCall
 import dev.gitlive.firebase.Firebase
@@ -36,34 +36,35 @@ class SeriesRepositoryImpl(
     private val seriesRegistry: SeriesRegistry,
     private val konnectivity: Konnectivity,
 ) : SeriesRepository {
-    override suspend fun getSeriesById(seriesId: Long): Resource<SeriesDetails> =
+
+    override suspend fun getSeriesById(seriesId: Long): Response<SeriesDetails> =
         safeApiCall(call = { seriesApi.getSeriesById(seriesId) }) { response ->
-            Resource.Success(response.body<SeriesDetailsDto>().toDomain())
+            Response.Success(response.body<SeriesDetailsDto>().toDomain())
         }
 
-    override suspend fun getCredits(seriesId: Long): Resource<CastData> =
+    override suspend fun getCredits(seriesId: Long): Response<CastData> =
         safeApiCall(call = { seriesApi.getCredits(seriesId = seriesId) }) { response ->
-            Resource.Success(response.body<CastResponse>().toDomain())
+            Response.Success(response.body<CastResponse>().toDomain())
         }
 
-    override suspend fun getFirebaseSeriesById(seriesId: Long): Resource<FirebaseSeries> {
+    override suspend fun getFirebaseSeriesById(seriesId: Long): Response<FirebaseSeries> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.SERIES_COLLECTION)
                 .where { FirebaseConstants.SERIES_ID equalTo seriesId }
                 .get()
             if (querySnapshot.documents.isEmpty()) {
-                return Resource.Failure(FailureResponseException())
+                return Response.Failure(FailureResponseException())
             }
 
             val series = querySnapshot.documents.map { it.data(FirebaseSeries.serializer()) }.first()
-            Resource.Success(series)
+            Response.Success(series)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun getFirebaseSeries(): Resource<List<FirebaseSeries>> {
+    override suspend fun getFirebaseSeries(): Response<List<FirebaseSeries>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.SERIES_COLLECTION)
@@ -71,13 +72,13 @@ class SeriesRepositoryImpl(
                 .get()
             val series = querySnapshot.documents.map { it.data(FirebaseSeries.serializer()) }
             seriesRegistry.updateSeries(series)
-            Resource.Success(series)
+            Response.Success(series)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun getLastUpdatedFirebaseSeries(): Resource<List<FirebaseSeries>> {
+    override suspend fun getLastUpdatedFirebaseSeries(): Response<List<FirebaseSeries>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.SERIES_COLLECTION)
@@ -85,16 +86,16 @@ class SeriesRepositoryImpl(
                 .limit(20)
                 .get()
             val series = querySnapshot.documents.map { it.data(FirebaseSeries.serializer()) }
-            Resource.Success(series)
+            Response.Success(series)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun addFirebaseSeries(series: Series): Resource<DocumentReference> =
+    override suspend fun addFirebaseSeries(series: Series): Response<DocumentReference> =
         runWithTimeout {
             if (!konnectivity.isConnected) {
-                return@runWithTimeout Resource.Failure(NoInternetConnectionException())
+                return@runWithTimeout Response.Failure(NoInternetConnectionException())
             }
 
             val querySnapshot = firestore
@@ -102,7 +103,7 @@ class SeriesRepositoryImpl(
                 .where { FirebaseConstants.SERIES_ID equalTo series.id }
                 .get()
             if (querySnapshot.documents.isNotEmpty()) {
-                return@runWithTimeout Resource.Failure(FirebaseSeriesExistException())
+                return@runWithTimeout Response.Failure(FirebaseSeriesExistException())
             }
 
             val firebaseSeries = series.toFirebaseSeries(
@@ -112,16 +113,16 @@ class SeriesRepositoryImpl(
             val result = firestore
                 .collection(FirebaseConstants.SERIES_COLLECTION)
                 .add(firebaseSeries)
-            Resource.Success(result)
+            Response.Success(result)
         }
 
     override suspend fun addFirebaseRating(
         seriesId: Long,
         rating: Double,
         comment: String
-    ): Resource<FirebaseSeries> = runWithTimeout {
+    ): Response<FirebaseSeries> = runWithTimeout {
         if (!konnectivity.isConnected) {
-            return@runWithTimeout Resource.Failure(NoInternetConnectionException())
+            return@runWithTimeout Response.Failure(NoInternetConnectionException())
         }
 
         val querySnapshot = firestore
@@ -129,11 +130,11 @@ class SeriesRepositoryImpl(
             .where { FirebaseConstants.SERIES_ID equalTo seriesId }
             .get()
         if (querySnapshot.documents.isEmpty()) {
-            return@runWithTimeout Resource.Failure(FirebaseSeriesNotExistException())
+            return@runWithTimeout Response.Failure(FirebaseSeriesNotExistException())
         }
 
         val userId = Firebase.auth.currentUser?.uid
-            ?: return@runWithTimeout Resource.Failure(FailureResponseException())
+            ?: return@runWithTimeout Response.Failure(FailureResponseException())
         val document = querySnapshot.documents.first()
         val series = document.data(FirebaseSeries.serializer())
         val ratingList = series.ratings.toMutableList()
@@ -166,15 +167,15 @@ class SeriesRepositoryImpl(
             .collection(FirebaseConstants.SERIES_COLLECTION)
             .document(document.id)
             .update(updatedSeries)
-        Resource.Success(updatedSeries)
+        Response.Success(updatedSeries)
     }
 
     override suspend fun deleteFirebaseRating(
         seriesId: Long,
         rating: FirebaseRating
-    ): Resource<FirebaseSeries> = runWithTimeout {
+    ): Response<FirebaseSeries> = runWithTimeout {
         if (!konnectivity.isConnected) {
-            return@runWithTimeout Resource.Failure(NoInternetConnectionException())
+            return@runWithTimeout Response.Failure(NoInternetConnectionException())
         }
 
         val querySnapshot = firestore
@@ -182,7 +183,7 @@ class SeriesRepositoryImpl(
             .where { FirebaseConstants.SERIES_ID equalTo seriesId }
             .get()
         if (querySnapshot.documents.isEmpty()) {
-            return@runWithTimeout Resource.Failure(FirebaseSeriesNotExistException())
+            return@runWithTimeout Response.Failure(FirebaseSeriesNotExistException())
         }
 
         val document = querySnapshot.documents.first()
@@ -200,6 +201,6 @@ class SeriesRepositoryImpl(
             .collection(FirebaseConstants.SERIES_COLLECTION)
             .document(document.id)
             .update(updatedSeries)
-        Resource.Success(updatedSeries)
+        Response.Success(updatedSeries)
     }
 }

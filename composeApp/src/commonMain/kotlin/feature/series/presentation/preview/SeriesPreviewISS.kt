@@ -22,13 +22,17 @@ sealed class SeriesPreviewSideEffect {
 }
 
 @MviState
-data class SeriesPreviewState(
-    val series: SeriesDetails? = null,
-    val castData: CastData? = null,
-    val isLoading: Boolean = false,
-    val isSeriesAdded: Boolean = false,
-)
+sealed class SeriesPreviewState {
+    data object Idle : SeriesPreviewState()
+    data object Loading : SeriesPreviewState()
+    data class Error(val error: Throwable? = null) : SeriesPreviewState()
+    data class Success(
+        val series: SeriesDetails,
+        val castData: CastData,
+        val isSeriesAdded: Boolean = false,
+    ) : SeriesPreviewState()
 
-fun SeriesPreviewState.isSuccess(): Boolean {
-    return !isLoading && series != null && castData != null
+    fun isSuccess() = this is Success
+    fun isMediaAdded(): Boolean = getSuccess()?.isSeriesAdded ?: false
+    fun getSuccess(): Success? = this as? Success
 }

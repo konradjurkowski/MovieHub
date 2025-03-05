@@ -1,5 +1,6 @@
 package core.utils
 
+import core.model.Response
 import core.utils.constants.Constants
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.withTimeout
@@ -14,28 +15,28 @@ fun Double.round(decimals: Int): Double {
 
 suspend inline fun <reified T> safeApiCall(
     call: () -> HttpResponse,
-    crossinline handleResult: suspend (HttpResponse) -> Resource<T>,
-): Resource<T> {
+    crossinline handleResult: suspend (HttpResponse) -> Response<T>,
+): Response<T> {
     return try {
         val response = call()
         if (response.status.value in 200..299) {
             handleResult(response)
         } else {
-            Resource.Failure(FailureResponseException())
+            Response.Failure(FailureResponseException())
         }
     } catch (e: Exception) {
-        Resource.Failure(e)
+        Response.Failure(e)
     }
 }
 
 suspend fun <T> runWithTimeout(
     timeoutMillis: Long = Constants.DEFAULT_TIMEOUT_IN_MS,
-    call: suspend () -> Resource<T>,
-): Resource<T> {
+    call: suspend () -> Response<T>,
+): Response<T> {
     return try {
         withTimeout(timeoutMillis) { call() }
     } catch (e: Exception) {
-        Resource.Failure(e)
+        Response.Failure(e)
     }
 }
 

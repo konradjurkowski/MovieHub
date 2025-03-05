@@ -18,7 +18,4 @@ sealed class ProfileSideEffect {
 }
 
 @MviState
-data class ProfileState(
-    val appUser: AppUser? = null,
-    val isLoading: Boolean = false,
-)
+data class ProfileState(val appUser: AppUser? = null)

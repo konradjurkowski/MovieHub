@@ -17,10 +17,8 @@ fun MovieDetailsScreen(
 ) {
     Scaffold {
         Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                state.isLoading -> MediaDetailsLoading { onIntent(MovieDetailsIntent.BackPressed) }
-
-                !state.isLoading && state.movie != null && state.firebaseMovie != null && state.castData != null -> {
+            when (state) {
+                is MovieDetailsState.Success -> {
                     MovieDetailsSuccess(
                         movie = state.movie,
                         firebaseMovie = state.firebaseMovie,
@@ -34,7 +32,11 @@ fun MovieDetailsScreen(
                     )
                 }
 
-                else -> {
+                MovieDetailsState.Idle, MovieDetailsState.Loading -> {
+                    MediaDetailsLoading { onIntent(MovieDetailsIntent.BackPressed) }
+                }
+
+                is MovieDetailsState.Error -> {
                     MediaDetailsFailure(
                         onBackPressed = { onIntent(MovieDetailsIntent.BackPressed) },
                         onRefresh = { onIntent(MovieDetailsIntent.Refresh) },

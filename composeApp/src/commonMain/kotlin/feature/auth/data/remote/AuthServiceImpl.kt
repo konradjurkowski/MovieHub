@@ -3,7 +3,6 @@ package feature.auth.data.remote
 import core.model.Response
 import core.utils.FailureResponseException
 import core.utils.constants.FirebaseConstants
-import core.utils.Resource
 import core.utils.UserExistException
 import core.utils.getFirebaseData
 import dev.gitlive.firebase.auth.FirebaseAuth
@@ -76,15 +75,15 @@ class AuthServiceImpl(
         }
     }
 
-    override suspend fun getAppUser(refresh: Boolean): Resource<AppUser> {
-        if (_appUser.value != null && !refresh) return Resource.Success(_appUser.value!!)
+    override suspend fun getAppUser(refresh: Boolean): Response<AppUser> {
+        if (_appUser.value != null && !refresh) return Response.Success(_appUser.value!!)
 
         val result = getUserById(currentUser?.userId ?: "")
         if (result.isSuccess()) _appUser.value = result.getSuccess()
         return result
     }
 
-    override suspend fun getAllAppUsers(): Resource<List<AppUser>> {
+    override suspend fun getAllAppUsers(): Response<List<AppUser>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.USERS_COLLECTION)
@@ -92,38 +91,38 @@ class AuthServiceImpl(
             val users = querySnapshot.documents.map { it.data(AppUser.serializer()) }
             val appUser = users.firstOrNull { it.userId == currentUser?.userId }
             if (appUser != null) _appUser.value = appUser
-            Resource.Success(users)
+            Response.Success(users)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun updateAppUser(appUser: AppUser): Resource<Boolean> {
+    override suspend fun updateAppUser(appUser: AppUser): Response<Boolean> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.USERS_COLLECTION)
                 .where { FirebaseConstants.USER_ID equalTo appUser.userId }
                 .get()
-            val document = querySnapshot.documents.firstOrNull() ?: return Resource.Success(true)
+            val document = querySnapshot.documents.firstOrNull() ?: return Response.Success(true)
             firestore
                 .collection(FirebaseConstants.USERS_COLLECTION)
                 .document(document.id)
                 .update(appUser)
-            Resource.Success(true)
+            Response.Success(true)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun uploadImage(image: ByteArray): Resource<String> {
+    override suspend fun uploadImage(image: ByteArray): Response<String> {
         return try {
             val uuid = Clock.System.now().toEpochMilliseconds().toString()
             val data = getFirebaseData(image)
             storage.reference.child(uuid).putData(data)
             val imageUrl = storage.reference.child(uuid).getDownloadUrl()
-            return Resource.Success(imageUrl)
+            return Response.Success(imageUrl)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
@@ -131,7 +130,7 @@ class AuthServiceImpl(
         userId: String,
         name: String,
         email: String,
-    ): Resource<DocumentReference> {
+    ): Response<DocumentReference> {
         return try {
             val appUser = AppUser(userId, name, email)
 
@@ -141,18 +140,18 @@ class AuthServiceImpl(
 
             val users = querySnapshot.documents.map { it.data(AppUser.serializer()) }
             val userExists = users.any { it.userId == appUser.userId }
-            if (userExists) return Resource.Failure(UserExistException())
+            if (userExists) return Response.Failure(UserExistException())
 
             val result = firestore
                 .collection(FirebaseConstants.USERS_COLLECTION)
                 .add(appUser)
-            Resource.Success(result)
+            Response.Success(result)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    private suspend fun getUserById(userId: String): Resource<AppUser> {
+    private suspend fun getUserById(userId: String): Response<AppUser> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.USERS_COLLECTION)
@@ -164,10 +163,10 @@ class AuthServiceImpl(
                 .map { it.data(AppUser.serializer()) }
                 .firstOrNull()
 
-            if (appUser == null) return Resource.Failure(FailureResponseException())
-            Resource.Success(appUser)
+            if (appUser == null) return Response.Failure(FailureResponseException())
+            Response.Success(appUser)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 }

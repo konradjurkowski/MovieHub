@@ -2,7 +2,7 @@ package feature.series.presentation.series
 
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
-import core.utils.Resource
+import core.architecture.MviState
 import feature.series.domain.model.FirebaseSeries
 
 @MviIntent
@@ -18,4 +18,10 @@ sealed class SeriesSideEffect {
     data object GoToAddSeries : SeriesSideEffect()
 }
 
-typealias SeriesState = Resource<List<FirebaseSeries>>
+@MviState
+sealed class SeriesState {
+    data object Idle : SeriesState()
+    data object Loading : SeriesState()
+    data class Error(val error: Throwable? = null) : SeriesState()
+    data class Success(val series: List<FirebaseSeries>) : SeriesState()
+}

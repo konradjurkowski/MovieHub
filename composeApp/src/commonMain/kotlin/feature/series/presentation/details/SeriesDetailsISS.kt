@@ -28,11 +28,15 @@ sealed class SeriesDetailsSideEffect {
 }
 
 @MviState
-data class SeriesDetailsState(
-    val series: SeriesDetails? = null,
-    val firebaseSeries: FirebaseSeries? = null,
-    val castData: CastData? = null,
-    val users: List<AppUser> = emptyList(),
-    val selectedTab: Int = 0,
-    val isLoading: Boolean = false,
-)
+sealed class SeriesDetailsState {
+    data object Idle : SeriesDetailsState()
+    data object Loading : SeriesDetailsState()
+    data class Error(val error: Throwable? = null) : SeriesDetailsState()
+    data class Success(
+        val series: SeriesDetails,
+        val firebaseSeries: FirebaseSeries,
+        val castData: CastData,
+        val users: List<AppUser> = emptyList(),
+        val selectedTab: Int = 0,
+    ) : SeriesDetailsState()
+}

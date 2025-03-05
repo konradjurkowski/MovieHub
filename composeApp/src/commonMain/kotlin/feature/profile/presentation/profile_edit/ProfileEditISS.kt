@@ -3,7 +3,7 @@ package feature.profile.presentation.profile_edit
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
-import core.utils.Resource
+import core.model.ActionState
 import feature.auth.domain.AppUser
 import org.jetbrains.compose.resources.StringResource
 
@@ -33,7 +33,7 @@ data class ProfileEditState(
     val nameError: StringResource? = null,
     val description: String = "",
     val showPermissionDialog: Boolean = false,
-    val editState: Resource<Any> = Resource.Idle,
+    val editState: ActionState = ActionState.Idle,
 )
 
 class ByteArrayWrapper(val array: ByteArray) {

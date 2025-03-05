@@ -2,8 +2,8 @@ package feature.series.presentation.series
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
-import core.utils.Resource
 import feature.series.data.repository.SeriesRepository
 import kotlinx.coroutines.launch
 
@@ -12,7 +12,7 @@ class SeriesViewModel(
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SeriesIntent, SeriesSideEffect, SeriesState>() {
 
-    override fun getDefaultState() = Resource.Idle
+    override fun getDefaultState() = SeriesState.Idle
 
     override fun processIntent(intent: SeriesIntent) {
         when (intent) {
@@ -23,10 +23,12 @@ class SeriesViewModel(
     }
 
     fun getSeries() {
-        if (viewState.value == Resource.Idle) updateViewState { Resource.Loading }
+        if (viewState.value == SeriesState.Idle) updateViewState { SeriesState.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = repository.getFirebaseSeries()
-            updateViewState { result }
+            when (val result = repository.getFirebaseSeries()) {
+                is Response.Success -> updateViewState { SeriesState.Success(result.data) }
+                is Response.Failure -> updateViewState { SeriesState.Error(result.error) }
+            }
         }
     }
 }

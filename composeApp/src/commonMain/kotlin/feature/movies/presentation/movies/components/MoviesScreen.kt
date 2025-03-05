@@ -15,7 +15,6 @@ import core.components.result.EmptyView
 import core.components.result.FailureWidget
 import core.components.top_bar.MainTopBar
 import core.utils.Dimens
-import core.utils.Resource
 import feature.movies.presentation.movies.MoviesIntent
 import feature.movies.presentation.movies.MoviesState
 import moviehub.composeapp.generated.resources.Res
@@ -47,11 +46,8 @@ fun MoviesScreen(
                 .padding(contentPadding),
         ) {
             when (state) {
-                Resource.Idle, Resource.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
-                is Resource.Failure -> FailureWidget { onIntent(MoviesIntent.Refresh) }
-
-                is Resource.Success -> {
-                    if (state.data.isEmpty()) return@Scaffold EmptyView()
+                is MoviesState.Success -> {
+                    if (state.movies.isEmpty()) return@Scaffold EmptyView()
 
                     LazyColumn(
                         modifier = Modifier
@@ -59,7 +55,7 @@ fun MoviesScreen(
                             .padding(top = Dimens.padding8)
                             .padding(horizontal = Dimens.padding16),
                     ) {
-                        itemsIndexed(state.data) { index, movie ->
+                        itemsIndexed(state.movies) { index, movie ->
                             LeaderboardMediaCard(
                                 modifier = Modifier.padding(bottom = Dimens.padding16),
                                 title = movie.title,
@@ -71,6 +67,9 @@ fun MoviesScreen(
                         }
                     }
                 }
+
+                MoviesState.Idle, MoviesState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+                is MoviesState.Error -> FailureWidget { onIntent(MoviesIntent.Refresh) }
             }
         }
     }

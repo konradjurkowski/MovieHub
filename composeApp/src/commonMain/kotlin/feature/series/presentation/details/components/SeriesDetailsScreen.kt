@@ -17,10 +17,8 @@ fun SeriesDetailsScreen(
 ) {
     Scaffold {
         Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                state.isLoading -> MediaDetailsLoading { onIntent(SeriesDetailsIntent.BackPressed) }
-
-                !state.isLoading && state.series != null && state.firebaseSeries != null && state.castData != null -> {
+            when (state) {
+                is SeriesDetailsState.Success -> {
                     SeriesDetailsSuccess(
                         series = state.series,
                         firebaseSeries = state.firebaseSeries,
@@ -33,8 +31,11 @@ fun SeriesDetailsScreen(
                         onTabPressed = { onIntent(SeriesDetailsIntent.SetTab(it)) },
                     )
                 }
+                SeriesDetailsState.Idle, SeriesDetailsState.Loading -> {
+                    MediaDetailsLoading { onIntent(SeriesDetailsIntent.BackPressed) }
+                }
 
-                else -> {
+                is SeriesDetailsState.Error -> {
                     MediaDetailsFailure(
                         onRefresh = { onIntent(SeriesDetailsIntent.Refresh) },
                         onBackPressed = { onIntent(SeriesDetailsIntent.BackPressed) },

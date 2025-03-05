@@ -11,7 +11,6 @@ import core.components.media.details.MediaDetailsFailure
 import core.components.media.details.MediaDetailsLoading
 import feature.movies.presentation.preview.MoviePreviewIntent
 import feature.movies.presentation.preview.MoviePreviewState
-import feature.movies.presentation.preview.isSuccess
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.movie_screen_preview_add_movie
 import moviehub.composeapp.generated.resources.movie_screen_preview_movie_added
@@ -28,9 +27,10 @@ fun MoviePreviewScreen(
                 addedTitle = stringResource(Res.string.movie_screen_preview_movie_added),
                 notAddedTitle = stringResource(Res.string.movie_screen_preview_add_movie),
                 isVisible = state.isSuccess(),
-                isAdded = state.isMovieAdded,
+                isAdded = state.isMediaAdded(),
                 onClick = {
-                    if (state.movie != null) onIntent(MoviePreviewIntent.MovieAddPressed(state.movie))
+                    val movie = state.getSuccess()?.movie
+                    if (movie != null) onIntent(MoviePreviewIntent.MovieAddPressed(movie))
                 },
             )
         },
@@ -40,18 +40,18 @@ fun MoviePreviewScreen(
                 .padding(bottom = contentPadding.calculateBottomPadding())
                 .fillMaxSize(),
         ) {
-            when {
-                state.isLoading -> MediaDetailsLoading { onIntent(MoviePreviewIntent.BackPressed) }
-
-                state.isSuccess() -> {
+            when (state) {
+                is MoviePreviewState.Success -> {
                     MoviePreviewSuccess(
-                        movie = state.movie!!,
-                        castData = state.castData!!,
+                        movie = state.movie,
+                        castData = state.castData,
                         onBackPressed = { onIntent(MoviePreviewIntent.BackPressed) },
                     )
                 }
 
-                else -> {
+                MoviePreviewState.Idle, MoviePreviewState.Loading -> MediaDetailsLoading { onIntent(MoviePreviewIntent.BackPressed) }
+
+                is MoviePreviewState.Error -> {
                     MediaDetailsFailure(
                         onBackPressed = { onIntent(MoviePreviewIntent.BackPressed) },
                         onRefresh = { onIntent(MoviePreviewIntent.Refresh) },

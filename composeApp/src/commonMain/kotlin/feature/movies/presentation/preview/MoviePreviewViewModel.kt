@@ -2,8 +2,9 @@ package feature.movies.presentation.preview
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.architecture.transformIf
+import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
-import core.utils.Resource
 import feature.movies.data.repository.MovieRepository
 import feature.movies.data.storage.MovieRegistry
 import feature.movies.domain.model.MovieDetails
@@ -12,6 +13,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 
 class MoviePreviewViewModel(
     private val movieId: Long,
@@ -20,12 +22,13 @@ class MoviePreviewViewModel(
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<MoviePreviewIntent, MoviePreviewSideEffect, MoviePreviewState>() {
 
+    private var listenMoviesRegistryJob : Job? = null
+
     init {
-        initializeListeners()
         getMovieDetails()
     }
 
-    override fun getDefaultState() = MoviePreviewState()
+    override fun getDefaultState() = MoviePreviewState.Idle
 
     override fun processIntent(intent: MoviePreviewIntent) {
         when (intent) {
@@ -36,7 +39,7 @@ class MoviePreviewViewModel(
     }
 
     private fun getMovieDetails() {
-        updateViewState { copy(isLoading = true) }
+        updateViewState { MoviePreviewState.Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val futureMovie = async { movieRepository.getMovieById(movieId) }
             val futureCredits = async { movieRepository.getCredits(movieId) }
@@ -47,17 +50,16 @@ class MoviePreviewViewModel(
             val resultList = listOf(movieResult, creditsResult)
 
             if (resultList.all { it.isSuccess() }) {
-                updateViewState {
-                    copy(
-                        movie = movieResult.getSuccess()!!,
-                        castData = creditsResult.getSuccess()!!,
-                        isLoading = false,
-                    )
-                }
+                val data = MoviePreviewState.Success(
+                    movie = movieResult.getSuccess()!!,
+                    castData = creditsResult.getSuccess()!!,
+                )
+                updateViewState { data }
+                initializeListeners()
                 return@launch
             }
 
-            updateViewState { copy(isLoading = false) }
+            updateViewState { MoviePreviewState.Error() }
         }
     }
 
@@ -65,26 +67,24 @@ class MoviePreviewViewModel(
         sendSideEffect(MoviePreviewSideEffect.ShowLoader)
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = movieRepository.addFirebaseMovie(movie.toMovie())) {
-                is Resource.Success -> {
+                is Response.Success -> {
                     movieRegistry.addMovie(movieId)
-                    updateViewState { copy(isMovieAdded = true) }
+                    _viewState.transformIf<MoviePreviewState.Success> { copy(isMovieAdded = true) }
                     sendSideEffect(MoviePreviewSideEffect.HideLoaderWithSuccess)
                 }
 
-                is Resource.Failure -> {
+                is Response.Failure -> {
                     sendSideEffect(MoviePreviewSideEffect.HideLoaderWithError(result.error))
-                }
-
-                else -> {
-                    // NO - OP
                 }
             }
         }
     }
 
     private fun initializeListeners() {
-        movieRegistry.movies.onEach { movieIds ->
-            updateViewState { copy(isMovieAdded = movieIds.contains(movieId)) }
+        if (listenMoviesRegistryJob?.isActive == true) return
+
+        listenMoviesRegistryJob = movieRegistry.movies.onEach { movieIds ->
+            _viewState.transformIf<MoviePreviewState.Success> { copy(isMovieAdded = movieIds.contains(movieId)) }
         }.launchIn(screenModelScope)
     }
 }

@@ -1,12 +1,12 @@
 package feature.movies.data.repository
 
 import com.plusmobileapps.konnectivity.Konnectivity
+import core.model.Response
 import core.utils.FailureResponseException
 import core.utils.constants.FirebaseConstants
 import core.utils.FirebaseMovieExistException
 import core.utils.FirebaseMovieNotExistException
 import core.utils.NoInternetConnectionException
-import core.utils.Resource
 import core.utils.runWithTimeout
 import core.utils.safeApiCall
 import dev.gitlive.firebase.Firebase
@@ -37,17 +37,17 @@ class MovieRepositoryImpl(
     private val konnectivity: Konnectivity,
 ) : MovieRepository {
 
-    override suspend fun getMovieById(movieId: Long): Resource<MovieDetails> =
+    override suspend fun getMovieById(movieId: Long): Response<MovieDetails> =
         safeApiCall(call = { movieApi.getMovieById(movieId) }) { response ->
-            Resource.Success(response.body<MovieDetailsDto>().toDomain())
+            Response.Success(response.body<MovieDetailsDto>().toDomain())
         }
 
-    override suspend fun getCredits(movieId: Long): Resource<CastData> =
+    override suspend fun getCredits(movieId: Long): Response<CastData> =
         safeApiCall(call = { movieApi.getCredits(movieId) }) { response ->
-            Resource.Success(response.body<CastResponse>().toDomain())
+            Response.Success(response.body<CastResponse>().toDomain())
         }
 
-    override suspend fun getFirebaseMovieById(movieId: Long): Resource<FirebaseMovie> {
+    override suspend fun getFirebaseMovieById(movieId: Long): Response<FirebaseMovie> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.MOVIES_COLLECTION)
@@ -55,16 +55,16 @@ class MovieRepositoryImpl(
                     FirebaseConstants.MOVIE_ID equalTo movieId
                 }
                 .get()
-            if (querySnapshot.documents.isEmpty()) return Resource.Failure(FailureResponseException())
+            if (querySnapshot.documents.isEmpty()) return Response.Failure(FailureResponseException())
 
             val movie = querySnapshot.documents.map { it.data(FirebaseMovie.serializer()) }.first()
-            Resource.Success(movie)
+            Response.Success(movie)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun getFirebaseMovies(): Resource<List<FirebaseMovie>> {
+    override suspend fun getFirebaseMovies(): Response<List<FirebaseMovie>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.MOVIES_COLLECTION)
@@ -72,13 +72,13 @@ class MovieRepositoryImpl(
                 .get()
             val movies = querySnapshot.documents.map { it.data(FirebaseMovie.serializer()) }
             movieRegistry.updateMovies(movies)
-            Resource.Success(movies)
+            Response.Success(movies)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun getLastUpdatedFirebaseMovies(): Resource<List<FirebaseMovie>> {
+    override suspend fun getLastUpdatedFirebaseMovies(): Response<List<FirebaseMovie>> {
         return try {
             val querySnapshot = firestore
                 .collection(FirebaseConstants.MOVIES_COLLECTION)
@@ -86,16 +86,16 @@ class MovieRepositoryImpl(
                 .limit(20)
                 .get()
             val movies = querySnapshot.documents.map { it.data(FirebaseMovie.serializer()) }
-            Resource.Success(movies)
+            Response.Success(movies)
         } catch (e: Exception) {
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
-    override suspend fun addFirebaseMovie(movie: Movie): Resource<DocumentReference> =
+    override suspend fun addFirebaseMovie(movie: Movie): Response<DocumentReference> =
         runWithTimeout {
             if (!konnectivity.isConnected) {
-                return@runWithTimeout Resource.Failure(NoInternetConnectionException())
+                return@runWithTimeout Response.Failure(NoInternetConnectionException())
             }
 
             val querySnapshot = firestore
@@ -105,7 +105,7 @@ class MovieRepositoryImpl(
                 }
                 .get()
             if (querySnapshot.documents.isNotEmpty()) {
-                return@runWithTimeout Resource.Failure(FirebaseMovieExistException())
+                return@runWithTimeout Response.Failure(FirebaseMovieExistException())
             }
 
             val firebaseMovie = movie.toFirebaseMovie(
@@ -115,16 +115,16 @@ class MovieRepositoryImpl(
             val result = firestore
                 .collection(FirebaseConstants.MOVIES_COLLECTION)
                 .add(firebaseMovie)
-            Resource.Success(result)
+            Response.Success(result)
         }
 
     override suspend fun addFirebaseRating(
         movieId: Long,
         rating: Double,
         comment: String
-    ): Resource<FirebaseMovie> = runWithTimeout {
+    ): Response<FirebaseMovie> = runWithTimeout {
         if (!konnectivity.isConnected) {
-            return@runWithTimeout Resource.Failure(NoInternetConnectionException())
+            return@runWithTimeout Response.Failure(NoInternetConnectionException())
         }
 
         val querySnapshot = firestore
@@ -132,11 +132,11 @@ class MovieRepositoryImpl(
             .where { FirebaseConstants.MOVIE_ID equalTo movieId }
             .get()
         if (querySnapshot.documents.isEmpty()) {
-            return@runWithTimeout Resource.Failure(FirebaseMovieNotExistException())
+            return@runWithTimeout Response.Failure(FirebaseMovieNotExistException())
         }
 
         val userId = Firebase.auth.currentUser?.uid
-            ?: return@runWithTimeout Resource.Failure(FailureResponseException())
+            ?: return@runWithTimeout Response.Failure(FailureResponseException())
 
         val document = querySnapshot.documents.first()
         val movie = document.data(FirebaseMovie.serializer())
@@ -170,15 +170,15 @@ class MovieRepositoryImpl(
             .collection(FirebaseConstants.MOVIES_COLLECTION)
             .document(document.id)
             .update(updatedMovie)
-        Resource.Success(updatedMovie)
+        Response.Success(updatedMovie)
     }
 
     override suspend fun deleteFirebaseRating(
         movieId: Long,
         rating: FirebaseRating,
-    ): Resource<FirebaseMovie> = runWithTimeout {
+    ): Response<FirebaseMovie> = runWithTimeout {
         if (!konnectivity.isConnected) {
-            return@runWithTimeout Resource.Failure(NoInternetConnectionException())
+            return@runWithTimeout Response.Failure(NoInternetConnectionException())
         }
 
         val querySnapshot = firestore
@@ -186,7 +186,7 @@ class MovieRepositoryImpl(
             .where { FirebaseConstants.MOVIE_ID equalTo movieId }
             .get()
         if (querySnapshot.documents.isEmpty()) {
-            return@runWithTimeout Resource.Failure(FirebaseMovieNotExistException())
+            return@runWithTimeout Response.Failure(FirebaseMovieNotExistException())
         }
 
         val document = querySnapshot.documents.first()
@@ -204,6 +204,6 @@ class MovieRepositoryImpl(
             .collection(FirebaseConstants.MOVIES_COLLECTION)
             .document(document.id)
             .update(updatedMovie)
-        Resource.Success(updatedMovie)
+        Response.Success(updatedMovie)
     }
 }
