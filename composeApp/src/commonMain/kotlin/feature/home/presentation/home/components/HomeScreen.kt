@@ -13,7 +13,6 @@ import core.components.other.RegularSpacer
 import core.components.result.FailureWidget
 import feature.home.presentation.home.HomeIntent
 import feature.home.presentation.home.HomeState
-import feature.home.presentation.home.isDataLoaded
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.home_screen_recently_updated_movies
 import moviehub.composeapp.generated.resources.home_screen_recently_updated_series
@@ -24,18 +23,14 @@ fun HomeScreen(
     state: HomeState,
     onIntent: (HomeIntent) -> Unit,
 ) {
-    when {
-        state.isLoading -> {
-            LoadingIndicator(modifier = Modifier.fillMaxSize())
-        }
-
-        state.isDataLoaded() -> {
+    when (state) {
+        is HomeState.Success -> {
             Scaffold { innerPadding ->
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(bottom = innerPadding.calculateBottomPadding())
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(rememberScrollState()),
                 ) {
                     HomeHeader(
                         appUser = state.appUser,
@@ -51,13 +46,13 @@ fun HomeScreen(
                     )
                     MediaCarouselWithTitle(
                         title = stringResource(Res.string.home_screen_recently_updated_movies),
-                        items = state.lastUpdatedMovies ?: emptyList(),
+                        items = state.lastUpdatedMovies,
                         onItemClick = { onIntent(HomeIntent.MoviePressed(it)) },
                     )
                     RegularSpacer()
                     MediaCarouselWithTitle(
                         title = stringResource(Res.string.home_screen_recently_updated_series),
-                        items = state.lastUpdatedSeries ?: emptyList(),
+                        items = state.lastUpdatedSeries,
                         onItemClick = { onIntent(HomeIntent.SeriesPressed(it)) },
                     )
                     RegularSpacer()
@@ -65,6 +60,12 @@ fun HomeScreen(
             }
         }
 
-        else -> FailureWidget { onIntent(HomeIntent.TryAgainPressed) }
+        is HomeState.Idle, is HomeState.Loading -> {
+            LoadingIndicator(modifier = Modifier.fillMaxSize())
+        }
+
+        is HomeState.Error -> {
+            FailureWidget { onIntent(HomeIntent.TryAgainPressed) }
+        }
     }
 }

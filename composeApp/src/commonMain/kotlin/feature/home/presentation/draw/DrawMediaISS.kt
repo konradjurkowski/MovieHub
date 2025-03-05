@@ -21,13 +21,15 @@ sealed class DrawMediaSideEffect {
 }
 
 @MviState
-data class DrawMediaState(
-    val isLoading: Boolean = false,
-    val firebaseMovies: List<FirebaseMovie>? = null,
-    val firebaseSeries: List<FirebaseSeries>? = null,
-    val selectedMovie: FirebaseMovie? = null,
-    val selectedSeries: FirebaseSeries? = null,
-    val shakeCount: Int = 0,
-)
-
-fun DrawMediaState.isDataLoaded() = !isLoading && firebaseMovies != null && firebaseSeries != null
+sealed class DrawMediaState {
+    data object Idle : DrawMediaState()
+    data object Loading : DrawMediaState()
+    data class Error(val error: Throwable? = null) : DrawMediaState()
+    data class Success(
+        val firebaseMovies: List<FirebaseMovie> = emptyList(),
+        val firebaseSeries: List<FirebaseSeries> = emptyList(),
+        val selectedMovie: FirebaseMovie? = null,
+        val selectedSeries: FirebaseSeries? = null,
+        val shakeCount: Int = 0
+    ) : DrawMediaState()
+}

@@ -2,6 +2,8 @@ package feature.home.presentation.draw
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.architecture.invokeIf
+import core.architecture.transformIf
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.shake.ShakeDetector
 import feature.movies.data.repository.MovieRepository
@@ -21,47 +23,37 @@ class DrawMediaViewModel(
         loadInitialData()
     }
 
-    override fun getDefaultState() = DrawMediaState()
+    override fun getDefaultState() = DrawMediaState.Idle
 
     override fun processIntent(intent: DrawMediaIntent) {
         when (intent) {
-            DrawMediaIntent.OnShakePressed -> {
-                shakeDetector.manualShake()
-                handleShake()
-            }
-
             DrawMediaIntent.TryAgainPressed -> loadInitialData()
-
             is DrawMediaIntent.MoviePressed -> sendSideEffect(DrawMediaSideEffect.GoToMovieDetails(intent.movie))
-
             is DrawMediaIntent.SeriesPressed -> sendSideEffect(DrawMediaSideEffect.GoToSeriesDetails(intent.series))
+            DrawMediaIntent.OnShakePressed -> handleShake()
         }
     }
 
-    private fun initializeShakeDetector() {
-        shakeDetector.start { handleShake() }
-    }
-
     private fun handleShake() {
-        val shakeCount = viewState.value.shakeCount
-        updateViewState { copy(shakeCount = shakeCount + 1) }
+        _viewState.invokeIf<DrawMediaState.Success> {
+            val counter = shakeCount + 1
+            if (counter > 3) return@invokeIf
 
-        if (viewState.value.shakeCount >= 3) {
-            when (drawType) {
-                DrawType.MOVIE -> {
-                    updateViewState { copy(selectedMovie = firebaseMovies?.randomOrNull()) }
-                }
+            shakeDetector.manualShake()
+            _viewState.transformIf<DrawMediaState.Success> { copy(shakeCount = counter) }
 
-                DrawType.SERIES -> {
-                    updateViewState { copy(selectedSeries = firebaseSeries?.randomOrNull()) }
+            if (counter >= 3) {
+                shakeDetector.stop()
+                when (drawType) {
+                    DrawType.MOVIE -> _viewState.transformIf<DrawMediaState.Success> { copy(selectedMovie = firebaseMovies.randomOrNull()) }
+                    DrawType.SERIES -> _viewState.transformIf<DrawMediaState.Success> { copy(selectedSeries = firebaseSeries.randomOrNull()) }
                 }
             }
-            shakeDetector.stop()
         }
     }
 
     private fun loadInitialData() {
-        updateViewState { copy(isLoading = true) }
+        updateViewState { DrawMediaState.Loading }
 
         screenModelScope.launch(dispatchersProvider.io) {
             val futureFirebaseMovies = async { movieRepository.getFirebaseMovies() }
@@ -72,18 +64,15 @@ class DrawMediaViewModel(
 
             when {
                 moviesResult.isSuccess() && seriesResult.isSuccess() -> {
-                    initializeShakeDetector()
-                    updateViewState {
-                        copy(
-                            isLoading = false,
-                            firebaseMovies = moviesResult.getSuccess() ?: emptyList(),
-                            firebaseSeries = seriesResult.getSuccess() ?: emptyList(),
-                        )
-                    }
+                    shakeDetector.start { handleShake() }
+                    val data = DrawMediaState.Success(
+                        firebaseMovies = moviesResult.getSuccess() ?: emptyList(),
+                        firebaseSeries = seriesResult.getSuccess() ?: emptyList(),
+                    )
+                    updateViewState { data }
                 }
-                else -> {
-                    updateViewState { copy(isLoading = false) }
-                }
+
+                else -> updateViewState { DrawMediaState.Error() }
             }
         }
     }

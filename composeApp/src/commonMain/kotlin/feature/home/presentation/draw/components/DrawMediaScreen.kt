@@ -4,16 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -42,7 +39,8 @@ import core.utils.Dimens
 import core.utils.getScreenSizeInfo
 import feature.home.presentation.draw.DrawMediaIntent
 import feature.home.presentation.draw.DrawMediaState
-import feature.home.presentation.draw.isDataLoaded
+import feature.movies.domain.model.FirebaseMovie
+import feature.series.domain.model.FirebaseSeries
 import io.github.alexzhirkevich.compottie.Compottie
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
@@ -61,6 +59,44 @@ fun DrawMediaScreen(
     state: DrawMediaState,
     onIntent: (DrawMediaIntent) -> Unit,
 ) {
+    when (state) {
+        is DrawMediaState.Success -> {
+            DrawMediaSuccess(
+                state = state,
+                onShakePressed = { onIntent(DrawMediaIntent.OnShakePressed) },
+                onMoviePressed = { onIntent(DrawMediaIntent.MoviePressed(it)) },
+                onSeriesPressed = { onIntent(DrawMediaIntent.SeriesPressed(it)) },
+            )
+        }
+
+        is DrawMediaState.Idle, is DrawMediaState.Loading -> {
+            Scaffold(
+                topBar = { MainTopBar() },
+            ) { innerPadding ->
+                LoadingIndicator(modifier = Modifier.fillMaxSize().padding(innerPadding))
+            }
+        }
+
+        is DrawMediaState.Error -> {
+            Scaffold(
+                topBar = { MainTopBar() },
+            ) { innerPadding ->
+                FailureWidget(
+                    modifier = Modifier.fillMaxSize().padding(innerPadding),
+                    onButtonClick = { onIntent(DrawMediaIntent.TryAgainPressed) },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun DrawMediaSuccess(
+    state: DrawMediaState.Success,
+    onShakePressed: () -> Unit,
+    onMoviePressed: (FirebaseMovie) -> Unit,
+    onSeriesPressed: (FirebaseSeries) -> Unit,
+) {
     val pagerState = rememberPagerState(pageCount = { 2 })
 
     LaunchedEffect(state.selectedMovie, state.selectedSeries) {
@@ -72,23 +108,39 @@ fun DrawMediaScreen(
     Scaffold(
         topBar = {
             DrawMediaTopBar(
-                isDataLoaded = state.isDataLoaded(),
                 shakeCount = state.shakeCount,
-                onShakePressed = { onIntent(DrawMediaIntent.OnShakePressed) },
+                onShakePressed = onShakePressed,
             )
         },
     ) { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            when {
-                state.isLoading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+        HorizontalPager(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            state = pagerState,
+            userScrollEnabled = false,
+        ) { index ->
+            when (index) {
+                0 -> ShakingContent(shakeCount = state.shakeCount)
+                1 -> {
+                    if (state.selectedMovie != null) {
+                        ShakeResultContent(
+                            title = state.selectedMovie.title,
+                            imageUrl = state.selectedMovie.posterPath,
+                            onItemPressed = { onMoviePressed(state.selectedMovie) },
+                        )
+                        return@HorizontalPager
+                    }
 
-                state.isDataLoaded() -> DrawMediaSuccess(
-                    pagerState = pagerState,
-                    state = state,
-                    onIntent = onIntent,
-                )
-
-                else -> FailureWidget { onIntent(DrawMediaIntent.TryAgainPressed) }
+                    if (state.selectedSeries != null) {
+                        ShakeResultContent(
+                            title = state.selectedSeries.name,
+                            imageUrl = state.selectedSeries.posterPath,
+                            onItemPressed = { onSeriesPressed(state.selectedSeries) },
+                        )
+                        return@HorizontalPager
+                    }
+                }
             }
         }
     }
@@ -96,7 +148,7 @@ fun DrawMediaScreen(
 
 @Composable
 private fun DrawMediaTopBar(
-    isDataLoaded: Boolean,
+    isDataLoaded: Boolean = true,
     shakeCount: Int,
     onShakePressed: () -> Unit,
 ) {
@@ -115,43 +167,6 @@ private fun DrawMediaTopBar(
             }
         }
         RegularSpacer()
-    }
-}
-
-@Composable
-fun DrawMediaSuccess(
-    modifier: Modifier = Modifier,
-    pagerState: PagerState,
-    state: DrawMediaState,
-    onIntent: (DrawMediaIntent) -> Unit,
-) {
-    HorizontalPager(
-        modifier = modifier.fillMaxSize(),
-        state = pagerState,
-        userScrollEnabled = false,
-    ) { index ->
-        when (index) {
-            0 -> ShakingContent(shakeCount = state.shakeCount)
-            1 -> {
-                if (state.selectedMovie != null) {
-                    ShakeResultContent(
-                        title = state.selectedMovie.title,
-                        imageUrl = state.selectedMovie.posterPath,
-                        onItemPressed = { onIntent(DrawMediaIntent.MoviePressed(state.selectedMovie)) },
-                    )
-                    return@HorizontalPager
-                }
-
-                if (state.selectedSeries != null) {
-                    ShakeResultContent(
-                        title = state.selectedSeries.name,
-                        imageUrl = state.selectedSeries.posterPath,
-                        onItemPressed = { onIntent(DrawMediaIntent.SeriesPressed(state.selectedSeries)) },
-                    )
-                    return@HorizontalPager
-                }
-            }
-        }
     }
 }
 

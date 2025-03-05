@@ -27,13 +27,15 @@ sealed class HomeSideEffect {
 }
 
 @MviState
-data class HomeState(
-    val isLoading: Boolean = false,
-    val firebaseMovies: List<FirebaseMovie> = emptyList(),
-    val lastUpdatedMovies: List<FirebaseMovie>? = null,
-    val firebaseSeries: List<FirebaseSeries> = emptyList(),
-    val lastUpdatedSeries: List<FirebaseSeries>? = null,
-    val appUser: AppUser? = null,
-)
-
-fun HomeState.isDataLoaded() = !isLoading && lastUpdatedMovies != null && lastUpdatedSeries != null
+sealed class HomeState {
+    data object Idle : HomeState()
+    data object Loading : HomeState()
+    data class Error(val error: Throwable? = null) : HomeState()
+    data class Success(
+        val firebaseMovies: List<FirebaseMovie>,
+        val firebaseSeries: List<FirebaseSeries>,
+        val lastUpdatedMovies: List<FirebaseMovie>,
+        val lastUpdatedSeries: List<FirebaseSeries>,
+        val appUser: AppUser? = null,
+    ) : HomeState()
+}

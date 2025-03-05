@@ -47,7 +47,7 @@ fun HomeHeader(
             Text(
                 text = buildAnnotatedString {
                     withStyle(textStyle.copy(fontWeight = FontWeight.ExtraBold).toSpanStyle()) {
-                        append("${stringResource(Res.string.home_screen_hello_label)}, ")
+                        append(stringResource(Res.string.home_screen_hello_label))
                     }
                     append("${appUser?.name ?: ""}!")
                 },

@@ -2,6 +2,7 @@ package feature.home.presentation.home
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.architecture.transformIf
 import core.tools.dispatcher.DispatchersProvider
 import feature.auth.data.remote.AuthService
 import feature.home.presentation.draw.DrawType
@@ -24,7 +25,7 @@ class HomeViewModel(
         initializeListeners()
     }
 
-    override fun getDefaultState() = HomeState()
+    override fun getDefaultState() = HomeState.Idle
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
@@ -38,7 +39,7 @@ class HomeViewModel(
     }
 
     private fun loadInitialData() {
-        updateViewState { copy(isLoading = true) }
+        updateViewState { HomeState.Loading }
 
         screenModelScope.launch(dispatchersProvider.io) {
             val futureUser = async { authService.getAppUser(true) }
@@ -49,34 +50,34 @@ class HomeViewModel(
             val futureFirebaseSeries = async { seriesRepository.getFirebaseSeries() }
             val futureLastUpdatedSeries = async { seriesRepository.getLastUpdatedFirebaseSeries() }
 
-            futureUser.await()
+            val userResult = futureUser.await()
             val moviesResult = futureFirebaseMovies.await()
             val lastUpdatedMoviesResult = futureLastUpdatedMovies.await()
             val seriesResult = futureFirebaseSeries.await()
             val lastUpdatedSeriesResult = futureLastUpdatedSeries.await()
 
             when {
-                lastUpdatedMoviesResult.isSuccess() && lastUpdatedSeriesResult.isSuccess() -> {
-                    updateViewState {
-                        copy(
-                            isLoading = false,
-                            firebaseMovies = moviesResult.getSuccess() ?: emptyList(),
-                            lastUpdatedMovies = lastUpdatedMoviesResult.getSuccess(),
-                            firebaseSeries = seriesResult.getSuccess() ?: emptyList(),
-                            lastUpdatedSeries = lastUpdatedSeriesResult.getSuccess(),
-                        )
-                    }
+                lastUpdatedMoviesResult.isSuccess() && lastUpdatedSeriesResult.isSuccess() && userResult.isSuccess() -> {
+                    val data = HomeState.Success(
+                        firebaseMovies = moviesResult.getSuccess() ?: emptyList(),
+                        firebaseSeries = seriesResult.getSuccess() ?: emptyList(),
+                        lastUpdatedMovies = lastUpdatedMoviesResult.getSuccess() ?: emptyList(),
+                        lastUpdatedSeries = lastUpdatedSeriesResult.getSuccess() ?: emptyList(),
+                        appUser = userResult.getSuccess(),
+                    )
+                    updateViewState { data }
                 }
-                else -> {
-                    updateViewState { copy(isLoading = false) }
-                }
+
+                else -> updateViewState { HomeState.Error() }
             }
         }
     }
 
     private fun initializeListeners() {
         authService.appUser.onEach {
-            updateViewState { copy(appUser = it) }
+            _viewState.transformIf<HomeState.Success> {
+                copy(appUser = it)
+            }
         }.launchIn(screenModelScope)
     }
 }
