@@ -24,4 +24,6 @@ sealed class SeriesState {
     data object Loading : SeriesState()
     data class Error(val error: Throwable? = null) : SeriesState()
     data class Success(val series: List<FirebaseSeries>) : SeriesState()
+
+    fun isIdle() = this is Idle
 }

@@ -22,10 +22,7 @@ class HomeViewModel(
 ) : BaseViewModel<HomeIntent, HomeSideEffect, HomeState>() {
 
     private var listenUserJob: Job? = null
-
-    init {
-        loadInitialData()
-    }
+    private var loadDataJob: Job? = null
 
     override fun getDefaultState() = HomeState.Idle
 
@@ -40,10 +37,11 @@ class HomeViewModel(
         }
     }
 
-    private fun loadInitialData() {
-        updateViewState { HomeState.Loading }
+    fun loadInitialData() {
+        if (loadDataJob?.isActive == true) return
+        if (_viewState.value.isIdle()) updateViewState { HomeState.Loading }
 
-        screenModelScope.launch(dispatchersProvider.io) {
+        loadDataJob = screenModelScope.launch(dispatchersProvider.io) {
             val futureUser = async { authService.getAppUser(true) }
 
             val futureFirebaseMovies = async { movieRepository.getFirebaseMovies() }

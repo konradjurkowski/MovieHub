@@ -38,4 +38,6 @@ sealed class HomeState {
         val lastUpdatedSeries: List<FirebaseSeries>,
         val appUser: AppUser? = null,
     ) : HomeState()
+
+    fun isIdle() = this is Idle
 }

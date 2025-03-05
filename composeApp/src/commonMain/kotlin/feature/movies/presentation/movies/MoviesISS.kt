@@ -24,4 +24,6 @@ sealed class MoviesState {
     data object Loading : MoviesState()
     data class Error(val error: Throwable? = null) : MoviesState()
     data class Success(val movies: List<FirebaseMovie>) : MoviesState()
+
+    fun isIdle() = this is Idle
 }

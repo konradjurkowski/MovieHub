@@ -1,6 +1,7 @@
 package feature.home.presentation.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.koin.getScreenModel
@@ -20,6 +21,10 @@ class HomeScreenRoot : BaseScreen() {
     override fun Content() {
         val viewModel = getScreenModel<HomeViewModel>()
         val state by viewModel.viewState.collectAsState()
+
+        LaunchedEffect(Unit) {
+            viewModel.loadInitialData()
+        }
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {

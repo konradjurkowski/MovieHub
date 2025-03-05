@@ -6,11 +6,14 @@ import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import feature.movies.data.repository.MovieRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 
 class MoviesViewModel(
     private val repository: MovieRepository,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<MoviesIntent, MoviesSideEffect, MoviesState>() {
+
+    private var loadMoviesJob : Job? = null
 
     override fun getDefaultState() = MoviesState.Idle
 
@@ -23,8 +26,10 @@ class MoviesViewModel(
     }
 
     fun getMovies() {
-        if (viewState.value == MoviesState.Idle) updateViewState { MoviesState.Loading }
-        screenModelScope.launch(dispatchersProvider.io) {
+        if (loadMoviesJob?.isActive == true) return
+        if (viewState.value.isIdle()) updateViewState { MoviesState.Loading }
+
+        loadMoviesJob = screenModelScope.launch(dispatchersProvider.io) {
             when (val result = repository.getFirebaseMovies()) {
                 is Response.Success -> updateViewState { MoviesState.Success(result.data) }
                 is Response.Failure -> updateViewState { MoviesState.Error(result.error) }

@@ -6,11 +6,14 @@ import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import feature.series.data.repository.SeriesRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 
 class SeriesViewModel(
     private val repository: SeriesRepository,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SeriesIntent, SeriesSideEffect, SeriesState>() {
+
+    private var loadSeriesJob: Job? = null
 
     override fun getDefaultState() = SeriesState.Idle
 
@@ -23,8 +26,10 @@ class SeriesViewModel(
     }
 
     fun getSeries() {
-        if (viewState.value == SeriesState.Idle) updateViewState { SeriesState.Loading }
-        screenModelScope.launch(dispatchersProvider.io) {
+        if (loadSeriesJob?.isActive == true) return
+        if (viewState.value.isIdle()) updateViewState { SeriesState.Loading }
+
+        loadSeriesJob = screenModelScope.launch(dispatchersProvider.io) {
             when (val result = repository.getFirebaseSeries()) {
                 is Response.Success -> updateViewState { SeriesState.Success(result.data) }
                 is Response.Failure -> updateViewState { SeriesState.Error(result.error) }
