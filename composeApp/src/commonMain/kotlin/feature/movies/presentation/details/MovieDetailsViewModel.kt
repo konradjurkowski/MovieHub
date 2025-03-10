@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.architecture.transformIf
 import core.model.Response
+import core.model.media.getVideoUrl
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshMovie
@@ -38,6 +39,7 @@ class MovieDetailsViewModel(
             is MovieDetailsIntent.SetTab -> _viewState.transformIf<MovieDetailsState.Success> { copy(selectedTab = intent.tab) }
             is MovieDetailsIntent.AddCommentPressed -> sendSideEffect(MovieDetailsSideEffect.GoToAddComment(intent.firebaseRating))
             is MovieDetailsIntent.DeleteCommentPressed -> deleteComment(intent.firebaseRating)
+            is MovieDetailsIntent.VideoPressed -> sendSideEffect(MovieDetailsSideEffect.OpenUrl(intent.video.getVideoUrl()))
         }
     }
 

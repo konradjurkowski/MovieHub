@@ -28,6 +28,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import feature.auth.domain.AppUser
 import core.model.media.CastData
+import core.model.media.Video
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.MovieDetails
@@ -48,6 +49,7 @@ fun MovieDetailsSuccess(
     onAddCommentPressed: (FirebaseRating?) -> Unit,
     onDeleteCommentPressed: (FirebaseRating) -> Unit,
     onTabPressed: (Int) -> Unit,
+    onVideoPressed: (Video) -> Unit,
 ) {
     val dateTimeFormatter = LocalDateTimeFormatter.current
     val screenSize = getScreenSizeInfo()
@@ -98,7 +100,12 @@ fun MovieDetailsSuccess(
             verticalAlignment = Alignment.Top,
         ) { index ->
             when (index) {
-                MediaTab.INFO.ordinal -> MovieInfoTab(movie = movie, castData = castData)
+                MediaTab.INFO.ordinal -> MovieInfoTab(
+                    movie = movie,
+                    castData = castData,
+                    onVideoPressed = onVideoPressed,
+                )
+
                 MediaTab.COMMENTS.ordinal -> {
                     CommentList(
                         ratings = firebaseMovie.ratings,

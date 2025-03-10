@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.architecture.transformIf
 import core.model.Response
+import core.model.media.getVideoUrl
 import core.tools.dispatcher.DispatchersProvider
 import feature.movies.data.repository.MovieRepository
 import feature.movies.data.storage.MovieRegistry
@@ -35,6 +36,7 @@ class MoviePreviewViewModel(
             MoviePreviewIntent.BackPressed -> sendSideEffect(MoviePreviewSideEffect.NavigateBack)
             MoviePreviewIntent.Refresh -> getMovieDetails()
             is MoviePreviewIntent.MovieAddPressed -> addMovie(intent.movie)
+            is MoviePreviewIntent.VideoPressed -> sendSideEffect(MoviePreviewSideEffect.OpenUrl(intent.video.getVideoUrl()))
         }
     }
 

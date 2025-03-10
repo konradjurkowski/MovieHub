@@ -2,6 +2,8 @@ package feature.movies.domain.model
 
 import core.model.media.Genre
 import core.model.media.ProductionCompany
+import core.model.media.Video
+import core.model.media.VideoType
 import kotlinx.datetime.Instant
 
 data class MovieDetails(
@@ -20,6 +22,7 @@ data class MovieDetails(
     val revenue: Long,
     val runtime: Long,
     val productionCompanies: List<ProductionCompany>,
+    val videoList: List<Video> = emptyList(),
     val homepage: String,
     val originCountry: List<String>,
     val originalTitle: String,
@@ -44,3 +47,8 @@ fun MovieDetails.toMovie() = Movie(
     voteAverage = voteAverage,
     voteCount = voteCount,
 )
+
+fun MovieDetails.getFilteredVideoList(): List<Video> {
+    return videoList
+        .filter { it.official && it.site == "YouTube" && it.type == VideoType.TRAILER }
+}

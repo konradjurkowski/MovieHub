@@ -15,14 +15,17 @@ import androidx.compose.ui.Modifier
 import core.components.media.cast.MediaCastList
 import core.components.media.info.MediaInfoItem
 import core.components.media.company.MediaCompanyList
+import core.components.media.video.MediaVideoList
 import core.components.other.RegularSpacer
 import core.components.text.SectionTitle
 import core.theme.withA80
 import core.utils.Dimens
 import core.model.media.CastData
+import core.model.media.Video
 import feature.movies.domain.model.MovieDetails
 import core.model.media.getDirector
 import core.model.media.getWriter
+import feature.movies.domain.model.getFilteredVideoList
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.director_label
 import moviehub.composeapp.generated.resources.movie_screen_details_movie_info
@@ -34,6 +37,7 @@ fun MovieInfoTab(
     modifier: Modifier = Modifier,
     movie: MovieDetails,
     castData: CastData,
+    onVideoPressed: (Video) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -75,6 +79,7 @@ fun MovieInfoTab(
             }
         }
         MediaCastList(castList = castData.cast)
+        MediaVideoList(videoList = movie.getFilteredVideoList(), onPressed = onVideoPressed)
         MediaCompanyList(companyList = movie.productionCompanies)
         RegularSpacer()
     }

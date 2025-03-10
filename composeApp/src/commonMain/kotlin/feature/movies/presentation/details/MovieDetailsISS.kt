@@ -5,6 +5,7 @@ import core.architecture.MviSideEffect
 import core.architecture.MviState
 import feature.auth.domain.AppUser
 import core.model.media.CastData
+import core.model.media.Video
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.MovieDetails
@@ -16,6 +17,7 @@ sealed class MovieDetailsIntent {
     data class AddCommentPressed(val firebaseRating: FirebaseRating? = null) : MovieDetailsIntent()
     data class DeleteCommentPressed(val firebaseRating: FirebaseRating) : MovieDetailsIntent()
     data class SetTab(val tab: Int) : MovieDetailsIntent()
+    data class VideoPressed(val video: Video) : MovieDetailsIntent()
 }
 
 @MviSideEffect
@@ -25,6 +27,7 @@ sealed class MovieDetailsSideEffect {
     data object ShowLoader : MovieDetailsSideEffect()
     data object HideLoaderWithSuccess : MovieDetailsSideEffect()
     data class HideLoaderWithError(val error: Throwable) : MovieDetailsSideEffect()
+    data class OpenUrl(val url: String) : MovieDetailsSideEffect()
 }
 
 @MviState

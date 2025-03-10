@@ -3,6 +3,7 @@ package feature.movies.presentation.details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalUriHandler
 import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
@@ -19,6 +20,7 @@ class MovieDetailsScreenRoot(val movieId: Long) : BaseScreen() {
 
     @Composable
     override fun Content() {
+        val uriHandler = LocalUriHandler.current
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
 
@@ -27,6 +29,11 @@ class MovieDetailsScreenRoot(val movieId: Long) : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
+                MovieDetailsSideEffect.HideLoaderWithSuccess -> loaderState.hideLoader()
+                MovieDetailsSideEffect.NavigateBack -> GlobalNavigators.navigator?.pop()
+                MovieDetailsSideEffect.ShowLoader -> loaderState.showLoader()
+                is MovieDetailsSideEffect.OpenUrl -> uriHandler.openUri(effect.url)
+
                 is MovieDetailsSideEffect.GoToAddComment -> {
                     GlobalNavigators.navigator?.safePush(
                         AddRatingScreenRoot(
@@ -35,13 +42,11 @@ class MovieDetailsScreenRoot(val movieId: Long) : BaseScreen() {
                         )
                     )
                 }
+
                 is MovieDetailsSideEffect.HideLoaderWithError -> {
                     loaderState.hideLoader()
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
-                MovieDetailsSideEffect.HideLoaderWithSuccess -> loaderState.hideLoader()
-                MovieDetailsSideEffect.NavigateBack -> GlobalNavigators.navigator?.pop()
-                MovieDetailsSideEffect.ShowLoader -> loaderState.showLoader()
             }
         }
 

@@ -46,6 +46,7 @@ fun MoviePreviewScreen(
                         movie = state.movie,
                         castData = state.castData,
                         onBackPressed = { onIntent(MoviePreviewIntent.BackPressed) },
+                        onVideoPressed = { onIntent(MoviePreviewIntent.VideoPressed(it)) },
                     )
                 }
 

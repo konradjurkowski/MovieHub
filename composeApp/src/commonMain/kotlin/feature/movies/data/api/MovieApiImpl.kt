@@ -16,6 +16,12 @@ class MovieApiImpl(
             url { path("/3/movie/$movieId") }
         }
 
+    override suspend fun getVideos(movieId: Long): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url { path("/3/movie/$movieId/videos") }
+        }
+
     override suspend fun searchMovies(query: String, page: Int): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get

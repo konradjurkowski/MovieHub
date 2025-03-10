@@ -5,7 +5,7 @@ sealed class Response<T> {
     data class Failure<T>(val error: Throwable) : Response<T>()
 
     fun isSuccess() = this is Success
-    fun isError() = this is Failure
+    fun isFailure() = this is Failure
 
     fun getSuccess(): T? {
         if (this is Success) return data

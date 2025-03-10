@@ -8,6 +8,12 @@ import androidx.compose.ui.Modifier
 import core.components.media.details.MediaDetailsFailure
 import core.components.media.details.MediaDetailsLoading
 import feature.movies.presentation.details.MovieDetailsIntent
+import feature.movies.presentation.details.MovieDetailsIntent.AddCommentPressed
+import feature.movies.presentation.details.MovieDetailsIntent.BackPressed
+import feature.movies.presentation.details.MovieDetailsIntent.DeleteCommentPressed
+import feature.movies.presentation.details.MovieDetailsIntent.Refresh
+import feature.movies.presentation.details.MovieDetailsIntent.SetTab
+import feature.movies.presentation.details.MovieDetailsIntent.VideoPressed
 import feature.movies.presentation.details.MovieDetailsState
 
 @Composable
@@ -25,21 +31,22 @@ fun MovieDetailsScreen(
                         castData = state.castData,
                         selectedTab = state.selectedTab,
                         users = state.users,
-                        onBackPressed = { onIntent(MovieDetailsIntent.BackPressed) },
-                        onAddCommentPressed = { onIntent(MovieDetailsIntent.AddCommentPressed(it)) },
-                        onDeleteCommentPressed = { onIntent(MovieDetailsIntent.DeleteCommentPressed(it)) },
-                        onTabPressed = { onIntent(MovieDetailsIntent.SetTab(it)) },
+                        onBackPressed = { onIntent(BackPressed) },
+                        onAddCommentPressed = { onIntent(AddCommentPressed(it)) },
+                        onDeleteCommentPressed = { onIntent(DeleteCommentPressed(it)) },
+                        onTabPressed = { onIntent(SetTab(it)) },
+                        onVideoPressed = { onIntent(VideoPressed(it)) },
                     )
                 }
 
                 MovieDetailsState.Idle, MovieDetailsState.Loading -> {
-                    MediaDetailsLoading { onIntent(MovieDetailsIntent.BackPressed) }
+                    MediaDetailsLoading { onIntent(BackPressed) }
                 }
 
                 is MovieDetailsState.Error -> {
                     MediaDetailsFailure(
-                        onBackPressed = { onIntent(MovieDetailsIntent.BackPressed) },
-                        onRefresh = { onIntent(MovieDetailsIntent.Refresh) },
+                        onBackPressed = { onIntent(BackPressed) },
+                        onRefresh = { onIntent(Refresh) },
                     )
                 }
             }

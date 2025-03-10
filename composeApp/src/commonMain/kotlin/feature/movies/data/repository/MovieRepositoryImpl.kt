@@ -21,6 +21,8 @@ import core.model.media.dto.toDomain
 import feature.movies.data.api.dto.toDomain
 import feature.movies.data.storage.MovieRegistry
 import core.model.media.CastData
+import core.model.media.Video
+import core.model.media.dto.VideoResponse
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.Movie
@@ -37,9 +39,21 @@ class MovieRepositoryImpl(
     private val konnectivity: Konnectivity,
 ) : MovieRepository {
 
-    override suspend fun getMovieById(movieId: Long): Response<MovieDetails> =
-        safeApiCall(call = { movieApi.getMovieById(movieId) }) { response ->
-            Response.Success(response.body<MovieDetailsDto>().toDomain())
+    override suspend fun getMovieById(movieId: Long): Response<MovieDetails> {
+        val videListResult = getVideos(movieId)
+        if (videListResult.isFailure()) return Response.Failure(FailureResponseException())
+
+        val videoList = videListResult.getSuccess() ?: emptyList()
+        return safeApiCall(call = { movieApi.getMovieById(movieId) }) { response ->
+            val movie = response.body<MovieDetailsDto>().toDomain()
+            Response.Success(movie.copy(videoList = videoList))
+        }
+    }
+
+    override suspend fun getVideos(movieId: Long): Response<List<Video>> =
+        safeApiCall(call = { movieApi.getVideos(movieId) }) { response ->
+            val videos = response.body<VideoResponse>().results.map { it.toDomain() }
+            Response.Success(videos)
         }
 
     override suspend fun getCredits(movieId: Long): Response<CastData> =

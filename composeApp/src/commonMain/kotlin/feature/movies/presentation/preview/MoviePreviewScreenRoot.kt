@@ -3,6 +3,7 @@ package feature.movies.presentation.preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalUriHandler
 import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
@@ -19,6 +20,7 @@ class MoviePreviewScreenRoot(val movieId: Long) : BaseScreen() {
 
     @Composable
     override fun Content() {
+        val uriHandler = LocalUriHandler.current
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
 
@@ -28,6 +30,7 @@ class MoviePreviewScreenRoot(val movieId: Long) : BaseScreen() {
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 MoviePreviewSideEffect.NavigateBack -> GlobalNavigators.navigator?.pop()
+                is MoviePreviewSideEffect.OpenUrl -> uriHandler.openUri(effect.url)
 
                 MoviePreviewSideEffect.HideLoaderWithSuccess -> {
                     loaderState.hideLoader()

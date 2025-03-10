@@ -4,6 +4,7 @@ import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
 import core.model.media.CastData
+import core.model.media.Video
 import feature.movies.domain.model.MovieDetails
 
 @MviIntent
@@ -11,6 +12,7 @@ sealed class MoviePreviewIntent {
     data object BackPressed : MoviePreviewIntent()
     data object Refresh : MoviePreviewIntent()
     data class MovieAddPressed(val movie: MovieDetails) : MoviePreviewIntent()
+    data class VideoPressed(val video: Video) : MoviePreviewIntent()
 }
 
 @MviSideEffect
@@ -19,6 +21,7 @@ sealed class MoviePreviewSideEffect {
     data object ShowLoader : MoviePreviewSideEffect()
     data object HideLoaderWithSuccess : MoviePreviewSideEffect()
     data class HideLoaderWithError(val error: Throwable) : MoviePreviewSideEffect()
+    data class OpenUrl(val url: String) : MoviePreviewSideEffect()
 }
 
 @MviState

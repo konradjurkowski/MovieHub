@@ -14,6 +14,7 @@ import core.components.other.RegularSpacer
 import core.utils.LocalDateTimeFormatter
 import core.utils.getScreenSizeInfo
 import core.model.media.CastData
+import core.model.media.Video
 import feature.movies.domain.model.MovieDetails
 import feature.movies.presentation.info_tab.MovieInfoTab
 import moviehub.composeapp.generated.resources.Res
@@ -26,6 +27,7 @@ fun MoviePreviewSuccess(
     movie: MovieDetails,
     castData: CastData,
     onBackPressed: () -> Unit,
+    onVideoPressed: (Video) -> Unit,
 ) {
     val dateTimeFormatter = LocalDateTimeFormatter.current
     val screenSize = getScreenSizeInfo()
@@ -48,6 +50,10 @@ fun MoviePreviewSuccess(
             )
         }
         RegularSpacer()
-        MovieInfoTab(movie = movie, castData = castData)
+        MovieInfoTab(
+            movie = movie,
+            castData = castData,
+            onVideoPressed = onVideoPressed,
+        )
     }
 }
