@@ -16,6 +16,7 @@ import core.components.media.cast.MediaCastList
 import core.components.media.info.MediaInfoItem
 import core.components.media.company.MediaCompanyList
 import core.components.media.video.MediaVideoList
+import core.components.media.watch_provider.MediaWatchProviderList
 import core.components.other.RegularSpacer
 import core.components.text.SectionTitle
 import core.theme.withA80
@@ -26,6 +27,7 @@ import feature.movies.domain.model.MovieDetails
 import core.model.media.getDirector
 import core.model.media.getWriter
 import feature.movies.domain.model.getFilteredVideoList
+import feature.movies.domain.model.getWatchProviders
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.director_label
 import moviehub.composeapp.generated.resources.movie_screen_details_movie_info
@@ -80,6 +82,7 @@ fun MovieInfoTab(
         }
         MediaCastList(castList = castData.cast)
         MediaVideoList(videoList = movie.getFilteredVideoList(), onPressed = onVideoPressed)
+        MediaWatchProviderList(watchProviderList = movie.getWatchProviders())
         MediaCompanyList(companyList = movie.productionCompanies)
         RegularSpacer()
     }

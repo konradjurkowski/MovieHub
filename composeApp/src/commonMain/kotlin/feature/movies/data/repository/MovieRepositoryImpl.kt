@@ -22,7 +22,9 @@ import feature.movies.data.api.dto.toDomain
 import feature.movies.data.storage.MovieRegistry
 import core.model.media.CastData
 import core.model.media.Video
+import core.model.media.dto.CountryWatchProviders
 import core.model.media.dto.VideoResponse
+import core.model.media.dto.WatchProviderResponse
 import feature.movies.domain.model.FirebaseMovie
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.Movie
@@ -43,10 +45,18 @@ class MovieRepositoryImpl(
         val videListResult = getVideos(movieId)
         if (videListResult.isFailure()) return Response.Failure(FailureResponseException())
 
+        val watchProvidersResult = getWatchProviders(movieId)
+        if (watchProvidersResult.isFailure()) return Response.Failure(FailureResponseException())
+
         val videoList = videListResult.getSuccess() ?: emptyList()
+        val watchProviders = watchProvidersResult.getSuccess()
         return safeApiCall(call = { movieApi.getMovieById(movieId) }) { response ->
             val movie = response.body<MovieDetailsDto>().toDomain()
-            Response.Success(movie.copy(videoList = videoList))
+            val updatedMovie = movie.copy(
+                videoList = videoList,
+                countryWatchProviders = watchProviders,
+            )
+            Response.Success(updatedMovie)
         }
     }
 
@@ -54,6 +64,11 @@ class MovieRepositoryImpl(
         safeApiCall(call = { movieApi.getVideos(movieId) }) { response ->
             val videos = response.body<VideoResponse>().results.map { it.toDomain() }
             Response.Success(videos)
+        }
+
+    override suspend fun getWatchProviders(movieId: Long): Response<CountryWatchProviders> =
+        safeApiCall(call = { movieApi.getWatchProviders(movieId) }) { response ->
+            Response.Success(response.body<WatchProviderResponse>().results)
         }
 
     override suspend fun getCredits(movieId: Long): Response<CastData> =

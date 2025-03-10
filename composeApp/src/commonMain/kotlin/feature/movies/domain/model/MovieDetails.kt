@@ -4,6 +4,11 @@ import core.model.media.Genre
 import core.model.media.ProductionCompany
 import core.model.media.Video
 import core.model.media.VideoType
+import core.model.media.WatchProviderInfo
+import core.model.media.dto.CountryWatchProviders
+import core.model.media.dto.getWatchProviderDetails
+import core.model.media.dto.mergeList
+import core.utils.PlatformInfo
 import kotlinx.datetime.Instant
 
 data class MovieDetails(
@@ -23,6 +28,7 @@ data class MovieDetails(
     val runtime: Long,
     val productionCompanies: List<ProductionCompany>,
     val videoList: List<Video> = emptyList(),
+    val countryWatchProviders: CountryWatchProviders? = null,
     val homepage: String,
     val originCountry: List<String>,
     val originalTitle: String,
@@ -51,4 +57,8 @@ fun MovieDetails.toMovie() = Movie(
 fun MovieDetails.getFilteredVideoList(): List<Video> {
     return videoList
         .filter { it.official && it.site == "YouTube" && it.type == VideoType.TRAILER }
+}
+
+fun MovieDetails.getWatchProviders(countryCode: String = PlatformInfo.getCountryCode()): List<WatchProviderInfo> {
+    return countryWatchProviders?.getWatchProviderDetails(countryCode)?.mergeList() ?: emptyList()
 }
