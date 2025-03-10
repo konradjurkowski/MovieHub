@@ -5,6 +5,7 @@ import core.model.media.ProductionCompany
 import core.model.media.ProductionCountry
 import core.model.media.SpokenLanguage
 import core.model.media.Video
+import core.model.media.VideoType
 import core.model.media.WatchProviderInfo
 import core.model.media.dto.CountryWatchProviders
 import core.model.media.dto.getWatchProviderDetails
@@ -86,6 +87,11 @@ fun SeriesDetails.toSeries() = Series(
     voteCount = voteCount,
     adult = adult,
 )
+
+fun SeriesDetails.getFilteredVideoList(): List<Video> {
+    return videoList
+        .filter { it.official && it.site == "YouTube" && it.type == VideoType.TRAILER }
+}
 
 fun SeriesDetails.getWatchProviders(countryCode: String = PlatformInfo.getCountryCode()): List<WatchProviderInfo> {
     return countryWatchProviders?.getWatchProviderDetails(countryCode)?.mergeList() ?: emptyList()

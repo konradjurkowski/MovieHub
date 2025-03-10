@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import core.components.media.cast.MediaCastList
 import core.components.media.info.MediaInfoItem
 import core.components.media.company.MediaCompanyList
-import core.components.media.video.VideoHorizontalList
+import core.components.media.video.MediaVideoList
 import core.components.media.watch_provider.MediaWatchProviderList
 import core.components.other.RegularSpacer
 import core.components.text.SectionTitle
@@ -26,6 +26,7 @@ import core.model.media.Video
 import core.model.media.getDirector
 import core.model.media.getWriter
 import feature.series.domain.model.SeriesDetails
+import feature.series.domain.model.getFilteredVideoList
 import feature.series.domain.model.getWatchProviders
 import feature.series.presentation.info_tab.components.SeasonsHorizontalList
 import moviehub.composeapp.generated.resources.Res
@@ -82,7 +83,7 @@ fun SeriesInfoTab(
         }
         MediaCastList(castList = castData.cast)
         SeasonsHorizontalList(seasonList = series.seasons)
-        VideoHorizontalList(videoList = series.videoList, onPressed = onVideoPressed)
+        MediaVideoList(videoList = series.getFilteredVideoList(), onPressed = onVideoPressed)
         MediaWatchProviderList(watchProviderList = series.getWatchProviders())
         MediaCompanyList(companyList = series.productionCompanies)
         RegularSpacer()
