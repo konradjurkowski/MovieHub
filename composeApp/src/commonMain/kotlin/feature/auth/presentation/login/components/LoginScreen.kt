@@ -1,0 +1,136 @@
+package feature.auth.presentation.login.components
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import core.components.button.PrimaryButton
+import core.components.other.RegularSpacer
+import core.components.other.SmallSpacer
+import core.components.text.AuthFooter
+import core.components.text.InteractiveText
+import core.components.text_field.InputTextField
+import core.components.text_field.InvalidFieldMessage
+import core.components.text_field.TextFieldLabel
+import core.components.top_bar.MainTopBar
+import core.theme.withA40
+import core.utils.Dimens
+import core.utils.clearFocus
+import core.utils.toDisplay
+import feature.auth.presentation.login.LoginIntent
+import feature.auth.presentation.login.LoginState
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.email_address
+import moviehub.composeapp.generated.resources.ic_visibility
+import moviehub.composeapp.generated.resources.ic_visibility_off
+import moviehub.composeapp.generated.resources.login_screen_create_account
+import moviehub.composeapp.generated.resources.login_screen_forgot_password_label
+import moviehub.composeapp.generated.resources.login_screen_login_label
+import moviehub.composeapp.generated.resources.login_screen_new_to_app
+import moviehub.composeapp.generated.resources.login_screen_title
+import moviehub.composeapp.generated.resources.password
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun LoginScreen(
+    state: LoginState,
+    onIntent: (LoginIntent) -> Unit,
+) {
+    val focusManager = LocalFocusManager.current
+
+    Scaffold(
+        modifier = Modifier.clearFocus(),
+        topBar = {
+            MainTopBar(
+                title = stringResource(Res.string.login_screen_title),
+                isLeadingVisible = false,
+            )
+        },
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(contentPadding)
+                .padding(Dimens.padding16),
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                TextFieldLabel(text = stringResource(Res.string.email_address))
+                SmallSpacer()
+                InputTextField(
+                    value = state.email,
+                    onValueChange = { onIntent(LoginIntent.EmailChanged(it)) },
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
+                    isError = state.loginState.isFailure() || !state.emailValidation.successful,
+                )
+                InvalidFieldMessage(
+                    message = state.emailValidation.errorMessage.toDisplay(),
+                    isInvalid = !state.emailValidation.successful,
+                )
+                RegularSpacer()
+                Row {
+                    TextFieldLabel(
+                        modifier = Modifier.weight(1f),
+                        text = stringResource(Res.string.password),
+                    )
+                    InteractiveText(text = stringResource(Res.string.login_screen_forgot_password_label)) {
+                        onIntent(LoginIntent.ForgotPasswordPressed)
+                    }
+                }
+                SmallSpacer()
+                InputTextField(
+                    value = state.password,
+                    onValueChange = { onIntent(LoginIntent.PasswordChanged(it)) },
+                    obscure = state.obscurePassword,
+                    keyboardType = KeyboardType.Password,
+                    isError = state.loginState.isFailure() || !state.passwordValidation.successful,
+                    trailingIcon = {
+                        IconButton(onClick = { onIntent(LoginIntent.TogglePasswordVisibility) }) {
+                            Icon(
+                                when (state.obscurePassword) {
+                                    true -> painterResource(Res.drawable.ic_visibility)
+                                    false -> painterResource(Res.drawable.ic_visibility_off)
+                                },
+                                tint = MaterialTheme.colorScheme.onBackground.withA40(),
+                                contentDescription = "visibility icon",
+                            )
+                        }
+                    }
+                )
+                InvalidFieldMessage(
+                    message = state.passwordValidation.errorMessage.toDisplay(),
+                    isInvalid = !state.passwordValidation.successful,
+                )
+                RegularSpacer()
+                PrimaryButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = stringResource(Res.string.login_screen_login_label),
+                    loading = state.loginState.isLoading(),
+                    onClick = {
+                        focusManager.clearFocus()
+                        onIntent(LoginIntent.SignIn(state.email, state.password))
+                    }
+                )
+            }
+            RegularSpacer()
+            AuthFooter(
+                textPart1 = stringResource(Res.string.login_screen_new_to_app),
+                textPart2 = stringResource(Res.string.login_screen_create_account),
+                onClick = {
+                    onIntent(LoginIntent.CreateAccountPressed)
+                }
+            )
+        }
+    }
+}

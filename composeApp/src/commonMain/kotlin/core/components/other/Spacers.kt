@@ -8,20 +8,25 @@ import core.utils.Dimens
 
 @Composable
 fun TinySpacer() {
-    Spacer(modifier = Modifier.size(Dimens.tinyPadding))
+    Spacer(modifier = Modifier.size(Dimens.padding4))
 }
 
 @Composable
 fun SmallSpacer() {
-    Spacer(modifier = Modifier.size(Dimens.smallPadding))
+    Spacer(modifier = Modifier.size(Dimens.padding8))
 }
 
 @Composable
 fun RegularSpacer() {
-    Spacer(modifier = Modifier.size(Dimens.regularPadding))
+    Spacer(modifier = Modifier.size(Dimens.padding16))
 }
 
 @Composable
 fun MediumSpacer() {
-    Spacer(modifier = Modifier.size(Dimens.mediumPadding))
+    Spacer(modifier = Modifier.size(Dimens.padding24))
+}
+
+@Composable
+fun LargeSpacer() {
+    Spacer(modifier = Modifier.size(Dimens.padding32))
 }

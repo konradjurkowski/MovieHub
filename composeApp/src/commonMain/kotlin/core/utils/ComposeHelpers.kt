@@ -2,23 +2,34 @@ package core.utils
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.Navigator
 import dev.gitlive.firebase.FirebaseNetworkException
-import dev.gitlive.firebase.FirebaseTooManyRequestsException
-import dev.gitlive.firebase.auth.FirebaseAuthException
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
+import dev.gitlive.firebase.auth.FirebaseAuthUserCollisionException
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.email_already_exists
+import moviehub.composeapp.generated.resources.invalid_credentials
+import moviehub.composeapp.generated.resources.something_went_wrong
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
-    clickable(indication = null,
+fun Modifier.noRippleClickable(
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+): Modifier = composed {
+    clickable(
+        enabled = enabled,
+        indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         onClick()
     }
@@ -32,35 +43,36 @@ fun Modifier.clearFocus(): Modifier = composed {
     }
 }
 
-@Composable
-fun TextUnit.toDp(): Dp {
-    return with(LocalDensity.current) {
-        this@toDp.toDp()
-    }
+fun Modifier.paddingForIndex(
+    index: Int,
+    size: Int,
+    padding: Dp = Dimens.padding16,
+    spacer: Dp = Dimens.padding4
+): Modifier {
+    return this.padding(
+        start = if (index == 0) padding else spacer,
+        end = if (index == size - 1) padding else 0.dp,
+    )
 }
 
-@OptIn(ExperimentalResourceApi::class)
+fun LoadState.isLoading() = this is LoadState.Loading
+fun LoadState.isError() = this is LoadState.Error
+
 @Composable
-fun StringResource.toDisplay(): String {
-    return stringResource(this)
+fun StringResource?.toDisplay(): String {
+    return this?.let { stringResource(it) } ?: ""
 }
 
-fun getFailureMessage(error: Throwable): String {
+fun Navigator.safePush(screen: Screen) {
+    if (lastItem::class != screen::class) push(screen)
+}
+
+fun getFailureMessage(error: Throwable): StringResource {
     return when (error) {
-        is FirebaseNetworkException -> {
-            "Something went wrong, check your Internet connection and try again."
-        }
-
-        is FirebaseAuthException -> {
-            "Please check your email and password and try again."
-        }
-
-        is FirebaseTooManyRequestsException -> {
-            "Request failed due to too many attempts. Please try again later."
-        }
-
-        else -> {
-            "Something went wrong, check your Internet connection and try again."
-        }
+        is FirebaseAuthInvalidCredentialsException -> Res.string.invalid_credentials
+        is FirebaseAuthUserCollisionException -> Res.string.email_already_exists
+        is FirebaseNetworkException -> Res.string.something_went_wrong
+        is CustomException -> error.messageRes
+        else -> Res.string.something_went_wrong
     }
 }

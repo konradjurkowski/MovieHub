@@ -1,17 +1,19 @@
 package feature.auth.data.remote
 
-import core.utils.Resource
+import core.model.Response
 import dev.gitlive.firebase.auth.FirebaseUser
-import kotlinx.coroutines.flow.Flow
-
-typealias SignInResponse = Resource<FirebaseUser?>
-typealias SignUpResponse = Resource<FirebaseUser?>
-typealias ResetPasswordResponse = Resource<Unit>
+import feature.auth.domain.AppUser
+import kotlinx.coroutines.flow.StateFlow
 
 interface AuthService {
-    val currentUser: FirebaseUser?
-    val authStateChanged: Flow<FirebaseUser?>
-    suspend fun signIn(email: String, password: String): SignInResponse
-    suspend fun signUp(email: String, password: String): SignUpResponse
-    suspend fun resetPassword(email: String): ResetPasswordResponse
+    val currentUser: AppUser?
+    val appUser: StateFlow<AppUser?>
+    suspend fun signIn(email: String, password: String): Response<FirebaseUser?>
+    suspend fun signUp(name: String, email: String, password: String): Response<FirebaseUser?>
+    suspend fun logout()
+    suspend fun sendPasswordResetEmail(email: String): Response<Unit>
+    suspend fun getAppUser(refresh: Boolean = false): Response<AppUser>
+    suspend fun getAllAppUsers(): Response<List<AppUser>>
+    suspend fun updateAppUser(appUser: AppUser): Response<Boolean>
+    suspend fun uploadImage(image: ByteArray): Response<String>
 }

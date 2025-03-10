@@ -1,0 +1,46 @@
+package feature.movies.presentation.movies
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
+import core.architecture.CollectSideEffects
+import core.navigation.GlobalNavigators
+import core.utils.safePush
+import feature.movies.presentation.details.MovieDetailsScreenRoot
+import feature.movies.presentation.movies.components.MoviesScreen
+import feature.movies.presentation.movies.MoviesSideEffect.GoToAddMovie
+import feature.movies.presentation.movies.MoviesSideEffect.GoToMovieDetail
+import feature.movies.presentation.search.SearchMovieScreenRoot
+
+class MoviesScreenRoot : BaseScreen() {
+
+    @Composable
+    override fun Content() {
+        val viewModel = getScreenModel<MoviesViewModel>()
+        val state by viewModel.viewState.collectAsState()
+
+        LaunchedEffect(Unit) {
+            viewModel.getMovies()
+        }
+
+        CollectSideEffects(viewModel.viewSideEffects) { effect ->
+            when (effect) {
+                is GoToMovieDetail -> {
+                    GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
+                }
+
+                is GoToAddMovie -> {
+                    GlobalNavigators.navigator?.safePush(SearchMovieScreenRoot())
+                }
+            }
+        }
+
+        MoviesScreen(
+            state = state,
+            onIntent = viewModel::sendIntent,
+        )
+    }
+}

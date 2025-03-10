@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.konradjurkowski.moviehub</string>
+	<string>com.konradjurkowski.moviehub</string>
 	<key>PROJECT_ID</key>
 	<string>moviehub-a9f52</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,7 +25,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:420693748043:ios:2f1158700dc53232aaa0ce</string>
+	<string>1:420693748043:ios:1fcf732f0fe2a218aaa0ce</string>
 	<key>DATABASE_URL</key>
 	<string>https://moviehub-a9f52-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>

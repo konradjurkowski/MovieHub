@@ -18,11 +18,10 @@ fun InteractiveText(
     onClick: () -> Unit
 ) {
     Text(
-        modifier = modifier
-            .noRippleClickable(onClick),
+        modifier = modifier.noRippleClickable(onClick = onClick),
         text = text,
         style = textStyle,
         color = MaterialTheme.colorScheme.primary,
-        textAlign = textAlign
+        textAlign = textAlign,
     )
 }

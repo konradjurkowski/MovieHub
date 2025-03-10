@@ -1,0 +1,62 @@
+package feature.auth.presentation.login
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.mohamedrejeb.calf.permissions.Permission
+import com.mohamedrejeb.calf.permissions.isGranted
+import com.mohamedrejeb.calf.permissions.rememberPermissionState
+import core.architecture.BaseScreen
+import core.architecture.CollectSideEffects
+import core.utils.LocalSnackbarState
+import core.utils.getFailureMessage
+import core.utils.isNotificationPermissionRequired
+import core.utils.safePush
+import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
+import feature.auth.presentation.login.LoginSideEffect.GoToForgotPassword
+import feature.auth.presentation.login.LoginSideEffect.GoToRegister
+import feature.auth.presentation.login.LoginSideEffect.NavigateForward
+import feature.auth.presentation.login.LoginSideEffect.ShowError
+import feature.auth.presentation.login.components.LoginScreen
+import feature.auth.presentation.register.RegisterScreenRoot
+import feature.home.presentation.main.MainScreenRoot
+import feature.permissions.presentation.notification.NotificationPermissionScreenRoot
+
+class LoginScreenRoot : BaseScreen() {
+
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        val snackbarState = LocalSnackbarState.current
+
+        val viewModel = getScreenModel<LoginViewModel>()
+        val state by viewModel.viewState.collectAsState()
+
+        val notificationPermissionState = rememberPermissionState(Permission.Notification)
+
+        CollectSideEffects(viewModel.viewSideEffects) { effect ->
+            when (effect) {
+                GoToForgotPassword -> navigator.safePush(ForgotPasswordScreenRoot())
+                GoToRegister -> navigator.safePush(RegisterScreenRoot())
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
+
+                NavigateForward -> {
+                    if (!isNotificationPermissionRequired() || notificationPermissionState.status.isGranted) {
+                        navigator.replace(MainScreenRoot())
+                        return@CollectSideEffects
+                    }
+
+                    navigator.replace(NotificationPermissionScreenRoot())
+                }
+            }
+        }
+
+        LoginScreen(
+            state = state,
+            onIntent = viewModel::sendIntent,
+        )
+    }
+}

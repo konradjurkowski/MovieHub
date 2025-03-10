@@ -1,8 +1,19 @@
 package core.utils
 
-sealed class Platform {
-    data class Android(val systemVersion: Int) : Platform()
-    data class IOS(val systemVersion: String): Platform()
+import dev.gitlive.firebase.storage.Data
+
+expect object PlatformInfo {
+    val platform: Platform
+    val systemVersion: String
+    val sdkInt: Int
+    fun getLanguageCode(): String
+    fun getCountryCode(): String
+    val isDebug: Boolean
 }
 
-expect fun getPlatform(): Platform
+enum class Platform {
+    Android,
+    IOS,
+}
+
+expect fun getFirebaseData(byteArray: ByteArray): Data

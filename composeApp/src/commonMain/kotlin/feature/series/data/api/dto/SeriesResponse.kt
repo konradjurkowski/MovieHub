@@ -1,5 +1,8 @@
 package feature.series.data.api.dto
 
+import core.utils.constants.MovieApiConstants
+import core.utils.toInstant
+import feature.series.domain.model.Series
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,7 +13,7 @@ data class SeriesResponse (
     @SerialName("total_pages")
     val totalPages: Long,
     @SerialName("total_results")
-    val totalResults: Long
+    val totalResults: Long,
 )
 
 @Serializable
@@ -30,12 +33,29 @@ data class SeriesDto (
     val overview: String,
     val popularity: Double,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String? = null,
     @SerialName("first_air_date")
     val firstAirDate: String,
     val name: String,
     @SerialName("vote_average")
     val voteAverage: Double,
     @SerialName("vote_count")
-    val voteCount: Long
+    val voteCount: Long,
 )
+
+fun SeriesDto.toSeries(): Series {
+    return Series(
+        id = id,
+        name = name,
+        overview = overview,
+        posterPath = posterPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
+        backdropPath = backdropPath?.let { MovieApiConstants.IMAGE_BASE_URL + it },
+        genreIds = genreIds,
+        language = originalLanguage,
+        popularity = popularity,
+        releaseDate = firstAirDate.toInstant(),
+        voteAverage = voteAverage,
+        voteCount = voteCount,
+        adult = adult,
+    )
+}

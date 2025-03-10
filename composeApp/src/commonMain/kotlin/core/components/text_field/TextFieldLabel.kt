@@ -15,6 +15,6 @@ fun TextFieldLabel(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodyLarge,
-        fontWeight = FontWeight.Medium
+        fontWeight = FontWeight.Medium,
     )
 }

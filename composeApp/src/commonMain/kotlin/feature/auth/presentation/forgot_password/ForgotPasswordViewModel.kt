@@ -2,24 +2,31 @@ package feature.auth.presentation.forgot_password
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
+import core.model.ActionState
+import core.model.Response
+import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
-import core.utils.Resource
 import feature.auth.data.remote.AuthService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
+import feature.auth.presentation.forgot_password.ForgotPasswordIntent.BackPressed
+import feature.auth.presentation.forgot_password.ForgotPasswordIntent.EmailChanged
+import feature.auth.presentation.forgot_password.ForgotPasswordIntent.ResetPassword
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.GoToLogin
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.NavigateBack
+import feature.auth.presentation.forgot_password.ForgotPasswordSideEffect.ShowError
 
 class ForgotPasswordViewModel(
     private val formValidator: FormValidator,
     private val authService: AuthService,
+    private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<ForgotPasswordIntent, ForgotPasswordSideEffect, ForgotPasswordState>() {
     override fun getDefaultState(): ForgotPasswordState = ForgotPasswordState()
 
     override fun processIntent(intent: ForgotPasswordIntent) {
         when (intent) {
-            ForgotPasswordIntent.BackPressed -> sendSideEffect(ForgotPasswordSideEffect.NavigateBack)
-            is ForgotPasswordIntent.EmailChanged -> updateViewState { copy(email = intent.email) }
-            is ForgotPasswordIntent.ResetPassword -> resetPassword(intent.email)
+            BackPressed -> sendSideEffect(NavigateBack)
+            is EmailChanged -> updateViewState { copy(email = intent.email) }
+            is ResetPassword -> resetPassword(intent.email)
         }
     }
 
@@ -31,19 +38,19 @@ class ForgotPasswordViewModel(
 
         if (!emailValidation.successful) return
 
-        updateViewState { copy(resetState = Resource.Loading) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val result = authService.resetPassword(email)
+        updateViewState { copy(resetState = ActionState.Loading) }
+        screenModelScope.launch(dispatchersProvider.io) {
+            when (val result = authService.sendPasswordResetEmail(email)) {
+                is Response.Success -> {
+                    updateViewState { copy(resetState = ActionState.Success) }
+                    sendSideEffect(GoToLogin)
+                }
 
-            when (result) {
-                is Resource.Success -> sendSideEffect(ForgotPasswordSideEffect.GoToLogin)
-                is Resource.Failure -> sendSideEffect(ForgotPasswordSideEffect.ShowError(result.error))
-                else -> {
-                    // NO - OP
+                is Response.Failure -> {
+                    updateViewState { copy(resetState = ActionState.Failure(result.error)) }
+                    sendSideEffect(ShowError(result.error))
                 }
             }
-
-            updateViewState { copy(resetState = result) }
         }
     }
 }

@@ -4,12 +4,106 @@
     <!--Login Screen -->
     <string name="login_screen_title">Login</string>
     <string name="login_screen_forgot_password_label">Forgot password?</string>
-    <string name="login_screen_login_label">Login</string>
+    <string name="login_screen_login_label">Sign in</string>
+    <string name="login_screen_new_to_app">New to MovieHub?</string>
+    <string name="login_screen_create_account">Create an account</string>
+
+    <!--Register Screen-->
+    <string name="register_screen_title">Register</string>
+    <string name="register_screen_register_label">Sign up</string>
+    <string name="register_screen_password_requirements">Your password must be at least 8 characters long and contain at least one special character.</string>
 
     <!--Forgot Password Screen-->
-    <string name="forgot_password">Forgot password</string>
-    <string name="reset_password">Reset password</string>
-    <string name="reset_password_success_message">You'll receive an email with instructions on how to reset your password.</string>
+    <string name="forgot_password_screen_title">Forgot password</string>
+    <string name="forgot_password_screen_reset_password_label">Reset password</string>
+    <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
+
+    <!--Notification Permission Screen-->
+    <string name="notification_permission_screen_enable_notifications_title">Enable notifications</string>
+    <string name="notification_permission_screen_enable_notifications_message">Get notified about new comments, added movies or series, so you never miss a thing!</string>
+    <string name="notification_permission_screen_enable_label">Enable</string>
+    <string name="notification_permission_screen_not_now_label">Not now</string>
+
+    <!--Home Screen-->
+    <string name="home_screen_hello_label">Hello, </string>
+    <string name="home_screen_check_for_latest_addition">Check for latest addition.</string>
+    <string name="home_screen_draw_movie">Draw a Movie</string>
+    <string name="home_screen_draw_series">Draw a Series</string>
+    <string name="home_screen_recently_updated_movies">Recently updated movies</string>
+    <string name="home_screen_recently_updated_series">Recently updated series</string>
+
+    <!--DRAW MEDIA SCREEN-->
+    <string name="draw_media_screen_shake_label">Shake</string>
+    <string name="draw_media_screen_shake_the_phone_label">Shake the phone</string>
+    <string name="draw_media_screen_almost_there_label">We're almost there...</string>
+    <string name="draw_media_screen_well_done_label">Well done! You made it.</string>
+    <string name="draw_media_screen_got_label">You got:</string>
+    <string name="draw_media_screen_ok_label">OK</string>
+
+    <!--Search Movie Screen-->
+    <string name="search_movie_screen_add_success">Movie has been added.</string>
+
+    <!--Search Series Screen-->
+    <string name="search_series_screen_add_success">Series has been added.</string>
+
+    <!--Add Rating Screen-->
+    <string name="add_rating_screen_comment_label">Comment</string>
+    <string name="add_rating_screen_rating_label">Rating</string>
+    <string name="add_rating_screen_rating_added">The rating has been added</string>
+
+    <!--Movie Screen Details-->
+    <string name="movie_screen_details_movie_info">Movie information</string>
+
+    <!--Series Screen Details-->
+    <string name="series_screen_details_series_info">Series information</string>
+    <string name="series_screen_details_seasons">Seasons</string>
+
+    <!--Movie Screen Preview-->
+    <string name="movie_screen_preview_add_movie">Add movie</string>
+    <string name="movie_screen_preview_movie_added">Movie is added</string>
+    <string name="movie_screen_preview_add_success">Movie has been added.</string>
+
+    <!--Series Screen Preview-->
+    <string name="series_screen_preview_add_series">Add series</string>
+    <string name="series_screen_preview_series_added">Series is added</string>
+    <string name="series_screen_preview_add_success">Series has been added.</string>
+
+    <!--Profile Screen-->
+    <string name="profile_screen_account_label">Account</string>
+    <string name="profile_screen_support_label">Support</string>
+    <string name="profile_screen_delete_my_account_label">Delete my account</string>
+    <string name="profile_screen_edit_user_data">Edit user data</string>
+    <string name="profile_screen_change_password_label">Change password</string>
+    <string name="profile_screen_about_label">About</string>
+    <string name="profile_screen_report_problem_label">Report problem</string>
+    <string name="profile_screen_licenses_label">Licenses</string>
+    <string name="profile_screen_logout_label">Logout</string>
+    <string name="profile_screen_version_label">Version</string>
+
+    <!--Profile Edit Screen-->
+    <string name="profile_edit_screen_name_label">Name</string>
+    <string name="profile_edit_screen_description_label">Description</string>
+    <string name="profile_edit_screen_email_label">Email</string>
+    <string name="profile_edit_screen_save_button">Save</string>
+    <string name="profile_edit_screen_edit_success">Profile successfully updated.</string>
+
+    <!--Media-->
+    <string name="writer_label">Writer</string>
+    <string name="director_label">Director</string>
+    <string name="production_companies">Production companies</string>
+    <string name="cast_label">Cast</string>
+    <string name="trailer_label">Trailer</string>
+    <string name="where_to_watch_label">Where to watch</string>
+
+    <!--Navigation Tabs-->
+    <string name="home_tab_label">Home</string>
+    <string name="movies_tab_label">Movies</string>
+    <string name="series_tab_label">Series</string>
+    <string name="profile_tab_label">Profile</string>
+
+    <!--Media Tabs-->
+    <string name="info_tab_label">Information</string>
+    <string name="comments_tab_label">Comments</string>
 
     <!--Validation-->
     <string name="empty_field">Field cannot be empty.</string>
@@ -17,8 +111,34 @@
     <string name="invalid_password">Password is invalid.</string>
     <string name="passwords_do_not_match">Passwords do not match.</string>
 
+    <!--Error-->
+    <string name="invalid_credentials">Please check your email and password and try again.</string>
+    <string name="something_went_wrong">Something went wrong, check your Internet connection and try again.</string>
+    <string name="email_already_exists">Email already exists, please try another.</string>
+    <string name="too_many_requests">Request failed due to too many attempts. Please try again later.</string>
+
+    <!--Permissions-->
+    <string name="permission_required">Permission required</string>
+    <string name="permission_gallery_permanently_denied">It looks like you have permanently denied access to the gallery. Please go to the app settings to grant permission.</string>
+    <string name="permission_confirm_button">OK</string>
+
     <!--Other-->
+    <string name="minutes_label">minutes</string>
+    <string name="seasons_label">seasons</string>
+    <string name="name">Name</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
-
+    <string name="repeat_password">Repeat password</string>
+    <string name="clear_label">Clear</string>"
+    <string name="empty_view_title">No data available</string>
+    <string name="empty_view_message">There are no items to display</string>
+    <string name="error_label">Error</string>
+    <string name="something_went_wrong_try_again">Something went wrong, check your Internet connection and try again</string>
+    <string name="unable_to_load_data">Unable to load data. Click to try again</string>
+    <string name="try_again">Try again</string>
+    <string name="empty_search_title">We are sorry, we can not find the movie :(</string>
+    <string name="empty_search_message">Find your item by type title</string>
+    <string name="save_label">Save</string>
+    <string name="edit_label">Edit</string>
+    <string name="delete_label">Delete</string>
 </resources>

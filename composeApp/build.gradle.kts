@@ -1,21 +1,40 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.services)
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.buildKonfig)
+    alias(libs.plugins.detekt)
+}
+
+val versionPropertiesFile = file("../version.properties")
+val versionProperties = Properties()
+versionProperties.load(FileInputStream(versionPropertiesFile))
+
+buildkonfig {
+    packageName = "com.konradjurkowski.moviehub"
+
+    defaultConfigs {
+        buildConfigField(STRING, "VERSION_NAME", versionProperties["versionName"].toString(), const = true)
+    }
 }
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -24,15 +43,22 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(libs.kmpnotifier)
         }
     }
-    
+
     sourceSets {
-        
+        all {
+            languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+            languageSettings.optIn("com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi")
+        }
+
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
+            implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -41,6 +67,10 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.materialIconsExtended)
+
+            // Internal libs
+            implementation(project(":snackbarkmp"))
 
             // Navigation
             implementation(libs.navigator)
@@ -59,21 +89,44 @@ kotlin {
             // Firebase
             implementation(libs.firebase.crashlytics)
             implementation(libs.firebase.auth)
-
-            // Snackbar
-            implementation(project(":snackbarkmp"))
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
+            implementation(libs.firebase.remote.config)
 
             // Logger
             implementation(libs.kermit)
 
-            // Ktor
+            // Network
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
 
+            // Datetime
+            implementation(libs.kotlinx.datetime)
+
             // Image
-            implementation(libs.kamel.image)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+
+            // Paging
+            implementation(libs.paging.compose.common)
+
+            // connectivity
+            // TODO CHANGE IT
+            implementation("com.plusmobileapps:konnectivity:0.1-alpha01")
+
+            // Image Picker
+            implementation(libs.peekaboo.image.picker)
+
+            // Permissions
+            implementation(libs.calf.permissions)
+
+            // Notifications
+            api(libs.kmpnotifier)
+
+            // Lottie
+            implementation(libs.compottie)
         }
 
         iosMain.dependencies {
@@ -83,7 +136,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.konradjurkowski.moviehub"
+    namespace = "com.konradjurkowski.moviehub"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -91,11 +144,11 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "org.konradjurkowski.moviehub"
+        applicationId = "com.konradjurkowski.moviehub"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "0.0.1"
+        versionName = versionProperties["versionName"].toString()
+        versionCode = versionProperties["versionCode"].toString().toInt()
     }
     packaging {
         resources {
@@ -107,12 +160,47 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
     dependencies {
-        debugImplementation(libs.compose.ui.tooling)
+        debugImplementation(compose.uiTooling)
+        coreLibraryDesugaring(libs.desugar.jdk.libs)
     }
 }
 
+detekt {
+    allRules = false
+    config.setFrom("${rootProject.projectDir}/config/detekt.yml")
+    parallel = true
+    autoCorrect = true
+}
+
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = "1.8"
+    setSource(
+        files(
+            "build-logic/src/main/kotlin",
+            "build-logic/src/test/kotlin",
+            "src/androidMain/kotlin",
+            "src/commonMain/kotlin",
+            "src/iosMain/kotlin",
+            "src/jvmMain/kotlin",
+            "src/desktopMain/kotlin",
+            "src/main/kotlin",
+            "src/test/kotlin",
+            "build.gradle.kts",
+            "build.settings.kts",
+        ),
+    )
+    reports {
+        xml.outputLocation.set(file("$rootDir/reports/detekt.xml"))
+        html.outputLocation.set(file("$rootDir/reports/detekt.html"))
+        txt.outputLocation.set(file("$rootDir/reports/detekt.txt"))
+    }
+}

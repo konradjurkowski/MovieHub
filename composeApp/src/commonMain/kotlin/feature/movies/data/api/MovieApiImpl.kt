@@ -9,21 +9,51 @@ import io.ktor.http.path
 class MovieApiImpl(
     private val httpClient: HttpClient
 ) : MovieApi {
-    override suspend fun getPopularMovies(): HttpResponse =
+
+    override suspend fun getMovieById(movieId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/movie/popular") }
+            url { path("/3/movie/$movieId") }
         }
 
-    override suspend fun getTopRatedMovies(): HttpResponse =
+    override suspend fun getVideos(movieId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/movie/top_rated") }
+            url { path("/3/movie/$movieId/videos") }
         }
 
-    override suspend fun getGenres(): HttpResponse =
+    override suspend fun getWatchProviders(movieId: Long): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get
-            url { path("/3/genre/movie/list") }
+            url { path("/3/movie/$movieId/watch/providers") }
+        }
+
+    override suspend fun searchMovies(query: String, page: Int): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url {
+                path("/3/search/movie")
+                parameters.apply {
+                    append("query", query)
+                    append("page", page.toString())
+                }
+            }
+        }
+
+    override suspend fun getCredits(movieId: Long): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url { path("/3/movie/$movieId/credits") }
+        }
+
+    override suspend fun getPopularMovies(page: Int): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url {
+                path("/3/movie/popular")
+                parameters.apply {
+                    append("page", page.toString())
+                }
+            }
         }
 }

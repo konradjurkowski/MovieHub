@@ -1,7 +1,7 @@
 package core.components.button
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -9,13 +9,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import core.components.loading.LoadingIndicator
 import core.utils.Dimens
+import core.utils.LocalTouchFeedback
 
 @Composable
 fun PrimaryButton(
@@ -23,24 +22,24 @@ fun PrimaryButton(
     text: String,
     enabled: Boolean = true,
     loading: Boolean = false,
-    verticalPadding: Dp = Dimens.smallPadding,
-    horizontalPadding: Dp = Dimens.regularPadding,
+    verticalPadding: Dp = Dimens.padding8,
+    horizontalPadding: Dp = Dimens.padding16,
     onClick: () -> Unit,
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
+    val touchFeedback = LocalTouchFeedback.current
     ElevatedButton(
         modifier = modifier
-            .height(Dimens.defaultButtonHeight),
+            .heightIn(Dimens.defaultButtonHeight),
         onClick = {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+            touchFeedback.performMediumImpact()
             onClick()
         },
         contentPadding = PaddingValues(
             vertical = verticalPadding,
-            horizontal = horizontalPadding
+            horizontal = horizontalPadding,
         ),
         enabled = enabled,
-        shape = RoundedCornerShape(Dimens.regularCornerRadius),
+        shape = RoundedCornerShape(Dimens.radius12),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -49,7 +48,7 @@ fun PrimaryButton(
         if (loading) {
             LoadingIndicator(
                 size = Dimens.buttonLoadingSize,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         } else {
             Text(

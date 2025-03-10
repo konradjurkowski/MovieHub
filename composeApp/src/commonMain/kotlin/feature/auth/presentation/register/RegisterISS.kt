@@ -3,10 +3,8 @@ package feature.auth.presentation.register
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
+import core.model.ActionState
 import core.tools.validator.ValidationResult
-import core.utils.Resource
-import dev.gitlive.firebase.auth.FirebaseUser
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @MviIntent
 sealed class RegisterIntent {
@@ -17,17 +15,21 @@ sealed class RegisterIntent {
     data object TogglePasswordVisibility : RegisterIntent()
     data class RepeatedPasswordChanged(val repeatedPassword: String) : RegisterIntent()
     data object ToggleRepeatedPasswordVisibility : RegisterIntent()
-    data class SignUp(val email: String, val password: String) : RegisterIntent()
+    data class SignUp(
+        val name: String,
+        val email: String,
+        val password: String,
+        val repeatedPassword: String,
+    ) : RegisterIntent()
 }
 
 @MviSideEffect
 sealed class RegisterSideEffect {
     data object NavigateBack : RegisterSideEffect()
-    data object GoToHome : RegisterSideEffect()
+    data object NavigateForward : RegisterSideEffect()
     data class ShowError(val error: Throwable) : RegisterSideEffect()
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @MviState
 data class RegisterState(
     val name: String = "",
@@ -40,5 +42,5 @@ data class RegisterState(
     val repeatedPassword: String = "",
     val obscureRepeatedPassword: Boolean = true,
     val repeatedPasswordValidation: ValidationResult = ValidationResult(successful = true),
-    val registerState: Resource<FirebaseUser?> = Resource.Idle,
+    val registerState: ActionState = ActionState.Idle,
 )

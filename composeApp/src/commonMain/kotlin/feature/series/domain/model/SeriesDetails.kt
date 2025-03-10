@@ -1,0 +1,98 @@
+package feature.series.domain.model
+
+import core.model.media.Genre
+import core.model.media.ProductionCompany
+import core.model.media.ProductionCountry
+import core.model.media.SpokenLanguage
+import core.model.media.Video
+import core.model.media.VideoType
+import core.model.media.WatchProviderInfo
+import core.model.media.dto.CountryWatchProviders
+import core.model.media.dto.getWatchProviderDetails
+import core.model.media.dto.mergeList
+import core.utils.PlatformInfo
+import kotlinx.datetime.Instant
+
+data class SeriesDetails(
+    val id: Long,
+    val name: String,
+    val overview: String,
+    val posterPath: String? = null,
+    val backdropPath: String? = null,
+    val firstAirDate: Instant? = null,
+    val lastAirDate: Instant? = null,
+    val genres: List<Genre>,
+    val inProduction: Boolean,
+    val languages: List<String>,
+    val lastEpisodeToAir: Episode? = null,
+    val nextEpisodeToAir: Episode? = null,
+    val numberOfEpisodes: Long,
+    val numberOfSeasons: Long,
+    val originCountry: List<String>,
+    val originalLanguage: String,
+    val originalName: String,
+    val popularity: Double,
+    val productionCompanies: List<ProductionCompany>,
+    val productionCountries: List<ProductionCountry>,
+    val videoList: List<Video> = emptyList(),
+    val countryWatchProviders: CountryWatchProviders? = null,
+    val seasons: List<Season>,
+    val spokenLanguages: List<SpokenLanguage>,
+    val status: String,
+    val tagline: String,
+    val type: String,
+    val voteAverage: Double,
+    val voteCount: Long,
+    val adult: Boolean,
+)
+
+data class Episode(
+    val id: Long,
+    val name: String,
+    val overview: String,
+    val stillPath: String? = null,
+    val runtime: Long? = null,
+    val airDate: Instant? = null,
+    val episodeNumber: Long,
+    val episodeType: String,
+    val productionCode: String,
+    val seasonNumber: Long,
+    val showId: Long,
+    val voteAverage: Double,
+    val voteCount: Long,
+)
+
+data class Season(
+    val id: Long,
+    val name: String,
+    val overview: String,
+    val episodeCount: Long,
+    val posterPath: String? = null,
+    val airDate: Instant? = null,
+    val seasonNumber: Long,
+    val voteAverage: Double,
+)
+
+fun SeriesDetails.toSeries() = Series(
+    id = id,
+    name = name,
+    overview = overview,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    genreIds = genres.map { it.id },
+    language = originalLanguage,
+    popularity = popularity,
+    releaseDate = firstAirDate,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    adult = adult,
+)
+
+fun SeriesDetails.getFilteredVideoList(): List<Video> {
+    return videoList
+        .filter { it.official && it.site == "YouTube" && it.type == VideoType.TRAILER }
+}
+
+fun SeriesDetails.getWatchProviders(countryCode: String = PlatformInfo.getCountryCode()): List<WatchProviderInfo> {
+    return countryWatchProviders?.getWatchProviderDetails(countryCode)?.mergeList() ?: emptyList()
+}

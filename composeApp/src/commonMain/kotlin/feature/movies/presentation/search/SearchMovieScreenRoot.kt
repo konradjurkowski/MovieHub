@@ -1,0 +1,63 @@
+package feature.movies.presentation.search
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalFocusManager
+import app.cash.paging.compose.collectAsLazyPagingItems
+import cafe.adriel.voyager.koin.getScreenModel
+import core.architecture.BaseScreen
+import core.architecture.CollectSideEffects
+import core.navigation.GlobalNavigators
+import core.utils.LocalLoaderState
+import core.utils.LocalSnackbarState
+import core.utils.getFailureMessage
+import core.utils.safePush
+import feature.movies.presentation.search.components.SearchMovieScreen
+import feature.movies.presentation.search.SearchMovieSideEffect.GoToMoviePreview
+import feature.movies.presentation.search.SearchMovieSideEffect.HideLoaderWithError
+import feature.movies.presentation.search.SearchMovieSideEffect.HideLoaderWithSuccess
+import feature.movies.presentation.preview.MoviePreviewScreenRoot
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.search_movie_screen_add_success
+
+class SearchMovieScreenRoot : BaseScreen() {
+
+    @Composable
+    override fun Content() {
+        val snackbarState = LocalSnackbarState.current
+        val loaderState = LocalLoaderState.current
+        val focusManager = LocalFocusManager.current
+
+        val viewModel = getScreenModel<SearchMovieViewModel>()
+        val state by viewModel.viewState.collectAsState()
+        val pagingMovies = viewModel.pager.collectAsLazyPagingItems()
+
+        CollectSideEffects(viewModel.viewSideEffects) { effect ->
+            when (effect) {
+                SearchMovieSideEffect.ShowLoader -> loaderState.showLoader()
+
+                is HideLoaderWithError -> {
+                    loaderState.hideLoader()
+                    snackbarState.showError(getFailureMessage(effect.error))
+                }
+
+                is GoToMoviePreview -> {
+                    focusManager.clearFocus()
+                    GlobalNavigators.navigator?.safePush(MoviePreviewScreenRoot(effect.movie.id))
+                }
+
+                HideLoaderWithSuccess -> {
+                    loaderState.hideLoader()
+                    snackbarState.showSuccess(Res.string.search_movie_screen_add_success)
+                }
+            }
+        }
+
+        SearchMovieScreen(
+            pagingMovies = pagingMovies,
+            state = state,
+            onIntent = viewModel::sendIntent,
+        )
+    }
+}

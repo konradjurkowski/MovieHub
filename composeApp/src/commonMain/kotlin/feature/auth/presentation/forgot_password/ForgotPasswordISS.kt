@@ -3,9 +3,8 @@ package feature.auth.presentation.forgot_password
 import core.architecture.MviIntent
 import core.architecture.MviSideEffect
 import core.architecture.MviState
+import core.model.ActionState
 import core.tools.validator.ValidationResult
-import core.utils.Resource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @MviIntent
 sealed class ForgotPasswordIntent {
@@ -21,10 +20,9 @@ sealed class ForgotPasswordSideEffect {
     data object GoToLogin : ForgotPasswordSideEffect()
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @MviState
 data class ForgotPasswordState(
     val email: String = "",
     val emailValidation: ValidationResult = ValidationResult(successful = true),
-    val resetState: Resource<Unit> = Resource.Idle,
+    val resetState: ActionState = ActionState.Idle,
 )

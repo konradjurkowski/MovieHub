@@ -1,63 +1,48 @@
 package feature.series.presentation.series
 
-import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import core.utils.FailureResponseException
-import core.utils.Resource
-import feature.movies.data.api.dto.Genre
+import core.architecture.BaseViewModel
+import core.model.Response
+import core.tools.dispatcher.DispatchersProvider
 import feature.series.data.repository.SeriesRepository
-import feature.series.domain.model.SeriesOverview
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import feature.series.presentation.series.SeriesIntent.AddSeriesPressed
+import feature.series.presentation.series.SeriesIntent.SeriesPressed
+import feature.series.presentation.series.SeriesIntent.Refresh
+import feature.series.presentation.series.SeriesSideEffect.GoToAddSeries
+import feature.series.presentation.series.SeriesSideEffect.GoToSeriesDetail
+import feature.series.presentation.series.SeriesState.Idle
+import feature.series.presentation.series.SeriesState.Loading
+import feature.series.presentation.series.SeriesState.Success
+import feature.series.presentation.series.SeriesState.Error
 import kotlinx.coroutines.launch
-
-typealias SeriesState = Resource<SeriesOverview>
+import kotlinx.coroutines.Job
 
 class SeriesViewModel(
-    private val repository: SeriesRepository
-) : ScreenModel {
-    private val _state = MutableStateFlow<SeriesState>(Resource.Idle)
-    val state: StateFlow<SeriesState> = _state.asStateFlow()
+    private val repository: SeriesRepository,
+    private val dispatchersProvider: DispatchersProvider,
+) : BaseViewModel<SeriesIntent, SeriesSideEffect, SeriesState>() {
 
-    init {
-        fetchSeries()
+    private var loadSeriesJob: Job? = null
+
+    override fun getDefaultState() = Idle
+
+    override fun processIntent(intent: SeriesIntent) {
+        when (intent) {
+            Refresh -> getSeries()
+            is SeriesPressed -> sendSideEffect(GoToSeriesDetail(intent.series))
+            is AddSeriesPressed -> sendSideEffect(GoToAddSeries)
+        }
     }
 
-    fun fetchSeries() {
-        if (_state.value.isLoading()) return
+    fun getSeries() {
+        if (loadSeriesJob?.isActive == true) return
+        if (viewState.value.isIdle()) updateViewState { Loading }
 
-        _state.value = Resource.Loading
-        screenModelScope.launch(Dispatchers.IO) {
-            val popularFuture = async { repository.getPopularSeries() }
-            val topRatedFuture = async { repository.getTopRatedSeries() }
-            val genresFuture = async {
-                when (localSeriesGenresList.isEmpty()) {
-                    true -> repository.getGenres()
-                    false -> Resource.Success(localSeriesGenresList)
-                }
-            }
-
-            val popularResult = popularFuture.await()
-            val topRatedResult = topRatedFuture.await()
-            val genresResult = genresFuture.await()
-
-            if (popularResult.isSuccess() && topRatedResult.isSuccess() && genresResult.isSuccess()) {
-                val popularSeries = popularResult.getSuccess() ?: emptyList()
-                val topRatedSeries = topRatedResult.getSuccess() ?: emptyList()
-                val genresList = genresResult.getSuccess() ?: emptyList()
-                localSeriesGenresList = genresList
-
-                val seriesOverview = SeriesOverview(popularSeries, topRatedSeries)
-                _state.value = Resource.Success(seriesOverview)
-            } else {
-                _state.value = Resource.Failure(FailureResponseException())
+        loadSeriesJob = screenModelScope.launch(dispatchersProvider.io) {
+            when (val result = repository.getFirebaseSeries()) {
+                is Response.Success -> updateViewState { Success(result.data) }
+                is Response.Failure -> updateViewState { Error(result.error) }
             }
         }
     }
 }
-
-var localSeriesGenresList: List<Genre> = emptyList()

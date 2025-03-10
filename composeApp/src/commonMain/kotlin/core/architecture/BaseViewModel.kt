@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private const val BUFFER_CAPACITY = 64
+const val BUFFER_CAPACITY = 64
 const val SIDE_EFFECTS_KEY = "SIDE_EFFECTS_KEY"
 
 abstract class BaseViewModel<ViewIntent, ViewSideEffect, ViewState> : ScreenModel {
@@ -21,7 +21,7 @@ abstract class BaseViewModel<ViewIntent, ViewSideEffect, ViewState> : ScreenMode
     protected abstract fun getDefaultState(): ViewState
     protected abstract fun processIntent(intent: ViewIntent)
 
-    private val _viewState by lazy { MutableStateFlow(getDefaultState()) }
+    protected val _viewState by lazy { MutableStateFlow(getDefaultState()) }
     val viewState = _viewState.asStateFlow()
 
     private val _viewSideEffects = Channel<ViewSideEffect>(BUFFER_CAPACITY)
@@ -50,6 +50,16 @@ abstract class BaseViewModel<ViewIntent, ViewSideEffect, ViewState> : ScreenMode
     fun sendIntent(action: ViewIntent) {
         _viewIntents.tryEmit(action)
     }
+}
+
+inline fun <reified T> MutableStateFlow<in T>.transformIf(noinline transform: T.() -> T) {
+    if (value !is T) return
+    value = transform(value as T)
+}
+
+inline fun <reified T> MutableStateFlow<in T>.invokeIf(noinline action: T.() -> Unit) {
+    if (value !is T) return
+    action(value as T)
 }
 
 @Composable

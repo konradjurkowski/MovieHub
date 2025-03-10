@@ -1,5 +1,6 @@
 package core.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
@@ -82,13 +83,10 @@ val darkScheme = darkColorScheme(
 )
 
 @Composable
-fun MovieHubTheme(
-    isDarkTheme: Boolean,
-    content: @Composable () -> Unit
-) {
+fun MovieHubTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = if (isDarkTheme) darkScheme else lightScheme,
-        typography = AppTypography,
-        content = content
+        colorScheme = if (isSystemInDarkTheme()) darkScheme else lightScheme,
+        typography = AppTypography(),
+        content = content,
     )
 }
