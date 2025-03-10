@@ -57,6 +57,7 @@ gradlePlugins-crashlytics = "3.0.2"
 desugar_jdk_libs = "2.1.4"
 kotlin = "2.1.0"
 stately = "2.0.6"
+detekt = "1.23.6"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -102,3 +103,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 google-services = { id = "com.google.gms.google-services", version.ref = "gradlePlugins-google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "gradlePlugins-crashlytics" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

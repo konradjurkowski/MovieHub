@@ -1,4 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
@@ -12,6 +13,7 @@ plugins {
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.serialization)
     alias(libs.plugins.buildKonfig)
+    alias(libs.plugins.detekt)
 }
 
 val versionPropertiesFile = file("../version.properties")
@@ -172,3 +174,33 @@ android {
     }
 }
 
+detekt {
+    allRules = false
+    config.setFrom("${rootProject.projectDir}/config/detekt.yml")
+    parallel = true
+    autoCorrect = true
+}
+
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = "1.8"
+    setSource(
+        files(
+            "build-logic/src/main/kotlin",
+            "build-logic/src/test/kotlin",
+            "src/androidMain/kotlin",
+            "src/commonMain/kotlin",
+            "src/iosMain/kotlin",
+            "src/jvmMain/kotlin",
+            "src/desktopMain/kotlin",
+            "src/main/kotlin",
+            "src/test/kotlin",
+            "build.gradle.kts",
+            "build.settings.kts",
+        ),
+    )
+    reports {
+        xml.outputLocation.set(file("$rootDir/reports/detekt.xml"))
+        html.outputLocation.set(file("$rootDir/reports/detekt.html"))
+        txt.outputLocation.set(file("$rootDir/reports/detekt.txt"))
+    }
+}
