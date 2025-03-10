@@ -18,23 +18,23 @@ fun HomeDrawMediaSection(
     onDrawMoviePressed: () -> Unit,
     onDrawSeriesPressed: () -> Unit,
 ) {
-    if (movies.isNotEmpty() || series.isNotEmpty()) {
-        Row(
-            modifier = modifier
-                .padding(horizontal = Dimens.padding16)
-                .padding(bottom = Dimens.padding16),
-        ) {
-            HomeDrawMediaButton(
-                modifier = Modifier.weight(1f),
-                drawType = DrawType.MOVIE,
-                onPressed = onDrawMoviePressed,
-            )
-            if (movies.isNotEmpty() && series.isNotEmpty()) RegularSpacer()
-            HomeDrawMediaButton(
-                modifier = Modifier.weight(1f),
-                drawType = DrawType.SERIES,
-                onPressed = onDrawSeriesPressed,
-            )
-        }
+    if (movies.isEmpty() && series.isEmpty()) return
+
+    Row(
+        modifier = modifier
+            .padding(horizontal = Dimens.padding16)
+            .padding(bottom = Dimens.padding16),
+    ) {
+        if (movies.isNotEmpty()) HomeDrawMediaButton(
+            modifier = Modifier.weight(1f),
+            drawType = DrawType.MOVIE,
+            onPressed = onDrawMoviePressed,
+        )
+        if (movies.isNotEmpty() && series.isNotEmpty()) RegularSpacer()
+        if (series.isNotEmpty()) HomeDrawMediaButton(
+            modifier = Modifier.weight(1f),
+            drawType = DrawType.SERIES,
+            onPressed = onDrawSeriesPressed,
+        )
     }
 }
