@@ -8,7 +8,17 @@ import androidx.compose.ui.Modifier
 import core.components.media.details.MediaDetailsFailure
 import core.components.media.details.MediaDetailsLoading
 import feature.series.presentation.details.SeriesDetailsIntent
+import feature.series.presentation.details.SeriesDetailsIntent.AddCommentPressed
+import feature.series.presentation.details.SeriesDetailsIntent.BackPressed
+import feature.series.presentation.details.SeriesDetailsIntent.DeleteCommentPressed
+import feature.series.presentation.details.SeriesDetailsIntent.SetTab
+import feature.series.presentation.details.SeriesDetailsIntent.Refresh
+import feature.series.presentation.details.SeriesDetailsIntent.VideoPressed
 import feature.series.presentation.details.SeriesDetailsState
+import feature.series.presentation.details.SeriesDetailsState.Idle
+import feature.series.presentation.details.SeriesDetailsState.Loading
+import feature.series.presentation.details.SeriesDetailsState.Success
+import feature.series.presentation.details.SeriesDetailsState.Error
 
 @Composable
 fun SeriesDetailsScreen(
@@ -18,27 +28,28 @@ fun SeriesDetailsScreen(
     Scaffold {
         Box(modifier = Modifier.fillMaxSize()) {
             when (state) {
-                is SeriesDetailsState.Success -> {
+                is Success -> {
                     SeriesDetailsSuccess(
                         series = state.series,
                         firebaseSeries = state.firebaseSeries,
                         castData = state.castData,
                         users = state.users,
                         selectedTab = state.selectedTab,
-                        onBackPressed = { onIntent(SeriesDetailsIntent.BackPressed) },
-                        onAddCommentPressed = { onIntent(SeriesDetailsIntent.AddCommentPressed(it)) },
-                        onDeleteCommentPressed = {onIntent(SeriesDetailsIntent.DeleteCommentPressed(it))},
-                        onTabPressed = { onIntent(SeriesDetailsIntent.SetTab(it)) },
+                        onBackPressed = { onIntent(BackPressed) },
+                        onAddCommentPressed = { onIntent(AddCommentPressed(it)) },
+                        onDeleteCommentPressed = {onIntent(DeleteCommentPressed(it))},
+                        onTabPressed = { onIntent(SetTab(it)) },
+                        onVideoPressed = { onIntent(VideoPressed(it)) },
                     )
                 }
-                SeriesDetailsState.Idle, SeriesDetailsState.Loading -> {
-                    MediaDetailsLoading { onIntent(SeriesDetailsIntent.BackPressed) }
+                Idle, Loading -> {
+                    MediaDetailsLoading { onIntent(BackPressed) }
                 }
 
-                is SeriesDetailsState.Error -> {
+                is Error -> {
                     MediaDetailsFailure(
-                        onRefresh = { onIntent(SeriesDetailsIntent.Refresh) },
-                        onBackPressed = { onIntent(SeriesDetailsIntent.BackPressed) },
+                        onRefresh = { onIntent(Refresh) },
+                        onBackPressed = { onIntent(BackPressed) },
                     )
                 }
             }

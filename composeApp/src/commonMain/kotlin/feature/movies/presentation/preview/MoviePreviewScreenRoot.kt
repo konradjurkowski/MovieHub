@@ -12,6 +12,11 @@ import core.utils.LocalLoaderState
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.movies.presentation.preview.components.MoviePreviewScreen
+import feature.movies.presentation.preview.MoviePreviewSideEffect.HideLoaderWithError
+import feature.movies.presentation.preview.MoviePreviewSideEffect.HideLoaderWithSuccess
+import feature.movies.presentation.preview.MoviePreviewSideEffect.NavigateBack
+import feature.movies.presentation.preview.MoviePreviewSideEffect.OpenUrl
+import feature.movies.presentation.preview.MoviePreviewSideEffect.ShowLoader
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.movie_screen_preview_add_success
 import org.koin.core.parameter.parametersOf
@@ -29,20 +34,19 @@ class MoviePreviewScreenRoot(val movieId: Long) : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                MoviePreviewSideEffect.NavigateBack -> GlobalNavigators.navigator?.pop()
-                is MoviePreviewSideEffect.OpenUrl -> uriHandler.openUri(effect.url)
+                NavigateBack -> GlobalNavigators.navigator?.pop()
+                is ShowLoader -> loaderState.showLoader()
+                is OpenUrl -> uriHandler.openUri(effect.url)
 
-                MoviePreviewSideEffect.HideLoaderWithSuccess -> {
+                HideLoaderWithSuccess -> {
                     loaderState.hideLoader()
                     snackbarState.showSuccess(Res.string.movie_screen_preview_add_success)
                 }
 
-                is MoviePreviewSideEffect.HideLoaderWithError -> {
+                is HideLoaderWithError -> {
                     loaderState.hideLoader()
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
-
-                is MoviePreviewSideEffect.ShowLoader -> loaderState.showLoader()
             }
         }
 

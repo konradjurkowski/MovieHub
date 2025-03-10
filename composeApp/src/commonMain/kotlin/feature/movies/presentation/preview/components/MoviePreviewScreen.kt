@@ -10,7 +10,15 @@ import core.components.button.AddMediaButton
 import core.components.media.details.MediaDetailsFailure
 import core.components.media.details.MediaDetailsLoading
 import feature.movies.presentation.preview.MoviePreviewIntent
+import feature.movies.presentation.preview.MoviePreviewIntent.BackPressed
+import feature.movies.presentation.preview.MoviePreviewIntent.MovieAddPressed
+import feature.movies.presentation.preview.MoviePreviewIntent.Refresh
+import feature.movies.presentation.preview.MoviePreviewIntent.VideoPressed
 import feature.movies.presentation.preview.MoviePreviewState
+import feature.movies.presentation.preview.MoviePreviewState.Idle
+import feature.movies.presentation.preview.MoviePreviewState.Loading
+import feature.movies.presentation.preview.MoviePreviewState.Success
+import feature.movies.presentation.preview.MoviePreviewState.Error
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.movie_screen_preview_add_movie
 import moviehub.composeapp.generated.resources.movie_screen_preview_movie_added
@@ -30,7 +38,7 @@ fun MoviePreviewScreen(
                 isAdded = state.isMediaAdded(),
                 onClick = {
                     val movie = state.getSuccess()?.movie
-                    if (movie != null) onIntent(MoviePreviewIntent.MovieAddPressed(movie))
+                    if (movie != null) onIntent(MovieAddPressed(movie))
                 },
             )
         },
@@ -41,21 +49,21 @@ fun MoviePreviewScreen(
                 .fillMaxSize(),
         ) {
             when (state) {
-                is MoviePreviewState.Success -> {
+                is Success -> {
                     MoviePreviewSuccess(
                         movie = state.movie,
                         castData = state.castData,
-                        onBackPressed = { onIntent(MoviePreviewIntent.BackPressed) },
-                        onVideoPressed = { onIntent(MoviePreviewIntent.VideoPressed(it)) },
+                        onBackPressed = { onIntent(BackPressed) },
+                        onVideoPressed = { onIntent(VideoPressed(it)) },
                     )
                 }
 
-                MoviePreviewState.Idle, MoviePreviewState.Loading -> MediaDetailsLoading { onIntent(MoviePreviewIntent.BackPressed) }
+                Idle, Loading -> MediaDetailsLoading { onIntent(BackPressed) }
 
-                is MoviePreviewState.Error -> {
+                is Error -> {
                     MediaDetailsFailure(
-                        onBackPressed = { onIntent(MoviePreviewIntent.BackPressed) },
-                        onRefresh = { onIntent(MoviePreviewIntent.Refresh) },
+                        onBackPressed = { onIntent(BackPressed) },
+                        onRefresh = { onIntent(Refresh) },
                     )
                 }
             }

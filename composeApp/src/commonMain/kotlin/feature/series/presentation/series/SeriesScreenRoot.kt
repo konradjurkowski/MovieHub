@@ -10,6 +10,8 @@ import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import core.utils.safePush
 import feature.series.presentation.series.components.SeriesScreen
+import feature.series.presentation.series.SeriesSideEffect.GoToAddSeries
+import feature.series.presentation.series.SeriesSideEffect.GoToSeriesDetail
 import feature.series.presentation.details.SeriesDetailsScreenRoot
 import feature.series.presentation.search.SearchSeriesScreenRoot
 
@@ -26,11 +28,11 @@ class SeriesScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is SeriesSideEffect.GoToSeriesDetail -> {
+                is GoToSeriesDetail -> {
                     GlobalNavigators.navigator?.safePush(SeriesDetailsScreenRoot(effect.series.seriesId))
                 }
 
-                is SeriesSideEffect.GoToAddSeries -> {
+                is GoToAddSeries -> {
                     GlobalNavigators.navigator?.safePush(SearchSeriesScreenRoot())
                 }
             }

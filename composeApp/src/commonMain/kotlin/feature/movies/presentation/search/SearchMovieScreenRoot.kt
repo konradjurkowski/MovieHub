@@ -14,6 +14,9 @@ import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import core.utils.safePush
 import feature.movies.presentation.search.components.SearchMovieScreen
+import feature.movies.presentation.search.SearchMovieSideEffect.GoToMoviePreview
+import feature.movies.presentation.search.SearchMovieSideEffect.HideLoaderWithError
+import feature.movies.presentation.search.SearchMovieSideEffect.HideLoaderWithSuccess
 import feature.movies.presentation.preview.MoviePreviewScreenRoot
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.search_movie_screen_add_success
@@ -32,22 +35,22 @@ class SearchMovieScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is SearchMovieSideEffect.HideLoaderWithError -> {
+                SearchMovieSideEffect.ShowLoader -> loaderState.showLoader()
+
+                is HideLoaderWithError -> {
                     loaderState.hideLoader()
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
 
-                is SearchMovieSideEffect.GoToMoviePreview -> {
+                is GoToMoviePreview -> {
                     focusManager.clearFocus()
                     GlobalNavigators.navigator?.safePush(MoviePreviewScreenRoot(effect.movie.id))
                 }
 
-                SearchMovieSideEffect.HideLoaderWithSuccess -> {
+                HideLoaderWithSuccess -> {
                     loaderState.hideLoader()
                     snackbarState.showSuccess(Res.string.search_movie_screen_add_success)
                 }
-
-                SearchMovieSideEffect.ShowLoader -> loaderState.showLoader()
             }
         }
 

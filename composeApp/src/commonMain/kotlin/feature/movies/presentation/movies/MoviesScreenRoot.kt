@@ -11,6 +11,8 @@ import core.navigation.GlobalNavigators
 import core.utils.safePush
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.movies.presentation.movies.components.MoviesScreen
+import feature.movies.presentation.movies.MoviesSideEffect.GoToAddMovie
+import feature.movies.presentation.movies.MoviesSideEffect.GoToMovieDetail
 import feature.movies.presentation.search.SearchMovieScreenRoot
 
 class MoviesScreenRoot : BaseScreen() {
@@ -26,11 +28,11 @@ class MoviesScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is MoviesSideEffect.GoToMovieDetail -> {
+                is GoToMovieDetail -> {
                     GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
-                is MoviesSideEffect.GoToAddMovie -> {
+                is GoToAddMovie -> {
                     GlobalNavigators.navigator?.safePush(SearchMovieScreenRoot())
                 }
             }

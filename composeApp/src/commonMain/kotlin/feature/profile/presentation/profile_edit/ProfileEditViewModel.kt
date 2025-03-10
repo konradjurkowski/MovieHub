@@ -8,6 +8,16 @@ import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
 import core.utils.GenericException
 import feature.auth.data.remote.AuthService
+import feature.profile.presentation.profile_edit.ProfileEditIntent.DescriptionChanged
+import feature.profile.presentation.profile_edit.ProfileEditIntent.DismissPermissionDialog
+import feature.profile.presentation.profile_edit.ProfileEditIntent.ImageChanged
+import feature.profile.presentation.profile_edit.ProfileEditIntent.NameChanged
+import feature.profile.presentation.profile_edit.ProfileEditIntent.OnEditImagePressed
+import feature.profile.presentation.profile_edit.ProfileEditIntent.SavePressed
+import feature.profile.presentation.profile_edit.ProfileEditIntent.ShowPermissionDialog
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.OpenGalleryOrCheckPermission
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowError
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowSuccessAndNavigateBack
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,13 +35,13 @@ class ProfileEditViewModel(
 
     override fun processIntent(intent: ProfileEditIntent) {
         when (intent) {
-            is ProfileEditIntent.DescriptionChanged -> updateViewState { copy(description = intent.description) }
-            is ProfileEditIntent.ImageChanged -> updateViewState { copy(image = intent.image) }
-            is ProfileEditIntent.NameChanged -> updateViewState { copy(name = intent.name) }
-            ProfileEditIntent.OnEditImagePressed ->  sendSideEffect(ProfileEditSideEffect.OpenGalleryOrCheckPermission)
-            is ProfileEditIntent.SavePressed -> sendUserData(intent.name, intent.description, intent.image?.array)
-            ProfileEditIntent.DismissPermissionDialog -> updateViewState { copy(showPermissionDialog = false) }
-            ProfileEditIntent.ShowPermissionDialog -> updateViewState { copy(showPermissionDialog = true) }
+            is DescriptionChanged -> updateViewState { copy(description = intent.description) }
+            is ImageChanged -> updateViewState { copy(image = intent.image) }
+            is NameChanged -> updateViewState { copy(name = intent.name) }
+            OnEditImagePressed ->  sendSideEffect(OpenGalleryOrCheckPermission)
+            is SavePressed -> sendUserData(intent.name, intent.description, intent.image?.array)
+            DismissPermissionDialog -> updateViewState { copy(showPermissionDialog = false) }
+            ShowPermissionDialog -> updateViewState { copy(showPermissionDialog = true) }
         }
     }
 
@@ -56,7 +66,7 @@ class ProfileEditViewModel(
                     }
                     is Response.Failure -> {
                         updateViewState { copy(editState = ActionState.Failure(result.error)) }
-                        sendSideEffect(ProfileEditSideEffect.ShowError(result.error))
+                        sendSideEffect(ShowError(result.error))
                     }
                 }
             }
@@ -74,7 +84,7 @@ class ProfileEditViewModel(
         val user = viewState.value.appUser
         if (user == null) {
             val error = GenericException()
-            sendSideEffect(ProfileEditSideEffect.ShowError(error))
+            sendSideEffect(ShowError(error))
             updateViewState { copy(editState = ActionState.Failure(error)) }
             return
         }
@@ -90,11 +100,11 @@ class ProfileEditViewModel(
                 is Response.Success -> {
                     authService.getAppUser(refresh = true)
                     updateViewState { copy(editState = ActionState.Success) }
-                    sendSideEffect(ProfileEditSideEffect.ShowSuccessAndNavigateBack)
+                    sendSideEffect(ShowSuccessAndNavigateBack)
                 }
                 is Response.Failure -> {
                     updateViewState { copy(editState = ActionState.Failure(result.error)) }
-                    sendSideEffect(ProfileEditSideEffect.ShowError(result.error))
+                    sendSideEffect(ShowError(result.error))
                 }
             }
         }

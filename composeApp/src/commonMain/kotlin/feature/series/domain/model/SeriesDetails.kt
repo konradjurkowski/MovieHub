@@ -4,6 +4,12 @@ import core.model.media.Genre
 import core.model.media.ProductionCompany
 import core.model.media.ProductionCountry
 import core.model.media.SpokenLanguage
+import core.model.media.Video
+import core.model.media.WatchProviderInfo
+import core.model.media.dto.CountryWatchProviders
+import core.model.media.dto.getWatchProviderDetails
+import core.model.media.dto.mergeList
+import core.utils.PlatformInfo
 import kotlinx.datetime.Instant
 
 data class SeriesDetails(
@@ -27,6 +33,8 @@ data class SeriesDetails(
     val popularity: Double,
     val productionCompanies: List<ProductionCompany>,
     val productionCountries: List<ProductionCountry>,
+    val videoList: List<Video> = emptyList(),
+    val countryWatchProviders: CountryWatchProviders? = null,
     val seasons: List<Season>,
     val spokenLanguages: List<SpokenLanguage>,
     val status: String,
@@ -78,3 +86,7 @@ fun SeriesDetails.toSeries() = Series(
     voteCount = voteCount,
     adult = adult,
 )
+
+fun SeriesDetails.getWatchProviders(countryCode: String = PlatformInfo.getCountryCode()): List<WatchProviderInfo> {
+    return countryWatchProviders?.getWatchProviderDetails(countryCode)?.mergeList() ?: emptyList()
+}

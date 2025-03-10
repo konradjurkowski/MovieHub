@@ -11,6 +11,10 @@ import core.navigation.GlobalNavigators
 import core.utils.safePush
 import feature.home.presentation.draw.DrawMediaScreenRoot
 import feature.home.presentation.home.components.HomeScreen
+import feature.home.presentation.home.HomeSideEffect.GoToDrawMedia
+import feature.home.presentation.home.HomeSideEffect.GoToMovieDetails
+import feature.home.presentation.home.HomeSideEffect.GoToProfileTab
+import feature.home.presentation.home.HomeSideEffect.GoToSeriesDetails
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.profile.presentation.tab.ProfileTab
 import feature.series.presentation.details.SeriesDetailsScreenRoot
@@ -28,19 +32,19 @@ class HomeScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is HomeSideEffect.GoToMovieDetails -> {
+                is GoToMovieDetails -> {
                     GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
-                is HomeSideEffect.GoToSeriesDetails -> {
+                is GoToSeriesDetails -> {
                     GlobalNavigators.navigator?.safePush(SeriesDetailsScreenRoot(effect.series.seriesId))
                 }
 
-                is HomeSideEffect.GoToDrawMedia -> {
+                is GoToDrawMedia -> {
                     GlobalNavigators.navigator?.safePush(DrawMediaScreenRoot(effect.drawType))
                 }
 
-                HomeSideEffect.GoToProfileTab -> {
+                GoToProfileTab -> {
                     GlobalNavigators.tabNavigator?.current = ProfileTab
                 }
             }

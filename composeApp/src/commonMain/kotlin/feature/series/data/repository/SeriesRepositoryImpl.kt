@@ -17,6 +17,10 @@ import dev.gitlive.firebase.firestore.FirebaseFirestore
 import core.model.media.dto.CastResponse
 import core.model.media.dto.toDomain
 import core.model.media.CastData
+import core.model.media.Video
+import core.model.media.dto.CountryWatchProviders
+import core.model.media.dto.VideoResponse
+import core.model.media.dto.WatchProviderResponse
 import feature.movies.domain.model.FirebaseRating
 import feature.movies.domain.model.calculateAvgRating
 import feature.series.data.api.SeriesApi
@@ -37,9 +41,33 @@ class SeriesRepositoryImpl(
     private val konnectivity: Konnectivity,
 ) : SeriesRepository {
 
-    override suspend fun getSeriesById(seriesId: Long): Response<SeriesDetails> =
-        safeApiCall(call = { seriesApi.getSeriesById(seriesId) }) { response ->
-            Response.Success(response.body<SeriesDetailsDto>().toDomain())
+    override suspend fun getSeriesById(seriesId: Long): Response<SeriesDetails> {
+        val videListResult = getVideos(seriesId)
+        if (videListResult.isFailure()) return Response.Failure(FailureResponseException())
+
+        val watchProvidersResult = getWatchProviders(seriesId)
+        if (watchProvidersResult.isFailure()) return Response.Failure(FailureResponseException())
+
+        val videoList = videListResult.getSuccess() ?: emptyList()
+        val watchProviders = watchProvidersResult.getSuccess()
+        return safeApiCall(call = { seriesApi.getSeriesById(seriesId) }) { response ->
+            val series = response.body<SeriesDetailsDto>().toDomain()
+            val updatedSeries = series.copy(
+                videoList = videoList,
+                countryWatchProviders = watchProviders,
+            )
+            Response.Success(updatedSeries)
+        }
+    }
+
+    override suspend fun getVideos(seriesId: Long): Response<List<Video>> =
+        safeApiCall(call = { seriesApi.getVideos(seriesId) }) { response ->
+            Response.Success(response.body<VideoResponse>().results.map { it.toDomain() })
+        }
+
+    override suspend fun getWatchProviders(seriesId: Long): Response<CountryWatchProviders> =
+        safeApiCall(call = { seriesApi.getWatchProviders(seriesId) }) { response ->
+            Response.Success(response.body<WatchProviderResponse>().results)
         }
 
     override suspend fun getCredits(seriesId: Long): Response<CastData> =

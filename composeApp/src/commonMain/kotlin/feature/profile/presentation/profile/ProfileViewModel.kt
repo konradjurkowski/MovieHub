@@ -4,6 +4,10 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.tools.dispatcher.DispatchersProvider
 import feature.auth.data.remote.AuthService
+import feature.profile.presentation.profile.ProfileIntent.EditProfilePressed
+import feature.profile.presentation.profile.ProfileIntent.LogoutPressed
+import feature.profile.presentation.profile.ProfileSideEffect.GoToLoginScreen
+import feature.profile.presentation.profile.ProfileSideEffect.GoToProfileEditScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -22,15 +26,15 @@ class ProfileViewModel(
 
     override fun processIntent(intent: ProfileIntent) {
         when (intent) {
-            ProfileIntent.LogoutPressed -> logout()
-            ProfileIntent.EditProfilePressed -> sendSideEffect(ProfileSideEffect.GoToProfileEditScreen)
+            LogoutPressed -> logout()
+            EditProfilePressed -> sendSideEffect(GoToProfileEditScreen)
         }
     }
 
     private fun logout() {
         screenModelScope.launch(dispatchersProvider.io) {
             authService.logout()
-            sendSideEffect(ProfileSideEffect.GoToLoginScreen)
+            sendSideEffect(GoToLoginScreen)
         }
     }
 

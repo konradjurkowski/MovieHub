@@ -13,6 +13,13 @@ import feature.movies.data.api.MovieApi
 import feature.movies.data.paging.PopularMoviePagingSource
 import feature.movies.data.repository.MovieRepository
 import feature.movies.data.storage.MovieRegistry
+import feature.movies.presentation.search.SearchMovieIntent.ClearQueryPressed
+import feature.movies.presentation.search.SearchMovieIntent.MovieAddPressed
+import feature.movies.presentation.search.SearchMovieIntent.MovieCardPressed
+import feature.movies.presentation.search.SearchMovieIntent.QueryChanged
+import feature.movies.presentation.search.SearchMovieSideEffect.GoToMoviePreview
+import feature.movies.presentation.search.SearchMovieSideEffect.HideLoaderWithError
+import feature.movies.presentation.search.SearchMovieSideEffect.HideLoaderWithSuccess
 import feature.movies.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,12 +63,11 @@ class SearchMovieViewModel(
 
     override fun processIntent(intent: SearchMovieIntent) {
         when (intent) {
-            is SearchMovieIntent.QueryChanged -> updateQuery(intent.query)
-            is SearchMovieIntent.MovieAddPressed -> addMovie(intent.movie)
-            is SearchMovieIntent.MovieCardPressed -> sendSideEffect(
-                SearchMovieSideEffect.GoToMoviePreview(intent.movie)
-            )
-            SearchMovieIntent.ClearQueryPressed -> {
+            is QueryChanged -> updateQuery(intent.query)
+            is MovieAddPressed -> addMovie(intent.movie)
+            is MovieCardPressed -> sendSideEffect(GoToMoviePreview(intent.movie))
+
+            ClearQueryPressed -> {
                 val addedMovieIds = viewState.value.addedMovieIds
                 updateViewState { SearchMovieState(addedMovieIds = addedMovieIds) }
                 _searchQuery.value = ""
@@ -75,10 +81,10 @@ class SearchMovieViewModel(
             when (val result = movieRepository.addFirebaseMovie(movie)) {
                 is Response.Success -> {
                     movieRegistry.addMovie(movie.id)
-                    sendSideEffect(SearchMovieSideEffect.HideLoaderWithSuccess)
+                    sendSideEffect(HideLoaderWithSuccess)
                 }
                 is Response.Failure -> {
-                    sendSideEffect(SearchMovieSideEffect.HideLoaderWithError(result.error))
+                    sendSideEffect(HideLoaderWithError(result.error))
                 }
             }
         }

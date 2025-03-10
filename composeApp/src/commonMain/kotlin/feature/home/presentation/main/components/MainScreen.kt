@@ -20,6 +20,7 @@ import core.theme.withA10
 import core.theme.withA20
 import core.utils.Dimens
 import feature.home.presentation.main.MainScreenIntent
+import feature.home.presentation.main.MainScreenIntent.TabPressed
 
 @Composable
 fun MainScreen(
@@ -58,7 +59,7 @@ fun MainScreen(
                         NavigationItem(
                             tab = tab,
                             selected = it.current == tab,
-                            onClick = { onIntent(MainScreenIntent.TabPressed(tab)) },
+                            onClick = { onIntent(TabPressed(tab)) },
                         )
                     }
                 }

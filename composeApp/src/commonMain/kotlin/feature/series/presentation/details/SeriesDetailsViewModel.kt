@@ -4,12 +4,29 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.architecture.transformIf
 import core.model.Response
+import core.model.media.getVideoUrl
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.event_bus.EventBus
 import core.tools.event_bus.RefreshSeries
 import feature.auth.data.remote.AuthService
 import feature.movies.domain.model.FirebaseRating
 import feature.series.data.repository.SeriesRepository
+import feature.series.presentation.details.SeriesDetailsIntent.AddCommentPressed
+import feature.series.presentation.details.SeriesDetailsIntent.BackPressed
+import feature.series.presentation.details.SeriesDetailsIntent.DeleteCommentPressed
+import feature.series.presentation.details.SeriesDetailsIntent.SetTab
+import feature.series.presentation.details.SeriesDetailsIntent.Refresh
+import feature.series.presentation.details.SeriesDetailsIntent.VideoPressed
+import feature.series.presentation.details.SeriesDetailsSideEffect.GoToAddComment
+import feature.series.presentation.details.SeriesDetailsSideEffect.HideLoaderWithError
+import feature.series.presentation.details.SeriesDetailsSideEffect.HideLoaderWithSuccess
+import feature.series.presentation.details.SeriesDetailsSideEffect.NavigateBack
+import feature.series.presentation.details.SeriesDetailsSideEffect.OpenUrl
+import feature.series.presentation.details.SeriesDetailsSideEffect.ShowLoader
+import feature.series.presentation.details.SeriesDetailsState.Idle
+import feature.series.presentation.details.SeriesDetailsState.Loading
+import feature.series.presentation.details.SeriesDetailsState.Success
+import feature.series.presentation.details.SeriesDetailsState.Error
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
@@ -29,20 +46,21 @@ class SeriesDetailsViewModel(
         getSeriesDetails()
     }
 
-    override fun getDefaultState() = SeriesDetailsState.Idle
+    override fun getDefaultState() = Idle
 
     override fun processIntent(intent: SeriesDetailsIntent) {
         when (intent) {
-            SeriesDetailsIntent.BackPressed -> sendSideEffect(SeriesDetailsSideEffect.NavigateBack)
-            SeriesDetailsIntent.Refresh -> getSeriesDetails()
-            is SeriesDetailsIntent.SetTab -> _viewState.transformIf<SeriesDetailsState.Success> { copy(selectedTab = intent.tab) }
-            is SeriesDetailsIntent.AddCommentPressed -> sendSideEffect(SeriesDetailsSideEffect.GoToAddComment(intent.firebaseRating))
-            is SeriesDetailsIntent.DeleteCommentPressed -> deleteComment(intent.firebaseRating)
+            BackPressed -> sendSideEffect(NavigateBack)
+            Refresh -> getSeriesDetails()
+            is SetTab -> _viewState.transformIf<Success> { copy(selectedTab = intent.tab) }
+            is AddCommentPressed -> sendSideEffect(GoToAddComment(intent.firebaseRating))
+            is DeleteCommentPressed -> deleteComment(intent.firebaseRating)
+            is VideoPressed -> sendSideEffect(OpenUrl(intent.video.getVideoUrl()))
         }
     }
 
     private fun getSeriesDetails() {
-        if (_viewState.value == SeriesDetailsState.Idle) updateViewState { SeriesDetailsState.Loading }
+        if (_viewState.value == Idle) updateViewState { Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val futureSeries = async { seriesRepository.getSeriesById(seriesId) }
             val futureFirebaseSeries = async { seriesRepository.getFirebaseSeriesById(seriesId) }
@@ -57,7 +75,7 @@ class SeriesDetailsViewModel(
             val resultList = listOf(seriesResult, firebaseSeriesResult, creditsResult, usersResult)
 
             if (resultList.all { it.isSuccess() }) {
-                val data = SeriesDetailsState.Success(
+                val data = Success(
                     series = seriesResult.getSuccess()!!,
                     firebaseSeries = firebaseSeriesResult.getSuccess()!!,
                     castData = creditsResult.getSuccess()!!,
@@ -67,21 +85,21 @@ class SeriesDetailsViewModel(
                 return@launch
             }
 
-            updateViewState { SeriesDetailsState.Error() }
+            updateViewState { Error() }
         }
     }
 
     private fun deleteComment(rating: FirebaseRating) {
-        sendSideEffect(SeriesDetailsSideEffect.ShowLoader)
+        sendSideEffect(ShowLoader)
 
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = seriesRepository.deleteFirebaseRating(seriesId, rating)) {
                 is Response.Success -> {
-                    sendSideEffect(SeriesDetailsSideEffect.HideLoaderWithSuccess)
+                    sendSideEffect(HideLoaderWithSuccess)
                     getSeriesDetails()
                 }
                 is Response.Failure -> {
-                    sendSideEffect(SeriesDetailsSideEffect.HideLoaderWithError(result.error))
+                    sendSideEffect(HideLoaderWithError(result.error))
                 }
             }
         }

@@ -3,6 +3,7 @@ package feature.series.presentation.details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalUriHandler
 import cafe.adriel.voyager.koin.getScreenModel
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
@@ -11,6 +12,12 @@ import core.utils.LocalLoaderState
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.rating.presentation.add_rating.AddRatingScreenRoot
+import feature.series.presentation.details.SeriesDetailsSideEffect.GoToAddComment
+import feature.series.presentation.details.SeriesDetailsSideEffect.HideLoaderWithError
+import feature.series.presentation.details.SeriesDetailsSideEffect.HideLoaderWithSuccess
+import feature.series.presentation.details.SeriesDetailsSideEffect.NavigateBack
+import feature.series.presentation.details.SeriesDetailsSideEffect.OpenUrl
+import feature.series.presentation.details.SeriesDetailsSideEffect.ShowLoader
 import feature.series.presentation.details.components.SeriesDetailsScreen
 import org.koin.core.parameter.parametersOf
 
@@ -18,6 +25,7 @@ class SeriesDetailsScreenRoot(val seriesId: Long) : BaseScreen() {
 
     @Composable
     override fun Content() {
+        val uriHandler = LocalUriHandler.current
         val snackbarState = LocalSnackbarState.current
         val loaderState = LocalLoaderState.current
 
@@ -26,7 +34,12 @@ class SeriesDetailsScreenRoot(val seriesId: Long) : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is SeriesDetailsSideEffect.GoToAddComment -> {
+                HideLoaderWithSuccess -> loaderState.hideLoader()
+                NavigateBack -> GlobalNavigators.navigator?.pop()
+                ShowLoader -> loaderState.showLoader()
+                is OpenUrl -> uriHandler.openUri(effect.url)
+
+                is GoToAddComment -> {
                     GlobalNavigators.navigator?.push(
                         AddRatingScreenRoot(
                             mediaId = seriesId,
@@ -35,13 +48,11 @@ class SeriesDetailsScreenRoot(val seriesId: Long) : BaseScreen() {
                         )
                     )
                 }
-                is SeriesDetailsSideEffect.HideLoaderWithError -> {
+
+                is HideLoaderWithError -> {
                     loaderState.hideLoader()
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
-                SeriesDetailsSideEffect.HideLoaderWithSuccess -> loaderState.hideLoader()
-                SeriesDetailsSideEffect.NavigateBack -> GlobalNavigators.navigator?.pop()
-                SeriesDetailsSideEffect.ShowLoader -> loaderState.showLoader()
             }
         }
 

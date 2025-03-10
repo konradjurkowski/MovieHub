@@ -16,7 +16,14 @@ import core.components.result.FailureWidget
 import core.components.top_bar.MainTopBar
 import core.utils.Dimens
 import feature.series.presentation.series.SeriesIntent
+import feature.series.presentation.series.SeriesIntent.AddSeriesPressed
+import feature.series.presentation.series.SeriesIntent.SeriesPressed
+import feature.series.presentation.series.SeriesIntent.Refresh
 import feature.series.presentation.series.SeriesState
+import feature.series.presentation.series.SeriesState.Idle
+import feature.series.presentation.series.SeriesState.Loading
+import feature.series.presentation.series.SeriesState.Success
+import feature.series.presentation.series.SeriesState.Error
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.series_tab_label
 import org.jetbrains.compose.resources.stringResource
@@ -34,7 +41,7 @@ fun SeriesScreen(
                 actions = {
                     AddButton(
                         modifier = Modifier.padding(horizontal = Dimens.padding16),
-                        onClick = { onIntent(SeriesIntent.AddSeriesPressed) },
+                        onClick = { onIntent(AddSeriesPressed) },
                     )
                 },
             )
@@ -45,7 +52,7 @@ fun SeriesScreen(
             .padding(contentPadding),
         ) {
             when (state) {
-                is SeriesState.Success -> {
+                is Success -> {
                     if (state.series.isEmpty()) return@Scaffold EmptyView()
 
                     LazyColumn(
@@ -61,14 +68,14 @@ fun SeriesScreen(
                                 imageUrl = series.posterPath,
                                 position = index + 1,
                                 rating = series.averageRating,
-                                onClick = { onIntent(SeriesIntent.SeriesPressed(series)) },
+                                onClick = { onIntent(SeriesPressed(series)) },
                             )
                         }
                     }
                 }
 
-                SeriesState.Idle, SeriesState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
-                is SeriesState.Error -> FailureWidget { onIntent(SeriesIntent.Refresh) }
+                Idle, Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+                is Error -> FailureWidget { onIntent(Refresh) }
             }
         }
     }

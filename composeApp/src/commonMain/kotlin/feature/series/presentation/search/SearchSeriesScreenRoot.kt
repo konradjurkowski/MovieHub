@@ -14,6 +14,10 @@ import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import core.utils.safePush
 import feature.series.presentation.preview.SeriesPreviewScreenRoot
+import feature.series.presentation.search.SearchSeriesSideEffect.GoToSeriesPreview
+import feature.series.presentation.search.SearchSeriesSideEffect.HideLoaderWithError
+import feature.series.presentation.search.SearchSeriesSideEffect.HideLoaderWithSuccess
+import feature.series.presentation.search.SearchSeriesSideEffect.ShowLoader
 import feature.series.presentation.search.components.SearchSeriesScreen
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.search_series_screen_add_success
@@ -32,22 +36,22 @@ class SearchSeriesScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is SearchSeriesSideEffect.HideLoaderWithError -> {
+                ShowLoader ->  loaderState.showLoader()
+
+                is HideLoaderWithError -> {
                     loaderState.hideLoader()
                     snackbarState.showError(getFailureMessage(effect.error))
                 }
 
-                is SearchSeriesSideEffect.GoToSeriesPreview -> {
+                is GoToSeriesPreview -> {
                     focusManager.clearFocus()
                     GlobalNavigators.navigator?.safePush(SeriesPreviewScreenRoot(effect.series.id))
                 }
 
-                SearchSeriesSideEffect.HideLoaderWithSuccess -> {
+                HideLoaderWithSuccess -> {
                     loaderState.hideLoader()
                     snackbarState.showSuccess(Res.string.search_series_screen_add_success)
                 }
-
-                SearchSeriesSideEffect.ShowLoader ->  loaderState.showLoader()
             }
         }
 

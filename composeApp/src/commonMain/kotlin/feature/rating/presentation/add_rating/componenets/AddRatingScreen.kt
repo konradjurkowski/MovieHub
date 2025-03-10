@@ -24,6 +24,9 @@ import core.components.top_bar.LogoTopBar
 import core.utils.Dimens
 import core.utils.clearFocus
 import feature.rating.presentation.add_rating.AddRatingIntent
+import feature.rating.presentation.add_rating.AddRatingIntent.CommentUpdated
+import feature.rating.presentation.add_rating.AddRatingIntent.RatingUpdated
+import feature.rating.presentation.add_rating.AddRatingIntent.Submit
 import feature.rating.presentation.add_rating.AddRatingState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.add_rating_screen_comment_label
@@ -57,7 +60,7 @@ fun AddRatingScreen(
             StarRatingBar(
                 maxStars = 10,
                 rating = state.rating,
-                onRatingChanged = { onIntent(AddRatingIntent.RatingUpdated(it)) },
+                onRatingChanged = { onIntent(RatingUpdated(it)) },
             )
             RegularSpacer()
             TextFieldLabel(text = stringResource(Res.string.add_rating_screen_comment_label))
@@ -67,7 +70,7 @@ fun AddRatingScreen(
                     .height(150.dp)
                     .fillMaxWidth(),
                 value = state.comment,
-                onValueChange = { onIntent(AddRatingIntent.CommentUpdated(it)) },
+                onValueChange = { onIntent(CommentUpdated(it)) },
                 textStyle = MaterialTheme.typography.bodySmall,
                 singleLine = false,
                 isError = state.ratingState.isFailure()
@@ -80,7 +83,7 @@ fun AddRatingScreen(
                 loading = state.ratingState.isLoading(),
             ) {
                 focusManager.clearFocus()
-                onIntent(AddRatingIntent.Submit(isMovie, state.rating, state.comment))
+                onIntent(Submit(isMovie, state.rating, state.comment))
             }
         }
     }

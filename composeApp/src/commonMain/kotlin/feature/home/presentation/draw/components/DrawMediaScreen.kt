@@ -45,6 +45,14 @@ import io.github.alexzhirkevich.compottie.Compottie
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
 import io.github.alexzhirkevich.compottie.rememberLottiePainter
+import feature.home.presentation.draw.DrawMediaIntent.MoviePressed
+import feature.home.presentation.draw.DrawMediaIntent.OnShakePressed
+import feature.home.presentation.draw.DrawMediaIntent.SeriesPressed
+import feature.home.presentation.draw.DrawMediaIntent.TryAgainPressed
+import feature.home.presentation.draw.DrawMediaState.Idle
+import feature.home.presentation.draw.DrawMediaState.Loading
+import feature.home.presentation.draw.DrawMediaState.Success
+import feature.home.presentation.draw.DrawMediaState.Error
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.draw_media_screen_almost_there_label
 import moviehub.composeapp.generated.resources.draw_media_screen_got_label
@@ -60,16 +68,16 @@ fun DrawMediaScreen(
     onIntent: (DrawMediaIntent) -> Unit,
 ) {
     when (state) {
-        is DrawMediaState.Success -> {
+        is Success -> {
             DrawMediaSuccess(
                 state = state,
-                onShakePressed = { onIntent(DrawMediaIntent.OnShakePressed) },
-                onMoviePressed = { onIntent(DrawMediaIntent.MoviePressed(it)) },
-                onSeriesPressed = { onIntent(DrawMediaIntent.SeriesPressed(it)) },
+                onShakePressed = { onIntent(OnShakePressed) },
+                onMoviePressed = { onIntent(MoviePressed(it)) },
+                onSeriesPressed = { onIntent(SeriesPressed(it)) },
             )
         }
 
-        is DrawMediaState.Idle, is DrawMediaState.Loading -> {
+        is Idle, is Loading -> {
             Scaffold(
                 topBar = { MainTopBar() },
             ) { innerPadding ->
@@ -77,13 +85,13 @@ fun DrawMediaScreen(
             }
         }
 
-        is DrawMediaState.Error -> {
+        is Error -> {
             Scaffold(
                 topBar = { MainTopBar() },
             ) { innerPadding ->
                 FailureWidget(
                     modifier = Modifier.fillMaxSize().padding(innerPadding),
-                    onButtonClick = { onIntent(DrawMediaIntent.TryAgainPressed) },
+                    onButtonClick = { onIntent(TryAgainPressed) },
                 )
             }
         }
@@ -92,7 +100,7 @@ fun DrawMediaScreen(
 
 @Composable
 private fun DrawMediaSuccess(
-    state: DrawMediaState.Success,
+    state: Success,
     onShakePressed: () -> Unit,
     onMoviePressed: (FirebaseMovie) -> Unit,
     onSeriesPressed: (FirebaseSeries) -> Unit,

@@ -18,6 +18,12 @@ import core.navigation.GlobalNavigators
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.profile.presentation.profile_edit.components.ProfileEditScreen
+import feature.profile.presentation.profile_edit.ProfileEditIntent.DismissPermissionDialog
+import feature.profile.presentation.profile_edit.ProfileEditIntent.ImageChanged
+import feature.profile.presentation.profile_edit.ProfileEditIntent.ShowPermissionDialog
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.OpenGalleryOrCheckPermission
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowError
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowSuccessAndNavigateBack
 import kotlinx.coroutines.launch
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.permission_gallery_permanently_denied
@@ -40,22 +46,20 @@ class ProfileEditScreenRoot : BaseScreen() {
             scope = coroutineScope,
             onResult = {
                 val byteArray = it.firstOrNull() ?: return@rememberImagePickerLauncher
-                viewModel.sendIntent(ProfileEditIntent.ImageChanged(ByteArrayWrapper(byteArray)))
+                viewModel.sendIntent(ImageChanged(ByteArrayWrapper(byteArray)))
             },
         )
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is ProfileEditSideEffect.ShowError -> {
-                    snackbarState.showError(getFailureMessage(effect.error))
-                }
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
 
-                ProfileEditSideEffect.ShowSuccessAndNavigateBack -> {
+                ShowSuccessAndNavigateBack -> {
                     snackbarState.showSuccess(message = Res.string.profile_edit_screen_edit_success)
                     GlobalNavigators.navigator?.pop()
                 }
 
-                ProfileEditSideEffect.OpenGalleryOrCheckPermission -> {
+                OpenGalleryOrCheckPermission -> {
                     if (galleryPermissionState.status.isGranted) {
                         coroutineScope.launch { imagePicker.launch() }
                         return@CollectSideEffects
@@ -66,7 +70,7 @@ class ProfileEditScreenRoot : BaseScreen() {
                         return@CollectSideEffects
                     }
 
-                    viewModel.sendIntent(ProfileEditIntent.ShowPermissionDialog)
+                    viewModel.sendIntent(ShowPermissionDialog)
                 }
             }
         }
@@ -80,7 +84,7 @@ class ProfileEditScreenRoot : BaseScreen() {
             PermissionDialog(
                 message = stringResource(Res.string.permission_gallery_permanently_denied),
                 onDismiss = {
-                    viewModel.sendIntent(ProfileEditIntent.DismissPermissionDialog)
+                    viewModel.sendIntent(DismissPermissionDialog)
                 },
                 onGoToAppSettingsClick = {
                     galleryPermissionState.openAppSettings()

@@ -10,6 +10,10 @@ import core.components.media.PagingMediaList
 import core.components.top_bar.SearchTopBar
 import core.utils.clearFocus
 import feature.movies.presentation.search.SearchMovieIntent
+import feature.movies.presentation.search.SearchMovieIntent.ClearQueryPressed
+import feature.movies.presentation.search.SearchMovieIntent.MovieAddPressed
+import feature.movies.presentation.search.SearchMovieIntent.MovieCardPressed
+import feature.movies.presentation.search.SearchMovieIntent.QueryChanged
 import feature.movies.presentation.search.SearchMovieState
 import feature.movies.domain.model.Movie
 
@@ -24,8 +28,8 @@ fun SearchMovieScreen(
         topBar = {
             SearchTopBar(
                 value = state.query,
-                onValueChange = { onIntent(SearchMovieIntent.QueryChanged(it)) },
-                onClearPressed = { onIntent(SearchMovieIntent.ClearQueryPressed) },
+                onValueChange = { onIntent(QueryChanged(it)) },
+                onClearPressed = { onIntent(ClearQueryPressed) },
             )
         },
     ) { contentPadding ->
@@ -35,8 +39,8 @@ fun SearchMovieScreen(
                 .padding(contentPadding),
             pagingMedia = pagingMovies,
             isMediaAdded = { movie -> state.addedMovieIds.contains(movie.id) },
-            onAddClick = { onIntent(SearchMovieIntent.MovieAddPressed(it)) },
-            onCardClick = { onIntent(SearchMovieIntent.MovieCardPressed(it)) },
+            onAddClick = { onIntent(MovieAddPressed(it)) },
+            onCardClick = { onIntent(MovieCardPressed(it)) },
         )
     }
 }

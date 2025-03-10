@@ -16,6 +16,18 @@ class SeriesApiImpl(
             url { path("/3/tv/$seriesId") }
         }
 
+    override suspend fun getVideos(seriesId: Long): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url { path("/3/tv/$seriesId/videos") }
+        }
+
+    override suspend fun getWatchProviders(seriesId: Long): HttpResponse =
+        httpClient.request {
+            method = HttpMethod.Get
+            url { path("/3/tv/$seriesId/watch/providers") }
+        }
+
     override suspend fun searchSeries(query: String, page: Int): HttpResponse =
         httpClient.request {
             method = HttpMethod.Get

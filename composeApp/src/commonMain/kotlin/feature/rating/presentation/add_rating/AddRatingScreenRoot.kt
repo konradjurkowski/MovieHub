@@ -11,6 +11,9 @@ import core.navigation.GlobalNavigators
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
 import feature.movies.domain.model.FirebaseRating
+import feature.rating.presentation.add_rating.AddRatingIntent.LoadInitialData
+import feature.rating.presentation.add_rating.AddRatingSideEffect.ShowError
+import feature.rating.presentation.add_rating.AddRatingSideEffect.ShowSuccessAndNavigateBack
 import feature.rating.presentation.add_rating.componenets.AddRatingScreen
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.add_rating_screen_rating_added
@@ -31,11 +34,9 @@ class AddRatingScreenRoot(
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is AddRatingSideEffect.ShowError -> {
-                    snackbarState.showError(getFailureMessage(effect.error))
-                }
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
 
-                AddRatingSideEffect.ShowSuccessAndNavigateBack -> {
+                ShowSuccessAndNavigateBack -> {
                     GlobalNavigators.navigator?.pop()
                     snackbarState.showSuccess(Res.string.add_rating_screen_rating_added)
                 }
@@ -43,7 +44,7 @@ class AddRatingScreenRoot(
         }
 
         LaunchedEffect(Unit) {
-            viewModel.sendIntent(AddRatingIntent.LoadInitialData(firebaseRating))
+            viewModel.sendIntent(LoadInitialData(firebaseRating))
         }
 
         AddRatingScreen(

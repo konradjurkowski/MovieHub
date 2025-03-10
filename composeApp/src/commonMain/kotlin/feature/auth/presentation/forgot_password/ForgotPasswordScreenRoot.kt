@@ -29,13 +29,13 @@ class ForgotPasswordScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
+                NavigateBack -> navigator.pop()
+                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
+
                 GoToLogin -> {
                     snackbarState.showSuccess(Res.string.forgot_password_screen_reset_password_success)
                     navigator.pop()
                 }
-
-                NavigateBack -> navigator.pop()
-                is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
             }
         }
 

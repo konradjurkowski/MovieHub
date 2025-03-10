@@ -15,6 +15,10 @@ import feature.movies.presentation.details.MovieDetailsIntent.Refresh
 import feature.movies.presentation.details.MovieDetailsIntent.SetTab
 import feature.movies.presentation.details.MovieDetailsIntent.VideoPressed
 import feature.movies.presentation.details.MovieDetailsState
+import feature.movies.presentation.details.MovieDetailsState.Idle
+import feature.movies.presentation.details.MovieDetailsState.Loading
+import feature.movies.presentation.details.MovieDetailsState.Success
+import feature.movies.presentation.details.MovieDetailsState.Error
 
 @Composable
 fun MovieDetailsScreen(
@@ -24,7 +28,7 @@ fun MovieDetailsScreen(
     Scaffold {
         Box(modifier = Modifier.fillMaxSize()) {
             when (state) {
-                is MovieDetailsState.Success -> {
+                is Success -> {
                     MovieDetailsSuccess(
                         movie = state.movie,
                         firebaseMovie = state.firebaseMovie,
@@ -39,11 +43,11 @@ fun MovieDetailsScreen(
                     )
                 }
 
-                MovieDetailsState.Idle, MovieDetailsState.Loading -> {
+                Idle, Loading -> {
                     MediaDetailsLoading { onIntent(BackPressed) }
                 }
 
-                is MovieDetailsState.Error -> {
+                is Error -> {
                     MediaDetailsFailure(
                         onBackPressed = { onIntent(BackPressed) },
                         onRefresh = { onIntent(Refresh) },

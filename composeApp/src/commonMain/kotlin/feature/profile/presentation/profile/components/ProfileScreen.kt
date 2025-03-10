@@ -22,6 +22,8 @@ import core.components.text.SectionTitle
 import core.components.top_bar.MainTopBar
 import core.utils.Dimens
 import feature.profile.presentation.profile.ProfileIntent
+import feature.profile.presentation.profile.ProfileIntent.EditProfilePressed
+import feature.profile.presentation.profile.ProfileIntent.LogoutPressed
 import feature.profile.presentation.profile.ProfileState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.profile_screen_about_label
@@ -74,7 +76,7 @@ fun ProfileScreen(
                 icon = Icons.Default.AccountCircle,
                 title = stringResource(Res.string.profile_screen_edit_user_data),
                 onClick = {
-                    onIntent(ProfileIntent.EditProfilePressed)
+                    onIntent(EditProfilePressed)
                 },
             )
             SmallSpacer()
@@ -120,7 +122,7 @@ fun ProfileScreen(
                     .fillMaxWidth()
                     .padding(horizontal = Dimens.padding16),
                 text = stringResource(Res.string.profile_screen_logout_label),
-                onClick = { onIntent(ProfileIntent.LogoutPressed) },
+                onClick = { onIntent(LogoutPressed) },
             )
             RegularSpacer()
             AppVersionSection()

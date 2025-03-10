@@ -12,6 +12,16 @@ import core.components.loading.LoadingIndicator
 import core.components.other.RegularSpacer
 import core.components.result.FailureWidget
 import feature.home.presentation.home.HomeIntent
+import feature.home.presentation.home.HomeIntent.MoviePressed
+import feature.home.presentation.home.HomeIntent.OnDrawMoviePressed
+import feature.home.presentation.home.HomeIntent.OnDrawSeriesPressed
+import feature.home.presentation.home.HomeIntent.OnUserPressed
+import feature.home.presentation.home.HomeIntent.SeriesPressed
+import feature.home.presentation.home.HomeIntent.TryAgainPressed
+import feature.home.presentation.home.HomeState.Idle
+import feature.home.presentation.home.HomeState.Loading
+import feature.home.presentation.home.HomeState.Success
+import feature.home.presentation.home.HomeState.Error
 import feature.home.presentation.home.HomeState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.home_screen_recently_updated_movies
@@ -24,7 +34,7 @@ fun HomeScreen(
     onIntent: (HomeIntent) -> Unit,
 ) {
     when (state) {
-        is HomeState.Success -> {
+        is Success -> {
             Scaffold { innerPadding ->
                 Column(
                     modifier = Modifier
@@ -34,38 +44,36 @@ fun HomeScreen(
                 ) {
                     HomeHeader(
                         appUser = state.appUser,
-                        onUserClick = {
-                            onIntent(HomeIntent.OnUserPressed)
-                        },
+                        onUserClick = { onIntent(OnUserPressed) },
                     )
                     HomeDrawMediaSection(
                         movies = state.firebaseMovies,
                         series = state.firebaseSeries,
-                        onDrawMoviePressed = { onIntent(HomeIntent.OnDrawMoviePressed) },
-                        onDrawSeriesPressed = { onIntent(HomeIntent.OnDrawSeriesPressed) },
+                        onDrawMoviePressed = { onIntent(OnDrawMoviePressed) },
+                        onDrawSeriesPressed = { onIntent(OnDrawSeriesPressed) },
                     )
                     MediaCarouselWithTitle(
                         title = stringResource(Res.string.home_screen_recently_updated_movies),
                         items = state.lastUpdatedMovies,
-                        onItemClick = { onIntent(HomeIntent.MoviePressed(it)) },
+                        onItemClick = { onIntent(MoviePressed(it)) },
                     )
                     RegularSpacer()
                     MediaCarouselWithTitle(
                         title = stringResource(Res.string.home_screen_recently_updated_series),
                         items = state.lastUpdatedSeries,
-                        onItemClick = { onIntent(HomeIntent.SeriesPressed(it)) },
+                        onItemClick = { onIntent(SeriesPressed(it)) },
                     )
                     RegularSpacer()
                 }
             }
         }
 
-        is HomeState.Idle, is HomeState.Loading -> {
+        is Idle, is Loading -> {
             LoadingIndicator(modifier = Modifier.fillMaxSize())
         }
 
-        is HomeState.Error -> {
-            FailureWidget { onIntent(HomeIntent.TryAgainPressed) }
+        is Error -> {
+            FailureWidget { onIntent(TryAgainPressed) }
         }
     }
 }

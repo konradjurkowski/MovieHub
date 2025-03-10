@@ -4,11 +4,25 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import core.architecture.BaseViewModel
 import core.architecture.transformIf
 import core.model.Response
+import core.model.media.getVideoUrl
 import core.tools.dispatcher.DispatchersProvider
 import feature.series.data.repository.SeriesRepository
 import feature.series.data.storage.SeriesRegistry
 import feature.series.domain.model.SeriesDetails
 import feature.series.domain.model.toSeries
+import feature.series.presentation.preview.SeriesPreviewIntent.BackPressed
+import feature.series.presentation.preview.SeriesPreviewIntent.SeriesAddPressed
+import feature.series.presentation.preview.SeriesPreviewIntent.Refresh
+import feature.series.presentation.preview.SeriesPreviewIntent.VideoPressed
+import feature.series.presentation.preview.SeriesPreviewSideEffect.HideLoaderWithError
+import feature.series.presentation.preview.SeriesPreviewSideEffect.HideLoaderWithSuccess
+import feature.series.presentation.preview.SeriesPreviewSideEffect.NavigateBack
+import feature.series.presentation.preview.SeriesPreviewSideEffect.OpenUrl
+import feature.series.presentation.preview.SeriesPreviewSideEffect.ShowLoader
+import feature.series.presentation.preview.SeriesPreviewState.Idle
+import feature.series.presentation.preview.SeriesPreviewState.Loading
+import feature.series.presentation.preview.SeriesPreviewState.Success
+import feature.series.presentation.preview.SeriesPreviewState.Error
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
@@ -28,18 +42,19 @@ class SeriesPreviewViewModel(
         getSeriesDetails()
     }
 
-    override fun getDefaultState() = SeriesPreviewState.Idle
+    override fun getDefaultState() = Idle
 
     override fun processIntent(intent: SeriesPreviewIntent) {
         when (intent) {
-            SeriesPreviewIntent.BackPressed -> sendSideEffect(SeriesPreviewSideEffect.NavigateBack)
-            SeriesPreviewIntent.Refresh -> getSeriesDetails()
-            is SeriesPreviewIntent.SeriesAddPressed -> addSeries(intent.series)
+            BackPressed -> sendSideEffect(NavigateBack)
+            Refresh -> getSeriesDetails()
+            is SeriesAddPressed -> addSeries(intent.series)
+            is VideoPressed -> sendSideEffect(OpenUrl(intent.video.getVideoUrl()))
         }
     }
 
     private fun getSeriesDetails() {
-        updateViewState { SeriesPreviewState.Loading }
+        updateViewState { Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val futureSeries = async { seriesRepository.getSeriesById(seriesId) }
             val futureCredits = async { seriesRepository.getCredits(seriesId) }
@@ -50,7 +65,7 @@ class SeriesPreviewViewModel(
             val resultList = listOf(seriesResult, creditsResult)
 
             if (resultList.all { it.isSuccess() }) {
-                val data = SeriesPreviewState.Success(
+                val data = Success(
                     series = seriesResult.getSuccess()!!,
                     castData = creditsResult.getSuccess()!!,
                 )
@@ -59,21 +74,21 @@ class SeriesPreviewViewModel(
                 return@launch
             }
 
-            updateViewState { SeriesPreviewState.Error() }
+            updateViewState { Error() }
         }
     }
 
     private fun addSeries(series: SeriesDetails) {
-        sendSideEffect(SeriesPreviewSideEffect.ShowLoader)
+        sendSideEffect(ShowLoader)
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = seriesRepository.addFirebaseSeries(series.toSeries())) {
                 is Response.Success -> {
                     seriesRegistry.addSeries(seriesId)
-                    _viewState.transformIf<SeriesPreviewState.Success> { copy(isSeriesAdded = true) }
-                    sendSideEffect(SeriesPreviewSideEffect.HideLoaderWithSuccess)
+                    _viewState.transformIf<Success> { copy(isSeriesAdded = true) }
+                    sendSideEffect(HideLoaderWithSuccess)
                 }
                 is Response.Failure -> {
-                    sendSideEffect(SeriesPreviewSideEffect.HideLoaderWithError(result.error))
+                    sendSideEffect(HideLoaderWithError(result.error))
                 }
             }
         }
@@ -83,7 +98,7 @@ class SeriesPreviewViewModel(
         if (listenSeriesRegistryJob?.isActive == true) return
 
         listenSeriesRegistryJob = seriesRegistry.series.onEach { seriesIds ->
-            _viewState.transformIf<SeriesPreviewState.Success> { copy(isSeriesAdded = seriesIds.contains(seriesId)) }
+            _viewState.transformIf<Success> { copy(isSeriesAdded = seriesIds.contains(seriesId)) }
         }.launchIn(screenModelScope)
     }
 }

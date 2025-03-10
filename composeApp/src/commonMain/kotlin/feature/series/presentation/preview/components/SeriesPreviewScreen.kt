@@ -10,7 +10,15 @@ import core.components.button.AddMediaButton
 import core.components.media.details.MediaDetailsFailure
 import core.components.media.details.MediaDetailsLoading
 import feature.series.presentation.preview.SeriesPreviewIntent
+import feature.series.presentation.preview.SeriesPreviewIntent.BackPressed
+import feature.series.presentation.preview.SeriesPreviewIntent.SeriesAddPressed
+import feature.series.presentation.preview.SeriesPreviewIntent.Refresh
+import feature.series.presentation.preview.SeriesPreviewIntent.VideoPressed
 import feature.series.presentation.preview.SeriesPreviewState
+import feature.series.presentation.preview.SeriesPreviewState.Idle
+import feature.series.presentation.preview.SeriesPreviewState.Loading
+import feature.series.presentation.preview.SeriesPreviewState.Success
+import feature.series.presentation.preview.SeriesPreviewState.Error
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.series_screen_preview_add_series
 import moviehub.composeapp.generated.resources.series_screen_preview_series_added
@@ -30,7 +38,7 @@ fun SeriesPreviewScreen(
                isAdded = state.isMediaAdded(),
                onClick = {
                    val series = state.getSuccess()?.series
-                   if (series != null) onIntent(SeriesPreviewIntent.SeriesAddPressed(series))
+                   if (series != null) onIntent(SeriesAddPressed(series))
                },
            )
        },
@@ -41,20 +49,21 @@ fun SeriesPreviewScreen(
                .fillMaxSize(),
        ) {
            when (state) {
-               is SeriesPreviewState.Success -> {
+               is Success -> {
                    SeriesPreviewSuccess(
                        series = state.series,
                        castData = state.castData,
-                       onBackPressed = { onIntent(SeriesPreviewIntent.BackPressed) },
+                       onBackPressed = { onIntent(BackPressed) },
+                       onVideoPressed = { onIntent(VideoPressed(it)) },
                    )
                }
 
-               SeriesPreviewState.Idle, SeriesPreviewState.Loading -> MediaDetailsLoading { onIntent(SeriesPreviewIntent.BackPressed) }
+               Idle, Loading -> MediaDetailsLoading { onIntent(BackPressed) }
 
-               is SeriesPreviewState.Error -> {
+               is Error -> {
                    MediaDetailsFailure(
-                       onRefresh = { onIntent(SeriesPreviewIntent.Refresh) },
-                       onBackPressed = { onIntent(SeriesPreviewIntent.BackPressed) },
+                       onRefresh = { onIntent(Refresh) },
+                       onBackPressed = { onIntent(BackPressed) },
                    )
                }
            }

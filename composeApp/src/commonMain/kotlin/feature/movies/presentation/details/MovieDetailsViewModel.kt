@@ -11,6 +11,22 @@ import core.tools.event_bus.RefreshMovie
 import feature.auth.data.remote.AuthService
 import feature.movies.data.repository.MovieRepository
 import feature.movies.domain.model.FirebaseRating
+import feature.movies.presentation.details.MovieDetailsIntent.AddCommentPressed
+import feature.movies.presentation.details.MovieDetailsIntent.BackPressed
+import feature.movies.presentation.details.MovieDetailsIntent.DeleteCommentPressed
+import feature.movies.presentation.details.MovieDetailsIntent.Refresh
+import feature.movies.presentation.details.MovieDetailsIntent.SetTab
+import feature.movies.presentation.details.MovieDetailsIntent.VideoPressed
+import feature.movies.presentation.details.MovieDetailsSideEffect.GoToAddComment
+import feature.movies.presentation.details.MovieDetailsSideEffect.HideLoaderWithError
+import feature.movies.presentation.details.MovieDetailsSideEffect.HideLoaderWithSuccess
+import feature.movies.presentation.details.MovieDetailsSideEffect.NavigateBack
+import feature.movies.presentation.details.MovieDetailsSideEffect.OpenUrl
+import feature.movies.presentation.details.MovieDetailsSideEffect.ShowLoader
+import feature.movies.presentation.details.MovieDetailsState.Idle
+import feature.movies.presentation.details.MovieDetailsState.Loading
+import feature.movies.presentation.details.MovieDetailsState.Success
+import feature.movies.presentation.details.MovieDetailsState.Error
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
@@ -30,21 +46,21 @@ class MovieDetailsViewModel(
         getMovieDetails()
     }
 
-    override fun getDefaultState() = MovieDetailsState.Idle
+    override fun getDefaultState() = Idle
 
     override fun processIntent(intent: MovieDetailsIntent) {
         when (intent) {
-            MovieDetailsIntent.BackPressed -> sendSideEffect(MovieDetailsSideEffect.NavigateBack)
-            MovieDetailsIntent.Refresh -> getMovieDetails()
-            is MovieDetailsIntent.SetTab -> _viewState.transformIf<MovieDetailsState.Success> { copy(selectedTab = intent.tab) }
-            is MovieDetailsIntent.AddCommentPressed -> sendSideEffect(MovieDetailsSideEffect.GoToAddComment(intent.firebaseRating))
-            is MovieDetailsIntent.DeleteCommentPressed -> deleteComment(intent.firebaseRating)
-            is MovieDetailsIntent.VideoPressed -> sendSideEffect(MovieDetailsSideEffect.OpenUrl(intent.video.getVideoUrl()))
+            BackPressed -> sendSideEffect(NavigateBack)
+            Refresh -> getMovieDetails()
+            is SetTab -> _viewState.transformIf<Success> { copy(selectedTab = intent.tab) }
+            is AddCommentPressed -> sendSideEffect(GoToAddComment(intent.firebaseRating))
+            is DeleteCommentPressed -> deleteComment(intent.firebaseRating)
+            is VideoPressed -> sendSideEffect(OpenUrl(intent.video.getVideoUrl()))
         }
     }
 
     private fun getMovieDetails() {
-        if (_viewState.value == MovieDetailsState.Idle) updateViewState { MovieDetailsState.Loading }
+        if (_viewState.value == Idle) updateViewState { Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val futureMovie = async { movieRepository.getMovieById(movieId) }
             val futureFirebaseMovie = async { movieRepository.getFirebaseMovieById(movieId) }
@@ -59,7 +75,7 @@ class MovieDetailsViewModel(
             val resultList = listOf(movieResult, firebaseMovieResult, creditsResult, usersResult)
 
             if (resultList.all { it.isSuccess() }) {
-                val data = MovieDetailsState.Success(
+                val data = Success(
                     movie = movieResult.getSuccess()!!,
                     firebaseMovie = firebaseMovieResult.getSuccess()!!,
                     castData = creditsResult.getSuccess()!!,
@@ -69,21 +85,21 @@ class MovieDetailsViewModel(
                 return@launch
             }
 
-            updateViewState { MovieDetailsState.Error() }
+            updateViewState { Error() }
         }
     }
 
     private fun deleteComment(rating: FirebaseRating) {
-        sendSideEffect(MovieDetailsSideEffect.ShowLoader)
+        sendSideEffect(ShowLoader)
 
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = movieRepository.deleteFirebaseRating(movieId, rating)) {
                 is Response.Success -> {
-                    sendSideEffect(MovieDetailsSideEffect.HideLoaderWithSuccess)
+                    sendSideEffect(HideLoaderWithSuccess)
                     getMovieDetails()
                 }
                 is Response.Failure -> {
-                    sendSideEffect(MovieDetailsSideEffect.HideLoaderWithError(result.error))
+                    sendSideEffect(HideLoaderWithError(result.error))
                 }
             }
         }

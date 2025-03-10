@@ -6,6 +6,20 @@ import core.architecture.transformIf
 import core.tools.dispatcher.DispatchersProvider
 import feature.auth.data.remote.AuthService
 import feature.home.presentation.draw.DrawType
+import feature.home.presentation.home.HomeIntent.MoviePressed
+import feature.home.presentation.home.HomeIntent.OnDrawMoviePressed
+import feature.home.presentation.home.HomeIntent.OnDrawSeriesPressed
+import feature.home.presentation.home.HomeIntent.OnUserPressed
+import feature.home.presentation.home.HomeIntent.SeriesPressed
+import feature.home.presentation.home.HomeIntent.TryAgainPressed
+import feature.home.presentation.home.HomeSideEffect.GoToDrawMedia
+import feature.home.presentation.home.HomeSideEffect.GoToMovieDetails
+import feature.home.presentation.home.HomeSideEffect.GoToProfileTab
+import feature.home.presentation.home.HomeSideEffect.GoToSeriesDetails
+import feature.home.presentation.home.HomeState.Idle
+import feature.home.presentation.home.HomeState.Loading
+import feature.home.presentation.home.HomeState.Success
+import feature.home.presentation.home.HomeState.Error
 import feature.movies.data.repository.MovieRepository
 import feature.series.data.repository.SeriesRepository
 import kotlinx.coroutines.async
@@ -24,22 +38,22 @@ class HomeViewModel(
     private var listenUserJob: Job? = null
     private var loadDataJob: Job? = null
 
-    override fun getDefaultState() = HomeState.Idle
+    override fun getDefaultState() = Idle
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.MoviePressed -> sendSideEffect(HomeSideEffect.GoToMovieDetails(intent.movie))
-            is HomeIntent.SeriesPressed -> sendSideEffect(HomeSideEffect.GoToSeriesDetails(intent.series))
-            HomeIntent.TryAgainPressed -> loadInitialData()
-            HomeIntent.OnDrawMoviePressed -> sendSideEffect(HomeSideEffect.GoToDrawMedia(DrawType.MOVIE))
-            HomeIntent.OnDrawSeriesPressed -> sendSideEffect(HomeSideEffect.GoToDrawMedia(DrawType.SERIES))
-            HomeIntent.OnUserPressed -> sendSideEffect(HomeSideEffect.GoToProfileTab)
+            is MoviePressed -> sendSideEffect(GoToMovieDetails(intent.movie))
+            is SeriesPressed -> sendSideEffect(GoToSeriesDetails(intent.series))
+            TryAgainPressed -> loadInitialData()
+            OnDrawMoviePressed -> sendSideEffect(GoToDrawMedia(DrawType.MOVIE))
+            OnDrawSeriesPressed -> sendSideEffect(GoToDrawMedia(DrawType.SERIES))
+            OnUserPressed -> sendSideEffect(GoToProfileTab)
         }
     }
 
     fun loadInitialData() {
         if (loadDataJob?.isActive == true) return
-        if (_viewState.value.isIdle()) updateViewState { HomeState.Loading }
+        if (_viewState.value.isIdle()) updateViewState { Loading }
 
         loadDataJob = screenModelScope.launch(dispatchersProvider.io) {
             val futureUser = async { authService.getAppUser(true) }
@@ -58,7 +72,7 @@ class HomeViewModel(
 
             when {
                 lastUpdatedMoviesResult.isSuccess() && lastUpdatedSeriesResult.isSuccess() && userResult.isSuccess() -> {
-                    val data = HomeState.Success(
+                    val data = Success(
                         firebaseMovies = moviesResult.getSuccess() ?: emptyList(),
                         firebaseSeries = seriesResult.getSuccess() ?: emptyList(),
                         lastUpdatedMovies = lastUpdatedMoviesResult.getSuccess() ?: emptyList(),
@@ -69,7 +83,7 @@ class HomeViewModel(
                     initializeListeners()
                 }
 
-                else -> updateViewState { HomeState.Error() }
+                else -> updateViewState { Error() }
             }
         }
     }
@@ -78,7 +92,7 @@ class HomeViewModel(
         if (listenUserJob?.isActive == true) return
 
         listenUserJob = authService.appUser.onEach {
-            _viewState.transformIf<HomeState.Success> {
+            _viewState.transformIf<Success> {
                 copy(appUser = it)
             }
         }.launchIn(screenModelScope)

@@ -33,13 +33,16 @@ class RegisterViewModel(
             is NameChanged -> updateViewState { copy(name = intent.name) }
             is EmailChanged -> updateViewState { copy(email = intent.email) }
             is PasswordChanged -> updateViewState { copy(password = intent.password) }
+            TogglePasswordVisibility -> updateViewState { copy(obscurePassword = !obscurePassword) }
+
             is RepeatedPasswordChanged -> {
                 updateViewState { copy(repeatedPassword = intent.repeatedPassword) }
             }
-            TogglePasswordVisibility -> updateViewState { copy(obscurePassword = !obscurePassword) }
+
             ToggleRepeatedPasswordVisibility -> {
                 updateViewState { copy(obscureRepeatedPassword = !obscureRepeatedPassword) }
             }
+
             is SignUp -> signUp(
                 name = intent.name,
                 email = intent.email,

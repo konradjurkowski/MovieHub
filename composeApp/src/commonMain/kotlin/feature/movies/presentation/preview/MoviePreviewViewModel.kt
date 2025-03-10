@@ -10,6 +10,19 @@ import feature.movies.data.repository.MovieRepository
 import feature.movies.data.storage.MovieRegistry
 import feature.movies.domain.model.MovieDetails
 import feature.movies.domain.model.toMovie
+import feature.movies.presentation.preview.MoviePreviewIntent.BackPressed
+import feature.movies.presentation.preview.MoviePreviewIntent.MovieAddPressed
+import feature.movies.presentation.preview.MoviePreviewIntent.Refresh
+import feature.movies.presentation.preview.MoviePreviewIntent.VideoPressed
+import feature.movies.presentation.preview.MoviePreviewSideEffect.HideLoaderWithError
+import feature.movies.presentation.preview.MoviePreviewSideEffect.HideLoaderWithSuccess
+import feature.movies.presentation.preview.MoviePreviewSideEffect.NavigateBack
+import feature.movies.presentation.preview.MoviePreviewSideEffect.OpenUrl
+import feature.movies.presentation.preview.MoviePreviewSideEffect.ShowLoader
+import feature.movies.presentation.preview.MoviePreviewState.Idle
+import feature.movies.presentation.preview.MoviePreviewState.Loading
+import feature.movies.presentation.preview.MoviePreviewState.Success
+import feature.movies.presentation.preview.MoviePreviewState.Error
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,19 +42,19 @@ class MoviePreviewViewModel(
         getMovieDetails()
     }
 
-    override fun getDefaultState() = MoviePreviewState.Idle
+    override fun getDefaultState() = Idle
 
     override fun processIntent(intent: MoviePreviewIntent) {
         when (intent) {
-            MoviePreviewIntent.BackPressed -> sendSideEffect(MoviePreviewSideEffect.NavigateBack)
-            MoviePreviewIntent.Refresh -> getMovieDetails()
-            is MoviePreviewIntent.MovieAddPressed -> addMovie(intent.movie)
-            is MoviePreviewIntent.VideoPressed -> sendSideEffect(MoviePreviewSideEffect.OpenUrl(intent.video.getVideoUrl()))
+            BackPressed -> sendSideEffect(NavigateBack)
+            Refresh -> getMovieDetails()
+            is MovieAddPressed -> addMovie(intent.movie)
+            is VideoPressed -> sendSideEffect(OpenUrl(intent.video.getVideoUrl()))
         }
     }
 
     private fun getMovieDetails() {
-        updateViewState { MoviePreviewState.Loading }
+        updateViewState { Loading }
         screenModelScope.launch(dispatchersProvider.io) {
             val futureMovie = async { movieRepository.getMovieById(movieId) }
             val futureCredits = async { movieRepository.getCredits(movieId) }
@@ -52,7 +65,7 @@ class MoviePreviewViewModel(
             val resultList = listOf(movieResult, creditsResult)
 
             if (resultList.all { it.isSuccess() }) {
-                val data = MoviePreviewState.Success(
+                val data = Success(
                     movie = movieResult.getSuccess()!!,
                     castData = creditsResult.getSuccess()!!,
                 )
@@ -61,22 +74,22 @@ class MoviePreviewViewModel(
                 return@launch
             }
 
-            updateViewState { MoviePreviewState.Error() }
+            updateViewState { Error() }
         }
     }
 
     private fun addMovie(movie: MovieDetails) {
-        sendSideEffect(MoviePreviewSideEffect.ShowLoader)
+        sendSideEffect(ShowLoader)
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = movieRepository.addFirebaseMovie(movie.toMovie())) {
                 is Response.Success -> {
                     movieRegistry.addMovie(movieId)
-                    _viewState.transformIf<MoviePreviewState.Success> { copy(isMovieAdded = true) }
-                    sendSideEffect(MoviePreviewSideEffect.HideLoaderWithSuccess)
+                    _viewState.transformIf<Success> { copy(isMovieAdded = true) }
+                    sendSideEffect(HideLoaderWithSuccess)
                 }
 
                 is Response.Failure -> {
-                    sendSideEffect(MoviePreviewSideEffect.HideLoaderWithError(result.error))
+                    sendSideEffect(HideLoaderWithError(result.error))
                 }
             }
         }
@@ -86,7 +99,7 @@ class MoviePreviewViewModel(
         if (listenMoviesRegistryJob?.isActive == true) return
 
         listenMoviesRegistryJob = movieRegistry.movies.onEach { movieIds ->
-            _viewState.transformIf<MoviePreviewState.Success> { copy(isMovieAdded = movieIds.contains(movieId)) }
+            _viewState.transformIf<Success> { copy(isMovieAdded = movieIds.contains(movieId)) }
         }.launchIn(screenModelScope)
     }
 }

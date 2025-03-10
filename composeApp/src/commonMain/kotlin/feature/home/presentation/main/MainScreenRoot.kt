@@ -8,6 +8,7 @@ import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import feature.home.presentation.tab.HomeTab
 import feature.home.presentation.main.components.MainScreen
+import feature.home.presentation.main.MainScreenSideEffect.SetTab
 import feature.movies.presentation.tab.MoviesTab
 import feature.profile.presentation.tab.ProfileTab
 import feature.series.presentation.tab.SeriesTab
@@ -37,9 +38,7 @@ class MainScreenRoot : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is MainScreenSideEffect.SetTab -> {
-                    GlobalNavigators.tabNavigator?.current = effect.tab
-                }
+                is SetTab -> GlobalNavigators.tabNavigator?.current = effect.tab
             }
         }
 

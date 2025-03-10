@@ -27,6 +27,10 @@ import core.utils.Dimens
 import core.utils.clearFocus
 import core.utils.toDisplay
 import feature.profile.presentation.profile_edit.ProfileEditIntent
+import feature.profile.presentation.profile_edit.ProfileEditIntent.DescriptionChanged
+import feature.profile.presentation.profile_edit.ProfileEditIntent.NameChanged
+import feature.profile.presentation.profile_edit.ProfileEditIntent.OnEditImagePressed
+import feature.profile.presentation.profile_edit.ProfileEditIntent.SavePressed
 import feature.profile.presentation.profile_edit.ProfileEditState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.profile_edit_screen_description_label
@@ -65,7 +69,7 @@ fun ProfileEditScreen(
                     EditableUserAvatar(
                         image = state.image?.array?.toImageBitmap() ?: state.appUser?.imageUrl,
                         onEditPressed = {
-                            onIntent(ProfileEditIntent.OnEditImagePressed)
+                            onIntent(OnEditImagePressed)
                         },
                     )
                 }
@@ -76,7 +80,7 @@ fun ProfileEditScreen(
                     value = state.name,
                     isError = state.editState.isFailure() || state.nameError != null,
                     imeAction = ImeAction.Next,
-                    onValueChange = { onIntent(ProfileEditIntent.NameChanged(it)) },
+                    onValueChange = { onIntent(NameChanged(it)) },
                 )
                 InvalidFieldMessage(
                     message = state.nameError.toDisplay(),
@@ -88,7 +92,7 @@ fun ProfileEditScreen(
                 InputTextField(
                     value = state.description,
                     isError = state.editState.isFailure(),
-                    onValueChange = { onIntent(ProfileEditIntent.DescriptionChanged(it)) },
+                    onValueChange = { onIntent(DescriptionChanged(it)) },
                 )
                 RegularSpacer()
                 TextFieldLabel(text = stringResource(Res.string.profile_edit_screen_email_label))
@@ -109,7 +113,7 @@ fun ProfileEditScreen(
                     onClick = {
                         focusManager.clearFocus()
                         onIntent(
-                            ProfileEditIntent.SavePressed(
+                            SavePressed(
                                 state.name,
                                 state.description,
                                 state.image,

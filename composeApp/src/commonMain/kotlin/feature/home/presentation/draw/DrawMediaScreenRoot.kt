@@ -9,6 +9,8 @@ import core.architecture.CollectSideEffects
 import core.navigation.GlobalNavigators
 import core.utils.safePush
 import feature.home.presentation.draw.components.DrawMediaScreen
+import feature.home.presentation.draw.DrawMediaSideEffect.GoToMovieDetails
+import feature.home.presentation.draw.DrawMediaSideEffect.GoToSeriesDetails
 import feature.movies.presentation.details.MovieDetailsScreenRoot
 import feature.series.presentation.details.SeriesDetailsScreenRoot
 import org.koin.core.parameter.parametersOf
@@ -24,12 +26,12 @@ class DrawMediaScreenRoot(private val drawType: DrawType) : BaseScreen() {
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
-                is DrawMediaSideEffect.GoToMovieDetails -> {
+                is GoToMovieDetails -> {
                     GlobalNavigators.navigator?.pop()
                     GlobalNavigators.navigator?.safePush(MovieDetailsScreenRoot(effect.movie.movieId))
                 }
 
-                is DrawMediaSideEffect.GoToSeriesDetails -> {
+                is GoToSeriesDetails -> {
                     GlobalNavigators.navigator?.pop()
                     GlobalNavigators.navigator?.safePush(SeriesDetailsScreenRoot(effect.series.seriesId))
                 }

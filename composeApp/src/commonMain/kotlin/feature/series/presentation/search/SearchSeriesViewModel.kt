@@ -14,6 +14,14 @@ import feature.series.data.paging.PopularSeriesPagingSource
 import feature.series.data.repository.SeriesRepository
 import feature.series.data.storage.SeriesRegistry
 import feature.series.domain.model.Series
+import feature.series.presentation.search.SearchSeriesIntent.ClearQueryPressed
+import feature.series.presentation.search.SearchSeriesIntent.SeriesAddPressed
+import feature.series.presentation.search.SearchSeriesIntent.SeriesCardPressed
+import feature.series.presentation.search.SearchSeriesIntent.QueryChanged
+import feature.series.presentation.search.SearchSeriesSideEffect.GoToSeriesPreview
+import feature.series.presentation.search.SearchSeriesSideEffect.HideLoaderWithError
+import feature.series.presentation.search.SearchSeriesSideEffect.HideLoaderWithSuccess
+import feature.series.presentation.search.SearchSeriesSideEffect.ShowLoader
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -56,11 +64,11 @@ class SearchSeriesViewModel(
 
     override fun processIntent(intent: SearchSeriesIntent) {
         when (intent) {
-            is SearchSeriesIntent.QueryChanged -> updateQuery(intent.query)
-            is SearchSeriesIntent.SeriesAddPressed -> addSeries(intent.series)
-            is SearchSeriesIntent.SeriesCardPressed -> sendSideEffect(
-                SearchSeriesSideEffect.GoToSeriesPreview(intent.series))
-            is SearchSeriesIntent.ClearQueryPressed -> {
+            is QueryChanged -> updateQuery(intent.query)
+            is SeriesAddPressed -> addSeries(intent.series)
+            is SeriesCardPressed -> sendSideEffect(GoToSeriesPreview(intent.series))
+
+            is ClearQueryPressed -> {
                 val addedSeriesIds = viewState.value.addedSeriesIds
                 updateViewState { SearchSeriesState(addedSeriesIds = addedSeriesIds) }
                 _searchQuery.value = ""
@@ -69,15 +77,15 @@ class SearchSeriesViewModel(
     }
 
     private fun addSeries(series: Series) {
-        sendSideEffect(SearchSeriesSideEffect.ShowLoader)
+        sendSideEffect(ShowLoader)
         screenModelScope.launch(dispatchersProvider.io) {
             when (val result = seriesRepository.addFirebaseSeries(series)) {
                 is Response.Success -> {
                     seriesRegistry.addSeries(series.id)
-                    sendSideEffect(SearchSeriesSideEffect.HideLoaderWithSuccess)
+                    sendSideEffect(HideLoaderWithSuccess)
                 }
                 is Response.Failure -> {
-                    sendSideEffect(SearchSeriesSideEffect.HideLoaderWithError(result.error))
+                    sendSideEffect(HideLoaderWithError(result.error))
                 }
             }
         }

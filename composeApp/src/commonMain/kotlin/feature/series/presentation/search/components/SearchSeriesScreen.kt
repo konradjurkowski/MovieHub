@@ -9,9 +9,13 @@ import app.cash.paging.compose.LazyPagingItems
 import core.components.media.PagingMediaList
 import core.components.top_bar.SearchTopBar
 import core.utils.clearFocus
+import feature.series.presentation.search.SearchSeriesIntent.ClearQueryPressed
+import feature.series.presentation.search.SearchSeriesIntent.SeriesAddPressed
+import feature.series.presentation.search.SearchSeriesIntent.SeriesCardPressed
+import feature.series.presentation.search.SearchSeriesIntent.QueryChanged
+import feature.series.domain.model.Series
 import feature.series.presentation.search.SearchSeriesIntent
 import feature.series.presentation.search.SearchSeriesState
-import feature.series.domain.model.Series
 
 @Composable
 fun SearchSeriesScreen(
@@ -24,8 +28,8 @@ fun SearchSeriesScreen(
         topBar = {
             SearchTopBar(
                 value = state.query,
-                onValueChange = { onIntent(SearchSeriesIntent.QueryChanged(it)) },
-                onClearPressed = { onIntent(SearchSeriesIntent.ClearQueryPressed) },
+                onValueChange = { onIntent(QueryChanged(it)) },
+                onClearPressed = { onIntent(ClearQueryPressed) },
             )
         },
     ) { contentPadding ->
@@ -35,8 +39,8 @@ fun SearchSeriesScreen(
                 .padding(contentPadding),
             pagingMedia = pagingSeries,
             isMediaAdded = { series -> state.addedSeriesIds.contains(series.id) },
-            onAddClick = { onIntent(SearchSeriesIntent.SeriesAddPressed(it)) },
-            onCardClick = { onIntent(SearchSeriesIntent.SeriesCardPressed(it)) },
+            onAddClick = { onIntent(SeriesAddPressed(it)) },
+            onCardClick = { onIntent(SeriesCardPressed(it)) },
         )
     }
 }

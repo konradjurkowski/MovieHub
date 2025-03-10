@@ -16,7 +16,14 @@ import core.components.result.FailureWidget
 import core.components.top_bar.MainTopBar
 import core.utils.Dimens
 import feature.movies.presentation.movies.MoviesIntent
+import feature.movies.presentation.movies.MoviesIntent.AddMoviePressed
+import feature.movies.presentation.movies.MoviesIntent.MoviePressed
+import feature.movies.presentation.movies.MoviesIntent.Refresh
 import feature.movies.presentation.movies.MoviesState
+import feature.movies.presentation.movies.MoviesState.Idle
+import feature.movies.presentation.movies.MoviesState.Loading
+import feature.movies.presentation.movies.MoviesState.Success
+import feature.movies.presentation.movies.MoviesState.Error
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.movies_tab_label
 import org.jetbrains.compose.resources.stringResource
@@ -34,7 +41,7 @@ fun MoviesScreen(
                 actions = {
                     AddButton(
                         modifier = Modifier.padding(horizontal = Dimens.padding16),
-                        onClick = { onIntent(MoviesIntent.AddMoviePressed) },
+                        onClick = { onIntent(AddMoviePressed) },
                     )
                 },
             )
@@ -46,7 +53,7 @@ fun MoviesScreen(
                 .padding(contentPadding),
         ) {
             when (state) {
-                is MoviesState.Success -> {
+                is Success -> {
                     if (state.movies.isEmpty()) return@Scaffold EmptyView()
 
                     LazyColumn(
@@ -62,14 +69,14 @@ fun MoviesScreen(
                                 imageUrl = movie.posterPath,
                                 position = index + 1,
                                 rating = movie.averageRating,
-                                onClick = { onIntent(MoviesIntent.MoviePressed(movie)) },
+                                onClick = { onIntent(MoviePressed(movie)) },
                             )
                         }
                     }
                 }
 
-                MoviesState.Idle, MoviesState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
-                is MoviesState.Error -> FailureWidget { onIntent(MoviesIntent.Refresh) }
+                Idle, Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
+                is Error -> FailureWidget { onIntent(Refresh) }
             }
         }
     }
