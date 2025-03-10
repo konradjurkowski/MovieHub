@@ -93,7 +93,7 @@ fun SeriesDetailsSuccess(
         SmallSpacer()
         HorizontalPager(
             modifier = Modifier
-                .defaultMinSize(minHeight = screenSize.height * 0.8f)
+                .defaultMinSize(minHeight = screenSize.height * 0.9f)
                 .fillMaxWidth(),
             state = pagerState,
             userScrollEnabled = false,
