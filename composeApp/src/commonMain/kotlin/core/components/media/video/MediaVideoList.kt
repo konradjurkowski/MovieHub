@@ -8,6 +8,9 @@ import androidx.compose.ui.Modifier
 import core.components.text.SectionTitle
 import core.model.media.Video
 import core.utils.Dimens
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.trailer_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MediaVideoList(
@@ -21,7 +24,7 @@ fun MediaVideoList(
         HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.padding16))
         SectionTitle(
             modifier = Modifier.padding(horizontal = Dimens.padding16),
-            title = "Trailers",
+            title = stringResource(Res.string.trailer_label),
         )
         VideoHorizontalList(
             modifier = Modifier.padding(top = Dimens.padding8),

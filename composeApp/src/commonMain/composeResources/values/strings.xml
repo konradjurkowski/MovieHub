@@ -92,6 +92,8 @@
     <string name="director_label">Director</string>
     <string name="production_companies">Production companies</string>
     <string name="cast_label">Cast</string>
+    <string name="trailer_label">Trailer</string>
+    <string name="where_to_watch_label">Where to watch</string>
 
     <!--Navigation Tabs-->
     <string name="home_tab_label">Home</string>

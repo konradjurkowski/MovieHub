@@ -8,6 +8,9 @@ import androidx.compose.ui.Modifier
 import core.components.text.SectionTitle
 import core.model.media.WatchProviderInfo
 import core.utils.Dimens
+import moviehub.composeapp.generated.resources.Res
+import moviehub.composeapp.generated.resources.where_to_watch_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MediaWatchProviderList(
@@ -20,7 +23,7 @@ fun MediaWatchProviderList(
         HorizontalDivider(modifier = Modifier.padding(vertical = Dimens.padding16))
         SectionTitle(
             modifier = Modifier.padding(horizontal = Dimens.padding16),
-            title = "Gdzie obejrzeć",
+            title = stringResource(Res.string.where_to_watch_label),
         )
         WatchProviderHorizontalList(
             modifier = Modifier.padding(top = Dimens.padding8),
