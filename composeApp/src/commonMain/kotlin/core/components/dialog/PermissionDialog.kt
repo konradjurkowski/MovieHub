@@ -15,7 +15,7 @@ import core.components.other.RegularSpacer
 import core.utils.Dimens
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.permission_confirm_button
-import moviehub.composeapp.generated.resources.permission_gallery_permanently_denied
+import moviehub.composeapp.generated.resources.permission_required
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -33,7 +33,7 @@ fun PermissionDialog(
         ) {
             Column(modifier = modifier.padding(Dimens.padding16)) {
                 Text(
-                    text = stringResource(Res.string.permission_gallery_permanently_denied),
+                    text = stringResource(Res.string.permission_required),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
