@@ -6,7 +6,7 @@ import dev.gitlive.firebase.storage.Data
 import java.util.Locale
 
 actual object PlatformInfo {
-    actual val platform: Platform = Platform.Android
+    actual val platformType: PlatformType = PlatformType.Android
     actual val systemVersion: String = Build.VERSION.SDK_INT.toString()
     actual val sdkInt: Int = Build.VERSION.SDK_INT
     actual fun getLanguageCode(): String = Locale.getDefault().language

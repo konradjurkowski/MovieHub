@@ -10,8 +10,8 @@ import org.jetbrains.compose.resources.StringResource
 @MviIntent
 sealed class ProfileEditIntent {
     data object DismissPermissionDialog : ProfileEditIntent()
-    data object ShowPermissionDialog : ProfileEditIntent()
     data object OnEditImagePressed : ProfileEditIntent()
+    data object GoToSettingsPressed : ProfileEditIntent()
     data class DescriptionChanged(val description: String) : ProfileEditIntent()
     data class ImageChanged(val image: ByteArrayWrapper) : ProfileEditIntent()
     data class NameChanged(val name: String) : ProfileEditIntent()
@@ -22,7 +22,7 @@ sealed class ProfileEditIntent {
 sealed class ProfileEditSideEffect {
     data object ShowSuccessAndNavigateBack : ProfileEditSideEffect()
     data class ShowError(val error: Throwable) : ProfileEditSideEffect()
-    data object OpenGalleryOrCheckPermission : ProfileEditSideEffect()
+    data object OpenGallery : ProfileEditSideEffect()
 }
 
 @MviState

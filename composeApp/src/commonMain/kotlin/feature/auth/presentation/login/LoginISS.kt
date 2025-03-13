@@ -18,7 +18,8 @@ sealed class LoginIntent {
 
 @MviSideEffect
 sealed class LoginSideEffect {
-    data object NavigateForward : LoginSideEffect()
+    data object GoToNotificationPermission : LoginSideEffect()
+    data object GoToHome : LoginSideEffect()
     data object GoToForgotPassword : LoginSideEffect()
     data object GoToRegister : LoginSideEffect()
     data class ShowError(val error: Throwable) : LoginSideEffect()

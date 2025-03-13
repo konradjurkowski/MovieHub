@@ -120,7 +120,9 @@ kotlin {
             implementation(libs.peekaboo.image.picker)
 
             // Permissions
-            implementation(libs.calf.permissions)
+            implementation(libs.moko.permissions.compose)
+            implementation(libs.moko.permissions.gallery)
+            implementation(libs.moko.permissions.notifications)
 
             // Notifications
             api(libs.kmpnotifier)

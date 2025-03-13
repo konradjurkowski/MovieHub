@@ -6,51 +6,45 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mohamedrejeb.calf.permissions.Permission
-import com.mohamedrejeb.calf.permissions.isGranted
-import com.mohamedrejeb.calf.permissions.rememberPermissionState
 import core.architecture.BaseScreen
 import core.architecture.CollectSideEffects
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
-import core.utils.isNotificationPermissionRequired
 import core.utils.safePush
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import feature.auth.presentation.forgot_password.ForgotPasswordScreenRoot
 import feature.auth.presentation.login.LoginSideEffect.GoToForgotPassword
+import feature.auth.presentation.login.LoginSideEffect.GoToHome
+import feature.auth.presentation.login.LoginSideEffect.GoToNotificationPermission
 import feature.auth.presentation.login.LoginSideEffect.GoToRegister
-import feature.auth.presentation.login.LoginSideEffect.NavigateForward
 import feature.auth.presentation.login.LoginSideEffect.ShowError
 import feature.auth.presentation.login.components.LoginScreen
 import feature.auth.presentation.register.RegisterScreenRoot
 import feature.home.presentation.main.MainScreenRoot
 import feature.permissions.presentation.notification.NotificationPermissionScreenRoot
+import org.koin.core.parameter.parametersOf
 
 class LoginScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
+        val factory = rememberPermissionsControllerFactory()
         val navigator = LocalNavigator.currentOrThrow
         val snackbarState = LocalSnackbarState.current
 
-        val viewModel = getScreenModel<LoginViewModel>()
+        val viewModel = getScreenModel<LoginViewModel> { parametersOf(factory.createPermissionsController()) }
         val state by viewModel.viewState.collectAsState()
 
-        val notificationPermissionState = rememberPermissionState(Permission.Notification)
+        BindEffect(viewModel.permissionsController)
 
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 GoToForgotPassword -> navigator.safePush(ForgotPasswordScreenRoot())
+                GoToHome -> navigator.replace(MainScreenRoot())
+                GoToNotificationPermission -> navigator.replace(NotificationPermissionScreenRoot())
                 GoToRegister -> navigator.safePush(RegisterScreenRoot())
                 is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
-
-                NavigateForward -> {
-                    if (!isNotificationPermissionRequired() || notificationPermissionState.status.isGranted) {
-                        navigator.replace(MainScreenRoot())
-                        return@CollectSideEffects
-                    }
-
-                    navigator.replace(NotificationPermissionScreenRoot())
-                }
             }
         }
 

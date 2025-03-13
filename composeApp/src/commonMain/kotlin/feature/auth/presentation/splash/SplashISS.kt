@@ -11,6 +11,7 @@ object SplashIntent
 sealed class SplashSideEffect {
     data object GoToHome : SplashSideEffect()
     data object GoToLogin : SplashSideEffect()
+    data object GoToNotificationPermission : SplashSideEffect()
 }
 
 @MviState

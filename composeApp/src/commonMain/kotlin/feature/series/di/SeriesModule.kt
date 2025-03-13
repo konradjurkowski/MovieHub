@@ -23,7 +23,7 @@ val seriesModule = module {
     singleOf(::SeriesRegistryImpl) bind SeriesRegistry::class
 
     factoryOf(::SeriesViewModel)
-    factory<SeriesDetailsViewModel> { (seriesId: Long) -> SeriesDetailsViewModel(seriesId, get(), get(), get(), get()) }
-    factory<SeriesPreviewViewModel> { (seriesId: Long) -> SeriesPreviewViewModel(seriesId, get(), get(), get()) }
+    factoryOf(::SeriesDetailsViewModel)
+    factoryOf(::SeriesPreviewViewModel)
     factoryOf(::SearchSeriesViewModel)
 }

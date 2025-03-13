@@ -17,7 +17,7 @@ import kotlin.math.sqrt
 class IOSShakeDetector : ShakeDetector {
 
     private companion object {
-        const val SHAKE_THRESHOLD = 3.5f
+        const val SHAKE_THRESHOLD = 3f
         const val DELAY_INTERVAL = 750
         const val VIBRATE_DELAY = 150L
     }
