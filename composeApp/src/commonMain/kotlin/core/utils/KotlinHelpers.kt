@@ -41,6 +41,5 @@ suspend fun <T> runWithTimeout(
 }
 
 fun isNotificationPermissionRequired(): Boolean {
-    val platform = PlatformInfo.platform
-    return platform == Platform.IOS || (platform == Platform.Android && PlatformInfo.sdkInt >= Constants.ANDROID_13_VERSION_CODE)
+    return PlatformInfo.isIOS() || (PlatformInfo.isAndroid() && PlatformInfo.sdkInt >= Constants.ANDROID_13_VERSION_CODE)
 }

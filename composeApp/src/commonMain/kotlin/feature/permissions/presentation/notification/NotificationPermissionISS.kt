@@ -13,7 +13,6 @@ sealed class NotificationPermissionIntent {
 @MviSideEffect
 sealed class NotificationPermissionSideEffect {
     data object GoToHomeScreen : NotificationPermissionSideEffect()
-    data object CheckNotificationPermission : NotificationPermissionSideEffect()
 }
 
 @MviState

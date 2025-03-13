@@ -7,15 +7,22 @@ import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
 import core.utils.GenericException
+import core.utils.PermissionResult
+import core.utils.PlatformInfo
+import core.utils.isAndroid
+import core.utils.requestPermission
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.gallery.GALLERY
 import feature.auth.data.remote.AuthService
 import feature.profile.presentation.profile_edit.ProfileEditIntent.DescriptionChanged
 import feature.profile.presentation.profile_edit.ProfileEditIntent.DismissPermissionDialog
+import feature.profile.presentation.profile_edit.ProfileEditIntent.GoToSettingsPressed
 import feature.profile.presentation.profile_edit.ProfileEditIntent.ImageChanged
 import feature.profile.presentation.profile_edit.ProfileEditIntent.NameChanged
 import feature.profile.presentation.profile_edit.ProfileEditIntent.OnEditImagePressed
 import feature.profile.presentation.profile_edit.ProfileEditIntent.SavePressed
-import feature.profile.presentation.profile_edit.ProfileEditIntent.ShowPermissionDialog
-import feature.profile.presentation.profile_edit.ProfileEditSideEffect.OpenGalleryOrCheckPermission
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.OpenGallery
 import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowError
 import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowSuccessAndNavigateBack
 import kotlinx.coroutines.flow.collectLatest
@@ -24,6 +31,7 @@ import kotlinx.coroutines.launch
 class ProfileEditViewModel(
     private val authService: AuthService,
     private val formValidator: FormValidator,
+    val permissionsController: PermissionsController,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<ProfileEditIntent, ProfileEditSideEffect, ProfileEditState>() {
 
@@ -38,10 +46,10 @@ class ProfileEditViewModel(
             is DescriptionChanged -> updateViewState { copy(description = intent.description) }
             is ImageChanged -> updateViewState { copy(image = intent.image) }
             is NameChanged -> updateViewState { copy(name = intent.name) }
-            OnEditImagePressed ->  sendSideEffect(OpenGalleryOrCheckPermission)
+            OnEditImagePressed -> onEditImagePressed()
             is SavePressed -> sendUserData(intent.name, intent.description, intent.image?.array)
             DismissPermissionDialog -> updateViewState { copy(showPermissionDialog = false) }
-            ShowPermissionDialog -> updateViewState { copy(showPermissionDialog = true) }
+            GoToSettingsPressed -> permissionsController.openAppSettings()
         }
     }
 
@@ -95,8 +103,7 @@ class ProfileEditViewModel(
             imageUrl = imageUrl ?: user.imageUrl,
         )
         screenModelScope.launch(dispatchersProvider.io) {
-            val result = authService.updateAppUser(updatedUser)
-            when (result) {
+            when (val result = authService.updateAppUser(updatedUser)) {
                 is Response.Success -> {
                     authService.getAppUser(refresh = true)
                     updateViewState { copy(editState = ActionState.Success) }
@@ -107,6 +114,29 @@ class ProfileEditViewModel(
                     sendSideEffect(ShowError(result.error))
                 }
             }
+        }
+    }
+
+    private fun onEditImagePressed() {
+        screenModelScope.launch {
+            if (PlatformInfo.isAndroid()) {
+                sendSideEffect(OpenGallery)
+                return@launch
+            }
+
+            if (permissionsController.isPermissionGranted(Permission.GALLERY)) {
+                sendSideEffect(OpenGallery)
+                return@launch
+            }
+
+            val result = permissionsController.requestPermission(Permission.GALLERY)
+
+            if (result == PermissionResult.GRANTED) {
+                sendSideEffect(OpenGallery)
+                return@launch
+            }
+
+            updateViewState { copy(showPermissionDialog = true) }
         }
     }
 

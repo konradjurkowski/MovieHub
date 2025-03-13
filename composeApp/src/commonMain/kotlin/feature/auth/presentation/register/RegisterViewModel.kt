@@ -6,6 +6,10 @@ import core.model.ActionState
 import core.model.Response
 import core.tools.dispatcher.DispatchersProvider
 import core.tools.validator.FormValidator
+import core.utils.isNotificationPermissionRequired
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.notifications.REMOTE_NOTIFICATION
 import feature.auth.data.remote.AuthService
 import feature.auth.presentation.register.RegisterIntent.BackPressed
 import feature.auth.presentation.register.RegisterIntent.NameChanged
@@ -15,14 +19,16 @@ import feature.auth.presentation.register.RegisterIntent.RepeatedPasswordChanged
 import feature.auth.presentation.register.RegisterIntent.TogglePasswordVisibility
 import feature.auth.presentation.register.RegisterIntent.ToggleRepeatedPasswordVisibility
 import feature.auth.presentation.register.RegisterIntent.SignUp
+import feature.auth.presentation.register.RegisterSideEffect.GoToHome
+import feature.auth.presentation.register.RegisterSideEffect.GoToNotificationPermission
 import feature.auth.presentation.register.RegisterSideEffect.NavigateBack
-import feature.auth.presentation.register.RegisterSideEffect.NavigateForward
 import feature.auth.presentation.register.RegisterSideEffect.ShowError
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val formValidator: FormValidator,
     private val authService: AuthService,
+    val permissionsController: PermissionsController,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<RegisterIntent, RegisterSideEffect, RegisterState>() {
     override fun getDefaultState(): RegisterState = RegisterState()
@@ -83,7 +89,13 @@ class RegisterViewModel(
             when (val result = authService.signUp(name, email, password)) {
                 is Response.Success -> {
                     updateViewState { copy(registerState = ActionState.Success) }
-                    sendSideEffect(NavigateForward)
+                    val isNotificationPermissionGranted = permissionsController.isPermissionGranted(Permission.REMOTE_NOTIFICATION)
+                    if (!isNotificationPermissionRequired() || isNotificationPermissionGranted) {
+                        sendSideEffect(GoToHome)
+                        return@launch
+                    }
+
+                    sendSideEffect(GoToNotificationPermission)
                 }
 
                 is Response.Failure -> {

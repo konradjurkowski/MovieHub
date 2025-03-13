@@ -3,7 +3,7 @@ package core.utils
 import dev.gitlive.firebase.storage.Data
 
 expect object PlatformInfo {
-    val platform: Platform
+    val platformType: PlatformType
     val systemVersion: String
     val sdkInt: Int
     fun getLanguageCode(): String
@@ -11,7 +11,10 @@ expect object PlatformInfo {
     val isDebug: Boolean
 }
 
-enum class Platform {
+fun PlatformInfo.isAndroid() = platformType == PlatformType.Android
+fun PlatformInfo.isIOS() = platformType == PlatformType.IOS
+
+enum class PlatformType {
     Android,
     IOS,
 }

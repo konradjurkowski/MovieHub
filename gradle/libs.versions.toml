@@ -3,8 +3,8 @@
 agp = "8.8.0"
 android-compileSdk = "35"
 android-minSdk = "26"
-android-targetSdk = "34"
-buildKonfig = "0.15.1"
+android-targetSdk = "35"
+build-konfig = "0.15.1"
 
 # Navigation
 voyager = "1.0.1"
@@ -25,19 +25,19 @@ kermit = "2.0.3"
 ktor = "3.0.1"
 
 # Datetime
-kotlinxDatetime = "0.6.0"
+kotlinx-datetime = "0.6.0"
 
 # Image
 coil = "3.1.0"
 
 # Paging
-pagingCommonVersion = "3.3.0-alpha02-0.5.1"
+paging = "3.3.0-alpha02-0.5.1"
 
 # Image picker
-peekabooImagePicker = "0.5.2"
+image-picker = "0.5.2"
 
 # Permissions
-calfPermissions = "0.5.5"
+moko-permissions = "0.19.1"
 
 # Notification
 kmpnotifier = "1.3.0"
@@ -61,13 +61,12 @@ detekt = "1.23.6"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-calf-permissions = { module = "com.mohamedrejeb.calf:calf-permissions", version.ref = "calfPermissions" }
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpnotifier" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 navigator-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 navigator-tabs = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
@@ -75,7 +74,10 @@ navigator-transitions = { module = "cafe.adriel.voyager:voyager-transitions", ve
 navigator-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekabooImagePicker" }
+peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "image-picker" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+moko-permissions-gallery = { module = "dev.icerock.moko:permissions-gallery", version.ref = "moko-permissions" }
+moko-permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "moko-permissions" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase-gitlive-sdk" }
 firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }
@@ -88,15 +90,14 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "pagingCommonVersion" }
+paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
-
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

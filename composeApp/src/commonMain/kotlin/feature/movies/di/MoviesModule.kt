@@ -23,7 +23,7 @@ val moviesModule = module {
     singleOf(::MovieRegistryImpl) bind MovieRegistry::class
 
     factoryOf(::MoviesViewModel)
-    factory<MovieDetailsViewModel> { (movieId: Long) -> MovieDetailsViewModel(movieId, get(), get(), get(), get()) }
-    factory<MoviePreviewViewModel> { (movieId: Long) -> MoviePreviewViewModel(movieId, get(), get(), get()) }
+    factoryOf(::MovieDetailsViewModel)
+    factoryOf(::MoviePreviewViewModel)
     factoryOf(::SearchMovieViewModel)
 }

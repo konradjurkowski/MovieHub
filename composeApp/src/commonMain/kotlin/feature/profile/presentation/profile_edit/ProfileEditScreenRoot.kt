@@ -5,10 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import cafe.adriel.voyager.koin.getScreenModel
-import com.mohamedrejeb.calf.permissions.Permission
-import com.mohamedrejeb.calf.permissions.isGranted
-import com.mohamedrejeb.calf.permissions.rememberPermissionState
-import com.mohamedrejeb.calf.permissions.shouldShowRationale
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 import core.architecture.BaseScreen
@@ -17,11 +13,13 @@ import core.components.dialog.PermissionDialog
 import core.navigation.GlobalNavigators
 import core.utils.LocalSnackbarState
 import core.utils.getFailureMessage
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import feature.profile.presentation.profile_edit.components.ProfileEditScreen
 import feature.profile.presentation.profile_edit.ProfileEditIntent.DismissPermissionDialog
+import feature.profile.presentation.profile_edit.ProfileEditIntent.GoToSettingsPressed
 import feature.profile.presentation.profile_edit.ProfileEditIntent.ImageChanged
-import feature.profile.presentation.profile_edit.ProfileEditIntent.ShowPermissionDialog
-import feature.profile.presentation.profile_edit.ProfileEditSideEffect.OpenGalleryOrCheckPermission
+import feature.profile.presentation.profile_edit.ProfileEditSideEffect.OpenGallery
 import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowError
 import feature.profile.presentation.profile_edit.ProfileEditSideEffect.ShowSuccessAndNavigateBack
 import kotlinx.coroutines.launch
@@ -29,18 +27,19 @@ import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.permission_gallery_permanently_denied
 import moviehub.composeapp.generated.resources.profile_edit_screen_edit_success
 import org.jetbrains.compose.resources.stringResource
+import org.koin.core.parameter.parametersOf
 
 class ProfileEditScreenRoot : BaseScreen() {
 
     @Composable
     override fun Content() {
+        val factory = rememberPermissionsControllerFactory()
         val snackbarState = LocalSnackbarState.current
 
-        val viewModel = getScreenModel<ProfileEditViewModel>()
+        val viewModel = getScreenModel<ProfileEditViewModel> { parametersOf(factory.createPermissionsController()) }
         val state by viewModel.viewState.collectAsState()
 
         val coroutineScope = rememberCoroutineScope()
-        val galleryPermissionState = rememberPermissionState(Permission.Gallery)
         val imagePicker = rememberImagePickerLauncher(
             selectionMode = SelectionMode.Single,
             scope = coroutineScope,
@@ -50,27 +49,16 @@ class ProfileEditScreenRoot : BaseScreen() {
             },
         )
 
+        BindEffect(viewModel.permissionsController)
+
         CollectSideEffects(viewModel.viewSideEffects) { effect ->
             when (effect) {
                 is ShowError -> snackbarState.showError(getFailureMessage(effect.error))
+                OpenGallery -> coroutineScope.launch { imagePicker.launch() }
 
                 ShowSuccessAndNavigateBack -> {
                     snackbarState.showSuccess(message = Res.string.profile_edit_screen_edit_success)
                     GlobalNavigators.navigator?.pop()
-                }
-
-                OpenGalleryOrCheckPermission -> {
-                    if (galleryPermissionState.status.isGranted) {
-                        coroutineScope.launch { imagePicker.launch() }
-                        return@CollectSideEffects
-                    }
-
-                    if (galleryPermissionState.status.shouldShowRationale) {
-                        galleryPermissionState.launchPermissionRequest()
-                        return@CollectSideEffects
-                    }
-
-                    viewModel.sendIntent(ShowPermissionDialog)
                 }
             }
         }
@@ -87,7 +75,7 @@ class ProfileEditScreenRoot : BaseScreen() {
                     viewModel.sendIntent(DismissPermissionDialog)
                 },
                 onGoToAppSettingsClick = {
-                    galleryPermissionState.openAppSettings()
+                    viewModel.sendIntent(GoToSettingsPressed)
                 },
             )
         }
