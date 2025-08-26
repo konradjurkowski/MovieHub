@@ -1,0 +1,30 @@
+package com.konradjurkowski.moviehub.core.presentation.comp.top_bar
+
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.FontWeight
+
+@Composable
+fun MainTopBar(
+    title: String = "",
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
+        ),
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+            )
+        },
+        navigationIcon = { NavigateBackArrow() },
+        actions = actions,
+    )
+}
