@@ -49,6 +49,5 @@ object Dimens {
     val navigationBarHeight = 80.dp
 
     // Other
-    val largeUserAvatar = 95.dp
     val ongoingViewHeight = 50.dp
 }

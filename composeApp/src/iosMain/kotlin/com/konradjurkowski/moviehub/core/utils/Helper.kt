@@ -5,6 +5,7 @@ import com.konradjurkowski.moviehub.core.di.iosModule
 import com.konradjurkowski.moviehub.core.di.networkModule
 import com.konradjurkowski.moviehub.feature.auth.di.authModule
 import com.konradjurkowski.moviehub.feature.group.di.groupModule
+import com.konradjurkowski.moviehub.feature.profile.di.profileModule
 import org.koin.core.context.startKoin
 
 fun initKoin() {
@@ -19,6 +20,7 @@ fun initializeKoin() {
             appModule,
             authModule,
             groupModule,
+            profileModule,
         )
     }
 }

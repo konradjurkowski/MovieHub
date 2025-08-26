@@ -36,7 +36,7 @@ fun CircleImage(
 
     Box(modifier = modifier) {
         Card(
-            modifier = modifier.size(Dimens.largeUserAvatar),
+            modifier = modifier.size(95.dp),
             shape = CircleShape,
             border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.onBackground),
             elevation = CardDefaults

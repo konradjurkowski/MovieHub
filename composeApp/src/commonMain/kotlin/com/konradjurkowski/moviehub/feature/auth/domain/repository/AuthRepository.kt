@@ -12,5 +12,6 @@ interface AuthRepository {
     suspend fun login(email: String, password: String): Response<User>
     suspend fun register(name: String, email: String, password: String): Response<RegisterResponse>
     suspend fun getUserDetails(): Response<User>
-    suspend fun logout(): Response<Unit>
+    suspend fun clearUserSession()
+    fun logout()
 }

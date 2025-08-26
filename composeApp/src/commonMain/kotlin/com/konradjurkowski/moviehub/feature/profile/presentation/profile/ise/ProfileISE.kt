@@ -7,15 +7,12 @@ import com.konradjurkowski.moviehub.feature.auth.domain.model.User
 
 @MviIntent
 sealed class ProfileIntent {
-    data object LogoutPressed : ProfileIntent()
     data object EditProfilePressed : ProfileIntent()
+    data object LogoutPressed : ProfileIntent()
 }
 
 @MviEvent
-sealed class ProfileEvent {
-    data object GoToLoginScreen : ProfileEvent()
-    data object GoToProfileEditScreen : ProfileEvent()
-}
+sealed class ProfileEvent
 
 @MviState
 data class ProfileState(val user: User? = null)

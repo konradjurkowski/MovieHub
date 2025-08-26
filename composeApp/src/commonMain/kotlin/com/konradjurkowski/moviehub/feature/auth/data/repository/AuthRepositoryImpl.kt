@@ -2,6 +2,7 @@ package com.konradjurkowski.moviehub.feature.auth.data.repository
 
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.utils.safeApiCall
+import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.LoginResponse
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.RegisterResponse
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.UserDetailsResponse
@@ -12,12 +13,18 @@ import com.konradjurkowski.moviehub.feature.auth.domain.model.User
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
 import com.konradjurkowski.moviehub.feature.auth.domain.storage.AuthDataStore
 import io.ktor.client.call.body
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class AuthRepositoryImpl(
     private val authApi: AuthApi,
     private val userApi: UserApi,
     private val authDataStore: AuthDataStore,
+    private val dispatchersProvider: DispatchersProvider,
 ) : AuthRepository {
+
+    private val scope = CoroutineScope(SupervisorJob() + dispatchersProvider.main)
 
     override val userFlow = authDataStore.userFlow
 
@@ -47,8 +54,14 @@ class AuthRepositoryImpl(
                 .also { authDataStore.saveUser(user = it) }
         }
 
-    override suspend fun logout(): Response<Unit> {
-        val refreshToken = ""
-        return safeApiCall(apiCall = { authApi.logout(refreshToken = refreshToken) }) {}
+    override suspend fun clearUserSession() {
+        authDataStore.clear()
+    }
+
+    override fun logout() {
+        scope.launch(dispatchersProvider.io) {
+            val refreshToken = authDataStore.getRefreshToken() ?: return@launch
+            safeApiCall(apiCall = { authApi.logout(refreshToken = refreshToken) }) { /* NO - OP */ }
+        }
     }
 }
