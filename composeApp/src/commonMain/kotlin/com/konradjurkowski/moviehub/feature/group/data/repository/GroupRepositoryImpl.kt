@@ -2,7 +2,7 @@ package com.konradjurkowski.moviehub.feature.group.data.repository
 
 import com.konradjurkowski.moviehub.core.domain.application.file.FileUploader
 import com.konradjurkowski.moviehub.core.domain.model.Response
-import com.konradjurkowski.moviehub.core.utils.safeApiCall
+import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.toDomain
 import com.konradjurkowski.moviehub.feature.auth.domain.model.Group
 import com.konradjurkowski.moviehub.feature.group.data.api.dto.response.CreateGroupResponse

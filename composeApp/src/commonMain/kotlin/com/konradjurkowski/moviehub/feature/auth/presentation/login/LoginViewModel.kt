@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     val permissionsController: PermissionsController,
     private val authRepository: AuthRepository,
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
     private val validateBase: ValidateBaseUseCase,
     private val validateEmail: ValidateEmailUseCase,
     private val dispatchersProvider: DispatchersProvider,
@@ -72,15 +72,15 @@ class LoginViewModel(
 
     private suspend fun navigateForward(user: User) {
         if (!user.isInAnyGroup()) {
-            appNavigator.replaceAll(JoinGroupRoute)
+            navigator.replaceAll(JoinGroupRoute)
             return
         }
 
         if (!permissionsController.isNotificationPermissionGranted()) {
-            appNavigator.replaceAll(NotificationPermissionRoute)
+            navigator.replaceAll(NotificationPermissionRoute)
             return
         }
 
-        appNavigator.replaceAll(MainRoute)
+        navigator.replaceAll(MainRoute)
     }
 }

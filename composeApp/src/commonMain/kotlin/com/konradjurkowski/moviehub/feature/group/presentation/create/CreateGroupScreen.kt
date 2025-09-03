@@ -7,8 +7,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.konradjurkowski.moviehub.core.architecture.CollectEvents
 import com.konradjurkowski.moviehub.core.domain.model.toImageData
 import com.konradjurkowski.moviehub.core.presentation.comp.dialog.PermissionDialog
-import com.konradjurkowski.moviehub.core.utils.rememberImagePicker
-import com.konradjurkowski.moviehub.core.utils.showError
+import com.konradjurkowski.moviehub.core.utils.helpers.rememberImagePicker
+import com.konradjurkowski.moviehub.core.utils.helpers.showError
 import com.konradjurkowski.moviehub.feature.group.presentation.create.CreateGroupEvent.OpenGallery
 import com.konradjurkowski.moviehub.feature.group.presentation.create.CreateGroupEvent.ShowError
 import com.konradjurkowski.moviehub.feature.group.presentation.create.CreateGroupIntent.DismissPermissionDialog

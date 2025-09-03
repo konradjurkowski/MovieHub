@@ -6,4 +6,5 @@ sealed class NavAction {
     data class Push<T : Any>(val route: T) : NavAction()
     data class Replace<T : Any>(val route: T) : NavAction()
     data class ReplaceAll<T : Any>(val route: T) : NavAction()
+    data class OpenUrl(val url: String) : NavAction()
 }

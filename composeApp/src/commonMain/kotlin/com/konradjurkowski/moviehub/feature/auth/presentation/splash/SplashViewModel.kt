@@ -6,21 +6,20 @@ import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.navigation.GlobalDestination.MainRoute
 import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.domain.model.User
-import com.konradjurkowski.moviehub.feature.auth.domain.model.isInAnyGroup
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.WelcomeRoute
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent.TryAgainPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Error
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Loading
-import com.konradjurkowski.moviehub.feature.group.navigation.GroupDestination.JoinGroupRoute
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class SplashViewModel(
     private val authRepository: AuthRepository,
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SplashIntent, SplashState, SplashEvent>(
     initialState = Loading,
@@ -46,7 +45,7 @@ class SplashViewModel(
         viewModelScope.launch(dispatchersProvider.io) {
             if (!authRepository.isUserLoggedIn()) {
                 delay(SPLASH_DELAY)
-                appNavigator.replaceAll(WelcomeRoute)
+                navigator.replaceAll(WelcomeRoute)
                 return@launch
             }
 
@@ -54,11 +53,12 @@ class SplashViewModel(
             when {
                 user == null -> updateState { Error }
 //                !user.isInAnyGroup() -> appNavigator.replaceAll(JoinGroupRoute)
-                else -> appNavigator.replaceAll(MainRoute)
+                else -> navigator.replaceAll(MainRoute)
             }
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     private suspend fun fetchUserWithTimeout(): User? {
         val startTime = Clock.System.now().toEpochMilliseconds()
         val user = withTimeoutOrNull(TIMEOUT) {

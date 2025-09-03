@@ -20,12 +20,13 @@ import com.konradjurkowski.moviehub.core.utils.extensions.CollectNavActions
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.SplashRoute
 import com.konradjurkowski.moviehub.feature.auth.navigation.addAuthGraph
 import com.konradjurkowski.moviehub.feature.group.navigation.addGroupGraph
+import com.konradjurkowski.moviehub.feature.movies.navigation.addMoviesGraph
 import org.koin.compose.koinInject
 
 @Composable
-fun AppNavigationGraph(appNavigator: AppNavigator = koinInject()) {
+fun AppNavigationGraph(navigator: AppNavigator = koinInject()) {
     val navController = LocalNavController.current
-    CollectNavActions(navController, appNavigator.navActionFlow)
+    CollectNavActions(navController, navigator.navActionFlow)
 
     val enterTransition = slideInHorizontally(
         initialOffsetX = { fullWidth -> fullWidth },
@@ -45,13 +46,14 @@ fun AppNavigationGraph(appNavigator: AppNavigator = koinInject()) {
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { exitTransition },
     ) {
+        addCoreGraph()
         addAuthGraph()
         addGroupGraph()
-        addGlobalGraph()
+        addMoviesGraph()
     }
 }
 
-fun NavGraphBuilder.addGlobalGraph() {
+fun NavGraphBuilder.addCoreGraph() {
     composable<QrCodeScannerRoute> { QrCodeScannerScreen() }
     composable<MainRoute> { MainScreen() }
 }

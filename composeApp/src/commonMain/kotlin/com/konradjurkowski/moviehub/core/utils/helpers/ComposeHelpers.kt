@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.utils
+package com.konradjurkowski.moviehub.core.utils.helpers
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.konradjurkowski.moviehub.core.utils.CustomException
+import com.konradjurkowski.moviehub.core.utils.Dimens
 import com.konradjurkowski.snackbarkmm.SnackBarState
 import com.preat.peekaboo.image.picker.ImagePickerLauncher
 import com.preat.peekaboo.image.picker.ResizeOptions

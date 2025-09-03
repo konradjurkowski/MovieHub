@@ -3,7 +3,7 @@ package com.konradjurkowski.moviehub.core.data.application.file
 import com.konradjurkowski.moviehub.core.data.api.file.dto.UploadFileResponse
 import com.konradjurkowski.moviehub.core.domain.api.file.CloudinaryApi
 import com.konradjurkowski.moviehub.core.domain.application.file.FileUploader
-import com.konradjurkowski.moviehub.core.utils.safeApiCall
+import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
 import io.ktor.client.call.body
 
 class FileUploaderImpl(

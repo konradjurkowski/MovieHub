@@ -17,6 +17,7 @@ interface AppNavigator {
     fun <T : Any> push(route: T)
     fun <T : Any> replace(route: T)
     fun <T : Any> replaceAll(route: T)
+    fun openUrl(url: String)
 }
 
 class AppNavigatorImpl : AppNavigator {
@@ -48,5 +49,9 @@ class AppNavigatorImpl : AppNavigator {
 
     override fun <T : Any> replaceAll(route: T) {
         scope.launch { _navActionFlow.emit(NavAction.ReplaceAll(route)) }
+    }
+
+    override fun openUrl(url: String) {
+        scope.launch { _navActionFlow.emit(NavAction.OpenUrl(url)) }
     }
 }

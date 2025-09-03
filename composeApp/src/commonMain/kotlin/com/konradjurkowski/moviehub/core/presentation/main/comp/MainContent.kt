@@ -24,7 +24,7 @@ import com.konradjurkowski.moviehub.core.presentation.main.ise.MainIntent.TabPre
 import com.konradjurkowski.moviehub.core.presentation.main.ise.MainState
 import com.konradjurkowski.moviehub.core.presentation.theme.withA10
 import com.konradjurkowski.moviehub.core.presentation.theme.withA20
-import com.konradjurkowski.moviehub.core.utils.drawTopBorder
+import com.konradjurkowski.moviehub.core.utils.helpers.drawTopBorder
 
 @Composable
 fun MainContent(

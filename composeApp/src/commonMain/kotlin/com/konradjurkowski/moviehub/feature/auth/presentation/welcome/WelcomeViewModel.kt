@@ -8,15 +8,15 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.WelcomeInt
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.WelcomeIntent.RegisterPressed
 
 class WelcomeViewModel(
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
 ) : BaseViewModel<WelcomeIntent, WelcomeState, WelcomeEvent>(
     initialState = WelcomeState,
 ) {
 
     override fun processIntent(intent: WelcomeIntent) {
         when (intent) {
-            LoginPressed -> appNavigator.push(LoginRoute)
-            RegisterPressed -> appNavigator.push(RegisterRoute)
+            LoginPressed -> navigator.push(LoginRoute)
+            RegisterPressed -> navigator.push(RegisterRoute)
         }
     }
 }

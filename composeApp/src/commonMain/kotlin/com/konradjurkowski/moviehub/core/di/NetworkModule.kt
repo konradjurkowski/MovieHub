@@ -17,7 +17,7 @@ val networkModule = module {
     }
     single<AuthInterceptor> {
         val httpClient = get<HttpClient>(named(ApiConstants.Auth.NAME))
-        AuthInterceptor(authDataStore = get(), httpClient = httpClient, appNavigator = get())
+        AuthInterceptor(authDataStore = get(), httpClient = httpClient, navigator = get())
     }
 
     single<HttpClient>(named(ApiConstants.MovieHub.NAME)) {

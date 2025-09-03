@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class NotificationPermissionViewModel(
     val permissionsController: PermissionsController,
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
 ) : BaseViewModel<NotificationPermissionIntent, NotificationPermissionState, NotificationPermissionEvent>(
     initialState = NotificationPermissionState,
 ) {
@@ -20,14 +20,14 @@ class NotificationPermissionViewModel(
     override fun processIntent(intent: NotificationPermissionIntent) {
         when (intent) {
             AllowPressed -> onAllowPressed()
-            DenyPressed -> appNavigator.replaceAll(MainRoute)
+            DenyPressed -> navigator.replaceAll(MainRoute)
         }
     }
 
     private fun onAllowPressed() {
         viewModelScope.launch {
             permissionsController.requestNotificationPermission()
-            appNavigator.replaceAll(MainRoute)
+            navigator.replaceAll(MainRoute)
         }
     }
 }

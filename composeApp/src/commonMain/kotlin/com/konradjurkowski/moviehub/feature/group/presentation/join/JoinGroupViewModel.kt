@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 class JoinGroupViewModel(
     val permissionsController: PermissionsController,
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
     private val eventBus: EventBus,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<JoinGroupIntent, JoinGroupState, JoinGroupEvent> (
@@ -36,7 +36,7 @@ class JoinGroupViewModel(
 
     override fun processIntent(intent: JoinGroupIntent) {
         when (intent) {
-            CreateGroupPressed -> appNavigator.push(CreateGroupRoute)
+            CreateGroupPressed -> navigator.push(CreateGroupRoute)
             DismissPermissionDialog -> updateState { copy(showPermissionDialog = false) }
             OpenAppSettings -> permissionsController.openAppSettings()
             is InvitationCodeChanged -> updateState { copy(invitationCode = intent.code) }
@@ -48,12 +48,12 @@ class JoinGroupViewModel(
     private fun onScanQrCodePressed() {
         viewModelScope.launch {
             if (permissionsController.isCameraPermissionGranted()) {
-                appNavigator.push(QrCodeScannerRoute)
+                navigator.push(QrCodeScannerRoute)
                 return@launch
             }
 
             permissionsController.requestCameraPermission(
-                onGranted = { appNavigator.push(QrCodeScannerRoute) },
+                onGranted = { navigator.push(QrCodeScannerRoute) },
                 onDeniedAlways = { updateState { copy(showPermissionDialog = true) } },
             )
         }

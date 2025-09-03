@@ -6,6 +6,7 @@ import com.konradjurkowski.moviehub.core.di.appModule
 import com.konradjurkowski.moviehub.core.di.networkModule
 import com.konradjurkowski.moviehub.feature.auth.di.authModule
 import com.konradjurkowski.moviehub.feature.group.di.groupModule
+import com.konradjurkowski.moviehub.feature.movies.di.moviesModule
 import com.konradjurkowski.moviehub.feature.profile.di.profileModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -26,6 +27,7 @@ class MovieHubApp : Application() {
                 appModule,
                 authModule,
                 groupModule,
+                moviesModule,
                 profileModule,
             )
         }

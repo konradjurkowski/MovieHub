@@ -5,6 +5,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -53,6 +54,7 @@ inline fun <reified T : Any> NavGraphBuilder.staticComposable(
 
 @Composable
 fun CollectNavActions(navController: NavHostController, navActions: SharedFlow<NavAction>) {
+    val uriHandler = LocalUriHandler.current
     LaunchedEffect(Unit) {
         navActions.collect { action ->
             when (action) {
@@ -61,6 +63,7 @@ fun CollectNavActions(navController: NavHostController, navActions: SharedFlow<N
                 is NavAction.Push<*> -> navController.navigate(action.route)
                 is NavAction.Replace<*> -> navController.replace(action.route)
                 is NavAction.ReplaceAll<*> -> navController.replaceAll(action.route)
+                is NavAction.OpenUrl -> uriHandler.openUri(action.url)
             }
         }
     }

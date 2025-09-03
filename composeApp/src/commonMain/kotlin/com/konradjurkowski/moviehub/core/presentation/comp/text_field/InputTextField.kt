@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.utils.Dimens
 
 @Composable
@@ -52,9 +51,7 @@ fun InputTextField(
     val focusManager = LocalFocusManager.current
 
     BasicTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = 60.dp),
+        modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
         enabled = enabled,

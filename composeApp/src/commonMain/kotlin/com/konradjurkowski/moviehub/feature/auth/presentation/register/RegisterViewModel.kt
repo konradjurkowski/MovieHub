@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val authRepository: AuthRepository,
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
     private val validateBase: ValidateBaseUseCase,
     private val validateEmail: ValidateEmailUseCase,
     private val validatePassword: ValidateBaseUseCase,
@@ -79,7 +79,7 @@ class RegisterViewModel(
             when (val result = authRepository.register(name, email, password)) {
                 is Response.Success -> {
                     // TODO SHOW SUCCESS MESSAGE
-                    appNavigator.back()
+                    navigator.back()
                     updateState { copy(registerState = ActionState.Success) }
                 }
 

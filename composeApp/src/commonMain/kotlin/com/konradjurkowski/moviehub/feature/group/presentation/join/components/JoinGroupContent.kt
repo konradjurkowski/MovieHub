@@ -27,7 +27,7 @@ import com.konradjurkowski.moviehub.core.presentation.comp.text_field.InvalidFie
 import com.konradjurkowski.moviehub.core.presentation.comp.text_field.TextFieldLabel
 import com.konradjurkowski.moviehub.core.presentation.comp.top_bar.MainTopBar
 import com.konradjurkowski.moviehub.core.utils.Dimens
-import com.konradjurkowski.moviehub.core.utils.noRippleClickable
+import com.konradjurkowski.moviehub.core.utils.helpers.noRippleClickable
 import com.konradjurkowski.moviehub.feature.group.presentation.join.JoinGroupIntent
 import com.konradjurkowski.moviehub.feature.group.presentation.join.JoinGroupIntent.CreateGroupPressed
 import com.konradjurkowski.moviehub.feature.group.presentation.join.JoinGroupIntent.InvitationCodeChanged

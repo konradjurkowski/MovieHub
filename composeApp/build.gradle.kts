@@ -112,6 +112,7 @@ kotlin {
             // UI Helpers
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+            implementation(libs.paging.compose)
             implementation(libs.snackbarkmm)
             implementation(libs.qr.kit)
             implementation(libs.image.picker)

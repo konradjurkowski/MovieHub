@@ -14,7 +14,7 @@ import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIn
 import kotlinx.coroutines.launch
 
 class QrCodeScannerViewModel(
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
     private val eventBus: EventBus,
 ) : BaseViewModel<QrCodeScannerIntent, QrCodeScannerState, QrCodeScannerEvent>(
     initialState = QrCodeScannerState(),
@@ -30,7 +30,7 @@ class QrCodeScannerViewModel(
             is QrCodeChanged -> {
                 viewModelScope.launch {
                     eventBus.invokeEvent(QrCodeScanned(intent.qrCode))
-                    appNavigator.back()
+                    navigator.back()
                 }
             }
         }

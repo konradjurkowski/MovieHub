@@ -22,7 +22,7 @@ import kotlinx.coroutines.sync.withLock
 class AuthInterceptor(
     private val authDataStore: AuthDataStore,
     private val httpClient: HttpClient,
-    private val appNavigator: AppNavigator,
+    private val navigator: AppNavigator,
 ) : HttpClientPlugin<Unit, Unit> {
 
     private val mutex = Mutex()
@@ -49,7 +49,7 @@ class AuthInterceptor(
             request.headers.append(HttpHeaders.Authorization, "Bearer $accessToken")
             val call = execute(request)
 
-            if (call.response.status == HttpStatusCode.Companion.Forbidden) {
+            if (call.response.status == HttpStatusCode.Companion.Unauthorized) {
                 val newAccessToken = mutex.withLock {
                     val currentToken = authDataStore.getAccessToken()
                     if (currentToken != accessToken) return@withLock currentToken
@@ -58,7 +58,7 @@ class AuthInterceptor(
                 }
                 if (newAccessToken == null) {
                     authDataStore.clear()
-                    appNavigator.replaceAll(AuthDestination.WelcomeRoute)
+                    navigator.replaceAll(AuthDestination.WelcomeRoute)
                     return@intercept call
                 }
 
