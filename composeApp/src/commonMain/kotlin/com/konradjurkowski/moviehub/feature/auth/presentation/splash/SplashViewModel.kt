@@ -11,6 +11,7 @@ import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.Welc
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent.TryAgainPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Error
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Loading
+import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -19,6 +20,7 @@ import kotlin.time.ExperimentalTime
 
 class SplashViewModel(
     private val authRepository: AuthRepository,
+    private val movieRepository: MovieRepository,
     private val navigator: AppNavigator,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<SplashIntent, SplashState, SplashEvent>(
@@ -64,6 +66,7 @@ class SplashViewModel(
         val user = withTimeoutOrNull(TIMEOUT) {
             authRepository.getUserDetails().getSuccess()
         }
+        movieRepository.getAddedTmdbIds(groupId = 1)
         val elapsedTime = Clock.System.now().toEpochMilliseconds() - startTime
         val remainingDelay = (SPLASH_DELAY - elapsedTime).coerceAtLeast(0)
         delay(remainingDelay)

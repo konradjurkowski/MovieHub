@@ -1,8 +1,10 @@
 package com.konradjurkowski.moviehub.feature.movies.data.api
 
+import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.CreateMovieRequest
 import com.konradjurkowski.moviehub.feature.movies.domain.api.MovieApi
 import io.ktor.client.HttpClient
 import io.ktor.client.request.request
+import io.ktor.client.request.setBody
 import io.ktor.http.HttpMethod
 import io.ktor.http.path
 
@@ -10,9 +12,18 @@ class MovieApiImpl(
     private val httpClient: HttpClient,
 ) : MovieApi {
 
-    override suspend fun getMovieById(movieId: Long) = httpClient.request {
+    override suspend fun createMovie(request: CreateMovieRequest) = httpClient.request {
+        method = HttpMethod.Post
+        url { path("/api/movies/add") }
+        setBody(request)
+    }
+
+    override suspend fun getAddedTmdbIds(groupId: Long) = httpClient.request {
         method = HttpMethod.Get
-        url { path("/api/movies/$movieId") }
+        url {
+            path("/api/movies/ids")
+            parameters.append("groupId", groupId.toString())
+        }
     }
 
     override suspend fun searchMovies(query: String, page: Int) = httpClient.request {
@@ -30,5 +41,10 @@ class MovieApiImpl(
             path("/api/movies/popular")
             parameters.append("page", page.toString())
         }
+    }
+
+    override suspend fun getMoviePreview(tmdbId: Long) = httpClient.request {
+        method = HttpMethod.Get
+        url { path("/api/movies/preview/$tmdbId") }
     }
 }

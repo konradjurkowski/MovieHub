@@ -1,12 +1,11 @@
-package com.konradjurkowski.moviehub.feature.movies.data.api.dto
+package com.konradjurkowski.moviehub.feature.movies.data.api.dto.request
 
-import com.konradjurkowski.moviehub.feature.movies.domain.model.Movie
+import com.konradjurkowski.moviehub.feature.movies.domain.model.MovieDetails
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieDto(
-    val id: Long? = null,
-    val groupId: Long? = null,
+data class CreateMovieRequest(
+    val groupId: Long,
     val tmdbId: Long,
     val title: String,
     val overview: String,
@@ -17,11 +16,10 @@ data class MovieDto(
     val releaseDate: String? = null,
 )
 
-fun MovieDto.toDomain(): Movie {
-    return Movie(
-        id = id,
+fun MovieDetails.toCreateRequest(groupId: Long): CreateMovieRequest {
+    return CreateMovieRequest(
         groupId = groupId,
-        tmdbId = tmdbId,
+        tmdbId = id,
         title = title,
         overview = overview,
         language = language,

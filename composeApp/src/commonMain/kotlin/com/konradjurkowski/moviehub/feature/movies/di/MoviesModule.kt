@@ -3,8 +3,10 @@ package com.konradjurkowski.moviehub.feature.movies.di
 import com.konradjurkowski.moviehub.core.utils.constants.ApiConstants
 import com.konradjurkowski.moviehub.feature.movies.data.api.MovieApiImpl
 import com.konradjurkowski.moviehub.feature.movies.data.repository.MovieRepositoryImpl
+import com.konradjurkowski.moviehub.feature.movies.data.storage.MovieStorageImpl
 import com.konradjurkowski.moviehub.feature.movies.domain.api.MovieApi
 import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository
+import com.konradjurkowski.moviehub.feature.movies.domain.storage.MovieStorage
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.AddMovieViewModel
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.MoviePreviewViewModel
 import io.ktor.client.HttpClient
@@ -20,6 +22,7 @@ val moviesModule = module {
         MovieApiImpl(httpClient)
     }
 
+    singleOf(::MovieStorageImpl) bind MovieStorage::class
     singleOf(::MovieRepositoryImpl) bind MovieRepository::class
 
     viewModelOf(::AddMovieViewModel)

@@ -53,7 +53,7 @@ class AddMovieViewModel(
     override fun processIntent(intent: AddMovieIntent) {
         when (intent) {
             is MovieAddPressed -> {}
-            is MovieCardPressed -> navigator.push(MoviePreviewRoute(movieId = intent.movie.id))
+            is MovieCardPressed -> navigator.push(MoviePreviewRoute(tmdbId = intent.movie.tmdbId))
             is QueryChanged -> updateQuery(intent.query)
             ClearQueryPressed -> {
                 val addedMovieIds = viewState.value.addedMovieIds

@@ -14,7 +14,7 @@ sealed interface MoviesDestination {
     data object AddMovieRoute : MoviesDestination
 
     @Serializable
-    data class MoviePreviewRoute(val movieId: Long) : MoviesDestination
+    data class MoviePreviewRoute(val tmdbId: Long) : MoviesDestination
 }
 
 fun NavGraphBuilder.addMoviesGraph() {

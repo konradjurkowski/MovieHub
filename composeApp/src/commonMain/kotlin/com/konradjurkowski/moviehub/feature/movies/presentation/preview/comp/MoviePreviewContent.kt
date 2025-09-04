@@ -11,6 +11,7 @@ import com.konradjurkowski.moviehub.core.presentation.comp.media.details.MediaDe
 import com.konradjurkowski.moviehub.core.presentation.comp.media.details.MediaDetailsLoading
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewIntent
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewIntent.BackPressed
+import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewIntent.MovieAddPressed
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewIntent.VideoPressed
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewIntent.Refresh
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewState
@@ -33,9 +34,12 @@ fun MoviePreviewContent(
             AddMediaButton(
                 addedLabel = stringResource(Res.string.movie_screen_preview_movie_added),
                 notAddedLabel = stringResource(Res.string.movie_screen_preview_add_movie),
-                visible = state.isLoaded(),
-                added = false,
-                onClick = {},
+                visible = state.isDataLoaded(),
+                added = state.isMovieAdded(),
+                onClick = {
+                    val movie = state.getSuccess()?.movie ?: return@AddMediaButton
+                    onIntent(MovieAddPressed(movie))
+                },
             )
         },
     ) { innerPadding ->
