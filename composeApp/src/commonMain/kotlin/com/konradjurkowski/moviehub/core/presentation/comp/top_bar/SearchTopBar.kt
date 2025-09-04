@@ -1,6 +1,7 @@
 package com.konradjurkowski.moviehub.core.presentation.comp.top_bar
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -14,6 +15,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.presentation.comp.text_field.InputTextField
 import com.konradjurkowski.moviehub.core.utils.Dimens
 import moviehub.composeapp.generated.resources.Res
@@ -44,11 +46,13 @@ fun SearchTopBar(
         },
         title = {
             InputTextField(
-                modifier = Modifier.focusRequester(focusRequester),
+                modifier = Modifier
+                    .height(40.dp)
+                    .focusRequester(focusRequester),
                 value = value,
                 onValueChange = onValueChange,
                 textStyle = MaterialTheme.typography.bodySmall,
-                contentPadding = PaddingValues(Dimens.padding16, Dimens.padding8),
+                contentPadding = PaddingValues(Dimens.padding16, Dimens.padding2),
             )
         },
         actions = {

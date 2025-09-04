@@ -29,6 +29,7 @@ fun AddMovieContent(
         topBar = {
             SearchTopBar(
                 value = state.query,
+                requestFocus = true,
                 onValueChange = { onIntent(QueryChanged(it)) },
                 onClearPressed = { onIntent(ClearQueryPressed) },
             )

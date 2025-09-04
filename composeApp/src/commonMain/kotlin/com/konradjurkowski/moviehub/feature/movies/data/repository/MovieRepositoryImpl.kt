@@ -24,7 +24,7 @@ class MovieRepositoryImpl(
     override suspend fun getAddedTmdbIds(groupId: Long) =
         safeApiCall(apiCall = { api.getAddedTmdbIds(groupId) }) { response ->
             response.body<AddedTmdbIdsResponse>().movies.also { movieIds ->
-                if (movieIds.isNotEmpty()) storage.saveTmdbIds(movieIds)
+                storage.saveTmdbIds(movieIds)
             }
         }
 

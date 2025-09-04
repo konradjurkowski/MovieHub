@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.konradjurkowski.moviehub.core.presentation.comp.button.AnimatedIconButton
 import com.konradjurkowski.moviehub.core.presentation.comp.image.AnyImage
@@ -30,6 +31,7 @@ fun GridMediaPagingItem(
     onCardClick: () -> Unit,
 ) {
     val hapticFeedback = LocalHapticFeedback.current
+    val focusManager = LocalFocusManager.current
 
     Card(
         modifier = modifier
@@ -37,6 +39,7 @@ fun GridMediaPagingItem(
             .padding(Dimens.padding8),
         onClick = {
             hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+            focusManager.clearFocus()
             onCardClick()
         },
         elevation = CardDefaults.cardElevation(defaultElevation = Dimens.defaultElevation),

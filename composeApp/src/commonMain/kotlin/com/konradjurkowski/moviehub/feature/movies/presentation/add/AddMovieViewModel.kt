@@ -53,7 +53,7 @@ class AddMovieViewModel(
     private var addingJob: Job? = null
 
     val pager: Flow<PagingData<Movie>> = _searchQuery
-        .debounce(500)
+        .debounce { query -> if (query.isEmpty()) 0 else 500 }
         .flatMapLatest { query ->
             val pagingSource = when {
                 query.isNotEmpty() -> SearchMoviePagingSource(api = movieApi, query = query)

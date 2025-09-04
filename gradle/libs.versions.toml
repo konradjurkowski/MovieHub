@@ -18,7 +18,7 @@ androidx-lifecycle = "2.9.0"
 compose-multiplatform = "1.8.1"
 
 # Navigation
-compose-navigation = "2.9.0-beta01"
+compose-navigation = "2.9.0-rc01"
 
 # DI
 koin = "4.0.4"

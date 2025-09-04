@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.utils.Dimens
 
 @Composable
@@ -38,7 +39,7 @@ fun InputTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     imeAction: ImeAction = ImeAction.Done,
-    contentPadding: PaddingValues = PaddingValues(Dimens.padding16),
+    contentPadding: PaddingValues = PaddingValues(horizontal = Dimens.padding16, vertical = Dimens.padding2),
     onDone: () -> Unit = {},
     onSearch: () -> Unit = {},
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -51,7 +52,9 @@ fun InputTextField(
     val focusManager = LocalFocusManager.current
 
     BasicTextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .height(55.dp)
+            .fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
         enabled = enabled,
