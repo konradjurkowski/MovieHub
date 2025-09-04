@@ -1,6 +1,6 @@
 package com.konradjurkowski.moviehub.feature.movies.data.api
 
-import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.CreateMovieRequest
+import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.AddMovieRequest
 import com.konradjurkowski.moviehub.feature.movies.domain.api.MovieApi
 import io.ktor.client.HttpClient
 import io.ktor.client.request.request
@@ -12,7 +12,7 @@ class MovieApiImpl(
     private val httpClient: HttpClient,
 ) : MovieApi {
 
-    override suspend fun createMovie(request: CreateMovieRequest) = httpClient.request {
+    override suspend fun addMovie(request: AddMovieRequest) = httpClient.request {
         method = HttpMethod.Post
         url { path("/api/movies/add") }
         setBody(request)

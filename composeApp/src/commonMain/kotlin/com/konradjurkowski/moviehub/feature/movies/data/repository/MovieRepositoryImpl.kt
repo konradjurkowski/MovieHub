@@ -3,7 +3,7 @@ package com.konradjurkowski.moviehub.feature.movies.data.repository
 import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.MovieDetailsDto
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.MovieDto
-import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.CreateMovieRequest
+import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.AddMovieRequest
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.response.AddedTmdbIdsResponse
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.toDomain
 import com.konradjurkowski.moviehub.feature.movies.domain.api.MovieApi
@@ -16,8 +16,8 @@ class MovieRepositoryImpl(
     private val storage: MovieStorage,
 ) : MovieRepository {
 
-    override suspend fun createMovie(request: CreateMovieRequest) =
-        safeApiCall(apiCall = { api.createMovie(request) }) { response ->
+    override suspend fun addMovie(request: AddMovieRequest) =
+        safeApiCall(apiCall = { api.addMovie(request) }) { response ->
             response.body<MovieDto>().toDomain()
         }
 

@@ -13,6 +13,7 @@ import com.konradjurkowski.moviehub.core.utils.helpers.clearFocus
 import com.konradjurkowski.moviehub.feature.movies.domain.model.Movie
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent.ClearQueryPressed
+import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent.MovieAddPressed
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent.MovieCardPressed
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent.QueryChanged
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieState
@@ -41,8 +42,8 @@ fun AddMovieContent(
             itemContent = { movie ->
                 GridMediaPagingItem(
                     imageUrl = movie.posterUrl,
-                    isAdded = false,
-                    onAddClick = {},
+                    isAdded = state.addedTmdbIds.contains(movie.tmdbId),
+                    onAddClick = { onIntent(MovieAddPressed(movie)) },
                     onCardClick = { onIntent(MovieCardPressed(movie)) },
                 )
             },

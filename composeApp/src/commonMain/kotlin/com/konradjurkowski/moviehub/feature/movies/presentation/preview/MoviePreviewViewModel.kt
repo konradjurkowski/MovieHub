@@ -81,7 +81,7 @@ class MoviePreviewViewModel(
         _viewState.transformIf<Success> { copy(addState = ActionState.Loading) }
         addingJob = viewModelScope.launch(dispatchersProvider.io) {
             val request = movie.toCreateRequest(groupId = 1)
-            when (val result = movieRepository.createMovie(request)) {
+            when (val result = movieRepository.addMovie(request)) {
                 is Response.Success -> {
                     sendEvent(ShowSuccess)
                     movieStorage.saveTmdbId(result.data.tmdbId)
