@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.data.storage
+package com.konradjurkowski.moviehub.core.utils.extensions
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

@@ -7,9 +7,8 @@ android-targetSdk = "35"
 build-konfig = "0.17.1"
 
 # Kotlin
-kotlin = "2.1.21"
-kotlinx-serialization = "1.8.1"
-kotlinx-datetime = "0.6.2"
+kotlin = "2.2.10"
+kotlinx-serialization = "1.9.0"
 kotlinx-coroutines = "1.10.2"
 
 # Compose
@@ -51,7 +50,6 @@ compottie = "2.0.0"
 [libraries]
 # Kotlin
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 
 # Compose
