@@ -34,7 +34,7 @@ fun Movie.toCreateRequest(groupId: Long): AddMovieRequest {
 fun MovieDetails.toCreateRequest(groupId: Long): AddMovieRequest {
     return AddMovieRequest(
         groupId = groupId,
-        tmdbId = id,
+        tmdbId = tmdbId,
         title = title,
         overview = overview,
         language = language,

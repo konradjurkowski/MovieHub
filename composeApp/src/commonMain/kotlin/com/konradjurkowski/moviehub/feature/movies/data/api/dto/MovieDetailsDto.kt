@@ -13,7 +13,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieDetailsDto(
-    val id: Long,
+    val id: Long? = null,
+    val groupId: Long? = null,
+    val tmdbId: Long,
     val title: String,
     val overview: String,
     val language: String,
@@ -40,6 +42,8 @@ data class MovieDetailsDto(
 fun MovieDetailsDto.toDomain(): MovieDetails {
     return MovieDetails(
         id = id,
+        groupId = groupId,
+        tmdbId = tmdbId,
         title = title,
         overview = overview,
         language = language,

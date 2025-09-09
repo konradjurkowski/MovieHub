@@ -10,7 +10,9 @@ import com.konradjurkowski.moviehub.core.domain.model.media.Video
 import com.konradjurkowski.moviehub.core.domain.model.media.VideoType
 
 data class MovieDetails(
-    val id: Long,
+    val id: Long? = null,
+    val groupId: Long? = null,
+    val tmdbId: Long,
     val title: String,
     val overview: String,
     val language: String,
