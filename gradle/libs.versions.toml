@@ -37,7 +37,7 @@ kermit = "2.0.5"
 datastore = "1.1.7"
 
 # Permissions
-moko-permissions = "0.19.1"
+moko-permissions = "0.20.1"
 
 # UI Helpers
 coil = "3.2.0"
