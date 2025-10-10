@@ -10,27 +10,26 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import com.konradjurkowski.moviehub.core.presentation.comp.other.SmallSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.confirm
 
 @Composable
-fun AddMediaButton(
+fun FooterButton(
     modifier: Modifier = Modifier,
-    addedLabel: String,
-    notAddedLabel: String,
+    text: String,
+    icon: ImageVector? = null,
     visible: Boolean,
-    added: Boolean,
+    enabled: Boolean,
     onClick: () -> Unit,
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -42,8 +41,8 @@ fun AddMediaButton(
     ) {
         Row(
             modifier = modifier
-                .clickable(enabled = !added) {
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                .clickable(enabled = enabled) {
+                    hapticFeedback.confirm()
                     onClick()
                 }
                 .fillMaxWidth()
@@ -53,27 +52,20 @@ fun AddMediaButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (added) {
-                Text(
-                    text = addedLabel.uppercase(),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
-            } else {
+            if (icon != null) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = icon,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary,
                 )
                 SmallSpacer()
-                Text(
-                    text = notAddedLabel.uppercase(),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
             }
+            Text(
+                text = text.uppercase(),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
         }
     }
 }

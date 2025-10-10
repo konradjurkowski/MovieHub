@@ -13,10 +13,10 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 
 @Composable
 fun AnimatedIconButton(
@@ -38,7 +38,7 @@ fun AnimatedIconButton(
             shape = RoundedCornerShape(Dimens.padding4),
             enabled = isVisible,
             onClick = {
-                hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                hapticFeedback.click()
                 onClick()
             },
             border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary),

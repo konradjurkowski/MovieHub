@@ -3,10 +3,12 @@ package com.konradjurkowski.moviehub.feature.movies.presentation.preview.comp
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.konradjurkowski.moviehub.core.presentation.comp.button.AddMediaButton
+import com.konradjurkowski.moviehub.core.presentation.comp.button.FooterButton
 import com.konradjurkowski.moviehub.core.presentation.comp.media.details.MediaDetailsError
 import com.konradjurkowski.moviehub.core.presentation.comp.media.details.MediaDetailsLoading
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewIntent
@@ -31,13 +33,19 @@ fun MoviePreviewContent(
 ) {
     Scaffold(
         bottomBar = {
-            AddMediaButton(
-                addedLabel = stringResource(Res.string.movie_screen_preview_movie_added),
-                notAddedLabel = stringResource(Res.string.movie_screen_preview_add_movie),
+            val text = when (state.isMovieAdded()) {
+                true -> stringResource(Res.string.movie_screen_preview_movie_added)
+                false -> stringResource(Res.string.movie_screen_preview_add_movie)
+            }
+            val icon = Icons.Default.Add.takeUnless { state.isMovieAdded() }
+
+            FooterButton(
+                text = text,
+                icon = icon,
                 visible = state.isDataLoaded(),
-                added = state.isMovieAdded(),
+                enabled = !state.isMovieAdded(),
                 onClick = {
-                    val movie = state.getSuccess()?.movie ?: return@AddMediaButton
+                    val movie = state.getSuccess()?.movie ?: return@FooterButton
                     onIntent(MovieAddPressed(movie))
                 },
             )

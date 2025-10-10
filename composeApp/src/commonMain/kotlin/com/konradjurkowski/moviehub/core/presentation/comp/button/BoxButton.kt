@@ -17,11 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.presentation.theme.withA50
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 
 @Composable
 fun BoxButton(
@@ -36,7 +36,7 @@ fun BoxButton(
             .size(Dimens.icon48)
             .clip(RoundedCornerShape(Dimens.radius16))
             .clickable {
-                hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                hapticFeedback.click()
                 onClick()
             },
         color = MaterialTheme.colorScheme.background.withA50(),
