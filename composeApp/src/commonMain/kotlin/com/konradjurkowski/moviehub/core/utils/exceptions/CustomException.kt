@@ -8,12 +8,4 @@ abstract class CustomException(
     val messageRes: StringResource = Res.string.something_went_wrong,
 ) : Throwable()
 
-class GenericException : CustomException()
-class FailureResponseException: CustomException()
-class FirebaseMovieExistException : CustomException()
-class FirebaseMovieNotExistException : CustomException()
-class FirebaseSeriesExistException : CustomException()
-class FirebaseSeriesNotExistException : CustomException()
-class UserNotLoggedInException : CustomException()
-class UserExistException : CustomException()
-class NoInternetConnectionException : CustomException()
+class ApiException(errorRes: StringResource) : CustomException(errorRes)

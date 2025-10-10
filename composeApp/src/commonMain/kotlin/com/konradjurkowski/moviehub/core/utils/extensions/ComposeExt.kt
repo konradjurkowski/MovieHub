@@ -14,17 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.konradjurkowski.moviehub.core.utils.exceptions.CustomException
 import com.konradjurkowski.moviehub.core.utils.Dimens
 import com.konradjurkowski.snackbarkmm.SnackBarState
 import com.preat.peekaboo.image.picker.ImagePickerLauncher
 import com.preat.peekaboo.image.picker.ResizeOptions
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
-import dev.gitlive.firebase.FirebaseNetworkException
-import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.something_went_wrong
-import org.jetbrains.compose.resources.StringResource
 
 fun Modifier.noRippleClickable(
     enabled: Boolean = true,
@@ -87,14 +82,4 @@ fun rememberImagePicker(onResult: (ByteArray) -> Unit): ImagePickerLauncher {
     )
 }
 
-fun SnackBarState.showError(error: Throwable) {
-    this.showError(getFailureMessage(error))
-}
-
-fun getFailureMessage(error: Throwable): StringResource {
-    return when (error) {
-        is FirebaseNetworkException -> Res.string.something_went_wrong
-        is CustomException -> error.messageRes
-        else -> Res.string.something_went_wrong
-    }
-}
+fun SnackBarState.showError(error: Throwable) = this.showError(error.getErrorMessage())
