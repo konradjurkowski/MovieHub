@@ -13,7 +13,7 @@ val networkModule = module {
 
     single<HttpClient>(named(ApiConstants.Auth.NAME)) {
         val factory = get<ApiClientFactory>()
-        factory.createBaseClient(ApiConstants.Auth.BASE_URL)
+        factory.createClient(ApiConstants.Auth.BASE_URL)
     }
     single<AuthInterceptor> {
         val httpClient = get<HttpClient>(named(ApiConstants.Auth.NAME))
@@ -23,12 +23,12 @@ val networkModule = module {
     single<HttpClient>(named(ApiConstants.MovieHub.NAME)) {
         val factory = get<ApiClientFactory>()
         val authInterceptor = get<AuthInterceptor>()
-        factory.createBaseClient(ApiConstants.MovieHub.BASE_URL).config {
+        factory.createClient(ApiConstants.MovieHub.BASE_URL).config {
             install(authInterceptor)
         }
     }
     single<HttpClient>(named(ApiConstants.Cloudinary.NAME)) {
         val factory = get<ApiClientFactory>()
-        factory.createBaseClient(ApiConstants.Cloudinary.BASE_URL)
+        factory.createClient(ApiConstants.Cloudinary.BASE_URL)
     }
 }

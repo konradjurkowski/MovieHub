@@ -16,7 +16,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 class SplashViewModel(
     private val authRepository: AuthRepository,
@@ -54,13 +53,11 @@ class SplashViewModel(
             val user = fetchUserWithTimeout()
             when {
                 user == null -> updateState { Error }
-//                !user.isInAnyGroup() -> appNavigator.replaceAll(JoinGroupRoute)
                 else -> navigator.replaceAll(MainRoute)
             }
         }
     }
 
-    @OptIn(ExperimentalTime::class)
     private suspend fun fetchUserWithTimeout(): User? {
         val startTime = Clock.System.now().toEpochMilliseconds()
         val user = withTimeoutOrNull(TIMEOUT) {

@@ -19,7 +19,6 @@ import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeS
 import com.konradjurkowski.moviehub.core.utils.extensions.CollectNavActions
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.SplashRoute
 import com.konradjurkowski.moviehub.feature.auth.navigation.addAuthGraph
-import com.konradjurkowski.moviehub.feature.group.navigation.addGroupGraph
 import com.konradjurkowski.moviehub.feature.movies.navigation.addMoviesGraph
 import org.koin.compose.koinInject
 
@@ -48,7 +47,6 @@ fun AppNavigationGraph(navigator: AppNavigator = koinInject()) {
     ) {
         addCoreGraph()
         addAuthGraph()
-        addGroupGraph()
         addMoviesGraph()
     }
 }

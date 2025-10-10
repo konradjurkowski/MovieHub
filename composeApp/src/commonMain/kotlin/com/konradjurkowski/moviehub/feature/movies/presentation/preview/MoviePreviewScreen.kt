@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.konradjurkowski.moviehub.core.architecture.CollectEvents
-import com.konradjurkowski.moviehub.core.utils.helpers.showError
+import com.konradjurkowski.moviehub.core.utils.extensions.showError
 import com.konradjurkowski.moviehub.core.presentation.comp.loading.LoadingOverlay
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.comp.MoviePreviewContent
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.ise.MoviePreviewEvent.ShowError

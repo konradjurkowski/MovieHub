@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 
 class ApiClientFactoryImpl : ApiClientFactory {
 
-    override fun createBaseClient(baseUrl: String): HttpClient {
+    override fun createClient(baseUrl: String): HttpClient {
         val json = Json {
             prettyPrint = true
             isLenient = true

@@ -2,8 +2,8 @@ package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner
 
 import androidx.lifecycle.viewModelScope
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
-import com.konradjurkowski.moviehub.core.data.application.event.EventBus
-import com.konradjurkowski.moviehub.core.data.application.event.QrCodeScanned
+import com.konradjurkowski.moviehub.core.domain.events.EventBus
+import com.konradjurkowski.moviehub.core.domain.model.QrCodeScanned
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.HideImagePicker
 import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.OnScanningFailure
@@ -29,7 +29,7 @@ class QrCodeScannerViewModel(
 
             is QrCodeChanged -> {
                 viewModelScope.launch {
-                    eventBus.invokeEvent(QrCodeScanned(intent.qrCode))
+                    eventBus.emit(QrCodeScanned(intent.qrCode))
                     navigator.back()
                 }
             }

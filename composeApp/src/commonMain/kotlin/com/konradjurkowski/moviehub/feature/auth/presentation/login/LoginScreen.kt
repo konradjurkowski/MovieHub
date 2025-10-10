@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.konradjurkowski.moviehub.core.architecture.CollectEvents
-import com.konradjurkowski.moviehub.core.utils.helpers.showError
+import com.konradjurkowski.moviehub.core.utils.extensions.showError
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginEvent.ShowError
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.comp.LoginContent
 import com.konradjurkowski.snackbarkmm.LocalSnackbarState

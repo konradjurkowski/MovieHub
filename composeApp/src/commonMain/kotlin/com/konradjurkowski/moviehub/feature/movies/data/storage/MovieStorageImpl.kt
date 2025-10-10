@@ -2,7 +2,7 @@ package com.konradjurkowski.moviehub.feature.movies.data.storage
 
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
-import com.konradjurkowski.moviehub.core.data.storage.DataStoreFactory
+import com.konradjurkowski.moviehub.core.domain.storage.DataStoreFactory
 import com.konradjurkowski.moviehub.feature.movies.domain.storage.MovieStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

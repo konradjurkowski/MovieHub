@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.domain.model.media.Cast
-import com.konradjurkowski.moviehub.core.utils.helpers.paddingForIndex
+import com.konradjurkowski.moviehub.core.utils.extensions.paddingForIndex
 
 @Composable
 fun CastHorizontalList(

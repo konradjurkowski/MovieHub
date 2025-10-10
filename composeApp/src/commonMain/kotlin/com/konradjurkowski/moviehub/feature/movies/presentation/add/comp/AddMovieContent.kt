@@ -9,7 +9,7 @@ import app.cash.paging.compose.LazyPagingItems
 import com.konradjurkowski.moviehub.core.presentation.comp.media.paging.GridMediaPagingItem
 import com.konradjurkowski.moviehub.core.presentation.comp.media.paging.GridMediaPagingList
 import com.konradjurkowski.moviehub.core.presentation.comp.top_bar.SearchTopBar
-import com.konradjurkowski.moviehub.core.utils.helpers.clearFocus
+import com.konradjurkowski.moviehub.core.utils.extensions.clearFocus
 import com.konradjurkowski.moviehub.feature.movies.domain.model.Movie
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieIntent.ClearQueryPressed

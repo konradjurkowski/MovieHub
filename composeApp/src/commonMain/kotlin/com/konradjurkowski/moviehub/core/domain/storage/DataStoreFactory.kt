@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.data.storage
+package com.konradjurkowski.moviehub.core.domain.storage
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

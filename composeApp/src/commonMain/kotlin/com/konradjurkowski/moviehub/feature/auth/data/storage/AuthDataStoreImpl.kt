@@ -2,7 +2,7 @@ package com.konradjurkowski.moviehub.feature.auth.data.storage
 
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.konradjurkowski.moviehub.core.data.storage.DataStoreFactory
+import com.konradjurkowski.moviehub.core.domain.storage.DataStoreFactory
 import com.konradjurkowski.moviehub.core.utils.extensions.get
 import com.konradjurkowski.moviehub.core.utils.extensions.getFlow
 import com.konradjurkowski.moviehub.core.utils.extensions.save

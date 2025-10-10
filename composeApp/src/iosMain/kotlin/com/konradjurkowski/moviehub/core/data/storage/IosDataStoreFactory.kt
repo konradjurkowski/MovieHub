@@ -3,6 +3,7 @@ package com.konradjurkowski.moviehub.core.data.storage
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import com.konradjurkowski.moviehub.core.domain.storage.DataStoreFactory
 import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
 import platform.Foundation.NSDocumentDirectory

@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.konradjurkowski.moviehub.core.utils.helpers.noRippleClickable
+import com.konradjurkowski.moviehub.core.utils.extensions.noRippleClickable
 
 @Composable
 fun InteractiveText(

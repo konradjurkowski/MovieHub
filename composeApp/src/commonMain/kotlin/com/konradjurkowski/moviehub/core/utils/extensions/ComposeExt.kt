@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.utils.helpers
+package com.konradjurkowski.moviehub.core.utils.extensions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

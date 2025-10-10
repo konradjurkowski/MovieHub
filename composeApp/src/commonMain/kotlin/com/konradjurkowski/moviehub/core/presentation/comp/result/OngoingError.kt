@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.konradjurkowski.moviehub.core.presentation.comp.other.SmallSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
-import com.konradjurkowski.moviehub.core.utils.helpers.noRippleClickable
+import com.konradjurkowski.moviehub.core.utils.extensions.noRippleClickable
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.unable_to_load_data
 import org.jetbrains.compose.resources.stringResource

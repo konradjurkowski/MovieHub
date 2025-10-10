@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.konradjurkowski.moviehub.core.architecture.CollectEvents
 import com.konradjurkowski.moviehub.core.presentation.comp.loading.LoadingOverlay
-import com.konradjurkowski.moviehub.core.utils.helpers.showError
+import com.konradjurkowski.moviehub.core.utils.extensions.showError
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.comp.AddMovieContent
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieEvent.ShowError
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.ise.AddMovieEvent.ShowSuccess

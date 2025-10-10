@@ -3,5 +3,5 @@ package com.konradjurkowski.moviehub.core.domain.api
 import io.ktor.client.HttpClient
 
 interface ApiClientFactory {
-    fun createBaseClient(baseUrl: String): HttpClient
+    fun createClient(baseUrl: String): HttpClient
 }
