@@ -1,10 +1,9 @@
-package com.konradjurkowski.moviehub.core.utils
+package com.konradjurkowski.moviehub.core.utils.helpers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.konradjurkowski.moviehub.core.utils.helpers.ScreenSizeInfo
 
 @Composable
 actual fun rememberScreenSize(): ScreenSizeInfo {
