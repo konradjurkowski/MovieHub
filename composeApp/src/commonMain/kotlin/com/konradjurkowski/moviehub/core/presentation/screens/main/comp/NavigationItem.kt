@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.presentation.main.comp
+package com.konradjurkowski.moviehub.core.presentation.screens.main.comp
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import com.konradjurkowski.moviehub.core.domain.model.NavigationTab
+import com.konradjurkowski.moviehub.core.domain.model.navigation.NavigationTab
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

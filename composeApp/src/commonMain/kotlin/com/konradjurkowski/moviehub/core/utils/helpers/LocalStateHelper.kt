@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.utils
+package com.konradjurkowski.moviehub.core.utils.helpers
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.navigation.NavHostController

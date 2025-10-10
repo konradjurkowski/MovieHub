@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.konradjurkowski.moviehub.core.domain.model.ValidationResult
-import com.konradjurkowski.moviehub.core.domain.model.toDisplay
+import com.konradjurkowski.moviehub.core.domain.model.validation.ValidationResult
+import com.konradjurkowski.moviehub.core.domain.model.validation.toDisplay
 import com.konradjurkowski.moviehub.core.utils.Dimens
 
 @Composable

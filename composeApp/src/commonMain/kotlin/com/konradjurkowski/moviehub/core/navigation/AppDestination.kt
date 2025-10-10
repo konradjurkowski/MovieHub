@@ -4,11 +4,11 @@ import kotlinx.serialization.Serializable
 
 interface AppDestination
 
-sealed interface GlobalDestination : AppDestination {
+sealed interface CoreDestination : AppDestination {
 
     @Serializable
-    data object QrCodeScannerRoute : GlobalDestination
+    data object QrCodeScannerRoute : CoreDestination
 
     @Serializable
-    data object MainRoute : GlobalDestination
+    data object MainRoute : CoreDestination
 }

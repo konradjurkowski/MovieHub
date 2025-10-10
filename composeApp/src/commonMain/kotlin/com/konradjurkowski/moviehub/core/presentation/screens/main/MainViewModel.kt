@@ -1,11 +1,11 @@
-package com.konradjurkowski.moviehub.core.presentation.main
+package com.konradjurkowski.moviehub.core.presentation.screens.main
 
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainEvent
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainEvent.SetTab
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainIntent
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainIntent.TabPressed
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainState
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainEvent
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainEvent.SetTab
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainIntent
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainIntent.TabPressed
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainState
 import com.konradjurkowski.moviehub.feature.home.presentation.tab.HomeTab
 import com.konradjurkowski.moviehub.feature.movies.presentation.tab.MoviesTab
 import com.konradjurkowski.moviehub.feature.profile.presentation.tab.ProfileTab

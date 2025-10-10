@@ -4,7 +4,7 @@ import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviEvent
 import com.konradjurkowski.moviehub.core.architecture.MviState
 import com.konradjurkowski.moviehub.core.domain.model.ActionState
-import com.konradjurkowski.moviehub.core.domain.model.ValidationResult
+import com.konradjurkowski.moviehub.core.domain.model.validation.ValidationResult
 
 @MviIntent
 sealed class LoginIntent {

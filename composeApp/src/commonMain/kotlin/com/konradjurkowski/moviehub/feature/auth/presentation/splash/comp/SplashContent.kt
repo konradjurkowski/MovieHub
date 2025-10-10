@@ -17,7 +17,7 @@ import com.konradjurkowski.moviehub.core.presentation.comp.button.SecondaryButto
 import com.konradjurkowski.moviehub.core.presentation.comp.loading.LoadingIndicator
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
-import com.konradjurkowski.moviehub.core.utils.rememberScreenSize
+import com.konradjurkowski.moviehub.core.utils.helpers.rememberScreenSize
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent.TryAgainPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState

@@ -8,7 +8,7 @@ import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateBaseU
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateEmailUseCase
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePasswordMatchUseCase
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterEvent.ShowError
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.EmailChanged

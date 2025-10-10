@@ -12,7 +12,7 @@ import com.konradjurkowski.moviehub.core.domain.model.media.Video
 import com.konradjurkowski.moviehub.core.presentation.comp.media.details.MediaDetailsBackground
 import com.konradjurkowski.moviehub.core.presentation.comp.media.details.MediaDetailsInfo
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer
-import com.konradjurkowski.moviehub.core.utils.rememberScreenSize
+import com.konradjurkowski.moviehub.core.utils.helpers.rememberScreenSize
 import com.konradjurkowski.moviehub.feature.movies.domain.model.MovieDetails
 import com.konradjurkowski.moviehub.feature.movies.presentation.comp.MovieInfoTab
 import moviehub.composeapp.generated.resources.Res

@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.konradjurkowski.moviehub.core.utils.LocalNavController
-import com.konradjurkowski.moviehub.core.navigation.GlobalDestination.MainRoute
-import com.konradjurkowski.moviehub.core.navigation.GlobalDestination.QrCodeScannerRoute
-import com.konradjurkowski.moviehub.core.presentation.main.MainScreen
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerScreen
+import com.konradjurkowski.moviehub.core.utils.helpers.LocalNavController
+import com.konradjurkowski.moviehub.core.navigation.CoreDestination.MainRoute
+import com.konradjurkowski.moviehub.core.navigation.CoreDestination.QrCodeScannerRoute
+import com.konradjurkowski.moviehub.core.presentation.screens.main.MainScreen
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerScreen
 import com.konradjurkowski.moviehub.core.utils.extensions.CollectNavActions
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.SplashRoute
 import com.konradjurkowski.moviehub.feature.auth.navigation.addAuthGraph

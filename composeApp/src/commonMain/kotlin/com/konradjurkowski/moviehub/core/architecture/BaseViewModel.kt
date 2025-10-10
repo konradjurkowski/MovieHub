@@ -52,16 +52,6 @@ abstract class BaseViewModel<ViewIntent, ViewState, ViewEvent>(
     }
 }
 
-inline fun <reified T> MutableStateFlow<in T>.transformIf(noinline transform: T.() -> T) {
-    if (value !is T) return
-    value = transform(value as T)
-}
-
-inline fun <reified T> MutableStateFlow<in T>.invokeIf(noinline action: T.() -> Unit) {
-    if (value !is T) return
-    action(value as T)
-}
-
 @Composable
 fun <T> CollectEvents(eventsFlow: Flow<T>, onCollected: (T) -> Unit) {
     LaunchedEffect(EVENTS_KEY) {

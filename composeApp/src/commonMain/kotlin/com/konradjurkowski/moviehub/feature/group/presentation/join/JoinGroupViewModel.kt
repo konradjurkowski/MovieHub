@@ -5,10 +5,10 @@ import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.data.application.event.EventBus
 import com.konradjurkowski.moviehub.core.data.application.event.QrCodeScanned
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.navigation.GlobalDestination.QrCodeScannerRoute
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
-import com.konradjurkowski.moviehub.core.utils.tools.isCameraPermissionGranted
-import com.konradjurkowski.moviehub.core.utils.tools.requestCameraPermission
+import com.konradjurkowski.moviehub.core.navigation.CoreDestination.QrCodeScannerRoute
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.helpers.isCameraPermissionGranted
+import com.konradjurkowski.moviehub.core.utils.helpers.requestCameraPermission
 import com.konradjurkowski.moviehub.feature.group.navigation.GroupDestination.CreateGroupRoute
 import com.konradjurkowski.moviehub.feature.group.presentation.join.JoinGroupIntent.CreateGroupPressed
 import com.konradjurkowski.moviehub.feature.group.presentation.join.JoinGroupIntent.DismissPermissionDialog

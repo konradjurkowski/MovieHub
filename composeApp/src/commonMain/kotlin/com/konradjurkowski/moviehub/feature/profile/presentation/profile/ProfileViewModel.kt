@@ -3,7 +3,7 @@ package com.konradjurkowski.moviehub.feature.profile.presentation.profile
 import androidx.lifecycle.viewModelScope
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.WelcomeRoute
 import com.konradjurkowski.moviehub.feature.profile.presentation.profile.ise.ProfileEvent

@@ -1,9 +1,9 @@
-package com.konradjurkowski.moviehub.core.presentation.main.ise
+package com.konradjurkowski.moviehub.core.presentation.screens.main.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviEvent
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviState
-import com.konradjurkowski.moviehub.core.domain.model.NavigationTab
+import com.konradjurkowski.moviehub.core.domain.model.navigation.NavigationTab
 
 @MviIntent
 sealed class MainIntent {

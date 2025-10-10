@@ -4,12 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
-import com.konradjurkowski.moviehub.core.architecture.transformIf
 import com.konradjurkowski.moviehub.core.domain.model.ActionState
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.domain.model.media.url
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.extensions.transformIf
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.toCreateRequest
 import com.konradjurkowski.moviehub.feature.movies.domain.model.MovieDetails
 import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository

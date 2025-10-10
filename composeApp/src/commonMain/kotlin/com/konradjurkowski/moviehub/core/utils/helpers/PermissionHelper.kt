@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.utils.tools
+package com.konradjurkowski.moviehub.core.utils.helpers
 
 import com.konradjurkowski.moviehub.core.utils.PlatformInfo
 import com.konradjurkowski.moviehub.core.utils.isAndroid

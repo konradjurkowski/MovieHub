@@ -2,7 +2,7 @@ package com.konradjurkowski.moviehub.feature.auth.data.repository
 
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.LoginResponse
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.RegisterResponse
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.UserDetailsResponse

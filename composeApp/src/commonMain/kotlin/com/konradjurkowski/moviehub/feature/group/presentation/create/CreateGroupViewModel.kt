@@ -5,9 +5,9 @@ import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.domain.model.ActionState
 import com.konradjurkowski.moviehub.core.domain.model.ImageData
 import com.konradjurkowski.moviehub.core.domain.model.Response
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
-import com.konradjurkowski.moviehub.core.utils.tools.isGalleryPermissionGranted
-import com.konradjurkowski.moviehub.core.utils.tools.requestGalleryPermission
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.helpers.isGalleryPermissionGranted
+import com.konradjurkowski.moviehub.core.utils.helpers.requestGalleryPermission
 import com.konradjurkowski.moviehub.feature.group.domain.repository.GroupRepository
 import com.konradjurkowski.moviehub.feature.group.presentation.create.CreateGroupEvent.OpenGallery
 import com.konradjurkowski.moviehub.feature.group.presentation.create.CreateGroupEvent.ShowError

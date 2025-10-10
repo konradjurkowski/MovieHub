@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.utils.tools
+package com.konradjurkowski.moviehub.core.utils.coroutines
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

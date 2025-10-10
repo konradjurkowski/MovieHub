@@ -9,7 +9,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.konradjurkowski.moviehub.core.utils.extensions.canPop
-import com.konradjurkowski.moviehub.core.utils.LocalNavController
+import com.konradjurkowski.moviehub.core.utils.helpers.LocalNavController
 
 @Composable
 fun NavigateBackArrow() {

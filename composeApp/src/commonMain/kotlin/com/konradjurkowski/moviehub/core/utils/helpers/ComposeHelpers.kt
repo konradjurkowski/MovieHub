@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.konradjurkowski.moviehub.core.utils.CustomException
+import com.konradjurkowski.moviehub.core.utils.exceptions.CustomException
 import com.konradjurkowski.moviehub.core.utils.Dimens
 import com.konradjurkowski.snackbarkmm.SnackBarState
 import com.preat.peekaboo.image.picker.ImagePickerLauncher

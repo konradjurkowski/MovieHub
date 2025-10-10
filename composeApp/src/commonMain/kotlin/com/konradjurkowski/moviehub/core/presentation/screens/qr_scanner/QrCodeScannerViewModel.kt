@@ -1,16 +1,16 @@
-package com.konradjurkowski.moviehub.core.presentation.qr_scanner
+package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner
 
 import androidx.lifecycle.viewModelScope
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.data.application.event.EventBus
 import com.konradjurkowski.moviehub.core.data.application.event.QrCodeScanned
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.HideImagePicker
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.OnScanningFailure
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.OpenImagePicker
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.QrCodeChanged
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerEvent.ShowError
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.ToggleFlashlight
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.HideImagePicker
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.OnScanningFailure
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.OpenImagePicker
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.QrCodeChanged
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerEvent.ShowError
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.ToggleFlashlight
 import kotlinx.coroutines.launch
 
 class QrCodeScannerViewModel(

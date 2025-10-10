@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.presentation.main.comp
+package com.konradjurkowski.moviehub.core.presentation.screens.main.comp
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.konradjurkowski.moviehub.core.presentation.main.LocalTabNavigator
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainIntent
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainIntent.TabPressed
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainState
+import com.konradjurkowski.moviehub.core.presentation.screens.main.LocalTabNavigator
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainIntent
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainIntent.TabPressed
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainState
 import com.konradjurkowski.moviehub.core.presentation.theme.withA10
 import com.konradjurkowski.moviehub.core.presentation.theme.withA20
 import com.konradjurkowski.moviehub.core.utils.helpers.drawTopBorder

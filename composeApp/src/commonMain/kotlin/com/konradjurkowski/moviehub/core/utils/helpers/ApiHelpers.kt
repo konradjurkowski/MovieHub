@@ -1,7 +1,7 @@
 package com.konradjurkowski.moviehub.core.utils.helpers
 
 import com.konradjurkowski.moviehub.core.domain.model.Response
-import com.konradjurkowski.moviehub.core.utils.FailureResponseException
+import com.konradjurkowski.moviehub.core.utils.exceptions.FailureResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
 

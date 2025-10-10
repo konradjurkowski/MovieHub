@@ -1,6 +1,6 @@
 package com.konradjurkowski.moviehub.core.domain.usecase.validation
 
-import com.konradjurkowski.moviehub.core.domain.model.ValidationResult
+import com.konradjurkowski.moviehub.core.domain.model.validation.ValidationResult
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.empty_field
 import moviehub.composeapp.generated.resources.invalid_password

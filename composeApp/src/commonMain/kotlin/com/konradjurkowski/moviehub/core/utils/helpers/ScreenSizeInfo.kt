@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.utils
+package com.konradjurkowski.moviehub.core.utils.helpers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp

@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.domain.model
+package com.konradjurkowski.moviehub.core.domain.model.navigation
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.DrawableResource

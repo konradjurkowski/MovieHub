@@ -7,9 +7,9 @@ import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateBaseUseCase
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateEmailUseCase
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.navigation.GlobalDestination.MainRoute
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
-import com.konradjurkowski.moviehub.core.utils.tools.isNotificationPermissionGranted
+import com.konradjurkowski.moviehub.core.navigation.CoreDestination.MainRoute
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.helpers.isNotificationPermissionGranted
 import com.konradjurkowski.moviehub.feature.auth.domain.model.User
 import com.konradjurkowski.moviehub.feature.auth.domain.model.isInAnyGroup
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository

@@ -1,10 +1,9 @@
-package com.konradjurkowski.moviehub.core.presentation.qr_scanner.components
+package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Upload
@@ -20,13 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.konradjurkowski.moviehub.core.presentation.comp.button.AnimatedIconButton
 import com.konradjurkowski.moviehub.core.presentation.comp.top_bar.MainTopBar
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.HideImagePicker
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.OnScanningFailure
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.OpenImagePicker
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.ToggleFlashlight
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerIntent.QrCodeChanged
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerState
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.HideImagePicker
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.OnScanningFailure
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.OpenImagePicker
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.ToggleFlashlight
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerIntent.QrCodeChanged
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerState
 import com.konradjurkowski.moviehub.core.utils.Dimens
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.qr_code_scanner_screen_description

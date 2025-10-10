@@ -1,8 +1,8 @@
 package com.konradjurkowski.moviehub.feature.profile.presentation.tab
 
 import androidx.compose.runtime.Composable
-import com.konradjurkowski.moviehub.core.domain.model.NavigationTab
-import com.konradjurkowski.moviehub.core.domain.model.TabOptions
+import com.konradjurkowski.moviehub.core.domain.model.navigation.NavigationTab
+import com.konradjurkowski.moviehub.core.domain.model.navigation.TabOptions
 import com.konradjurkowski.moviehub.feature.profile.presentation.profile.ProfileScreen
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_profile

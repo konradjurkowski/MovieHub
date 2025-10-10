@@ -3,8 +3,8 @@ package com.konradjurkowski.moviehub.feature.auth.presentation.notification
 import androidx.lifecycle.viewModelScope
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.navigation.GlobalDestination.MainRoute
-import com.konradjurkowski.moviehub.core.utils.tools.requestNotificationPermission
+import com.konradjurkowski.moviehub.core.navigation.CoreDestination.MainRoute
+import com.konradjurkowski.moviehub.core.utils.helpers.requestNotificationPermission
 import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent.AllowPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent.DenyPressed
 import dev.icerock.moko.permissions.PermissionsController

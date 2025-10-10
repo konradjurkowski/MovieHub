@@ -11,8 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.konradjurkowski.moviehub.core.domain.model.NavAction
-import com.konradjurkowski.moviehub.core.domain.model.NavigationTab
+import com.konradjurkowski.moviehub.core.domain.model.navigation.NavAction
+import com.konradjurkowski.moviehub.core.domain.model.navigation.NavigationTab
 import kotlinx.coroutines.flow.SharedFlow
 
 fun NavController.canPop(): Boolean = previousBackStackEntry != null

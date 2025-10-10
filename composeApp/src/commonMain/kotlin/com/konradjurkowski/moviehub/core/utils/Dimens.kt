@@ -46,9 +46,6 @@ object Dimens {
     val border1 = 1.dp
     val border2 = 2.dp
 
-    // Navigation Bar
-    val navigationBarHeight = 80.dp
-
     // Other
     val ongoingViewHeight = 50.dp
 }

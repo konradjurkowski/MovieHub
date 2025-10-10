@@ -11,11 +11,11 @@ import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePassw
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePasswordUseCase
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.navigation.AppNavigatorImpl
-import com.konradjurkowski.moviehub.core.presentation.main.MainViewModel
-import com.konradjurkowski.moviehub.core.presentation.qr_scanner.QrCodeScannerViewModel
+import com.konradjurkowski.moviehub.core.presentation.screens.main.MainViewModel
+import com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.QrCodeScannerViewModel
 import com.konradjurkowski.moviehub.core.utils.constants.ApiConstants
-import com.konradjurkowski.moviehub.core.utils.tools.CoroutineDispatchersProviderImpl
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.coroutines.CoroutineDispatchersProviderImpl
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf

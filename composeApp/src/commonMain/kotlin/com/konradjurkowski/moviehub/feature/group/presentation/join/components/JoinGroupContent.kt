@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import com.konradjurkowski.moviehub.core.domain.model.ValidationResult
+import com.konradjurkowski.moviehub.core.domain.model.validation.ValidationResult
 import com.konradjurkowski.moviehub.core.presentation.comp.button.PrimaryButton
 import com.konradjurkowski.moviehub.core.presentation.comp.other.AppScaffold
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer

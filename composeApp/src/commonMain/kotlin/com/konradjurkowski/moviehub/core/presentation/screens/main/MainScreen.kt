@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.presentation.main
+package com.konradjurkowski.moviehub.core.presentation.screens.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -8,8 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.konradjurkowski.moviehub.core.architecture.CollectEvents
-import com.konradjurkowski.moviehub.core.presentation.main.comp.MainContent
-import com.konradjurkowski.moviehub.core.presentation.main.ise.MainEvent.SetTab
+import com.konradjurkowski.moviehub.core.presentation.screens.main.comp.MainContent
+import com.konradjurkowski.moviehub.core.presentation.screens.main.ise.MainEvent.SetTab
 import com.konradjurkowski.moviehub.core.utils.extensions.switchTab
 import org.koin.compose.viewmodel.koinViewModel
 

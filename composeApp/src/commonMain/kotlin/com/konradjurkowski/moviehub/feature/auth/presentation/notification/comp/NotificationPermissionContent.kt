@@ -21,7 +21,7 @@ import com.konradjurkowski.moviehub.core.presentation.comp.button.SecondaryButto
 import com.konradjurkowski.moviehub.core.presentation.comp.other.MediumSpacer
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
-import com.konradjurkowski.moviehub.core.utils.rememberScreenSize
+import com.konradjurkowski.moviehub.core.utils.helpers.rememberScreenSize
 import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent
 import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent.AllowPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent.DenyPressed

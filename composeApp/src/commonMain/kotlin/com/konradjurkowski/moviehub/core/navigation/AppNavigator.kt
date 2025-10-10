@@ -1,6 +1,6 @@
 package com.konradjurkowski.moviehub.core.navigation
 
-import com.konradjurkowski.moviehub.core.domain.model.NavAction
+import com.konradjurkowski.moviehub.core.domain.model.navigation.NavAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

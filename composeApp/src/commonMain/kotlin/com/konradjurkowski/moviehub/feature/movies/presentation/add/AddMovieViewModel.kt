@@ -9,7 +9,7 @@ import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.domain.model.ActionState
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.request.toCreateRequest
 import com.konradjurkowski.moviehub.feature.movies.data.paging.SearchMoviePagingSource
 import com.konradjurkowski.moviehub.feature.movies.data.paging.PopularMoviePagingSource

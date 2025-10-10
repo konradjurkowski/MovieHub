@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
-import com.konradjurkowski.moviehub.core.utils.tools.DispatchersProvider
+import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository
 import com.konradjurkowski.moviehub.feature.movies.navigation.MoviesDestination.AddMovieRoute
 import com.konradjurkowski.moviehub.feature.movies.presentation.movies.MoviesIntent.AddMovieClick

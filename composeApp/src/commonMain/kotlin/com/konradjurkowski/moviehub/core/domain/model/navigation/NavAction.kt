@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.domain.model
+package com.konradjurkowski.moviehub.core.domain.model.navigation
 
 sealed class NavAction {
     object Back : NavAction()
