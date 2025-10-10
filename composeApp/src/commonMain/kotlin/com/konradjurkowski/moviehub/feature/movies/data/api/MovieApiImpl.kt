@@ -26,6 +26,15 @@ class MovieApiImpl(
         }
     }
 
+    override suspend fun getMovieLeaderboard(groupId: Long, page: Int) = httpClient.request {
+        method = HttpMethod.Get
+        url {
+            path("/api/movies/leaderboard")
+            parameters.append("groupId", groupId.toString())
+            parameters.append("page", page.toString())
+        }
+    }
+
     override suspend fun searchMovies(query: String, page: Int) = httpClient.request {
         method = HttpMethod.Get
         url {

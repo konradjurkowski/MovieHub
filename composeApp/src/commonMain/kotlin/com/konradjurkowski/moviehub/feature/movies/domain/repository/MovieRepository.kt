@@ -8,5 +8,6 @@ import com.konradjurkowski.moviehub.feature.movies.domain.model.MovieDetails
 interface MovieRepository {
     suspend fun addMovie(request: AddMovieRequest): Response<Movie>
     suspend fun getAddedTmdbIds(groupId: Long): Response<List<Long>>
+    suspend fun getMovieLeaderboardPreview(groupId: Long): Response<List<Movie>>
     suspend fun getMoviePreview(tmdbId: Long): Response<MovieDetails>
 }

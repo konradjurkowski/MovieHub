@@ -1,5 +1,6 @@
 package com.konradjurkowski.moviehub.feature.movies.data.repository
 
+import com.konradjurkowski.moviehub.core.data.api.dto.SearchResponse
 import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.MovieDetailsDto
 import com.konradjurkowski.moviehub.feature.movies.data.api.dto.MovieDto
@@ -26,6 +27,11 @@ class MovieRepositoryImpl(
             response.body<AddedTmdbIdsResponse>().movies.also { movieIds ->
                 storage.saveTmdbIds(movieIds)
             }
+        }
+
+    override suspend fun getMovieLeaderboardPreview(groupId: Long) =
+        safeApiCall(apiCall = { api.getMovieLeaderboard(groupId = groupId) }) { response ->
+            response.body<SearchResponse<MovieDto>>().results.map { it.toDomain() }
         }
 
     override suspend fun getMoviePreview(tmdbId: Long) =

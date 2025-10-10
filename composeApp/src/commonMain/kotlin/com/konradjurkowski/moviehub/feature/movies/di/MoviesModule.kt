@@ -8,6 +8,7 @@ import com.konradjurkowski.moviehub.feature.movies.domain.api.MovieApi
 import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository
 import com.konradjurkowski.moviehub.feature.movies.domain.storage.MovieStorage
 import com.konradjurkowski.moviehub.feature.movies.presentation.add.AddMovieViewModel
+import com.konradjurkowski.moviehub.feature.movies.presentation.movies.MoviesViewModel
 import com.konradjurkowski.moviehub.feature.movies.presentation.preview.MoviePreviewViewModel
 import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.singleOf
@@ -25,6 +26,7 @@ val moviesModule = module {
     singleOf(::MovieStorageImpl) bind MovieStorage::class
     singleOf(::MovieRepositoryImpl) bind MovieRepository::class
 
+    viewModelOf(::MoviesViewModel)
     viewModelOf(::AddMovieViewModel)
     viewModelOf(::MoviePreviewViewModel)
 }
