@@ -18,10 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.user_placeholder
 
@@ -60,7 +60,7 @@ fun CircleImage(
                 IconButton(
                     modifier = Modifier.align(Alignment.Center),
                     onClick = {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                        hapticFeedback.click()
                         onActionClick.invoke()
                     },
                 ) {

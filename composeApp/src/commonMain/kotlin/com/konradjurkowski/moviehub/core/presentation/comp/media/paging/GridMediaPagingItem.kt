@@ -14,13 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.konradjurkowski.moviehub.core.presentation.comp.button.AnimatedIconButton
 import com.konradjurkowski.moviehub.core.presentation.comp.image.AnyImage
 import com.konradjurkowski.moviehub.core.presentation.theme.withA20
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 
 @Composable
 fun GridMediaPagingItem(
@@ -38,7 +38,7 @@ fun GridMediaPagingItem(
             .aspectRatio(3/4f)
             .padding(Dimens.padding8),
         onClick = {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+            hapticFeedback.click()
             focusManager.clearFocus()
             onCardClick()
         },

@@ -13,11 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.presentation.comp.text_field.InputTextField
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.clear_label
 import org.jetbrains.compose.resources.stringResource
@@ -58,7 +58,7 @@ fun SearchTopBar(
         actions = {
             TextButton(
                 onClick = {
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                    hapticFeedback.click()
                     onClearPressed()
                 },
                 enabled = value.isNotEmpty(),

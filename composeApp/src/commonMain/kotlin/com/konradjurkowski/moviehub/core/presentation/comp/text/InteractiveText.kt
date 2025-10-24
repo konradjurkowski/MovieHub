@@ -4,11 +4,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.konradjurkowski.moviehub.core.utils.extensions.longPress
 import com.konradjurkowski.moviehub.core.utils.extensions.noRippleClickable
 
 @Composable
@@ -23,7 +23,7 @@ fun InteractiveText(
 
     Text(
         modifier = modifier.noRippleClickable {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+            hapticFeedback.longPress()
             onClick()
         },
         text = text,

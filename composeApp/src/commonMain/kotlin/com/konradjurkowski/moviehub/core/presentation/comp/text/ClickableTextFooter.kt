@@ -7,13 +7,13 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 
 private const val CLICKABLE_TAG = "clickable_tag"
 
@@ -47,7 +47,7 @@ fun ClickableTextFooter(
         style = textStyle.copy(textAlign = TextAlign.Center)
     ) { offset ->
         annotatedString.getStringAnnotations(CLICKABLE_TAG, offset, offset).firstOrNull()?.let {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+            hapticFeedback.click()
             onClick()
         }
     }

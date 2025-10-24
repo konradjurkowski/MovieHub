@@ -17,11 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer
 import com.konradjurkowski.moviehub.core.presentation.theme.withA30
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 
 @Composable
 fun SettingsItem(
@@ -34,8 +34,8 @@ fun SettingsItem(
 
     Column(
         modifier = modifier.clickable {
+            hapticFeedback.click()
             onClick()
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
         },
     ) {
         Row(

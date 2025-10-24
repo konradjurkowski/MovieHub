@@ -9,9 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.konradjurkowski.moviehub.core.domain.model.navigation.NavigationTab
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -27,7 +27,7 @@ fun RowScope.NavigationItem(
         modifier = modifier,
         selected = selected,
         onClick = {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+            hapticFeedback.click()
             onClick()
         },
         colors = NavigationBarItemDefaults.colors(

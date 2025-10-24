@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,6 +32,7 @@ import com.konradjurkowski.moviehub.core.presentation.theme.silverBorderColor
 import com.konradjurkowski.moviehub.core.presentation.theme.withA10
 import com.konradjurkowski.moviehub.core.presentation.theme.withA40
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.confirm
 
 @Composable
 fun LeaderboardMediaCard(
@@ -65,7 +65,7 @@ fun LeaderboardMediaCard(
                 .padding(start = Dimens.padding18)
                 .clip(RoundedCornerShape(Dimens.radius16))
                 .clickable {
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                    hapticFeedback.confirm()
                     onClick()
                 },
             color = MaterialTheme.colorScheme.onBackground.withA10(),

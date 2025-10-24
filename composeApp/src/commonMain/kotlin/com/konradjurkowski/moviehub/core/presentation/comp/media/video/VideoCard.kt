@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.konradjurkowski.moviehub.core.domain.model.media.Video
@@ -23,6 +22,7 @@ import com.konradjurkowski.moviehub.core.domain.model.media.thumbnailUrl
 import com.konradjurkowski.moviehub.core.presentation.comp.image.AnyImage
 import com.konradjurkowski.moviehub.core.presentation.theme.withA40
 import com.konradjurkowski.moviehub.core.utils.Dimens
+import com.konradjurkowski.moviehub.core.utils.extensions.click
 
 @Composable
 fun VideoCard(
@@ -38,7 +38,7 @@ fun VideoCard(
             .aspectRatio(16/9f),
         shape = RoundedCornerShape(Dimens.radius4),
         onClick = {
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+            hapticFeedback.click()
             onClick(video)
         },
     ) {
