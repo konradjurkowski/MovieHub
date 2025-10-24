@@ -22,9 +22,9 @@ import com.konradjurkowski.moviehub.core.presentation.comp.other.MediumSpacer
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
 import com.konradjurkowski.moviehub.core.utils.helpers.rememberScreenSize
-import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent
-import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent.AllowPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionIntent.DenyPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.notification.ise.NotificationPermissionIntent
+import com.konradjurkowski.moviehub.feature.auth.presentation.notification.ise.NotificationPermissionIntent.AllowPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.notification.ise.NotificationPermissionIntent.DenyPressed
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_notification_permission
 import moviehub.composeapp.generated.resources.notification_permission_screen_enable_label

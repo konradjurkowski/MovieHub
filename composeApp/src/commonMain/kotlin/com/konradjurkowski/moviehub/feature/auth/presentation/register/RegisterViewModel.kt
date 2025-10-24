@@ -10,23 +10,27 @@ import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePassw
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterEvent.ShowError
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.EmailChanged
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.NameChanged
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.PasswordChanged
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.RegisterPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.ConfirmPasswordChanged
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.TogglePasswordVisibility
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterIntent.ToggleConfirmPasswordVisibility
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent.ShowError
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent.ShowSuccess
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.EmailChanged
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.NameChanged
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.PasswordChanged
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.RegisterPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.ConfirmPasswordChanged
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.TogglePasswordVisibility
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.ToggleConfirmPasswordVisibility
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterState
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val authRepository: AuthRepository,
-    private val navigator: AppNavigator,
     private val validateBase: ValidateBaseUseCase,
     private val validateEmail: ValidateEmailUseCase,
     private val validatePassword: ValidateBaseUseCase,
     private val validatePasswordMatch: ValidatePasswordMatchUseCase,
+    private val navigator: AppNavigator,
     private val dispatchersProvider: DispatchersProvider,
 ) : BaseViewModel<RegisterIntent, RegisterState, RegisterEvent>(
     initialState = RegisterState(),
@@ -44,7 +48,7 @@ class RegisterViewModel(
                 name = intent.name,
                 email = intent.email,
                 password = intent.password,
-                confirmPassword = intent.confirmPassword
+                confirmPassword = intent.confirmPassword,
             )
         }
     }
@@ -78,8 +82,8 @@ class RegisterViewModel(
         viewModelScope.launch(dispatchersProvider.io) {
             when (val result = authRepository.register(name, email, password)) {
                 is Response.Success -> {
-                    // TODO SHOW SUCCESS MESSAGE
                     navigator.back()
+                    sendEvent(ShowSuccess)
                     updateState { copy(registerState = ActionState.Success) }
                 }
 

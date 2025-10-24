@@ -10,7 +10,9 @@ import org.koin.core.parameter.parameterSetOf
 @Composable
 fun NotificationPermissionScreen() {
     val factory = rememberPermissionsControllerFactory()
-    val viewModel = koinViewModel<NotificationPermissionViewModel> { parameterSetOf(factory.createPermissionsController()) }
+    val viewModel = koinViewModel<NotificationPermissionViewModel> {
+        parameterSetOf(factory.createPermissionsController())
+    }
 
     BindEffect(viewModel.permissionsController)
 

@@ -18,11 +18,11 @@ import com.konradjurkowski.moviehub.core.presentation.comp.loading.LoadingIndica
 import com.konradjurkowski.moviehub.core.presentation.comp.other.RegularSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
 import com.konradjurkowski.moviehub.core.utils.helpers.rememberScreenSize
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent.TryAgainPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Error
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Loading
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashIntent
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashIntent.TryAgainPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Error
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Loading
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_logo_splash
 import org.jetbrains.compose.resources.painterResource

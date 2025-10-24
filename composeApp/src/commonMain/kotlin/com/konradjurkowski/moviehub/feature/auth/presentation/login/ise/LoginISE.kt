@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.feature.auth.presentation.login
+package com.konradjurkowski.moviehub.feature.auth.presentation.login.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviEvent

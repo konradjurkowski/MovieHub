@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.feature.auth.presentation.notification
+package com.konradjurkowski.moviehub.feature.auth.presentation.notification.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviEvent
@@ -11,9 +11,7 @@ sealed class NotificationPermissionIntent {
 }
 
 @MviEvent
-sealed class NotificationPermissionEvent {
-    data object GoToHomeScreen : NotificationPermissionEvent()
-}
+data object NotificationPermissionEvent
 
 @MviState
 data object NotificationPermissionState

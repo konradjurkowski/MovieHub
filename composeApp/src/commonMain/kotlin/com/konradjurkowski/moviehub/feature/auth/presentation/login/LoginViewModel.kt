@@ -9,14 +9,18 @@ import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateEmail
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.navigation.CoreDestination.MainRoute
 import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
-import com.konradjurkowski.moviehub.feature.auth.domain.model.User
+import com.konradjurkowski.moviehub.core.utils.helpers.isNotificationPermissionGranted
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
-import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginEvent.ShowError
-import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginIntent.EmailChanged
-import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginIntent.ForgotPasswordPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginIntent.PasswordChanged
-import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginIntent.LoginPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginIntent.TogglePasswordVisibility
+import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.NotificationPermissionRoute
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginEvent
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginEvent.ShowError
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.EmailChanged
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.ForgotPasswordPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.PasswordChanged
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.LoginPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.TogglePasswordVisibility
+import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginState
 import dev.icerock.moko.permissions.PermissionsController
 import kotlinx.coroutines.launch
 
@@ -46,7 +50,6 @@ class LoginViewModel(
 
         val emailValidation = validateEmail(email)
         val passwordValidation = validateBase(password)
-
         updateState { copy(emailValidation = emailValidation, passwordValidation = passwordValidation) }
         if (!emailValidation.successful || !passwordValidation.successful) return
 
@@ -54,7 +57,7 @@ class LoginViewModel(
         viewModelScope.launch(dispatchersProvider.io) {
             when (val result = authRepository.login(email, password)) {
                 is Response.Success -> {
-                    navigateForward(user = result.data)
+                    navigateForward()
                     updateState { copy(loginState = ActionState.Success) }
                 }
 
@@ -66,7 +69,12 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun navigateForward(user: User) {
-        navigator.replaceAll(MainRoute)
+    private suspend fun navigateForward() {
+        if (permissionsController.isNotificationPermissionGranted()) {
+            navigator.replaceAll(MainRoute)
+            return
+        }
+
+        navigator.replaceAll(NotificationPermissionRoute)
     }
 }

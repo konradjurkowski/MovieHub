@@ -4,8 +4,11 @@ import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.LoginRoute
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.RegisterRoute
-import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.WelcomeIntent.LoginPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.WelcomeIntent.RegisterPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeEvent
+import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent
+import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent.LoginPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent.RegisterPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeState
 
 class WelcomeViewModel(
     private val navigator: AppNavigator,

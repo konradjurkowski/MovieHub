@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.feature.auth.presentation.splash
+package com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviEvent
@@ -10,7 +10,7 @@ sealed class SplashIntent {
 }
 
 @MviEvent
-object SplashEvent
+data object SplashEvent
 
 @MviState
 sealed class SplashState {

@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.feature.auth.presentation.welcome
+package com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviEvent
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
@@ -11,7 +11,7 @@ sealed class WelcomeIntent {
 }
 
 @MviEvent
-object WelcomeEvent
+data object WelcomeEvent
 
 @MviState
-object WelcomeState
+data object WelcomeState

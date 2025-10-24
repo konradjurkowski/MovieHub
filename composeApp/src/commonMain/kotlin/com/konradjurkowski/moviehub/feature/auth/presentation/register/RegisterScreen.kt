@@ -5,7 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.konradjurkowski.moviehub.core.architecture.CollectEvents
 import com.konradjurkowski.moviehub.core.utils.extensions.showError
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterEvent.ShowError
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent.ShowError
+import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent.ShowSuccess
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.comp.RegisterContent
 import com.konradjurkowski.snackbarkmm.LocalSnackbarState
 import org.koin.compose.viewmodel.koinViewModel
@@ -20,6 +21,7 @@ fun RegisterScreen() {
     CollectEvents(viewModel.viewEvents) { event ->
         when (event) {
             is ShowError -> snackBarState.showError(event.error)
+            is ShowSuccess -> { }
         }
     }
 

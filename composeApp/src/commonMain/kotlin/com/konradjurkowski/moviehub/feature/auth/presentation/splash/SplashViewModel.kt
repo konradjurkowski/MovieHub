@@ -8,10 +8,14 @@ import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.domain.model.User
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.WelcomeRoute
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashIntent.TryAgainPressed
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Error
-import com.konradjurkowski.moviehub.feature.auth.presentation.splash.SplashState.Loading
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashEvent
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashIntent
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashIntent.TryAgainPressed
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Error
+import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Loading
 import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -50,6 +54,7 @@ class SplashViewModel(
                 return@launch
             }
 
+            async { movieRepository.getAddedTmdbIds(groupId = 1) }
             val user = fetchUserWithTimeout()
             when {
                 user == null -> updateState { Error }
@@ -63,7 +68,6 @@ class SplashViewModel(
         val user = withTimeoutOrNull(TIMEOUT) {
             authRepository.getUserDetails().getSuccess()
         }
-        movieRepository.getAddedTmdbIds(groupId = 1)
         val elapsedTime = Clock.System.now().toEpochMilliseconds() - startTime
         val remainingDelay = (SPLASH_DELAY - elapsedTime).coerceAtLeast(0)
         delay(remainingDelay)

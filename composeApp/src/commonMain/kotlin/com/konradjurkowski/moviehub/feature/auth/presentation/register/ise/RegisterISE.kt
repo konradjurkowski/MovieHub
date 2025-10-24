@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.feature.auth.presentation.register
+package com.konradjurkowski.moviehub.feature.auth.presentation.register.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviEvent
@@ -25,6 +25,7 @@ sealed class RegisterIntent {
 @MviEvent
 sealed class RegisterEvent {
     data class ShowError(val error: Throwable) : RegisterEvent()
+    data object ShowSuccess : RegisterEvent()
 }
 
 @MviState
