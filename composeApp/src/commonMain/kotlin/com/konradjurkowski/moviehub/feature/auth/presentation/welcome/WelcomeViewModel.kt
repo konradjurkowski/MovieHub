@@ -9,11 +9,12 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.Welcom
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent.LoginPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent.RegisterPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeState
+import com.konradjurkowski.weatherapp.BuildKonfig
 
 class WelcomeViewModel(
     private val navigator: AppNavigator,
 ) : BaseViewModel<WelcomeIntent, WelcomeState, WelcomeEvent>(
-    initialState = WelcomeState,
+    initialState = WelcomeState(versionNumber = BuildKonfig.VERSION_NAME),
 ) {
 
     override fun processIntent(intent: WelcomeIntent) {

@@ -24,7 +24,7 @@ import com.konradjurkowski.moviehub.core.utils.helpers.rememberScreenSize
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent.LoginPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeIntent.RegisterPressed
-import com.konradjurkowski.weatherapp.BuildKonfig
+import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_logo_splash
 import moviehub.composeapp.generated.resources.welcome_screen_login_label
@@ -34,7 +34,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun WelcomeContent(onIntent: (WelcomeIntent) -> Unit) {
+fun WelcomeContent(
+    state: WelcomeState,
+    onIntent: (WelcomeIntent) -> Unit,
+) {
     val screenSize = rememberScreenSize()
 
     Scaffold(containerColor = MaterialTheme.colorScheme.primary) { innerPadding ->
@@ -71,7 +74,7 @@ fun WelcomeContent(onIntent: (WelcomeIntent) -> Unit) {
                 LargeSpacer()
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "${stringResource(Res.string.welcome_screen_version_label)} ${BuildKonfig.VERSION_NAME}",
+                    text = "${stringResource(Res.string.welcome_screen_version_label)} ${state.versionNumber}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,

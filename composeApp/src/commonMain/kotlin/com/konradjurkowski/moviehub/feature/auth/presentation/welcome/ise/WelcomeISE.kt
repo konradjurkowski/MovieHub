@@ -14,4 +14,6 @@ sealed class WelcomeIntent {
 data object WelcomeEvent
 
 @MviState
-data object WelcomeState
+data class WelcomeState(
+    val versionNumber: String = "",
+)
