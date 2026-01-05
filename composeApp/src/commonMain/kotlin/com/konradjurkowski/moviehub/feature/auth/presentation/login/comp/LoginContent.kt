@@ -29,11 +29,11 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginInt
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.TogglePasswordVisibility
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginState
 import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.email_address
+import moviehub.composeapp.generated.resources.login_screen_email_address
 import moviehub.composeapp.generated.resources.login_screen_forgot_password
+import moviehub.composeapp.generated.resources.login_screen_password
 import moviehub.composeapp.generated.resources.login_screen_sign_in
 import moviehub.composeapp.generated.resources.login_screen_title
-import moviehub.composeapp.generated.resources.password
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -54,7 +54,7 @@ fun LoginContent(
                 .padding(horizontal = Dimens.padding16)
                 .verticalScroll(rememberScrollState()),
         ) {
-            TextFieldLabel(text = stringResource(Res.string.email_address))
+            TextFieldLabel(text = stringResource(Res.string.login_screen_email_address))
             SmallSpacer()
             InputTextField(
                 value = state.email,
@@ -68,7 +68,7 @@ fun LoginContent(
             Row {
                 TextFieldLabel(
                     modifier = Modifier.weight(1f),
-                    text = stringResource(Res.string.password),
+                    text = stringResource(Res.string.login_screen_password),
                 )
                 InteractiveText(text = stringResource(Res.string.login_screen_forgot_password)) {
                     onIntent(ForgotPasswordPressed)

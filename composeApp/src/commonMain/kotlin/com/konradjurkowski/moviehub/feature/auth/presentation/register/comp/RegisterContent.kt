@@ -34,13 +34,13 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.Regis
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.TogglePasswordVisibility
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterState
 import moviehub.composeapp.generated.resources.Res
-import moviehub.composeapp.generated.resources.email_address
-import moviehub.composeapp.generated.resources.name
-import moviehub.composeapp.generated.resources.password
+import moviehub.composeapp.generated.resources.register_screen_email_address
+import moviehub.composeapp.generated.resources.register_screen_name
+import moviehub.composeapp.generated.resources.register_screen_password
 import moviehub.composeapp.generated.resources.register_screen_password_requirements
-import moviehub.composeapp.generated.resources.register_screen_register_label
+import moviehub.composeapp.generated.resources.register_screen_repeat_password
+import moviehub.composeapp.generated.resources.register_screen_sign_up
 import moviehub.composeapp.generated.resources.register_screen_title
-import moviehub.composeapp.generated.resources.repeat_password
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -61,28 +61,28 @@ fun RegisterContent(
                 .padding(horizontal = Dimens.padding16)
                 .verticalScroll(rememberScrollState()),
         ) {
-            TextFieldLabel(text = stringResource(Res.string.name))
+            TextFieldLabel(text = stringResource(Res.string.register_screen_name))
             SmallSpacer()
             InputTextField(
                 value = state.name,
                 onValueChange = { onIntent(NameChanged(it)) },
                 imeAction = ImeAction.Next,
-                isError = state.registerState.isFailure() || !state.nameValidation.successful,
+                error = state.registerState.isFailure() || !state.nameValidation.successful,
             )
             InvalidFieldMessage(result = state.nameValidation)
             RegularSpacer()
-            TextFieldLabel(text = stringResource(Res.string.email_address))
+            TextFieldLabel(text = stringResource(Res.string.register_screen_email_address))
             SmallSpacer()
             InputTextField(
                 value = state.email,
                 onValueChange = { onIntent(EmailChanged(it)) },
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
-                isError = state.registerState.isFailure() || !state.emailValidation.successful,
+                error = state.registerState.isFailure() || !state.emailValidation.successful,
             )
             InvalidFieldMessage(result = state.emailValidation)
             RegularSpacer()
-            TextFieldLabel(text = stringResource(Res.string.password))
+            TextFieldLabel(text = stringResource(Res.string.register_screen_password))
             SmallSpacer()
             PasswordTextField(
                 value = state.password,
@@ -94,7 +94,7 @@ fun RegisterContent(
             )
             InvalidFieldMessage(result = state.passwordValidation)
             RegularSpacer()
-            TextFieldLabel(text = stringResource(Res.string.repeat_password))
+            TextFieldLabel(text = stringResource(Res.string.register_screen_repeat_password))
             SmallSpacer()
             PasswordTextField(
                 value = state.confirmPassword,
@@ -114,7 +114,7 @@ fun RegisterContent(
             RegularSpacer()
             PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(Res.string.register_screen_register_label),
+                text = stringResource(Res.string.register_screen_sign_up),
                 loading = state.registerState.isLoading(),
                 onClick = {
                     val intent = RegisterPressed(

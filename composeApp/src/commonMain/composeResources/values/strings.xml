@@ -12,12 +12,18 @@
 
     <!--Login Screen -->
     <string name="login_screen_title">Login</string>
-    <string name="login_screen_forgot_password">Forgot password?</string>
+    <string name="login_screen_email_address">Email address</string>
+    <string name="login_screen_password">Password</string>
     <string name="login_screen_sign_in">Sign in</string>
+    <string name="login_screen_forgot_password">Forgot password?</string>
 
     <!--Register Screen-->
     <string name="register_screen_title">Register</string>
-    <string name="register_screen_register_label">Sign up</string>
+    <string name="register_screen_name">Name</string>
+    <string name="register_screen_email_address">Email address</string>
+    <string name="register_screen_password">Password</string>
+    <string name="register_screen_repeat_password">Repeat password</string>
+    <string name="register_screen_sign_up">Sign up</string>
     <string name="register_screen_password_requirements">Your password must be at least 8 characters long and contain at least one special character.</string>
 
     <!--Forgot Password Screen-->
@@ -140,10 +146,6 @@
     <!--Other-->
     <string name="minutes_label">minutes</string>
     <string name="seasons_label">seasons</string>
-    <string name="name">Name</string>
-    <string name="email_address">Email address</string>
-    <string name="password">Password</string>
-    <string name="repeat_password">Repeat password</string>
     <string name="clear_label">Clear</string>"
     <string name="empty_view_title">No data available</string>
     <string name="empty_view_message">There are no items to display</string>
