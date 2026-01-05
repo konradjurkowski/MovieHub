@@ -17,6 +17,10 @@
     <string name="login_screen_sign_in">Sign in</string>
     <string name="login_screen_forgot_password">Forgot password?</string>
 
+    <!--Forgot Password Screen-->
+    <string name="forgot_password_screen_title">Forgot password</string>
+    <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
+
     <!--Register Screen-->
     <string name="register_screen_title">Register</string>
     <string name="register_screen_name">Name</string>
@@ -26,10 +30,14 @@
     <string name="register_screen_sign_up">Sign up</string>
     <string name="register_screen_password_requirements">Your password must be at least 8 characters long and contain at least one special character.</string>
 
-    <!--Forgot Password Screen-->
-    <string name="forgot_password_screen_title">Forgot password</string>
-    <string name="forgot_password_screen_reset_password_label">Reset password</string>
-    <string name="forgot_password_screen_reset_password_success">You'll receive an email with instructions on how to reset your password.</string>
+    <!--Activate Account Screen-->
+    <string name="activate_account_screen_title">Activate account</string>
+    <string name="activate_account_screen_description">To activate your account, enter the 6-digit code or scan the QR code sent to your email</string>
+    <string name="activate_account_screen_activation_code">Activation code</string>
+    <string name="activate_account_screen_scan_code">Scan the activation code</string>
+    <string name="activate_account_screen_activate_button">Activate</string>
+    <string name="activate_account_screen_resend_prefix">Didn't receive code?</string>
+    <string name="activate_account_screen_resend_action">Resend verification code</string>
 
     <!--Notification Permission Screen-->
     <string name="notification_permission_screen_enable_notifications_title">Enable notifications</string>

@@ -7,12 +7,13 @@ import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateBaseUseCase
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateEmailUseCase
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePasswordMatchUseCase
+import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePasswordUseCase
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
+import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.ActivateAccountRoute
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent.ShowError
-import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterEvent.ShowSuccess
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.EmailChanged
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.ise.RegisterIntent.NameChanged
@@ -28,7 +29,7 @@ class RegisterViewModel(
     private val authRepository: AuthRepository,
     private val validateBase: ValidateBaseUseCase,
     private val validateEmail: ValidateEmailUseCase,
-    private val validatePassword: ValidateBaseUseCase,
+    private val validatePassword: ValidatePasswordUseCase,
     private val validatePasswordMatch: ValidatePasswordMatchUseCase,
     private val navigator: AppNavigator,
     private val dispatchersProvider: DispatchersProvider,
@@ -59,7 +60,7 @@ class RegisterViewModel(
         password: String,
         confirmPassword: String,
     ) {
-        if (state.registerState.isLoading()) return
+        if (state.isLoading) return
 
         val nameValidation = validateBase(name)
         val emailValidation = validateEmail(email)
@@ -82,8 +83,7 @@ class RegisterViewModel(
         viewModelScope.launch(dispatchersProvider.io) {
             when (val result = authRepository.register(name, email, password)) {
                 is Response.Success -> {
-                    navigator.back()
-                    sendEvent(ShowSuccess)
+                    navigator.replace(ActivateAccountRoute(email = email))
                     updateState { copy(registerState = ActionState.Success) }
                 }
 

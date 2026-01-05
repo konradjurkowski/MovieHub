@@ -25,7 +25,6 @@ sealed class RegisterIntent {
 @MviEvent
 sealed class RegisterEvent {
     data class ShowError(val error: Throwable) : RegisterEvent()
-    data object ShowSuccess : RegisterEvent()
 }
 
 @MviState
@@ -41,4 +40,6 @@ data class RegisterState(
     val obscureConfirmPassword: Boolean = true,
     val confirmPasswordValidation: ValidationResult = ValidationResult(successful = true),
     val registerState: ActionState = ActionState.Idle,
-)
+) {
+    val isLoading get() = registerState.isLoading()
+}
