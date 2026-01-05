@@ -11,8 +11,5 @@ fun WelcomeScreen() {
     val viewModel = koinViewModel<WelcomeViewModel>()
     val state by viewModel.viewState.collectAsState()
 
-    WelcomeContent(
-        state = state,
-        onIntent = viewModel::sendIntent,
-    )
+    WelcomeContent(state = state, onIntent = viewModel::sendIntent)
 }

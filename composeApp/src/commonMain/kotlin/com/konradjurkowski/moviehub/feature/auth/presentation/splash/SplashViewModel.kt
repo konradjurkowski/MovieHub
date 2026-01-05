@@ -15,7 +15,6 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashS
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Error
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Loading
 import com.konradjurkowski.moviehub.feature.movies.domain.repository.MovieRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -32,7 +31,7 @@ class SplashViewModel(
 
     companion object {
         const val SPLASH_DELAY = 1500L
-        const val TIMEOUT = 5000L
+        const val TIMEOUT = 7000L
     }
 
     init {
@@ -54,8 +53,7 @@ class SplashViewModel(
                 return@launch
             }
 
-            async { movieRepository.getAddedTmdbIds(groupId = 1) }
-            val user = fetchUserWithTimeout()
+            val user = fetchDataWithTimeout()
             when {
                 user == null -> updateState { Error }
                 else -> navigator.replaceAll(MainRoute)
@@ -63,9 +61,10 @@ class SplashViewModel(
         }
     }
 
-    private suspend fun fetchUserWithTimeout(): User? {
+    private suspend fun fetchDataWithTimeout(): User?{
         val startTime = Clock.System.now().toEpochMilliseconds()
         val user = withTimeoutOrNull(TIMEOUT) {
+            movieRepository.getAddedTmdbIds(groupId = 1)
             authRepository.getUserDetails().getSuccess()
         }
         val elapsedTime = Clock.System.now().toEpochMilliseconds() - startTime

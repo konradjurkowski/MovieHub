@@ -30,8 +30,8 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginInt
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.email_address
-import moviehub.composeapp.generated.resources.login_screen_forgot_password_label
-import moviehub.composeapp.generated.resources.login_screen_login_label
+import moviehub.composeapp.generated.resources.login_screen_forgot_password
+import moviehub.composeapp.generated.resources.login_screen_sign_in
 import moviehub.composeapp.generated.resources.login_screen_title
 import moviehub.composeapp.generated.resources.password
 import org.jetbrains.compose.resources.stringResource
@@ -61,7 +61,7 @@ fun LoginContent(
                 onValueChange = { onIntent(EmailChanged(it)) },
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
-                isError = state.loginState.isFailure() || !state.emailValidation.successful,
+                error = state.loginState.isFailure() || !state.emailValidation.successful,
             )
             InvalidFieldMessage(result = state.emailValidation)
             RegularSpacer()
@@ -70,7 +70,7 @@ fun LoginContent(
                     modifier = Modifier.weight(1f),
                     text = stringResource(Res.string.password),
                 )
-                InteractiveText(text = stringResource(Res.string.login_screen_forgot_password_label)) {
+                InteractiveText(text = stringResource(Res.string.login_screen_forgot_password)) {
                     onIntent(ForgotPasswordPressed)
                 }
             }
@@ -87,7 +87,7 @@ fun LoginContent(
             RegularSpacer()
             PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(Res.string.login_screen_login_label),
+                text = stringResource(Res.string.login_screen_sign_in),
                 loading = state.loginState.isLoading(),
                 onClick = { onIntent(LoginPressed(state.email, state.password)) },
             )

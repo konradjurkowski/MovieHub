@@ -1,15 +1,19 @@
 <resources>
     <string name="app_name">MovieHub</string>
 
+    <!--Splash Screen-->
+    <string name="splash_screen_error_button">Try Again</string>
+    <string name="splash_screen_error_message">Unable to sync data. Please try again.</string>
+
     <!--Welcome Screen-->
-    <string name="welcome_screen_login_label">Login</string>
-    <string name="welcome_screen_register_label">Registration</string>
-    <string name="welcome_screen_version_label">Version</string>
+    <string name="welcome_screen_login">Login</string>
+    <string name="welcome_screen_register">Registration</string>
+    <string name="welcome_screen_version">Version</string>
 
     <!--Login Screen -->
     <string name="login_screen_title">Login</string>
-    <string name="login_screen_forgot_password_label">Forgot password?</string>
-    <string name="login_screen_login_label">Sign in</string>
+    <string name="login_screen_forgot_password">Forgot password?</string>
+    <string name="login_screen_sign_in">Sign in</string>
 
     <!--Register Screen-->
     <string name="register_screen_title">Register</string>

@@ -25,7 +25,10 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashS
 import com.konradjurkowski.moviehub.feature.auth.presentation.splash.ise.SplashState.Loading
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_logo_splash
+import moviehub.composeapp.generated.resources.splash_screen_error_button
+import moviehub.composeapp.generated.resources.splash_screen_error_message
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SplashContent(
@@ -59,11 +62,15 @@ fun SplashContent(
                 when (state) {
                     is Loading -> LoadingIndicator(color = MaterialTheme.colorScheme.background)
                     is Error -> {
-                        Text(text = "Unable to sync data. Please try again.")
+                        Text(
+                            text = stringResource(Res.string.splash_screen_error_message),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                         RegularSpacer()
                         SecondaryButton(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Try Again",
+                            text = stringResource(Res.string.splash_screen_error_button),
                             backgroundColor = MaterialTheme.colorScheme.primary,
                             foregroundColor = MaterialTheme.colorScheme.background,
                             onClick = { onIntent(TryAgainPressed) },
