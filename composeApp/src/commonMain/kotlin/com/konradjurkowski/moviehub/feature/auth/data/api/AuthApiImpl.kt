@@ -1,8 +1,10 @@
 package com.konradjurkowski.moviehub.feature.auth.data.api
 
+import com.konradjurkowski.moviehub.feature.auth.data.api.dto.request.ActivateAccountRequest
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.request.LoginRequest
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.request.LogoutRequest
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.request.RegisterRequest
+import com.konradjurkowski.moviehub.feature.auth.data.api.dto.request.SendActivationCodeRequest
 import com.konradjurkowski.moviehub.feature.auth.domain.api.AuthApi
 import io.ktor.client.HttpClient
 import io.ktor.client.request.request
@@ -25,6 +27,20 @@ class AuthApiImpl(
         val request = RegisterRequest(name = name, email = email, password = password)
         method = HttpMethod.Post
         url { path("/api/auth/register") }
+        setBody(request)
+    }
+
+    override suspend fun activateAccount(email: String, code: String) = httpClient.request {
+        val request = ActivateAccountRequest(email = email, code = code)
+        method = HttpMethod.Post
+        url { path("/api/auth/activate") }
+        setBody(request)
+    }
+
+    override suspend fun sendActivationCode(email: String) = httpClient.request {
+        val request = SendActivationCodeRequest(email = email)
+        method = HttpMethod.Post
+        url { path("/api/auth/activate/code") }
         setBody(request)
     }
 
