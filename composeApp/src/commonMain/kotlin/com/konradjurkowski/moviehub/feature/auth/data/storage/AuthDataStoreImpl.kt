@@ -1,5 +1,6 @@
 package com.konradjurkowski.moviehub.feature.auth.data.storage
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.konradjurkowski.moviehub.core.domain.storage.DataStoreFactory
@@ -17,6 +18,7 @@ class AuthDataStoreImpl(dataStoreFactory: DataStoreFactory) : AuthDataStore {
         val USER = stringPreferencesKey("USER")
         val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN = stringPreferencesKey("REFRESH_TOKEN")
+        val IS_FIRST_LAUNCH = booleanPreferencesKey("IS_FIRST_LAUNCH")
     }
 
     private val dataStore = dataStoreFactory.createDataStore(NAME)
@@ -39,6 +41,12 @@ class AuthDataStoreImpl(dataStoreFactory: DataStoreFactory) : AuthDataStore {
 
     override suspend fun saveRefreshToken(token: String) {
         dataStore.edit { pref -> pref[REFRESH_TOKEN] = token }
+    }
+
+    override suspend fun isFirstLaunch() = dataStore.data.first()[IS_FIRST_LAUNCH] ?: true
+
+    override suspend fun setFirstLaunchCompleted() {
+        dataStore.edit { pref -> pref[IS_FIRST_LAUNCH] = false }
     }
 
     override suspend fun clear() {

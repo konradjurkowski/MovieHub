@@ -11,5 +11,7 @@ interface AuthDataStore {
     suspend fun saveAccessToken(token: String)
     suspend fun getRefreshToken(): String?
     suspend fun saveRefreshToken(token: String)
+    suspend fun isFirstLaunch(): Boolean
+    suspend fun setFirstLaunchCompleted()
     suspend fun clear()
 }
