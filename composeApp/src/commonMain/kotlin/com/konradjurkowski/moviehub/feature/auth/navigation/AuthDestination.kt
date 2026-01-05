@@ -21,5 +21,8 @@ sealed interface AuthDestination : AppDestination {
     data object RegisterRoute : AuthDestination
 
     @Serializable
+    data class ActivateAccountRoute(val email: String) : AuthDestination
+
+    @Serializable
     data object NotificationPermissionRoute : AuthDestination
 }
