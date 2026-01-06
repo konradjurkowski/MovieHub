@@ -133,6 +133,7 @@
 
     <!--Validation-->
     <string name="empty_field">Field cannot be empty.</string>
+    <string name="invalid_code">Code is invalid.</string>
     <string name="invalid_email">Email is invalid.</string>
     <string name="invalid_password">Password is invalid.</string>
     <string name="passwords_do_not_match">Passwords do not match.</string>

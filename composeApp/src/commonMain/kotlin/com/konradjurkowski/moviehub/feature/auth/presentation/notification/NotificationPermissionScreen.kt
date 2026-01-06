@@ -17,5 +17,4 @@ fun NotificationPermissionScreen() {
     BindEffect(viewModel.permissionsController)
 
     NotificationPermissionContent(onIntent = viewModel::sendIntent)
-
 }

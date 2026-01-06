@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.components
+package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.comp
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size

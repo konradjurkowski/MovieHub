@@ -1,4 +1,4 @@
-package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner
+package com.konradjurkowski.moviehub.core.presentation.screens.qr_scanner.ise
 
 import com.konradjurkowski.moviehub.core.architecture.MviIntent
 import com.konradjurkowski.moviehub.core.architecture.MviEvent

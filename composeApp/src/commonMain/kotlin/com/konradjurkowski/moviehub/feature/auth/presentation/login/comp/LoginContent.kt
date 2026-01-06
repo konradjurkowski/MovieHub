@@ -61,7 +61,7 @@ fun LoginContent(
                 onValueChange = { onIntent(EmailChanged(it)) },
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
-                error = state.loginState.isFailure() || !state.emailValidation.successful,
+                error = !state.emailValidation.successful,
             )
             InvalidFieldMessage(result = state.emailValidation)
             RegularSpacer()
@@ -80,7 +80,7 @@ fun LoginContent(
                 onValueChange = { onIntent(PasswordChanged(it)) },
                 obscure = state.obscurePassword,
                 keyboardType = KeyboardType.Password,
-                isError = state.loginState.isFailure() || !state.passwordValidation.successful,
+                isError = !state.passwordValidation.successful,
                 onSuffixIconClick = { onIntent(TogglePasswordVisibility) },
             )
             InvalidFieldMessage(result = state.passwordValidation)

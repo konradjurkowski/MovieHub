@@ -27,9 +27,9 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.Welcom
 import com.konradjurkowski.moviehub.feature.auth.presentation.welcome.ise.WelcomeState
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.ic_logo_splash
-import moviehub.composeapp.generated.resources.welcome_screen_login_label
-import moviehub.composeapp.generated.resources.welcome_screen_register_label
-import moviehub.composeapp.generated.resources.welcome_screen_version_label
+import moviehub.composeapp.generated.resources.welcome_screen_login
+import moviehub.composeapp.generated.resources.welcome_screen_register
+import moviehub.composeapp.generated.resources.welcome_screen_version
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -58,7 +58,7 @@ fun WelcomeContent(
             Column(modifier = Modifier.padding(horizontal = Dimens.padding16)) {
                 PrimaryButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(Res.string.welcome_screen_login_label),
+                    text = stringResource(Res.string.welcome_screen_login),
                     backgroundColor = MaterialTheme.colorScheme.background,
                     foregroundColor = MaterialTheme.colorScheme.primary,
                     onClick = { onIntent(LoginPressed) },
@@ -66,7 +66,7 @@ fun WelcomeContent(
                 RegularSpacer()
                 SecondaryButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(Res.string.welcome_screen_register_label),
+                    text = stringResource(Res.string.welcome_screen_register),
                     backgroundColor = MaterialTheme.colorScheme.primary,
                     foregroundColor = MaterialTheme.colorScheme.background,
                     onClick = { onIntent(RegisterPressed) },
@@ -74,7 +74,7 @@ fun WelcomeContent(
                 LargeSpacer()
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "${stringResource(Res.string.welcome_screen_version_label)} ${state.versionNumber}",
+                    text = "${stringResource(Res.string.welcome_screen_version)} ${state.versionNumber}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,

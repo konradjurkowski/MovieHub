@@ -2,6 +2,7 @@ package com.konradjurkowski.moviehub.feature.auth.presentation.login
 
 import androidx.lifecycle.viewModelScope
 import com.konradjurkowski.moviehub.core.architecture.BaseViewModel
+import com.konradjurkowski.moviehub.core.data.api.dto.ApiErrorType
 import com.konradjurkowski.moviehub.core.domain.model.ActionState
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateBaseUseCase
@@ -9,8 +10,9 @@ import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateEmail
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.navigation.CoreDestination.MainRoute
 import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
-import com.konradjurkowski.moviehub.core.utils.helpers.isNotificationPermissionGranted
+import com.konradjurkowski.moviehub.core.utils.exceptions.ApiException
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
+import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.ActivateAccountRoute
 import com.konradjurkowski.moviehub.feature.auth.navigation.AuthDestination.NotificationPermissionRoute
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginEvent
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginEvent.ShowError
@@ -21,11 +23,9 @@ import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginInt
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.LoginPressed
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginIntent.TogglePasswordVisibility
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.ise.LoginState
-import dev.icerock.moko.permissions.PermissionsController
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    val permissionsController: PermissionsController,
     private val authRepository: AuthRepository,
     private val navigator: AppNavigator,
     private val validateBase: ValidateBaseUseCase,
@@ -46,7 +46,7 @@ class LoginViewModel(
     }
 
     private fun login(email: String, password: String) {
-        if (state.loginState.isLoading()) return
+        if (state.isLoading) return
 
         val emailValidation = validateEmail(email)
         val passwordValidation = validateBase(password)
@@ -61,20 +61,28 @@ class LoginViewModel(
                     updateState { copy(loginState = ActionState.Success) }
                 }
 
-                is Response.Failure -> {
-                    sendEvent(ShowError(result.error))
-                    updateState { copy(loginState = ActionState.Failure) }
-                }
+                is Response.Failure -> handleFailure(result.error)
             }
         }
     }
 
-    private suspend fun navigateForward() {
-        if (permissionsController.isNotificationPermissionGranted()) {
-            navigator.replaceAll(MainRoute)
+    private fun handleFailure(error: Throwable) {
+        if (error is ApiException && error.code == ApiErrorType.ACCOUNT_NOT_ACTIVATED) {
+            navigator.replace(ActivateAccountRoute(email = state.email))
             return
         }
 
-        navigator.replaceAll(NotificationPermissionRoute)
+        sendEvent(ShowError(error))
+        updateState { copy(loginState = ActionState.Failure) }
+    }
+
+    private suspend fun navigateForward() {
+        if (authRepository.isInitialLaunch()) {
+            navigator.replaceAll(NotificationPermissionRoute)
+            return
+        }
+
+        navigator.replaceAll(MainRoute)
+        return
     }
 }

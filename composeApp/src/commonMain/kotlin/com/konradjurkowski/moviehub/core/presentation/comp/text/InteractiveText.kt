@@ -9,7 +9,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.konradjurkowski.moviehub.core.utils.extensions.longPress
-import com.konradjurkowski.moviehub.core.utils.extensions.noRippleClickable
+import com.konradjurkowski.moviehub.core.utils.extensions.plainClickable
 
 @Composable
 fun InteractiveText(
@@ -22,7 +22,7 @@ fun InteractiveText(
     val hapticFeedback = LocalHapticFeedback.current
 
     Text(
-        modifier = modifier.noRippleClickable {
+        modifier = modifier.plainClickable {
             hapticFeedback.longPress()
             onClick()
         },

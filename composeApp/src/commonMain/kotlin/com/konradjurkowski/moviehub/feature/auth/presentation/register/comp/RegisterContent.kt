@@ -67,7 +67,7 @@ fun RegisterContent(
                 value = state.name,
                 onValueChange = { onIntent(NameChanged(it)) },
                 imeAction = ImeAction.Next,
-                error = state.registerState.isFailure() || !state.nameValidation.successful,
+                error = !state.nameValidation.successful,
             )
             InvalidFieldMessage(result = state.nameValidation)
             RegularSpacer()
@@ -78,7 +78,7 @@ fun RegisterContent(
                 onValueChange = { onIntent(EmailChanged(it)) },
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
-                error = state.registerState.isFailure() || !state.emailValidation.successful,
+                error = !state.emailValidation.successful,
             )
             InvalidFieldMessage(result = state.emailValidation)
             RegularSpacer()
@@ -89,7 +89,7 @@ fun RegisterContent(
                 onValueChange = { onIntent(PasswordChanged(it)) },
                 obscure = state.obscurePassword,
                 imeAction = ImeAction.Next,
-                isError = state.registerState.isFailure() || !state.passwordValidation.successful,
+                isError = !state.passwordValidation.successful,
                 onSuffixIconClick = { onIntent(TogglePasswordVisibility) },
             )
             InvalidFieldMessage(result = state.passwordValidation)
@@ -100,7 +100,7 @@ fun RegisterContent(
                 value = state.confirmPassword,
                 onValueChange = { onIntent(ConfirmPasswordChanged(it)) },
                 obscure = state.obscureConfirmPassword,
-                isError = state.registerState.isFailure() || !state.confirmPasswordValidation.successful,
+                isError = !state.confirmPasswordValidation.successful,
                 onSuffixIconClick = { onIntent(ToggleConfirmPasswordVisibility) },
             )
             InvalidFieldMessage(result = state.confirmPasswordValidation)

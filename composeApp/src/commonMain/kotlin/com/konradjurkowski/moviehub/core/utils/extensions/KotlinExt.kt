@@ -3,6 +3,10 @@ package com.konradjurkowski.moviehub.core.utils.extensions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.roundToInt
 
+fun String.removeWhitespace(): String {
+    return this.replace("\\s".toRegex(), "")
+}
+
 fun Double.round(decimals: Int): Double {
     var dotAt = 1
     repeat(decimals) { dotAt *= 10 }

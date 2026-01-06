@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.konradjurkowski.moviehub.core.presentation.comp.other.SmallSpacer
 import com.konradjurkowski.moviehub.core.utils.Dimens
-import com.konradjurkowski.moviehub.core.utils.extensions.noRippleClickable
+import com.konradjurkowski.moviehub.core.utils.extensions.plainClickable
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.unable_to_load_data
 import org.jetbrains.compose.resources.stringResource
@@ -26,7 +26,7 @@ fun OngoingError(
 ) {
     Row(
         modifier = modifier
-            .noRippleClickable(onClick = onClick)
+            .plainClickable(onClick = onClick)
             .height(Dimens.ongoingViewHeight)
             .fillMaxWidth()
             .padding(horizontal = Dimens.padding16),

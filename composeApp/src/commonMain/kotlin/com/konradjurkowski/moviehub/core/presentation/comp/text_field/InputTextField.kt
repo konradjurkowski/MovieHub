@@ -33,7 +33,7 @@ fun InputTextField(
     obscure: Boolean = false,
     enabled: Boolean = true,
     singleLine: Boolean = true,
-    isError: Boolean = false,
+    error: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     readOnly: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -96,7 +96,7 @@ fun InputTextField(
             container = {
                 OutlinedTextFieldDefaults.ContainerBox(
                     enabled = enabled,
-                    isError = isError,
+                    isError = error,
                     interactionSource = interactionSource,
                     shape = RoundedCornerShape(Dimens.radius8),
                     colors = OutlinedTextFieldDefaults.colors(

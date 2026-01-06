@@ -43,7 +43,7 @@ fun PasswordTextField(
         obscure = obscure,
         enabled = enabled,
         singleLine = singleLine,
-        isError = isError,
+        error = isError,
         interactionSource = interactionSource,
         readOnly = readOnly,
         keyboardType = keyboardType,

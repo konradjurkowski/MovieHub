@@ -28,4 +28,6 @@ data class LoginState(
     val obscurePassword: Boolean = true,
     val passwordValidation: ValidationResult = ValidationResult(successful = true),
     val loginState: ActionState = ActionState.Idle,
-)
+) {
+    val isLoading get() = loginState.isLoading()
+}
