@@ -30,6 +30,10 @@ class AuthInterceptor(
     private val publicEndpoints = listOf(
         "/api/auth/login",
         "/api/auth/register",
+        "/api/auth/reset-password",
+        "/api/auth/reset-password/code",
+        "/api/auth/activate",
+        "/api/auth/activate/code",
         "/api/auth/refresh",
     )
 

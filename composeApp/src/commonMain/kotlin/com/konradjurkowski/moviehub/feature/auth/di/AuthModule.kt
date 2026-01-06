@@ -9,6 +9,7 @@ import com.konradjurkowski.moviehub.feature.auth.domain.api.AuthApi
 import com.konradjurkowski.moviehub.feature.auth.domain.api.UserApi
 import com.konradjurkowski.moviehub.feature.auth.domain.repository.AuthRepository
 import com.konradjurkowski.moviehub.feature.auth.domain.storage.AuthDataStore
+import com.konradjurkowski.moviehub.feature.auth.presentation.activate.ActivateAccountViewModel
 import com.konradjurkowski.moviehub.feature.auth.presentation.login.LoginViewModel
 import com.konradjurkowski.moviehub.feature.auth.presentation.notification.NotificationPermissionViewModel
 import com.konradjurkowski.moviehub.feature.auth.presentation.register.RegisterViewModel
@@ -37,5 +38,6 @@ val authModule = module {
     viewModelOf(::WelcomeViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)
+    viewModelOf(::ActivateAccountViewModel)
     viewModelOf(::NotificationPermissionViewModel)
 }

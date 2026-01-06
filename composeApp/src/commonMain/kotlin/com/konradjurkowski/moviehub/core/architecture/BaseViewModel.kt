@@ -24,7 +24,7 @@ abstract class BaseViewModel<ViewIntent, ViewState, ViewEvent>(
 
     protected val _viewState by lazy { MutableStateFlow(initialState) }
     val viewState = _viewState.asStateFlow()
-    protected val state = _viewState.value
+    protected val state get() = _viewState.value
 
     private val _viewEvents = Channel<ViewEvent>(BUFFER_CAPACITY)
     val viewEvents = _viewEvents.receiveAsFlow()

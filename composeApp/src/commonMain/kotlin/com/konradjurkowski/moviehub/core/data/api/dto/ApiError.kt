@@ -1,5 +1,6 @@
 package com.konradjurkowski.moviehub.core.data.api.dto
 
+import com.konradjurkowski.moviehub.core.utils.exceptions.ApiException
 import kotlinx.serialization.Serializable
 import moviehub.composeapp.generated.resources.Res
 import moviehub.composeapp.generated.resources.something_went_wrong
@@ -11,8 +12,11 @@ data class ApiError(
     val code: ApiErrorType,
 )
 
+fun ApiError.toException() = ApiException(message = message, code = code)
+
 enum class ApiErrorType {
     // Authentication
+    ACCOUNT_NOT_ACTIVATED,
     INVALID_CREDENTIALS,
     EMAIL_ALREADY_EXISTS,
     INVALID_REFRESH_TOKEN,
@@ -28,6 +32,7 @@ enum class ApiErrorType {
     GENERIC_ERROR;
 
     val labelRes: StringResource get() = when (this) {
+        ACCOUNT_NOT_ACTIVATED -> Res.string.something_went_wrong
         INVALID_CREDENTIALS -> Res.string.something_went_wrong
         EMAIL_ALREADY_EXISTS -> Res.string.something_went_wrong
         INVALID_REFRESH_TOKEN -> Res.string.something_went_wrong

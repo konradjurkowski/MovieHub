@@ -3,8 +3,7 @@ package com.konradjurkowski.moviehub.feature.auth.data.repository
 import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
 import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
-import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.LoginResponse
-import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.RegisterResponse
+import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.AuthResponse
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.UserDetailsResponse
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.toDomain
 import com.konradjurkowski.moviehub.feature.auth.domain.api.AuthApi
@@ -33,19 +32,25 @@ class AuthRepositoryImpl(
     override suspend fun isUserLoggedIn() =
         authDataStore.getAccessToken() != null && authDataStore.getRefreshToken() != null && authDataStore.getUser() != null
 
+    override suspend fun isInitialLaunch() = authDataStore.isFirstLaunch()
+
+    override suspend fun setFirstLaunchCompleted() = authDataStore.setFirstLaunchCompleted()
+
     override suspend fun login(email: String, password: String) =
         safeApiCall(apiCall = { authApi.login(email, password) }) { response ->
-            val (userDto, accessToken, refreshToken) = response.body<LoginResponse>()
-            authDataStore.saveUser(userDto.toDomain())
-            authDataStore.saveAccessToken(accessToken)
-            authDataStore.saveRefreshToken(refreshToken)
-            userDto.toDomain()
+            handleLoginResponse(response.body<AuthResponse>())
         }
 
     override suspend fun register(name: String, email: String, password: String) =
-        safeApiCall(apiCall = { authApi.register(name = name, email = email, password = password) }) { response ->
-            response.body<RegisterResponse>()
+        safeApiCall(apiCall = { authApi.register(name = name, email = email, password = password) }) {}
+
+    override suspend fun activateAccount(email: String, code: String) =
+        safeApiCall(apiCall = { authApi.activateAccount(email = email, code = code) }) { response ->
+            handleLoginResponse(response.body<AuthResponse>())
         }
+
+    override suspend fun sendActivationCode(email: String) =
+        safeApiCall(apiCall = { authApi.sendActivationCode(email) }) {}
 
     override suspend fun getUserDetails(): Response<User> =
         safeApiCall(apiCall = { userApi.getUserDetails() }) { response ->
@@ -63,5 +68,11 @@ class AuthRepositoryImpl(
             val refreshToken = authDataStore.getRefreshToken() ?: return@launch
             safeApiCall(apiCall = { authApi.logout(refreshToken = refreshToken) }) { /* NO - OP */ }
         }
+    }
+
+    private suspend fun handleLoginResponse(response: AuthResponse) {
+        authDataStore.saveUser(response.user.toDomain())
+        authDataStore.saveAccessToken(response.accessToken)
+        authDataStore.saveRefreshToken(response.refreshToken)
     }
 }

@@ -21,7 +21,7 @@ import com.preat.peekaboo.image.picker.ResizeOptions
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 
-fun Modifier.noRippleClickable(
+fun Modifier.plainClickable(
     enabled: Boolean = true,
     onClick: () -> Unit,
 ): Modifier = composed {

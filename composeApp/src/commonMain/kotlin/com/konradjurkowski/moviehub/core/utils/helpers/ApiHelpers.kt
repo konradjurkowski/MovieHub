@@ -1,8 +1,8 @@
 package com.konradjurkowski.moviehub.core.utils.helpers
 
 import com.konradjurkowski.moviehub.core.data.api.dto.ApiError
+import com.konradjurkowski.moviehub.core.data.api.dto.toException
 import com.konradjurkowski.moviehub.core.domain.model.Response
-import com.konradjurkowski.moviehub.core.utils.exceptions.ApiException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
@@ -18,7 +18,7 @@ suspend inline fun <reified T> safeApiCall(
         }
 
         val apiError = httpResponse.body<ApiError>()
-        Response.Failure(ApiException(apiError.code.labelRes))
+        Response.Failure(apiError.toException())
     } catch (e: Exception) {
         Response.Failure(e)
     }

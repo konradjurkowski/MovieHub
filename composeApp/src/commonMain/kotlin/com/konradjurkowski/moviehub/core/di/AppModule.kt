@@ -6,6 +6,7 @@ import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateBaseU
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateEmailUseCase
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePasswordMatchUseCase
 import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidatePasswordUseCase
+import com.konradjurkowski.moviehub.core.domain.usecase.validation.ValidateVerificationCodeUseCase
 import com.konradjurkowski.moviehub.core.navigation.AppNavigator
 import com.konradjurkowski.moviehub.core.navigation.AppNavigatorImpl
 import com.konradjurkowski.moviehub.core.presentation.screens.main.MainViewModel
@@ -27,6 +28,7 @@ val appModule = module {
     factoryOf(::ValidateEmailUseCase)
     factoryOf(::ValidatePasswordUseCase)
     factoryOf(::ValidatePasswordMatchUseCase)
+    factoryOf(::ValidateVerificationCodeUseCase)
 
     viewModelOf(::QrCodeScannerViewModel)
     viewModelOf(::MainViewModel)

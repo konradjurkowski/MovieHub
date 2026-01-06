@@ -52,6 +52,6 @@ fun AppNavigationGraph(navigator: AppNavigator = koinInject()) {
 }
 
 fun NavGraphBuilder.addCoreGraph() {
-    composable<QrCodeScannerRoute> { QrCodeScannerScreen() }
     composable<MainRoute> { MainScreen() }
+    composable<QrCodeScannerRoute> { QrCodeScannerScreen() }
 }
