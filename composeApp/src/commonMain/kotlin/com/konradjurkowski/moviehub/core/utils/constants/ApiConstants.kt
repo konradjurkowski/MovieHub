@@ -5,7 +5,7 @@ object ApiConstants {
 
     object MovieHub {
         const val NAME = "movie_hub"
-        const val BASE_URL = "http://192.168.0.43:8080"
+        const val BASE_URL = "http://192.168.0.29:8080"
     }
 
     object Cloudinary {

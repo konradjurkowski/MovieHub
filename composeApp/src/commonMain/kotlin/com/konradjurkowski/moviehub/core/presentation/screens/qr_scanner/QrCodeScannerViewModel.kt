@@ -23,6 +23,8 @@ class QrCodeScannerViewModel(
     initialState = QrCodeScannerState(),
 ) {
 
+    private var qrCodeHandled = false
+
     override fun processIntent(intent: QrCodeScannerIntent) {
         when (intent) {
             HideImagePicker -> updateState { copy(showImagePicker = false) }
@@ -31,6 +33,8 @@ class QrCodeScannerViewModel(
             is OnScanningFailure -> sendEvent(ShowError(intent.message))
 
             is QrCodeChanged -> {
+                if (qrCodeHandled) return
+                qrCodeHandled = true
                 viewModelScope.launch {
                     eventBus.emit(QrCodeScanned(intent.qrCode))
                     navigator.back()

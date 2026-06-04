@@ -5,6 +5,7 @@ import com.konradjurkowski.moviehub.feature.movies.domain.api.MovieApi
 import io.ktor.client.HttpClient
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.path
 
@@ -18,19 +19,15 @@ class MovieApiImpl(
         setBody(request)
     }
 
-    override suspend fun getAddedTmdbIds(groupId: Long) = httpClient.request {
+    override suspend fun getAddedTmdbIds(): HttpResponse = httpClient.request {
         method = HttpMethod.Get
-        url {
-            path("/api/movies/ids")
-            parameters.append("groupId", groupId.toString())
-        }
+        url { path("/api/movies/ids") }
     }
 
-    override suspend fun getMovieLeaderboard(groupId: Long, page: Int) = httpClient.request {
+    override suspend fun getMovieLeaderboard(page: Int): HttpResponse = httpClient.request {
         method = HttpMethod.Get
         url {
             path("/api/movies/leaderboard")
-            parameters.append("groupId", groupId.toString())
             parameters.append("page", page.toString())
         }
     }

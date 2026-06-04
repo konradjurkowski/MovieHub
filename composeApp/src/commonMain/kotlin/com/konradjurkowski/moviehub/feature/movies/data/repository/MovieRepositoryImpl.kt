@@ -23,14 +23,14 @@ class MovieRepositoryImpl(
         }
 
     override suspend fun getAddedTmdbIds(groupId: Long) =
-        safeApiCall(apiCall = { api.getAddedTmdbIds(groupId) }) { response ->
+        safeApiCall(apiCall = { api.getAddedTmdbIds() }) { response ->
             response.body<AddedTmdbIdsResponse>().movies.also { movieIds ->
                 storage.saveTmdbIds(movieIds)
             }
         }
 
     override suspend fun getMovieLeaderboardPreview(groupId: Long) =
-        safeApiCall(apiCall = { api.getMovieLeaderboard(groupId = groupId) }) { response ->
+        safeApiCall(apiCall = { api.getMovieLeaderboard() }) { response ->
             response.body<SearchResponse<MovieDto>>().results.map { it.toDomain() }
         }
 

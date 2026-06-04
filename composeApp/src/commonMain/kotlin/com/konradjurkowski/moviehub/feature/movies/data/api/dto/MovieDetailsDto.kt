@@ -22,7 +22,7 @@ data class MovieDetailsDto(
     val adult: Boolean,
     val genres: List<GenreDto>,
     val homepage: String?,
-    val originCountry: List<String>,
+    val originCountry: List<String> = emptyList(),
     val popularity: Double,
     val posterUrl: String?,
     val backgroundUrl: String? = null,
@@ -34,9 +34,9 @@ data class MovieDetailsDto(
     val spokenLanguages: List<SpokenLanguageDto>,
     val status: String,
     val tagline: String,
-    val videos: List<VideoDto>,
-    val cast: List<CastDto>,
-    val crew: List<CrewDto>,
+    val videos: List<VideoDto> = emptyList(),
+    val cast: List<CastDto> = emptyList(),
+    val crew: List<CrewDto> = emptyList(),
 )
 
 fun MovieDetailsDto.toDomain(): MovieDetails {

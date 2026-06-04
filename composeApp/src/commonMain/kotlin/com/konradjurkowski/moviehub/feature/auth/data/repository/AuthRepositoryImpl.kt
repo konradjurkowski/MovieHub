@@ -4,7 +4,7 @@ import com.konradjurkowski.moviehub.core.domain.model.Response
 import com.konradjurkowski.moviehub.core.utils.helpers.safeApiCall
 import com.konradjurkowski.moviehub.core.utils.coroutines.DispatchersProvider
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.AuthResponse
-import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.UserDetailsResponse
+import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.UserDto
 import com.konradjurkowski.moviehub.feature.auth.data.api.dto.response.toDomain
 import com.konradjurkowski.moviehub.feature.auth.domain.api.AuthApi
 import com.konradjurkowski.moviehub.feature.auth.domain.api.UserApi
@@ -54,7 +54,7 @@ class AuthRepositoryImpl(
 
     override suspend fun getUserDetails(): Response<User> =
         safeApiCall(apiCall = { userApi.getUserDetails() }) { response ->
-            response.body<UserDetailsResponse>().user
+            response.body<UserDto>()
                 .toDomain()
                 .also { authDataStore.saveUser(user = it) }
         }

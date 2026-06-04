@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AddMovieRequest(
-    val groupId: Long,
     val tmdbId: Long,
     val title: String,
     val overview: String,
@@ -17,9 +16,8 @@ data class AddMovieRequest(
     val releaseDate: String? = null,
 )
 
-fun Movie.toCreateRequest(groupId: Long): AddMovieRequest {
+fun Movie.toCreateRequest(): AddMovieRequest {
     return AddMovieRequest(
-        groupId = groupId,
         tmdbId = tmdbId,
         title = title,
         overview = overview,
@@ -31,9 +29,8 @@ fun Movie.toCreateRequest(groupId: Long): AddMovieRequest {
     )
 }
 
-fun MovieDetails.toCreateRequest(groupId: Long): AddMovieRequest {
+fun MovieDetails.toCreateRequest(): AddMovieRequest {
     return AddMovieRequest(
-        groupId = groupId,
         tmdbId = tmdbId,
         title = title,
         overview = overview,
